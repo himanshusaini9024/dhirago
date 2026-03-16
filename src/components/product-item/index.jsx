@@ -2,9 +2,7 @@ import { some } from "lodash";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
-import type { RootState } from "@/store";
-import { toggleFavProduct } from "@/store/reducers/user";
-import type { ProductTypeList } from "@/types";
+import { toggleFavProduct } from "../../store/reducers/user";
 
 const ProductItem = ({
   discount,
@@ -13,9 +11,9 @@ const ProductItem = ({
   name,
   price,
   currentPrice,
-}: ProductTypeList) => {
+}) => {
   const dispatch = useDispatch();
-  const { favProducts } = useSelector((state: RootState) => state.user);
+  const { favProducts } = useSelector((state) => state.user);
 
   const isFavourite = some(favProducts, (productId) => productId === id);
 
@@ -23,7 +21,7 @@ const ProductItem = ({
     dispatch(
       toggleFavProduct({
         id,
-      }),
+      })
     );
   };
 
@@ -43,10 +41,14 @@ const ProductItem = ({
           {discount && <span className="product__discount">{discount}%</span>}
         </Link>
       </div>
+
       <div className="product__description">
         <h3>{name}</h3>
+
         <div
-          className={`product__price ${discount ? "product__price--discount" : ""}`}
+          className={`product__price ${
+            discount ? "product__price--discount" : ""
+          }`}
         >
           <h4>${currentPrice}</h4>
 

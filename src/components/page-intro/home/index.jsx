@@ -1,7 +1,7 @@
 
 const Homecontent = () => {
     return (
-        <div>
+        <>
      <section className="featured">
         <div className="container">
           <article
@@ -95,7 +95,7 @@ const Homecontent = () => {
           </ul>
         </div>
       </section>
-      </div>
+      </>
     );
 };
 

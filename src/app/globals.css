@@ -24,6 +24,13 @@
 body {
   background: var(--background);
   color: var(--foreground);
-    font-family: 'Inter', sans-serif;
+  font-family: "PoppinsCustom", "RobotoCustom", sans-serif;
 
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

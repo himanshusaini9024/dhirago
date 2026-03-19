@@ -1,4 +1,4 @@
-import products from "@/utils/data/products";
+import products  from "../../utils/data/products";
 
 export async function GET() {
   // simulate delay

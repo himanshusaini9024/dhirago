@@ -2,8 +2,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "../assets/css/styles.scss";
 
+
 import Header from "../components/header";
 import ReduxProvider from "../store/provider";
+
+import PopupProvider from "../components/loginpopup/PopupProvider";
+
 
 import Footer from "../components/footer";
 const geistSans = Geist({
@@ -27,14 +31,16 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-         <div className="app-main">
-                <ReduxProvider>
+        <div className="app-main">
+          <ReduxProvider>
+            <PopupProvider>
+              <Header />
+              {children}
 
-         <Header />
-        {children}
-                <Footer />
-                    </ReduxProvider>
-                    </div>
+              <Footer />
+            </PopupProvider>
+          </ReduxProvider>
+        </div>
       </body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Autoplay } from "swiper/modules";
+import Image from "next/image";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
@@ -34,7 +35,7 @@ const PageIntro = () => {
 
             <div className="container">
               <div className="page-intro__slide__content">
-                <h2>New Fashion Collection</h2>
+                <h2 className="font-poppins text-2xl lg:text-5xl">New Fashion Collection</h2>
 
                 <a href="#" className="btn-shop">
                   <i className="icon-right" />
@@ -47,13 +48,16 @@ const PageIntro = () => {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div
-            className="page-intro__slide"
-            style={{ backgroundImage: "url('/images/slide-1.jpg')" }}
-          >
+         <div className="page-intro__slide relative w-full h-[70vh] sm:h-[80vh] lg:h-screen overflow-hidden">
+            <Image
+              src="/images/slide-4.jpeg"
+              alt="Login Banner"
+              fill
+              className="absolute inset-0 object-cover"
+            />
             <div className="container">
               <div className="page-intro__slide__content">
-                <h2>Sale of the summer collection</h2>
+                <h2 className="font-poppins text-2xl lg:text-5xl">Sale of the summer collection</h2>
                 <a href="#" className="btn-shop">
                   <i className="icon-right" />
                   Shop now
@@ -64,10 +68,13 @@ const PageIntro = () => {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div
-            className="page-intro__slide"
-            style={{ backgroundImage: "url('/images/slide-2.jpg')" }}
-          >
+         <div className="page-intro__slide relative w-full h-[70vh] sm:h-[80vh] lg:h-screen overflow-hidden">
+            <Image
+              src="/images/slide-6.jpg"
+              alt="Login Banner"
+              fill
+              className="absolute inset-0 object-cover"
+            />
             <div className="container">
               <div className="page-intro__slide__content">
                 <h2>Make your house into a home</h2>
@@ -79,8 +86,6 @@ const PageIntro = () => {
             </div>
           </div>
         </SwiperSlide>
-      </Swiper>
-
       <div className="shop-data">
         <div className="container">
           <ul className="shop-data__items">
@@ -110,6 +115,9 @@ const PageIntro = () => {
           </ul>
         </div>
       </div>
+      </Swiper>
+
+
     </section>
   );
 };

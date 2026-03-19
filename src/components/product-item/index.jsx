@@ -13,8 +13,7 @@ const ProductItem = ({
   currentPrice,
 }) => {
   const dispatch = useDispatch();
-  const { favProducts } = useSelector((state) => state.user);
-
+const favProducts = useSelector((state) => state.user?.favProducts || []);
   const isFavourite = some(favProducts, (productId) => productId === id);
 
   const toggleFav = () => {

@@ -25,7 +25,7 @@ const Content = ({ product }: ProductContent) => {
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setItemSize(e.target.value);
 
-  const { favProducts } = useSelector((state: RootState) => state.user);
+const favProducts = useSelector((state) => state.user?.favProducts || []);
   const isFavourite = some(
     favProducts,
     (productId) => productId === product.id,

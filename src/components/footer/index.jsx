@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="site-footer__top">
           <div className="site-footer__description">
             <h6>
-              <Logo /> <span>Dhirago</span>
+              <Logo /> 
             </h6>
             <p>
               House My Brand designs clothing for the young, the old & everyone

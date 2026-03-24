@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import List from "./list";
@@ -8,8 +10,8 @@ const ProductsContent = () => {
   return (
     <section className="products-content">
       <div className="products-content__intro">
-        <h2>
-          Men's Tops <span>(133)</span>
+        <h2>  
+          Men's Tops 
         </h2>
         <button
           type="button"
@@ -19,7 +21,7 @@ const ProductsContent = () => {
           <i className="icon-filters" />
         </button>
         <form
-          className={`products-content__filter ${orderProductsOpen ? "products-order-open" : ""}`}
+          className={`pl-9 products-content__filter ${orderProductsOpen ? "products-order-open" : ""}`}
         >
           <div className="products__filter__select">
             <h4>Show products: </h4>

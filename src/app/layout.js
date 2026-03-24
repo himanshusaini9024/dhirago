@@ -34,8 +34,12 @@ export default function RootLayout({ children }) {
         <div className="app-main">
           <ReduxProvider>
             <PopupProvider>
-              <Header />
-              {children}
+               <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+                <Header />
+              </div>
+              <main className="pt-16">
+                {children}
+              </main>
 
               <Footer />
             </PopupProvider>

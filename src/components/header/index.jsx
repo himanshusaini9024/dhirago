@@ -8,23 +8,20 @@ import { usePathname } from "next/navigation";
 
 const Header = () => {
   const pathname = usePathname();
-  const isHome = pathname === "/";
   const cartItems = useSelector((state) => state.cart?.cartItems || []);
 
-  // Separate mega menus states
   const [megaMenuMen, setMegaMenuMen] = useState(false);
   const [megaMenuHome, setMegaMenuHome] = useState(false);
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const timeoutRef = useRef(null);
   const searchRef = useRef(null);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
-        // handle search close
         setSearchOpen(false);
       }
     };
@@ -32,140 +29,148 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Handlers for Men menu mega menu
   const handleMouseEnterMen = () => {
     clearTimeout(timeoutRef.current);
     setMegaMenuMen(true);
-    setMegaMenuHome(false); // close other mega menu
+    setMegaMenuHome(false);
   };
+
   const handleMouseLeaveMen = () => {
     timeoutRef.current = setTimeout(() => setMegaMenuMen(false), 200);
   };
 
-  // Handlers for Home menu mega menu
   const handleMouseEnterHome = () => {
     clearTimeout(timeoutRef.current);
     setMegaMenuHome(true);
-    setMegaMenuMen(false); // close other mega menu
+    setMegaMenuMen(false);
   };
+
   const handleMouseLeaveHome = () => {
     timeoutRef.current = setTimeout(() => setMegaMenuHome(false), 200);
   };
-  
-  const [scrolled, setScrolled] = useState(false);
 
-useEffect(() => {
-  const handleScroll = () => {
-    setScrolled(window.scrollY > 50); // change after 50px scroll
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-  <header
-  className={`w-full z-50 transition-all duration-300
-    ${
-    "fixed top-0 left-0 w-full bg-white text-black transition-all duration-300 " +
-(scrolled ? "shadow-md py-2" : "py-1")
-    }
-    ${megaMenuMen || megaMenuHome ? "!bg-white !text-black shadow-md" : ""}
-  `}
->
+    <header
+      className={`fixed top-0 left-0 w-full z-50 bg-white text-black transition-all duration-300 overflow-visible
+  ${scrolled ? "shadow-md py-1" : "py-2"}
+  ${megaMenuMen || megaMenuHome ? "shadow-md" : ""}
+`}
+    >
       <div className="w-full">
-        <div className="max-w-[90%] mx-auto px-6 flex items-center h-20 justify-between">
-          {/* LEFT MENU (Desktop Only) */}
-          <nav className="!hidden lg:!flex flex-1 items-center justify-center gap-6 text-sm font-medium tracking-wide">
-            {/* MEN MENU */}
-            <div
-              className="relative"
-              onMouseEnter={handleMouseEnterMen}
-              onMouseLeave={handleMouseLeaveMen}
+        <div
+          className={`relative max-w-[92%] mx-auto px-4 lg:px-6 flex items-center
+  ${scrolled ? "h-12 lg:h-14" : "h-14 lg:h-16"}
+`}
+        >
+          {/* LEFT */}
+          <div className="flex items-center gap-3 lg:gap-6 justify-start">
+            {/* HAMBURGER */}
+            <button
+              className="lg:hidden flex flex-col justify-center items-center w-8 h-8 relative"
+              onClick={() => setMenuOpen(!menuOpen)}
             >
-              <button className="hover:text-yellow-400 transition">Men</button>
-            </div>
+              <span
+                className={`absolute w-5 h-0.5 bg-black ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`}
+              />
+              <span
+                className={`absolute w-5 h-0.5 bg-black ${menuOpen ? "opacity-0" : ""}`}
+              />
+              <span
+                className={`absolute w-5 h-0.5 bg-black ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`}
+              />
+            </button>
 
-            {/* HOME MENU */}
-            <div
-              className="relative"
-              onMouseEnter={handleMouseEnterHome}
-              onMouseLeave={handleMouseLeaveHome}
-            >
-              <button className="hover:text-yellow-400 transition">Home</button>
-            </div>
-
-            <Link href="#" className="hover:text-yellow-400 transition">
-              Beauty
-            </Link>
-          </nav>
-
-          {/* CENTER LOGO */}
-          <div className="flex lg:flex-1 justify-start lg:justify-center">
-            <Link href="/" className="flex items-center gap-2 site-logo">
-              <div className="w-10 h-6 lg:w-10 lg:h-8">
-                <Logo />
+            {/* DESKTOP NAV */}
+            <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
+              <div
+                onMouseEnter={handleMouseEnterMen}
+                onMouseLeave={handleMouseLeaveMen}
+              >
+                <button className="hover:text-yellow-400">Men</button>
               </div>
-              <span className="font-bold text-sm tracking-wider">Ｄｈｉｒａｇｏ</span>
-            </Link>
+
+              <div
+                onMouseEnter={handleMouseEnterHome}
+                onMouseLeave={handleMouseLeaveHome}
+              >
+                <button className="hover:text-yellow-400">Home</button>
+              </div>
+
+              <Link href="#" className="hover:text-yellow-400">
+                Beauty
+              </Link>
+            </nav>
           </div>
 
-          {/* RIGHT ACTIONS */}
-          <div className="flex flex-1 justify-end items-center gap-6">
-            {/* SEARCH */}
-            <div className="hidden lg:flex items-center gap-6">
-              <button
-                ref={searchRef}
-                className={`search-form-wrapper ${
-                  searchOpen ? "search-form--active" : ""
-                }`}
-              >
-                <form className="search-form">
-                  <i
-                    className="icon-cancel"
-                    onClick={() => setSearchOpen(!searchOpen)}
-                  />
-                  <input
-                    type="text"
-                    name="search"
-                    placeholder="Enter the product you are looking for"
-                  />
-                </form>
-                <i
-                  onClick={() => setSearchOpen(!searchOpen)}
-                  className="icon-search"
-                />
-              </button>
+          {/* DESKTOP MENU */}
 
-              {/* CART */}
-              <Link href="/cart" className="relative">
-                <button className="text-lg hover:text-yellow-400">
-                  <i className="icon-cart"></i>
-                </button>
-                {cartItems.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-xs px-1.5 py-0.5 rounded-full">
-                    {cartItems.length}
-                  </span>
-                )}
-              </Link>
+          {/* CENTER LOGO */}
+        <div
+  className="
+    flex-1 flex justify-center items-center
+    lg:absolute lg:left-1/2 
+    lg:-translate-x-1/2 lg:-translate-y-1/2
+  "
+>
+  <Link href="/" className="flex items-center">
+    <div
+      className={`
+        relative transition-all duration-300
 
-              {/* USER */}
-              <button
-                onClick={() => setLoginOpen(true)}
-                className="text-lg hover:text-yellow-400"
-              >
-                <i className="icon-avatar"></i>
-              </button>
-            </div>
+        w-[120px] h-[40px]        /* mobile */
 
-            {/* MOBILE HAMBURGER */}
+        lg:w-[220px] lg:h-[70px]  /* desktop normal */
+
+        ${scrolled ? "lg:w-[180px] lg:h-[55px]" : ""}
+      `}
+    >
+      <Logo />
+    </div>
+  </Link>
+</div>
+
+          {/* RIGHT */}
+          <div className="flex items-center justify-end gap-3 lg:gap-5 flex-1">
             <button
-              className="lg:hidden flex flex-col gap-1 p-2"
-              onClick={() => setMenuOpen(true)}
+              ref={searchRef}
+              className={`search-form-wrapper ${
+                searchOpen ? "search-form--active" : ""
+              }`}
             >
-              <span className="block w-6 h-0.5 bg-black"></span>
-              <span className="block w-6 h-0.5 bg-black"></span>
-              <span className="block w-6 h-0.5 bg-black"></span>
+              <form className="search-form">
+                <i
+                  className="icon-cancel"
+                  onClick={() => setSearchOpen(!searchOpen)}
+                />
+                <input
+                  type="text"
+                  name="search"
+                  placeholder="Enter the product you are looking for"
+                />
+              </form>
+              <i
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="icon-search"
+              />
+            </button>
+
+            <Link href="/cart" className="relative">
+              <i className="icon-cart text-[18px]"></i>
+              {cartItems.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] px-1.5 py-0.5 rounded-full">
+                  {cartItems.length}
+                </span>
+              )}
+            </Link>
+
+            <button onClick={() => setLoginOpen(true)}>
+              <i className="icon-avatar text-[18px]"></i>
             </button>
           </div>
         </div>
@@ -188,19 +193,22 @@ useEffect(() => {
                 </h3>
                 <ul className="text-gray-700 font-medium text-[15px]">
                   {[
-                    "Special Prices",
-                    "New Arrivals",
-                    "Bestsellers",
-                    "Back in Stock",
-                    "Foundational Prices",
-                    "Shop All",
+                    { name: "Special Prices", href: "/special-prices" },
+                    { name: "New Arrivals", href: "/shop/new-arrivals" },
+                    { name: "Bestsellers", href: "/collections/bestsellers" },
+                    { name: "Back in Stock", href: "/back-in-stock" },
+                    {
+                      name: "Foundational Prices",
+                      href: "/foundational-prices",
+                    },
+                    { name: "Shop All", href: "/shop" },
                   ].map((item) => (
-                    <li key={item} className="!py-3">
+                    <li key={item.name} className="!py-3">
                       <Link
-                        href="#"
+                        href={item.href}
                         className="hover:text-yellow-500 hover:underline transition duration-200"
                       >
-                        {item}
+                        {item.name}
                       </Link>
                     </li>
                   ))}
@@ -275,10 +283,7 @@ useEffect(() => {
                   title: "New Hues",
                 },
               ].map((img) => (
-                <div
-                  key={img.title}
-                  className="w-1/2 cursor-pointer"
-                >
+                <div key={img.title} className="w-1/2 cursor-pointer">
                   <img
                     src={img.src}
                     alt={img.title}
@@ -296,131 +301,127 @@ useEffect(() => {
 
       {/* HOME MEGA MENU */}
       {/* HOME MEGA MENU */}
-{megaMenuHome && (
-  <div
-    className="absolute top-full left-1/2 -translate-x-1/2 w-full bg-white text-black shadow-lg"
-    onMouseEnter={handleMouseEnterHome}
-    onMouseLeave={handleMouseLeaveHome}
-  >
-    <div className="max-w-7xl mx-auto px-10 py-10 grid grid-cols-12 gap-12">
+      {megaMenuHome && (
+        <div
+          className="absolute top-full left-1/2 -translate-x-1/2 w-full bg-white text-black shadow-lg"
+          onMouseEnter={handleMouseEnterHome}
+          onMouseLeave={handleMouseLeaveHome}
+        >
+          <div className="max-w-7xl mx-auto px-10 py-10 grid grid-cols-12 gap-12">
+            {/* LEFT CONTENT */}
+            <div className="col-span-7 grid grid-cols-3 gap-10 text-sm">
+              {/* FEATURED */}
+              <div>
+                <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-6 font-semibold">
+                  Featured
+                </h3>
+                <ul className="text-gray-700 text-[15px] font-medium">
+                  {[
+                    "Latest Trends",
+                    "New Arrivals",
+                    "Top Picks",
+                    "Best Deals",
+                    "Editor's Choice",
+                    "Shop All",
+                  ].map((item) => (
+                    <li key={item} className="py-3">
+                      <Link
+                        href="#"
+                        className="hover:text-yellow-500 hover:underline transition"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-      {/* LEFT CONTENT */}
-      <div className="col-span-7 grid grid-cols-3 gap-10 text-sm">
+              {/* SHOP */}
+              <div>
+                <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-6 font-semibold">
+                  Shop
+                </h3>
+                <ul className="text-gray-700 text-[15px] font-medium">
+                  {[
+                    "Living Room",
+                    "Bedroom",
+                    "Kitchen",
+                    "Decor",
+                    "Lighting",
+                    "Outdoor",
+                  ].map((item) => (
+                    <li key={item} className="py-3">
+                      <Link
+                        href="#"
+                        className="hover:text-yellow-500 hover:underline transition"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-        {/* FEATURED */}
-        <div>
-          <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-6 font-semibold">
-            Featured
-          </h3>
-          <ul className="text-gray-700 text-[15px] font-medium">
-            {[
-              "Latest Trends",
-              "New Arrivals",
-              "Top Picks",
-              "Best Deals",
-              "Editor's Choice",
-              "Shop All",
-            ].map((item) => (
-              <li key={item} className="py-3">
-                <Link
-                  href="#"
-                  className="hover:text-yellow-500 hover:underline transition"
-                >
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+              {/* SUPPORT */}
+              <div>
+                <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-6 font-semibold">
+                  Support
+                </h3>
+                <ul className="text-gray-700 text-[15px] font-medium">
+                  {[
+                    "Contact Us",
+                    "FAQs",
+                    "Shipping Info",
+                    "Returns",
+                    "Track Order",
+                  ].map((item) => (
+                    <li key={item} className="py-3">
+                      <Link
+                        href="#"
+                        className="hover:text-yellow-500 hover:underline transition"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
 
-        {/* SHOP */}
-        <div>
-          <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-6 font-semibold">
-            Shop
-          </h3>
-          <ul className="text-gray-700 text-[15px] font-medium">
-            {[
-              "Living Room",
-              "Bedroom",
-              "Kitchen",
-              "Decor",
-              "Lighting",
-              "Outdoor",
-            ].map((item) => (
-              <li key={item} className="py-3">
-                <Link
-                  href="#"
-                  className="hover:text-yellow-500 hover:underline transition"
-                >
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* SUPPORT */}
-        <div>
-          <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-6 font-semibold">
-            Support
-          </h3>
-          <ul className="text-gray-700 text-[15px] font-medium">
-            {[
-              "Contact Us",
-              "FAQs",
-              "Shipping Info",
-              "Returns",
-              "Track Order",
-            ].map((item) => (
-              <li key={item} className="py-3">
-                <Link
-                  href="#"
-                  className="hover:text-yellow-500 hover:underline transition"
-                >
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-      </div>
-
-      {/* RIGHT IMAGES */}
-      <div className="col-span-5 flex gap-6">
-        {[
-          {
-            src: "/images/home-1.jpg",
-            title: "Modern Living",
-          },
-          {
-            src: "/images/home-2.jpg",
-            title: "Cozy Spaces",
-          },
-        ].map((item) => (
-          <div key={item.title} className="w-1/2 cursor-pointer">
-            <img
-              src={item.src}
-              alt={item.title}
-              className="w-full h-[220px] object-cover rounded-lg transition-transform duration-300 hover:scale-105"
-            />
-            <p className="text-center mt-2 text-sm text-gray-700 font-medium">
-              {item.title}
-            </p>
+            {/* RIGHT IMAGES */}
+            <div className="col-span-5 flex gap-6">
+              {[
+                {
+                  src: "/images/home-1.jpg",
+                  title: "Modern Living",
+                },
+                {
+                  src: "/images/home-2.jpg",
+                  title: "Cozy Spaces",
+                },
+              ].map((item) => (
+                <div key={item.title} className="w-1/2 cursor-pointer">
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-[220px] object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+                  />
+                  <p className="text-center mt-2 text-sm text-gray-700 font-medium">
+                    {item.title}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-
-    </div>
-  </div>
-)}
+        </div>
+      )}
 
       {/* MOBILE MENU */}
       {menuOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
           {/* Overlay */}
           <div
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={() => setMenuOpen(false)}
           />
           {/* Slide drawer */}
@@ -501,6 +502,7 @@ useEffect(() => {
           </div>
         </div>
       )}
+
       <LoginDrawer open={loginOpen} setOpen={setLoginOpen} />
     </header>
   );

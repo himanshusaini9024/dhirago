@@ -1,10 +1,4 @@
-type CheckboxColorType = {
-  type?: string;
-  name: string;
-  color: string;
-  valueName: string;
-  onChange?: (value: string) => void;
-};
+"use client";
 
 const CheckboxColor = ({
   color,
@@ -12,26 +6,31 @@ const CheckboxColor = ({
   type = "checkbox",
   onChange,
   valueName,
-}: CheckboxColorType) => {
-  const onSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+}) => {
+  const onSelect = (e) => {
     const dataName = e.target.getAttribute("data-name");
     if (onChange && dataName) {
       onChange(dataName);
     }
   };
 
+  const safeId = `${name}-${color}`;
+
   return (
-    <label htmlFor={`${color}-${name}`} className="checkbox-color">
+    <label htmlFor={safeId} className="checkbox-color">
       <input
         onChange={onSelect}
         value={color}
         data-name={valueName}
         name={name}
         type={type}
-        id={`${color}-${name}`}
+        id={safeId}
       />
       <span className="checkbox__check">
-        <span className="checkbox__color" style={{ backgroundColor: color }} />
+        <span
+          className="checkbox__color"
+          style={{ backgroundColor: color }}
+        />
       </span>
     </label>
   );

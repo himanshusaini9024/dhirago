@@ -3,13 +3,14 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 
 import { toggleFavProduct } from "../../store/reducers/user";
-
+import { CloudCog } from "lucide-react";
+import Image from "next/image";
 const ProductItem = ({
   discount,
   images,
   id,
   name,
-  price,
+  price,slug,
   currentPrice,
 }) => {
   const dispatch = useDispatch();
@@ -24,6 +25,12 @@ const favProducts = useSelector((state) => state.user?.favProducts || []);
     );
   };
 
+  const baseURL = process.env.NEXT_IMG_URL;
+   const imageUrl =
+    images && images.length > 0
+      ? 'https://res.cloudinary.com/ds48lk80f/' + images[0]
+      : "/images/placeholder.png";
+
   return (
     <div className="product-item">
       <div className="product__image">
@@ -35,8 +42,8 @@ const favProducts = useSelector((state) => state.user?.favProducts || []);
           <i className="icon-heart" />
         </button>
 
-        <Link href={`/product/${id}`}>
-          <img src={images ? images[0] : ""} alt="product" />
+        <Link href={`/product/${slug}`}>
+          <img src={imageUrl}  alt={name}  />
           {discount && <span className="product__discount">{discount}%</span>}
         </Link>
       </div>

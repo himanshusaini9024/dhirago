@@ -6,9 +6,7 @@ const Footer = () => {
       <div className="container">
         <div className="site-footer__top">
           <div className="site-footer__description">
-            <h6>
-              <Logo /> 
-            </h6>
+         
             <p>
               House My Brand designs clothing for the young, the old & everyone
               in between – but most importantly, for the fashionable

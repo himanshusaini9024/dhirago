@@ -1,12 +1,14 @@
 "use client";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import Logo from "../../assets/icons/logo";
 import LoginDrawer from "./logindashboard";
 import { usePathname } from "next/navigation";
-
+import LoginDropdown from "./logindroopdown";
+import { logout } from "../../store/authslice";
 const Header = () => {
+  const dispatch = useDispatch();
   const pathname = usePathname();
   const cartItems = useSelector((state) => state.cart?.cartItems || []);
 
@@ -16,6 +18,9 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const timeoutRef = useRef(null);
   const searchRef = useRef(null);
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log('islog',isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
   const [loginOpen, setLoginOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -29,6 +34,12 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  dispatch(logout());
+  setMenuOpen(false);
+};
   const handleMouseEnterMen = () => {
     clearTimeout(timeoutRef.current);
     setMegaMenuMen(true);
@@ -48,6 +59,8 @@ const Header = () => {
   const handleMouseLeaveHome = () => {
     timeoutRef.current = setTimeout(() => setMegaMenuHome(false), 200);
   };
+
+
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -111,16 +124,16 @@ const Header = () => {
           {/* DESKTOP MENU */}
 
           {/* CENTER LOGO */}
-        <div
-  className="
+          <div
+            className="
     flex-1 flex justify-center items-center
     lg:absolute lg:left-1/2 
     lg:-translate-x-1/2 lg:-translate-y-1/2
   "
->
-  <Link href="/" className="flex items-center">
-    <div
-      className={`
+          >
+            <Link href="/" className="flex items-center">
+              <div
+                className={`
         relative transition-all duration-300
 
         w-[120px] h-[40px]        /* mobile */
@@ -129,11 +142,11 @@ const Header = () => {
 
         ${scrolled ? "lg:w-[180px] lg:h-[55px]" : ""}
       `}
-    >
-      <Logo />
-    </div>
-  </Link>
-</div>
+              >
+                <Logo />
+              </div>
+            </Link>
+          </div>
 
           {/* RIGHT */}
           <div className="flex items-center justify-end gap-3 lg:gap-5 flex-1">
@@ -169,9 +182,15 @@ const Header = () => {
               )}
             </Link>
 
-            <button onClick={() => setLoginOpen(true)}>
-              <i className="icon-avatar text-[18px]"></i>
-            </button>
+          <div className="relative">
+  {!isLoggedIn ? (
+    <button onClick={() => setLoginOpen(true)}>
+      <i className="icon-avatar text-[18px]"></i>
+    </button>
+  ) : (
+    <LoginDropdown user={user} handleLogout={handleLogout} />
+  )}
+</div>
           </div>
         </div>
       </div>
@@ -489,15 +508,33 @@ const Header = () => {
                 Cart ({cartItems.length})
               </Link>
 
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  setLoginOpen(true);
-                }}
-                className="w-full text-left py-3 font-medium"
-              >
-                Login
-              </button>
+              <div className="relative group">
+                {!isLoggedIn ? (
+                  <button onClick={() => setLoginOpen(true)}>
+                    <i className="icon-avatar text-[18px]"></i>
+                  </button>
+                ) : (
+                  <div className="relative group">
+                    <button className="icon-avatar text-[18px]"></button>
+
+                    <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition">
+                      <Link
+                        href="/account"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Dashboard
+                      </Link>
+
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

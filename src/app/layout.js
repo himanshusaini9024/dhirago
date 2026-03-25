@@ -1,14 +1,15 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono,Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import "../assets/css/styles.scss";
 
+const inter = Inter({ subsets: ["latin"] });
 
 import Header from "../components/header";
 import ReduxProvider from "../store/provider";
 
 import PopupProvider from "../components/loginpopup/PopupProvider";
 
-
+import AuthLoader from "../components/AuthLoader";
 import Footer from "../components/footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
       >
         <div className="app-main">
           <ReduxProvider>
+              <AuthLoader />
             <PopupProvider>
                <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
                 <Header />

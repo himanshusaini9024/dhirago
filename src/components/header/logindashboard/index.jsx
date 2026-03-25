@@ -8,8 +8,11 @@ import Logo from "../../../assets/icons/logo";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Lock, Phone } from "lucide-react";
-
+ import { useDispatch } from "react-redux";
+          import { loginSuccess } from "../../../store/authslice";
 export default function LoginDrawer({ open, setOpen }) {
+          const dispatch = useDispatch();
+
   const pathname = usePathname();
 
   useEffect(() => {
@@ -42,7 +45,7 @@ export default function LoginDrawer({ open, setOpen }) {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Accept": "application/json",
+              Accept: "application/json",
             },
             body: JSON.stringify({ mobile }),
           });
@@ -60,7 +63,6 @@ export default function LoginDrawer({ open, setOpen }) {
           if (!res.ok) throw new Error(data.message);
 
           setOtpSent(true);
-          alert("OTP sent ✅");
         } else {
           // 👉 VERIFY OTP
           const res = await fetch("http://127.0.0.1:8000/api/verify-otp", {
@@ -75,10 +77,20 @@ export default function LoginDrawer({ open, setOpen }) {
 
           if (!res.ok) throw new Error(data.message);
 
-          localStorage.setItem("token", data.token);
-          setOpen(false);
+         
 
-          alert("Login successful 🎉");
+
+          // after success
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+
+          dispatch(
+            loginSuccess({
+              user: data.user,
+              token: data.token,
+            }),
+          );
+          setOpen(false);
         }
       }
 

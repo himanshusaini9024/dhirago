@@ -4,6 +4,7 @@ import Homecontent from "../components/page-intro/home"
 import ProductsFeatured from "../components/products-featured";
 import ProductTabs from "../components/page-intro/producttab"
 import Bestsellers from "../components/page-intro/bestseller";
+import Luxurypage from "../components/page-intro/luxury";
 import EditorialGrid from "../components/page-intro/editorialGrid"
 
 export const metadata = {
@@ -39,11 +40,52 @@ export default function Home() {
    return (
     <main>
       <PageIntro />
+     <section className="h-[50vh] bg-white flex items-center justify-center border-t">
+  <div className="max-w-2xl px-6 transition-all duration-700 hover:scale-[1.02] flex flex-col items-center text-center">
+    {/* Logo Image */}
+    <div className="mb-4">
+      <img
+        src="/images/logo/bird_4-3.png"
+        alt="Logo"
+        className="w-32 md:w-40" // adjust sizes as needed
+        style={{ width: '13rem' }}
+      />
+      
+     <h2 className="lg:text-xl md:text-2xl mb-4">DHIRAGO</h2>
+    </div>
+
+    {/* Heading */}
+    <h3 className="lg:text-4xl md:text-2xl mb-4 ">
+      Welcome to DHIRAGO
+    </h3>
+
+    {/* Description paragraph */}
+     <p className="text-gray-500 text-sm md:text-base leading-relaxed md:leading-loose max-w-lg mb-8">
+      We craft premium menswear designed to last. Explore our collections and 
+      <a 
+        href="/signup" 
+        className="text-black font-medium underline underline-offset-4 hover:opacity-70 transition ml-1"
+      >
+        join Club Andamen
+      </a>{" "}
+      for exclusive benefits.
+    </p>
+
+    {/* Button */}
+      <a
+      href="/pages/signup"
+      className="px-6 py-2.5 border border-black text-black text-sm tracking-wide hover:bg-black hover:text-white transition duration-300"
+    >
+      JOIN CLUB
+    </a>
+  </div>
+</section>
       <Homecontent />
   <ProductTabs />
        <ProductsFeatured />
        <EditorialGrid/>
        <Bestsellers/>
+       <Luxurypage/>
 
     </main>
   );

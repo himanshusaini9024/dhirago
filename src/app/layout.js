@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono,Playfair_Display, Inter } from "next/font/google";
+import { Geist, Geist_Mono,Playfair_Display, Inter,Montserrat } from "next/font/google";
 import "./globals.css";
 import "../assets/css/styles.scss";
 
@@ -8,12 +8,17 @@ import Header from "../components/header";
 import ReduxProvider from "../store/provider";
 
 import PopupProvider from "../components/loginpopup/PopupProvider";
-
+import LayoutWrapper from "../components/LayoutWrapper";
 import AuthLoader from "../components/AuthLoader";
 import Footer from "../components/footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weights: ['400', '500', '600'], // specify the weights you need
 });
 
 const geistMono = Geist_Mono({
@@ -29,19 +34,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+     <body
+        className={`${geistSans.variable} ${geistMono.variable} ${montserrat.className} antialiased`}
       >
         <div className="app-main">
           <ReduxProvider>
               <AuthLoader />
             <PopupProvider>
-               <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+            
                 <Header />
-              </div>
-              <main className="pt-16">
+
+
+              <LayoutWrapper>
                 {children}
-              </main>
+              </LayoutWrapper>
 
               <Footer />
             </PopupProvider>

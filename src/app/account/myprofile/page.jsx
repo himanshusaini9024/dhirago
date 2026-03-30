@@ -56,14 +56,11 @@ export default function MyProfilePage() {
   });
 
   const [address, setAddress] = useState({
-    first_name: "",
-    last_name: "",
     line1: "",
     line2: "",
     city: "",
     state: "",
-    zip: "",
-    phone: "",
+    zip: ""
   });
 
   const [loading, setLoading] = useState(false);
@@ -72,9 +69,9 @@ export default function MyProfilePage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await api.get("/user", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+      const res = await api.get("/user");
+
+   
 
         setProfile({
           first_name: res.data.first_name || "",
@@ -111,16 +108,9 @@ export default function MyProfilePage() {
   const saveProfile = async () => {
     setLoading(true);
     try {
-      await api.post(
-        "/user/update-profile", // URL
-        profile, // data (body)
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            Accept: "application/json",
-          },
-        },
-      );
+      console.log("PROFILE DATA SENT:", profile);
+      const res = await api.post("/user/update-profile", profile);
+      console.log("RESPONSE:", res.data);
       alert("✅ Profile updated");
     } catch (e) {
       console.log(e.response?.data);
@@ -132,16 +122,9 @@ export default function MyProfilePage() {
   const updatePassword = async () => {
     setLoading(true);
     try {
-      await api.post(
-        "/user/update-password", // URL
-        password, // data (body)
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            Accept: "application/json",
-          },
-        },
-      );
+      const res = await api.post("/user/update-password", password);
+
+      
       alert("✅ Password updated");
       setPassword({ password: "", password_confirmation: "" });
     } catch (e) {
@@ -166,7 +149,7 @@ export default function MyProfilePage() {
     <div className="min-h-screen bg-gradient-to-br from-[#f5f5f5] to-[#eeeeee] px-4 md:px-12 py-12 font-[Inter]">
       {/* HEADER */}
       <div className="mb-14">
-        <h1 className="text-4xl font-light tracking-tight">My Profile</h1>
+        <h1 className="text-2xl font-light tracking-tight">My Profile</h1>
         <p className="text-sm text-gray-500 mt-2 tracking-wide">
           Manage your personal details & address
         </p>
@@ -254,20 +237,23 @@ export default function MyProfilePage() {
         <h2 className="text-xl font-medium mb-8">Add New Address</h2>
 
         <div className="space-y-6">
-          <input
-            name="line1"
-            value={address.line1}
-            onChange={handleAddress}
-            placeholder="Address Line 1"
-            className="w-full border-b py-3 text-sm"
-          />
-          <input
-            name="line2"
-            value={address.line2}
-            onChange={handleAddress}
-            placeholder="Address Line 2"
-            className="w-full border-b py-3 text-sm"
-          />
+            <InputField
+              label="Address Line 1"
+              name="line1"
+              type="text"
+              value={address.line1}
+              onChange={handleAddress}
+            />
+
+             <InputField
+              label="Address Line 2"
+              name="line2"
+              type="text"
+              value={address.line2}
+              onChange={handleAddress}
+            />
+         
+         
           <input
             name="city"
             value={address.city}

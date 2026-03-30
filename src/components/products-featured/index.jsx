@@ -4,20 +4,51 @@ import Link from "next/link";
 import useSWR from "swr";
 import ProductsCarousel from "./carousel";
 
-// fetcher
-const fetcher = (url) => fetch(url).then((res) => res.json());
+// ✅ Robust fetcher (handles errors properly)
+const fetcher = async (url) => {
+  try {
+    console.log("Fetching URL:", url);
+
+    const res = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    console.log("STATUS:", res.status);
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("API ERROR RESPONSE:", text);
+      throw new Error("Failed to fetch data");
+    }
+
+    const json = await res.json();
+    return json;
+  } catch (err) {
+    console.error("FETCH ERROR:", err);
+    throw err;
+  }
+};
 
 const ProductsFeatured = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  console.log("ENV API URL:", apiUrl);
+
   const { data, error, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/justproduct`,
+    apiUrl ? `${apiUrl}/api/justproduct` : null, // ✅ prevents bad calls
     fetcher
   );
 
-  const products = data?.data || [];
+  console.log("FULL RESPONSE:", data);
+  console.log("ERROR:", error);
+
+  // ✅ handle both formats safely
+  const products = data?.data || data || [];
 
   return (
     <section className="py-16">
-      {/* CONTAINER (same as bestseller) */}
       <div className="max-w-[95%] mx-auto">
 
         {/* HEADER */}
@@ -36,7 +67,9 @@ const ProductsFeatured = () => {
 
         {/* STATES */}
         {isLoading && (
-          <p className="text-sm text-gray-400 tracking-wide">Loading products...</p>
+          <p className="text-sm text-gray-400 tracking-wide">
+            Loading products...
+          </p>
         )}
 
         {error && (
@@ -45,11 +78,15 @@ const ProductsFeatured = () => {
           </p>
         )}
 
-        {/* CAROUSEL */}
-        {!isLoading && !error && (
+        {/* DATA */}
+        {!isLoading && !error && products.length > 0 && (
           <ProductsCarousel products={products} />
         )}
 
+        {/* EMPTY */}
+        {!isLoading && !error && products.length === 0 && (
+          <p className="text-sm text-gray-400">No products found</p>
+        )}
       </div>
     </section>
   );

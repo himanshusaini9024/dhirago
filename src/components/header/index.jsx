@@ -1,25 +1,34 @@
 "use client";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Logo from "../../assets/icons/logo";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
 import LoginDrawer from "./logindashboard";
 import { usePathname } from "next/navigation";
 import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
+import { Montserrat } from "next/font/google";
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
 const Header = () => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const cartItems = useSelector((state) => state.cart?.cartItems || []);
-
+  const router = useRouter();
   const [megaMenuMen, setMegaMenuMen] = useState(false);
   const [megaMenuHome, setMegaMenuHome] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const timeoutRef = useRef(null);
   const searchRef = useRef(null);
-    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log('islog',isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log("islog", isLoggedIn);
   const user = useSelector((state) => state.auth.user);
   const [loginOpen, setLoginOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -35,11 +44,13 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  dispatch(logout());
-  setMenuOpen(false);
-};
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    Cookies.remove("token");
+    dispatch(logout());
+    router.replace("/");
+    setMenuOpen(false);
+  };
   const handleMouseEnterMen = () => {
     clearTimeout(timeoutRef.current);
     setMegaMenuMen(true);
@@ -60,94 +71,119 @@ const Header = () => {
     timeoutRef.current = setTimeout(() => setMegaMenuHome(false), 200);
   };
 
-
-
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20); // trigger after slight scroll
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 bg-white text-black transition-all duration-300 overflow-visible
-  ${scrolled ? "shadow-md py-1" : "py-2"}
-  ${megaMenuMen || megaMenuHome ? "shadow-md" : ""}
-`}
-    >
+  <header
+  className={`
+    fixed left-0 w-full z-50
+    transition-all duration-300
+
+    ${
+      pathname === "/"
+        ? scrolled
+          ? "top-0 bg-white/80 backdrop-blur-lg shadow-sm text-black"
+          : "top-12 bg-transparent text-white"
+        : "top-0 bg-white shadow-sm text-black"
+    }
+  `}
+>
       <div className="w-full">
         <div
-          className={`relative max-w-[92%] mx-auto px-4 lg:px-6 flex items-center
-  ${scrolled ? "h-12 lg:h-14" : "h-14 lg:h-16"}
-`}
+          className="
+        relative max-w-[92%] mx-auto px-4 lg:px-6 
+        flex items-center justify-between
+        h-[60px] lg:h-[80px]   /* FIXED HEIGHT */
+      "
         >
           {/* LEFT */}
-          <div className="flex items-center gap-3 lg:gap-6 justify-start">
+          <div className="flex items-center gap-3 lg:gap-6 justify-start w-full lg:w-auto">
             {/* HAMBURGER */}
             <button
-              className="lg:hidden flex flex-col justify-center items-center w-8 h-8 relative"
+              className="lg:hidden flex flex-col justify-center items-center w-8 h-8 relative z-10"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               <span
-                className={`absolute w-5 h-0.5 bg-black ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`}
+                className={`absolute w-5 h-0.5 bg-white ${menuOpen ? "rotate-45" : "-translate-y-1.5"}`}
               />
               <span
-                className={`absolute w-5 h-0.5 bg-black ${menuOpen ? "opacity-0" : ""}`}
+                className={`absolute w-5 h-0.5 bg-white ${menuOpen ? "opacity-0" : ""}`}
               />
               <span
-                className={`absolute w-5 h-0.5 bg-black ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`}
+                className={`absolute w-5 h-0.5 bg-white ${menuOpen ? "-rotate-45" : "translate-y-1.5"}`}
               />
             </button>
 
+            <div className="lg:hidden w-[70px] h-[70px] sm:w-[140px] sm:h-[50px] relative z-10">
+              <Link href="/">
+                <Logo />
+              </Link>
+            </div>
+
             {/* DESKTOP NAV */}
-            <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
+            <nav className="hidden lg:flex items-center gap-8 text-base lg:text-sm font-montserrat tracking-wider text-sm uppercase">
               <div
                 onMouseEnter={handleMouseEnterMen}
                 onMouseLeave={handleMouseLeaveMen}
               >
-                <button className="hover:text-yellow-400">Men</button>
+                <button className="hover:text-yellow-400 transition duration-300">
+                  Shop
+                </button>
               </div>
 
               <div
                 onMouseEnter={handleMouseEnterHome}
                 onMouseLeave={handleMouseLeaveHome}
               >
-                <button className="hover:text-yellow-400">Home</button>
+                <button className="hover:text-yellow-400">About</button>
               </div>
-
-              <Link href="#" className="hover:text-yellow-400">
-                Beauty
-              </Link>
             </nav>
           </div>
 
           {/* DESKTOP MENU */}
 
           {/* CENTER LOGO */}
-          <div
-            className="
-    flex-1 flex justify-center items-center
-    lg:absolute lg:left-1/2 
-    lg:-translate-x-1/2 lg:-translate-y-1/2
-  "
-          >
-            <Link href="/" className="flex items-center">
+          {/* <div className="hidden lg:block absolute left-1/2 -translate-x-1/2">
+            <Link href="/">
               <div
                 className={`
-        relative transition-all duration-300
+              relative transition-all duration-300 ease-in-out
 
-        w-[120px] h-[40px]        /* mobile */
+              w-[85px] h-[70px]          
+              sm:w-[140px] sm:h-[50px]
 
-        lg:w-[220px] lg:h-[70px]  /* desktop normal */
+              lg:w-[120px] lg:h-[120px]    
 
-        ${scrolled ? "lg:w-[180px] lg:h-[55px]" : ""}
-      `}
+            `}
               >
-                <Logo />
+                { <Logo /> }
               </div>
             </Link>
-          </div>
+          </div> */}
 
+          <div
+            className={`
+    ${montserrat.className}
+    absolute left-1/2 transform -translate-x-1/2 
+    text-[2.6rem] lg:text-[3rem]
+    font-semibold tracking-[0.25em] uppercase z-10
+    transition-all duration-500
+
+    ${
+      pathname === "/" ? (scrolled ? "text-black" : "text-white") : "text-black"
+    }
+  `}
+          >
+            Dhirago
+          </div>
+          
           {/* RIGHT */}
           <div className="flex items-center justify-end gap-3 lg:gap-5 flex-1">
             <button
@@ -174,7 +210,7 @@ const Header = () => {
             </button>
 
             <Link href="/cart" className="relative">
-              <i className="icon-cart text-[18px]"></i>
+              <i className="icon-cart text-[18px] text-white"></i>
               {cartItems.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] px-1.5 py-0.5 rounded-full">
                   {cartItems.length}
@@ -182,15 +218,15 @@ const Header = () => {
               )}
             </Link>
 
-          <div className="relative">
-  {!isLoggedIn ? (
-    <button onClick={() => setLoginOpen(true)}>
-      <i className="icon-avatar text-[18px]"></i>
-    </button>
-  ) : (
-    <LoginDropdown user={user} handleLogout={handleLogout} />
-  )}
-</div>
+            <div className="relative">
+              {!isLoggedIn ? (
+                <button onClick={() => setLoginOpen(true)}>
+                  <i className="icon-avatar text-[18px] text-white"></i>
+                </button>
+              ) : (
+                <LoginDropdown user={user} handleLogout={handleLogout} />
+              )}
+            </div>
           </div>
         </div>
       </div>

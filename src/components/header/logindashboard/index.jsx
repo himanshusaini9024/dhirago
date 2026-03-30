@@ -7,11 +7,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../../../assets/icons/logo";
 import Link from "next/link";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import { Mail, Lock, Phone } from "lucide-react";
- import { useDispatch } from "react-redux";
-          import { loginSuccess } from "../../../store/authslice";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../../store/authslice";
 export default function LoginDrawer({ open, setOpen }) {
-          const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const pathname = usePathname();
 
@@ -77,13 +78,10 @@ export default function LoginDrawer({ open, setOpen }) {
 
           if (!res.ok) throw new Error(data.message);
 
-         
-
-
           // after success
           localStorage.setItem("token", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
-
+          Cookies.set("token", data.token);
           dispatch(
             loginSuccess({
               user: data.user,
@@ -108,6 +106,12 @@ export default function LoginDrawer({ open, setOpen }) {
         if (!res.ok) throw new Error(data.message);
 
         localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+
+        dispatch(loginSuccess({
+  user: data.user,
+  token: data.token,
+}));
         setOpen(false);
       }
     } catch (err) {

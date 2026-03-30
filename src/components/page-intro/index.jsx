@@ -1,122 +1,59 @@
 "use client";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade, Autoplay } from "swiper/modules";
-import Image from "next/image";
-
 import "swiper/css";
-import "swiper/css/effect-fade";
+
+import { useEffect, useState } from "react";
 
 const PageIntro = () => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   return (
-    <section className="page-intro">
-      <Swiper
-        modules={[EffectFade, Autoplay]}
-        effect="fade"
-        autoplay={{
-          delay: 6000,
-          disableOnInteraction: false,
-        }}
-        loop={true}
-        className="swiper-wrapper"
+    <section className="relative w-full h-screen overflow-hidden text-white">
+
+      {/* VIDEO BACKGROUND */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
       >
-        <SwiperSlide>
-          <div className="page-intro__slide video-slide">
+        <source src="/videos/banner1.mp4" type="video/mp4" />
+      </video>
 
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="banner-video"
-            >
-              <source src="/videos/bannervideo.mp4" type="video/mp4" />
-            </video>
+      {/* DARK OVERLAY */}
+      <div className="absolute inset-0 bg-black/30"></div>
 
-            <div className="container">
-              <div className="page-intro__slide__content">
-                <h2 className="font-poppins text-2xl lg:text-5xl">New Fashion Collection</h2>
+      {/* TOP CENTER LOGO */}
+    
 
-                <a href="#" className="btn-shop">
-                  <i className="icon-right" />
-                  Shop now
-                </a>
-              </div>
-            </div>
+      {/* BOTTOM CONTENT */}
+      <div className="absolute bottom-10 w-full flex justify-center z-10 text-center px-4">
+        <div
+          className={`transition-all duration-1000 ${
+            loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          {/* Small subtitle */}
+          <p className="text-xs tracking-widest uppercase mb-3 opacity-80">
+            Men’s Spring Summer 2026
+          </p>
 
-          </div>
-        </SwiperSlide>
+          {/* Main heading */}
+          <h2 className="text-2xl text-white md:text-4xl lg:text-5xl font-light tracking-wide mb-6">
+            Heritage Revisited
+          </h2>
 
-        <SwiperSlide>
-         <div className="page-intro__slide relative w-full h-[70vh] sm:h-[80vh] lg:h-screen overflow-hidden">
-            <Image
-              src="/images/slide-4.jpeg"
-              alt="Login Banner"
-              fill
-              className="absolute inset-0 object-cover"
-            />
-            <div className="container">
-              <div className="page-intro__slide__content">
-                <h2 className="font-poppins text-2xl lg:text-5xl">Sale of the summer collection</h2>
-                <a href="#" className="btn-shop">
-                  <i className="icon-right" />
-                  Shop now
-                </a>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-
-        <SwiperSlide>
-         <div className="page-intro__slide relative w-full h-[70vh] sm:h-[80vh] lg:h-screen overflow-hidden">
-            <Image
-              src="/images/slide-6.jpg"
-              alt="Login Banner"
-              fill
-              className="absolute inset-0 object-cover"
-            />
-            <div className="container">
-              <div className="page-intro__slide__content">
-                <h2>Make your house into a home</h2>
-                <a href="#" className="btn-shop">
-                  <i className="icon-right" />
-                  Shop now
-                </a>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-      <div className="shop-data">
-        <div className="container">
-          <ul className="shop-data__items">
-            <li>
-              <i className="icon-shipping" />
-              <div className="data-item__content">
-                <h4>Free Shipping</h4>
-                <p>On purchases over $199</p>
-              </div>
-            </li>
-
-            <li>
-              <i className="icon-shipping" />
-              <div className="data-item__content">
-                <h4>99% Satisfied Customers</h4>
-                <p>Our clients' opinions speak for themselves</p>
-              </div>
-            </li>
-
-            <li>
-              <i className="icon-cash" />
-              <div className="data-item__content">
-                <h4>Originality Guaranteed</h4>
-                <p>30 days warranty for each product from our store</p>
-              </div>
-            </li>
-          </ul>
+          {/* Button */}
+          <button className="border border-white px-6 py-2 text-sm tracking-wide hover:bg-white hover:text-black transition duration-300">
+            Discover
+          </button>
         </div>
       </div>
-      </Swiper>
-
 
     </section>
   );

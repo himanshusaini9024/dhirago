@@ -1,14 +1,16 @@
 import Image from "next/image";
+
 const Logo = () => {
   return (
-        <Image
-          src="/images/logo/d15.png"
-          alt="Home Furniture Online"
-          width={170}
-          height={90}
-          priority
-          className="w-[110px] sm:w-[130px] lg:w-[170px] h-auto object-contain"
-        />
+    <div className="relative w-full h-full">
+      <Image
+        src="/images/logo/bird_4-5.png"
+        alt="Home Furniture Online"
+        fill
+        priority
+        className="object-contain"
+      />
+    </div>
   );
 };
 

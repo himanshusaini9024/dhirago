@@ -19,50 +19,83 @@ const ProductItem = ({ images, id, name, slug, currentPrice }) => {
   const baseURL = "https://res.cloudinary.com/ds48lk80f/";
 
   const [index, setIndex] = useState(0);
-
-  // 🔥 AUTO SLIDE ALWAYS
+  const [hovered, setHovered] = useState(false);
+  const extendedImages = [...imageList, imageList[0]];
   useEffect(() => {
-    if (imageList.length <= 1) return;
+    if (!hovered || imageList.length <= 1) return;
 
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % imageList.length);
-    }, 3000); // ⏱️ speed (change if needed)
+      setIndex((prev) => prev + 1);
+    }, 3000); // slower + smoother
 
     return () => clearInterval(interval);
-  }, [imageList.length]);
+  }, [hovered, imageList.length]);
 
-  const currentImage =
-    imageList[index]?.url
-      ? baseURL + imageList[index].url
-      : "/images/placeholder.png";
+  // 🔥 Smooth loop reset
+  useEffect(() => {
+    if (index === imageList.length) {
+      const timeout = setTimeout(() => {
+        setIndex(0);
+      }, 1000); // match transition duration
+      return () => clearTimeout(timeout);
+    }
+  }, [index, imageList.length]);
+  // 🔥 AUTO SLIDE ALWAYS
+  // useEffect(() => {
+  //   if (imageList.length <= 1) return;
+
+  //   const interval = setInterval(() => {
+  //     setIndex((prev) => (prev + 1) % imageList.length);
+  //   }, 3000); // ⏱️ speed (change if needed)
+
+  //   return () => clearInterval(interval);
+  // }, [imageList.length]);
+
+  const currentImage = imageList[index]?.url
+    ? baseURL + imageList[index].url
+    : "/images/placeholder.png";
 
   return (
     <div className="group cursor-pointer">
-
       {/* IMAGE */}
-      <div className="relative w-full h-[260px] md:h-[570px] overflow-hidden bg-[#f5f5f5]">
 
+      <div
+        className="relative w-full h-[300px] md:h-[600px] overflow-hidden bg-[#f5f5f5]"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => {
+          setHovered(false);
+          setIndex(0);
+        }}
+      >
         <Link href={`/product/${slug}`}>
-          <img
-            src={currentImage}
-            alt={name}
-            className="w-full h-full object-cover transition-opacity duration-700 opacity-100"
-          />
-        </Link>
-
-        {/* DOTS */}
-        {imageList.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
-            {imageList.map((_, i) => (
+          <div className="relative w-full h-full overflow-hidden">
+            {/* ✅ ZOOM LAYER */}
+            <div className="w-full h-full transition-transform duration-[1200ms] ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.05]">
+              {/* SLIDER */}
               <div
-                key={i}
-                className={`w-2 h-2 rounded-full transition ${
-                  i === index ? "bg-black scale-110" : "bg-white/60"
+                className={`flex h-full ${
+                  index === imageList.length
+                    ? ""
+                    : "transition-transform duration-[2500ms] ease-[cubic-bezier(0.33,1,0.68,1)]"
                 }`}
-              />
-            ))}
+                style={{
+                  transform: `translateX(-${index * 100}%)`,
+                }}
+              >
+                {extendedImages.map((img, i) => (
+                  <img
+                    key={i}
+                    src={
+                      img?.url ? baseURL + img.url : "/images/placeholder.png"
+                    }
+                    alt={name}
+                    className="w-full h-full object-cover flex-shrink-0"
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        )}
+        </Link>
 
         {/* HEART */}
         <button

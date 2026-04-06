@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
+  
     headers: {
     "Accept": "application/json", // Laravel returns JSON for API
   },
@@ -9,7 +10,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-
+  console.log("TOken",token)
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

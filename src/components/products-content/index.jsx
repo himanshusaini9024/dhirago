@@ -2,10 +2,10 @@
 
 import ProductList from "./list";
 
-const ProductsContent = () => {
+const ProductsContent = ({ products, slug }) => {
   return (
     <section className="products-content">
-      <ProductList />
+      <ProductList initialProducts={products} slug={slug} />
     </section>
   );
 };

@@ -42,12 +42,13 @@ export default function LoginDrawer({ open, setOpen }) {
       if (loginType === "mobile") {
         if (!otpSent) {
           // 👉 SEND OTP
-          const res = await fetch("http://127.0.0.1:8000/api/send-otp", {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-otp`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
             },
+            
             body: JSON.stringify({ mobile }),
           });
 
@@ -66,11 +67,12 @@ export default function LoginDrawer({ open, setOpen }) {
           setOtpSent(true);
         } else {
           // 👉 VERIFY OTP
-          const res = await fetch("http://127.0.0.1:8000/api/verify-otp", {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/verify-otp`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
+
             body: JSON.stringify({ mobile, otp }),
           });
 
@@ -94,11 +96,12 @@ export default function LoginDrawer({ open, setOpen }) {
 
       // ================= EMAIL LOGIN =================
       else {
-        const res = await fetch("http://127.0.0.1:8000/api/login", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          
           body: JSON.stringify({ email, password }),
         });
 

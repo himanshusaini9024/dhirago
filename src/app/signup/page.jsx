@@ -12,14 +12,13 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🔥 Laravel Register API
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/register", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,8 +33,6 @@ export default function SignupPage() {
       }
 
       alert("Account created 🎉");
-
-      // redirect to login page or home
       window.location.href = "/";
 
     } catch (err) {
@@ -46,76 +43,109 @@ export default function SignupPage() {
   };
 
   return (
-    <div className=" flex items-center justify-center bg-[#f4f4f5] px-4">
+    <div className="min-h-screen flex">
 
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border p-6">
+      {/* LEFT IMAGE (Desktop only) */}
+      <div className="hidden lg:flex w-1/2 relative">
+        <img
+          src="/images/portrait.jpg"
+          className="w-full h-full object-cover"
+          alt="signup"
+        />
 
-        {/* LOGO */}
-        <div className="flex justify-center mb-4">
-          <Logo />
+        {/* overlay */}
+        <div className="absolute inset-0 bg-black/40 flex flex-col justify-end p-10 text-white">
+          <h2 className="text-3xl font-semibold mb-2">
+            Join Dhirago
+          </h2>
+          <p className="text-sm opacity-80">
+            Discover premium fashion crafted with simplicity & elegance.
+          </p>
         </div>
+      </div>
 
-        {/* TITLE */}
-        <h2 className="text-center text-2xl font-semibold mb-1">
-          Create Account
-        </h2>
+      {/* RIGHT FORM */}
+      <div className="flex flex-1 items-center justify-center bg-[#f8f8f8] px-4 py-10">
 
-        <p className="text-center text-gray-500 text-sm mb-6">
-          Join us and start shopping
-        </p>
+        <div className="w-full max-w-md bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">
 
-        {/* FORM */}
-        <form onSubmit={handleSignup} className="space-y-4">
+          {/* LOGO */}
+        
 
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"
-            required
-          />
+          {/* TITLE */}
+          <h2 className="text-center text-2xl font-semibold mb-1">
+            Create Account
+          </h2>
 
-          <input
-            type="email"
-            placeholder="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"
-            required
-          />
+          <p className="text-center text-gray-500 text-sm mb-6">
+            Start your journey with us
+          </p>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"
-            required
-          />
+          {/* FORM */}
+          <form onSubmit={handleSignup} className="space-y-4">
 
-          {error && (
-            <p className="text-red-500 text-sm">{error}</p>
-          )}
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none transition"
+              required
+            />
 
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition"
-          >
-            {loading ? "Creating..." : "Sign Up"}
+            <input
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none transition"
+              required
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none transition"
+              required
+            />
+
+            {error && (
+              <p className="text-red-500 text-sm">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 flex items-center justify-center"
+            >
+              {loading ? "Creating..." : "Sign Up"}
+            </button>
+          </form>
+
+          {/* DIVIDER */}
+          <div className="my-6 flex items-center gap-3">
+            <div className="flex-1 h-[1px] bg-gray-200"></div>
+            <span className="text-xs text-gray-400">OR</span>
+            <div className="flex-1 h-[1px] bg-gray-200"></div>
+          </div>
+
+          {/* SOCIAL LOGIN (optional UI) */}
+          <button className="w-full border py-3 rounded-lg hover:bg-gray-50 transition">
+            Continue with Google
           </button>
-        </form>
 
-        {/* FOOTER */}
-        <div className="border-t mt-6 pt-4 text-center text-sm text-gray-500">
-          Already have an account?{" "}
-          <Link href="/">
-            <span className="text-black font-medium cursor-pointer hover:underline">
-              Login
-            </span>
-          </Link>
+          {/* FOOTER */}
+          <div className="text-center text-sm text-gray-500 mt-6">
+            Already have an account?{" "}
+            <Link href="/">
+              <span className="text-black font-medium hover:underline cursor-pointer">
+                Login
+              </span>
+            </Link>
+          </div>
+
         </div>
-
       </div>
     </div>
   );

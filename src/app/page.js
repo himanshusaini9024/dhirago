@@ -43,16 +43,21 @@ export default function Home() {
      <section className="h-[50vh] bg-white flex items-center justify-center border-t">
   <div className="max-w-2xl px-6 transition-all duration-700 hover:scale-[1.02] flex flex-col items-center text-center">
     {/* Logo Image */}
-    <div className="mb-4">
-      <img
-        src="/images/logo/bird_4-3.png"
-        alt="Logo"
-        className="w-32 md:w-40" // adjust sizes as needed
-        style={{ width: '13rem' }}
-      />
-      
-     <h2 className="lg:text-xl md:text-2xl mb-4">DHIRAGO</h2>
-    </div>
+   <div className="h-[8rem] md:h-[13rem] mb-2 ">
+  <img
+    src="/images/logo/fram.png"
+    alt="Logo"
+    className="w-[5rem] md:w-[8rem]"
+  />
+</div>
+
+ {/* <div className="h-[12rem] md:h-[15rem]">
+  <img
+    src="/images/logo/3.svg"
+    alt="Logo"
+    className="w-[13rem] md:w-[17rem]"
+  />
+</div> */}
 
     {/* Heading */}
     <h3 className="lg:text-4xl md:text-2xl mb-4 ">
@@ -60,13 +65,13 @@ export default function Home() {
     </h3>
 
     {/* Description paragraph */}
-     <p className="text-gray-500 text-sm md:text-base leading-relaxed md:leading-loose max-w-lg mb-8">
+     <p className="text-gray-500 text-sm md:text-base leading-relaxed md:leading-loose max-w-xm mb-8">
       We craft premium menswear designed to last. Explore our collections and 
       <a 
         href="/signup" 
         className="text-black font-medium underline underline-offset-4 hover:opacity-70 transition ml-1"
       >
-        join Club Andamen
+        join Club Dhirago
       </a>{" "}
       for exclusive benefits.
     </p>

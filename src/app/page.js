@@ -43,21 +43,21 @@ export default function Home() {
      <section className="h-[50vh] bg-white flex items-center justify-center border-t">
   <div className="max-w-2xl px-6 transition-all duration-700 hover:scale-[1.02] flex flex-col items-center text-center">
     {/* Logo Image */}
-   <div className="h-[8rem] md:h-[13rem] mb-2 ">
+    {/* <div className="h-[8rem] md:h-[15rem]">
   <img
-    src="/images/logo/fram.png"
+    src="/images/logo/5.gif"
     alt="Logo"
-    className="w-[5rem] md:w-[8rem]"
+    className="w-[7rem] md:w-[14rem]"
   />
-</div>
+</div> */}
 
- {/* <div className="h-[12rem] md:h-[15rem]">
+ <div className="h-[12rem] md:h-[15rem]">
   <img
     src="/images/logo/3.svg"
     alt="Logo"
     className="w-[13rem] md:w-[17rem]"
   />
-</div> */}
+</div>
 
     {/* Heading */}
     <h3 className="lg:text-4xl md:text-2xl mb-4 ">

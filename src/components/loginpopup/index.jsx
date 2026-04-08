@@ -1,106 +1,176 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
+import { loginSuccess } from "../../store/authslice";
+ // adjust path
 
 export default function LoginPopup({ isOpen, onClose }) {
   const [mobile, setMobile] = useState("");
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState("mobile");
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   if (!isOpen) return null;
 
+  // ✅ SEND OTP
+  const handleSendOtp = async () => {
+    if (mobile.length !== 10) return;
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/send-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mobile }),
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to send OTP");
+
+      setStep("otp");
+    } catch (err) {
+      alert("Error sending OTP");
+      console.error(err);
+    }
+
+    setLoading(false);
+  };
+
+  // ✅ VERIFY OTP
+  const handleVerifyOtp = async () => {
+    if (otp.length !== 6) return;
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/verify-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mobile, otp }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Invalid OTP");
+
+      // ✅ Save login
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      Cookies.set("token", data.token);
+
+      dispatch(
+        loginSuccess({
+          user: data.user,
+          token: data.token,
+        })
+      );
+
+      // ✅ Close popup
+      onClose();
+
+    } catch (err) {
+      alert(err.message);
+      console.error(err);
+    }
+
+    setLoading(false);
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      
-      {/* MAIN MODAL */}
-      <div className="relative w-[950px] max-w-[95%] h-[520px] bg-white rounded-2xl overflow-hidden flex shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="relative w-[500px] max-w-[95%] bg-white rounded-xl shadow-xl p-6">
         
-        {/* ❌ CLOSE BUTTON */}
+        {/* CLOSE */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-black text-xl z-10"
+          className="absolute top-3 right-3 text-gray-400 text-xl"
         >
           ✕
         </button>
 
-        {/* 🖼️ LEFT IMAGE SECTION */}
-        <div className="w-1/2 hidden md:block relative">
-          <Image
-            src="/images/portrait.jpg"
-            alt="Login Banner"
-            fill
-            className="object-cover"
-          />
+        <h2 className="text-center text-lg font-semibold text-yellow-600 tracking-widest">
+          LOG IN / SIGN UP
+        </h2>
 
-          {/* Overlay content */}
-          <div className="absolute bottom-6 left-6 text-white">
-            <h3 className="text-2xl font-semibold tracking-wide">
-              Timeless Living
-            </h3>
-            <p className="text-sm opacity-90">
-              Crafted for modern homes
+        <p className="text-center text-sm text-gray-500 mt-1 mb-4">
+          Join Now for Seamless Shopping Experience
+        </p>
+
+        <ul className="text-sm text-gray-600 mb-6 space-y-1">
+          <li>✔ Easy order tracking</li>
+          <li>✔ Manage return within 15-days</li>
+          <li>✔ Exclusive deals</li>
+        </ul>
+
+        {/* MOBILE STEP */}
+        {step === "mobile" && (
+          <>
+            <label className="text-xs text-gray-500">MOBILE NUMBER*</label>
+
+            <div className="flex items-center border p-3 rounded mt-1 mb-4">
+              <span className="mr-2">+91</span>
+              <input
+                type="tel"
+                value={mobile}
+                maxLength={10}
+                onChange={(e) => setMobile(e.target.value)}
+                className="w-full outline-none"
+              />
+            </div>
+
+            <button
+              onClick={handleSendOtp}
+              disabled={mobile.length !== 10 || loading}
+              className={`w-full py-3 text-white ${
+                mobile.length === 10 ? "bg-black" : "bg-gray-300"
+              }`}
+            >
+              {loading ? "Sending..." : "GET OTP"}
+            </button>
+          </>
+        )}
+
+        {/* OTP STEP */}
+        {step === "otp" && (
+          <>
+            <label className="text-xs text-gray-500">ENTER OTP</label>
+
+            <input
+              type="text"
+              value={otp}
+              maxLength={6}
+              onChange={(e) => setOtp(e.target.value)}
+              className="w-full border p-3 rounded mt-1 mb-4"
+            />
+
+            <button
+              onClick={handleVerifyOtp}
+              disabled={otp.length !== 6 || loading}
+              className={`w-full py-3 text-white ${
+                otp.length === 6 ? "bg-black" : "bg-gray-300"
+              }`}
+            >
+              {loading ? "Verifying..." : "VERIFY OTP"}
+            </button>
+
+            <p
+              onClick={() => setStep("mobile")}
+              className="text-xs text-blue-500 mt-3 cursor-pointer"
+            >
+              Change Number
             </p>
-          </div>
-        </div>
-
-        {/* 🔐 RIGHT FORM SECTION */}
-        <div className="w-full md:w-1/2 px-10 py-8 flex flex-col justify-center">
-          
-          {/* 🏷️ BRAND */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold tracking-[3px]">
-              DHIRAGO
-            </h1>
-            <p className="text-xs text-gray-400 tracking-widest">
-              PREMIUM Craft
-            </p>
-          </div>
-
-          {/* 🔐 TITLE */}
-          <h2 className="text-xl font-semibold mb-4">
-            Login or Signup
-          </h2>
-
-          {/* 📱 INPUT */}
-          <input
-            type="tel"
-            placeholder="Enter Mobile Number"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-            className="w-full border border-gray-300 p-3 rounded-lg mb-4 outline-none focus:border-black transition"
-          />
-
-          {/* 📄 TERMS */}
-          <p className="text-xs text-gray-500 mb-5 leading-relaxed">
-            By continuing, you agree to our{" "}
-            <span className="text-black underline cursor-pointer">
-              Terms of Use
-            </span>{" "}
-            &{" "}
-            <span className="text-black underline cursor-pointer">
-              Privacy Policy
-            </span>
-          </p>
-
-          {/* 🔘 BUTTON */}
-          <button
-            className={`w-full py-3 rounded-lg text-white tracking-wide transition ${
-              mobile.length === 10
-                ? "bg-black hover:bg-gray-900"
-                : "bg-gray-300 cursor-not-allowed"
-            }`}
-            disabled={mobile.length !== 10}
-            onClick={() => {
-              localStorage.setItem("isLoggedIn", "true");
-              onClose();
-            }}
-          >
-            CONTINUE
-          </button>
-
-          {/* 🔽 EXTRA */}
-          <p className="text-xs text-gray-400 mt-4 text-center">
-            Get exclusive offers & early access
-          </p>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

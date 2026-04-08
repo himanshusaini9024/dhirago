@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 import Header from "../components/header";
 import ReduxProvider from "../store/provider";
-
+import Script from "next/script";
 import PopupProvider from "../components/loginpopup/PopupProvider";
 import LayoutWrapper from "../components/LayoutWrapper";
 import AuthLoader from "../components/AuthLoader";
@@ -50,6 +50,10 @@ export default function RootLayout({ children }) {
      <body
         className={`${playfair.className} font-sans`}
       >
+            <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="beforeInteractive"
+        />
         <div className="app-main">
           <ReduxProvider>
               <AuthLoader />

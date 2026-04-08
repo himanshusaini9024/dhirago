@@ -4,14 +4,31 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import CheckoutStatus from "../checkout-status";
 import Item from "./item";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import LoginPopup from "../../components/loginpopup/index";
 
 export default function ShoppingCart() {
+  const router = useRouter();
+  const [showLogin, setShowLogin] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.count,
     0,
   );
+
+
+
+ const handleCheckout = () => {
+  if (user || localStorage.getItem("isLoggedIn")) {
+    router.push("/checkout");
+  } else {
+    setShowLogin(true);
+  }
+};
 
   return (
     <section className="px-4 md:px-10 lg:px-20 py-10 pb-24">
@@ -72,12 +89,19 @@ export default function ShoppingCart() {
             <span>₹{total.toFixed(2)}</span>
           </div>
 
-          <Link
+          {/* <Link
             href="/checkout"
             className="block mt-6 text-center bg-black text-white py-3 text-xs tracking-widest"
           >
             CHECKOUT • ₹{total.toFixed(2)}
-          </Link>
+          </Link> */}
+
+          <button
+            onClick={handleCheckout}
+            className="block mt-6 w-full text-center bg-black text-white py-3 text-xs tracking-widest"
+          >
+            CHECKOUT • ₹{total.toFixed(2)}
+          </button>
 
           <div className="mt-6 text-center">
             {/* ICON */}
@@ -117,6 +141,10 @@ export default function ShoppingCart() {
           </Link>
         </div>
       )} */}
+
+      {showLogin && (
+        <LoginPopup isOpen={showLogin} onClose={() => setShowLogin(false)} />
+      )}
     </section>
   );
 }

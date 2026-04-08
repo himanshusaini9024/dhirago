@@ -47,3 +47,31 @@ body {
 .animate-slideUp {
   animation: slideUp 0.3s ease;
 }
+
+
+.premium-input {
+  @apply w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition;
+}
+
+.label {
+  @apply text-xs font-semibold text-gray-700 tracking-wide;
+}
+
+.myntra-input {
+  @apply w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-black focus:ring-0;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease;
+}

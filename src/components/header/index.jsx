@@ -43,6 +43,9 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("user_email");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("popupCount");
     Cookies.remove("token");
     dispatch(logout());
     router.replace("/");

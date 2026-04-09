@@ -79,7 +79,7 @@ export default function LoginDrawer({ open, setOpen }) {
           const data = await res.json();
 
           if (!res.ok) throw new Error(data.message);
-
+  localStorage.setItem("isLoggedIn", "true");
           // after success
           localStorage.setItem("token", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));

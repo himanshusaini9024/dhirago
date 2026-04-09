@@ -71,6 +71,7 @@ export default function MyProfilePage() {
       try {
       const res = await api.get("/user");
 
+    localStorage.setItem("user_email", res.data.email); // ✅ save instantly
    
 
         setProfile({

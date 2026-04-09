@@ -52,7 +52,7 @@ export default function ShoppingCart() {
           {/* ITEMS */}
           <div className="mt-4">
             {cartItems.length === 0 ? (
-              <p className="text-gray-500">Your cart is empty</p>
+              <p className="text-gray-500 text-center text-[2rem]">Your cart is empty</p>
             ) : (
               cartItems.map((item) => (
                 <Item key={`${item.id}-${item.color}-${item.size}`} {...item} />
@@ -95,13 +95,16 @@ export default function ShoppingCart() {
           >
             CHECKOUT • ₹{total.toFixed(2)}
           </Link> */}
-
-          <button
+{cartItems && cartItems.length > 0 && (
+   <button
             onClick={handleCheckout}
             className="block mt-6 w-full text-center bg-black text-white py-3 text-xs tracking-widest"
           >
             CHECKOUT • ₹{total.toFixed(2)}
           </button>
+)}
+
+         
 
           <div className="mt-6 text-center">
             {/* ICON */}

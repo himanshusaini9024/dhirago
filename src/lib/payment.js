@@ -6,13 +6,13 @@ export const handleOnlinePayment = async ({
   selectedAddress,
   cartItems,
   createOrder,
+  email,
 }) => {
   if (!selectedAddress) return alert("Select address");
-
+ if (!email) return alert("Enter email");
   const { data } = await API.post("/razorpay/create-order", {
     amount: priceTotal,
   });
-   console.log("ORDER DATA:", data); 
 
   const options = {
     key: "rzp_test_Saui0g7QNWR2e4",
@@ -33,11 +33,12 @@ export const handleOnlinePayment = async ({
 
     prefill: {
       name: selectedAddress.name,
+      email:email,
       contact: selectedAddress.phone,
     },
 
     theme: {
-      color: "#000",
+      color: "#6a99f0",
     },
   };
 

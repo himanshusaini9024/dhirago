@@ -8,7 +8,7 @@ import CheckoutItems from "../../components/checkout/items";
 import CheckoutStatus from "../../components/checkout-status";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../../store/reducers/cart";
-
+import { useRouter } from "next/navigation";
 const FloatInput = ({ label, value, onChange, error }) => {
   return (
     <div>
@@ -31,10 +31,31 @@ const FloatInput = ({ label, value, onChange, error }) => {
   );
 };
 
-
-
 const CheckoutPage = () => {
   const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("user_email");
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+  }, []);
+
+  const validateEmail = () => {
+    if (!email) {
+      setEmailError("Email is required");
+      return false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Enter valid email");
+      return false;
+    }
+
+    setEmailError("");
+    return true;
+  };
+  const router = useRouter();
   const priceTotal = useSelector((state) => {
     const { cartItems } = state.cart;
     let totalPrice = 0;
@@ -48,43 +69,44 @@ const CheckoutPage = () => {
 
   const cartItems = useSelector((state) => state.cart.cartItems);
 
+  const createOrder = async (payment_status, payment_id) => {
+      if (!validateEmail()) return; 
+    const orderData = {
+      sub_total: priceTotal,
+      total_amount: priceTotal,
+      quantity: cartItems.reduce((a, c) => a + c.count, 0),
 
-const createOrder = async (payment_status, payment_id) => {
-  const orderData = {
-    sub_total: priceTotal,
-    total_amount: priceTotal,
-    quantity: cartItems.reduce((a, c) => a + c.count, 0),
+      payment_method: payment_status === "paid" ? "online" : "cod",
+      payment_status: payment_status,
+      payment_id,
+      name: selectedAddress.name,
+      email: email,
+      phone: selectedAddress.phone,
+      address1: selectedAddress.address1,
+      address2: selectedAddress.address2,
+      state: selectedAddress.state,
+      pincode: selectedAddress.pincode,
 
-    payment_method: payment_status === "paid" ? "online" : "cod",
-    payment_status : payment_status,
-    payment_id,
-
-    name: selectedAddress.name,
-    phone: selectedAddress.phone,
-    address1: selectedAddress.address1,
-    address2: selectedAddress.address2,
-    state: selectedAddress.state,
-    pincode: selectedAddress.pincode,
-
-    items: cartItems,
-  };
+      items: cartItems,
+    };
 
     try {
-    const res = await API.post("/orders", orderData);
+      const res = await API.post("/orders", orderData);
 
+      // 👉 clear cart (important)
+      localStorage.removeItem("cartItems");
 
-    // 👉 clear cart (important)
-      dispatch(clearCart());
-    localStorage.removeItem("cartItems");
-
-    // 👉 redirect
-    window.location.href = "/success";
-  } catch (err) {
-    console.log(err.response?.data);
-  }
-
-  
-};
+      // 👉 redirect
+      // window.location.replace = "/success";
+      router.replace("/success");
+      setTimeout(() => {
+        dispatch(clearCart());
+        localStorage.removeItem("cartItems");
+      }, 1000);
+    } catch (err) {
+      console.log(err.response?.data);
+    }
+  };
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
 
@@ -113,7 +135,9 @@ const createOrder = async (payment_status, payment_id) => {
   };
 
   useEffect(() => {
-    fetchAddresses();
+    if (cartItems && cartItems.length > 0) {
+      fetchAddresses();
+    }
   }, []);
 
   const validateForm = () => {
@@ -173,7 +197,18 @@ const createOrder = async (payment_status, payment_id) => {
       setLoading(false);
     }
   };
+  const [paymentMethod, setPaymentMethod] = useState("online");
+  // default = online
+  useEffect(() => {
+    const lastPayment = localStorage.getItem("paymentMethod");
 
+    if (lastPayment) {
+      setPaymentMethod(lastPayment);
+    } else {
+      setPaymentMethod("online"); // default
+    }
+  }, []);
+  const [processing, setProcessing] = useState(false);
   return (
     <>
       <section className="cart">
@@ -237,55 +272,92 @@ const createOrder = async (payment_status, payment_id) => {
                   )}
                 </div>
               </div>
+
+              <div className="block mt-6">
+                <h3 className="block__title">Contact Information</h3>
+
+                <div className="mt-3">
+                  <FloatInput
+                    label="Email Address"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      localStorage.setItem("user_email", e.target.value); // ✅ save instantly
+                    }}
+                    error={emailError}
+                  />
+                </div>
+              </div>
+
+              <div className="block mt-6">
+                <h3 className="block__title">Payment Method</h3>
+
+                <div className="flex gap-4 mt-3">
+                  {/* ONLINE */}
+                  <button
+                    onClick={() => setPaymentMethod("online")}
+                    className={`flex-1 border rounded-xl p-4 transition ${
+                      paymentMethod === "online"
+                        ? "border-black bg-gray-100"
+                        : "hover:border-gray-400"
+                    }`}
+                  >
+                    <p className="font-semibold text-sm mb-2">Online Payment</p>
+
+                    {/* Logos */}
+                    <div className="flex items-center gap-2">
+                      <ul className="round-options round-options--three">
+                        <li className="round-item">
+                          <img src="/images/logos/razorpay.png" alt="Paypal" />
+                        </li>
+                        <li className="round-item">
+                          <img src="/images/logos/visa.png" alt="Visa" />
+                        </li>
+                        <li className="round-item">
+                          <img
+                            src="/images/logos/mastercard.png"
+                            alt="Mastercard"
+                          />
+                        </li>
+                        <li className="round-item">
+                          <img src="/images/logos/maestro.png" alt="Maestro" />
+                        </li>
+                        <li className="round-item">
+                          <img
+                            src="/images/logos/discover.png"
+                            alt="Discover"
+                          />
+                        </li>
+                        <li className="round-item">
+                          <img src="/images/logos/ideal-logo.svg" alt="Ideal" />
+                        </li>
+                      </ul>
+                    </div>
+
+                    <p className="text-xs text-gray-500 mt-2">
+                      UPI, Cards, Wallets
+                    </p>
+                  </button>
+
+                  {/* COD */}
+                  <button
+                    onClick={() => setPaymentMethod("cod")}
+                    className={`flex-1 border rounded-xl p-4 transition ${
+                      paymentMethod === "cod"
+                        ? "border-black bg-gray-100"
+                        : "hover:border-gray-400"
+                    }`}
+                  >
+                    <img src="/images/logos/cod.avif" alt="Ideal" />
+
+                    <p className="font-semibold text-sm">Cash on Delivery</p>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Pay when product arrives
+                    </p>
+                  </button>
+                </div>
+              </div>
             </div>
-
-            {/* <div className="checkout__col-4">
-              <div className="block">
-                <h3 className="block__title">Payment method</h3>
-                <ul className="round-options round-options--three">
-                  <li className="round-item">
-                    <img src="/images/logos/paypal.png" alt="Paypal" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/visa.png" alt="Visa" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/mastercard.png" alt="Mastercard" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/maestro.png" alt="Maestro" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/discover.png" alt="Discover" />
-                  </li>
-                  <li className="round-item">
-                    <img src="/images/logos/ideal-logo.svg" alt="Ideal" />
-                  </li>
-                </ul>
-              </div>
-
-              <div className="block">
-                <h3 className="block__title">Delivery method</h3>
-                <ul className="round-options round-options--two">
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/inpost.svg" alt="Inpost" />
-                    <p>$20.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/dpd.svg" alt="DPD" />
-                    <p>$12.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/dhl.svg" alt="DHL" />
-                    <p>$15.00</p>
-                  </li>
-                  <li className="round-item round-item--bg">
-                    <img src="/images/logos/maestro.png" alt="Maestro" />
-                    <p>$10.00</p>
-                  </li>
-                </ul>
-              </div>
-            </div> */}
 
             <div className="checkout__col-6">
               <div className="block">
@@ -313,30 +385,45 @@ const createOrder = async (payment_status, payment_id) => {
                   Continue shopping
                 </Link>
               </button>
-              <button
-                onClick={() =>
-                  handleOnlinePayment({
-                    priceTotal,
-                    selectedAddress,
-                    cartItems,
-                    createOrder,
-                  })
-                }
-                type="button"
-                className="btn btn--rounded btn--yellow"
-              >
-                Proceed to payment
-              </button>
+              {paymentMethod === "online" ? (
+                <button
+                  disabled={processing || !selectedAddress}
+                  onClick={async () => {
+                    setProcessing(true);
 
-              <button className="btn btn--rounded btn--black"
-                onClick={() =>
-                  handleCOD({
-                    createOrder,
-                  })
-                }
-              >
-                Cash on Delivery
-              </button>
+                    await handleOnlinePayment({
+                      priceTotal,
+                      selectedAddress,
+                      cartItems,
+                      createOrder,
+                      email,
+                    });
+
+                    setProcessing(false);
+                  }}
+                  className={`btn btn--rounded btn--yellow ${
+                    processing ? "opacity-70" : ""
+                  }`}
+                >
+                  {processing ? "Processing Payment..." : "Proceed to Payment"}
+                </button>
+              ) : (
+                <button
+                  disabled={processing || !selectedAddress}
+                  onClick={async () => {
+                    setProcessing(true);
+
+                    await handleCOD({
+                      createOrder,
+                    });
+
+                    setProcessing(false);
+                  }}
+                  className="btn btn--rounded btn--yellow"
+                >
+                  {processing ? "Placing Order..." : "Place Order (COD)"}
+                </button>
+              )}
             </div>
           </div>
         </div>

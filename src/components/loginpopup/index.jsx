@@ -64,6 +64,7 @@ export default function LoginPopup({ isOpen, onClose }) {
 
       // ✅ Save login
       localStorage.setItem("token", data.token);
+      localStorage.setItem("isLoggedIn", true);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       Cookies.set("token", data.token);

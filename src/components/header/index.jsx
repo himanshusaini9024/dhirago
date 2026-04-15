@@ -6,7 +6,8 @@ import Logo from "../../assets/icons/logo";
 import Cookies from "js-cookie";
 import SearchModal from "../../components/searchmodal";
 import { useRouter } from "next/navigation";
-
+import * as Dialog from "@radix-ui/react-dialog";
+import { motion, AnimatePresence } from "framer-motion";
 import LoginDrawer from "./logindashboard";
 import { usePathname } from "next/navigation";
 import LoginDropdown from "./logindroopdown";
@@ -469,109 +470,7 @@ const Header = () => {
         )}
 
         {/* MOBILE MENU */}
-        {menuOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 flex">
-            {/* Overlay */}
-            <div
-              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-              onClick={() => setMenuOpen(false)}
-            />
-            {/* Slide drawer */}
-            <div
-              className={`
-              relative bg-white text-black
-              w-[320px] max-w-full h-full flex flex-col
-              shadow-xl overflow-hidden
-              transform transition-transform duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)]
-              ${menuOpen ? "translate-x-0" : "-translate-x-full"}
-            `}
-            >
-              {/* Top banner */}
-              <div className="relative">
-                <img
-                  src="/images/login/loginbanner.jpeg"
-                  alt="menu banner"
-                  className="w-full h-40 object-cover"
-                />
-                {/* Close Button */}
-                <button
-                  onClick={() => setMenuOpen(false)}
-                  className="absolute top-3 right-3 bg-white rounded-full p-1 shadow"
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Menu content */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                <MobileAccordion title="Topwear" defaultOpen={true}>
-                  <Link href="#" className="block py-2 pl-4 text-sm">
-                    T-Shirts
-                  </Link>
-                  <Link href="#" className="block py-2 pl-4 text-sm">
-                    Shirts
-                  </Link>
-                  <Link href="#" className="block py-2 pl-4 text-sm">
-                    Polos
-                  </Link>
-                </MobileAccordion>
-
-                <MobileAccordion title="Bottomwear" defaultOpen={true}>
-                  <Link href="#" className="block py-2 pl-4 text-sm">
-                    Joggers
-                  </Link>
-                  <Link href="#" className="block py-2 pl-4 text-sm">
-                    Jeans
-                  </Link>
-                  <Link href="#" className="block py-2 pl-4 text-sm">
-                    Shorts
-                  </Link>
-                </MobileAccordion>
-
-                <MobileAccordion title="More" defaultOpen={true}>
-                  <Link href="#" className="block py-2 pl-4 text-sm">
-                    Contact
-                  </Link>
-                  <Link href="#" className="block py-2 pl-4 text-sm">
-                    FAQ
-                  </Link>
-                </MobileAccordion>
-
-                <Link href="/cart" className="block py-3 font-medium border-t">
-                  Cart ({cartItems.length})
-                </Link>
-
-                <div className="relative group">
-                  {!isLoggedIn ? (
-                    <button onClick={() => setLoginOpen(true)}>
-                      <i className="icon-avatar text-[18px]"></i>
-                    </button>
-                  ) : (
-                    <div className="relative group">
-                      <button className="icon-avatar text-[18px]"></button>
-
-                      <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition">
-                        <Link
-                          href="/account"
-                          className="block px-4 py-2 hover:bg-gray-100"
-                        >
-                          Dashboard
-                        </Link>
-
-                        <button
-                          onClick={handleLogout}
-                          className="w-full text-left px-4 py-2 hover:bg-gray-100"
-                        >
-                          Logout
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+      
 
         {/* Bootom  dorwer */}
         {/* <div className="lg:hidden fixed bottom-0 w-full bg-white border-t flex justify-around items-center h-[60px] z-50">
@@ -610,6 +509,126 @@ const Header = () => {
         <LoginDrawer open={loginOpen} setOpen={setLoginOpen} />
         {/* <SearchModal open={searchOpen} setOpen={setSearchOpen} /> */}
       </header>
+       <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
+  <AnimatePresence>
+    {menuOpen && (
+      <Dialog.Portal forceMount>
+        {/* 🔥 OVERLAY */}
+        <Dialog.Overlay asChild>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-md z-[9998]"
+          />
+        </Dialog.Overlay>
+
+        {/* 🔥 DRAWER */}
+        <Dialog.Content asChild>
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{
+              type: "spring",
+              stiffness: 90,
+              damping: 20,
+            }}
+            className="fixed top-0 left-0 h-full w-[320px] sm:w-[360px] bg-white z-[9999] flex flex-col shadow-2xl"
+          >
+
+            {/* ✅ HEADER */}
+          
+
+            {/* 🔥 TOP BANNER */}
+            <div className="relative">
+                <img
+                  src="/images/login/loginbanner.jpeg"
+                  alt="menu banner"
+                  className="w-full h-40 object-cover"
+                />
+                {/* Close Button */}
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className="absolute top-3 right-3 bg-white rounded-full p-1 shadow"
+                >
+                  ✕
+                </button>
+              </div>
+
+            {/* 🔥 CONTENT (ANIMATED) */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="flex-1 overflow-y-auto p-4 space-y-2"
+            >
+              <MobileAccordion title="Topwear" defaultOpen>
+                <Link href="#" className="block py-2 pl-4 text-sm">
+                  T-Shirts
+                </Link>
+                <Link href="#" className="block py-2 pl-4 text-sm">
+                  Shirts
+                </Link>
+                <Link href="#" className="block py-2 pl-4 text-sm">
+                  Polos
+                </Link>
+              </MobileAccordion>
+
+              <MobileAccordion title="Bottomwear" defaultOpen>
+                <Link href="#" className="block py-2 pl-4 text-sm">
+                  Joggers
+                </Link>
+                <Link href="#" className="block py-2 pl-4 text-sm">
+                  Jeans
+                </Link>
+                <Link href="#" className="block py-2 pl-4 text-sm">
+                  Shorts
+                </Link>
+              </MobileAccordion>
+
+              <MobileAccordion title="More" defaultOpen>
+                <Link href="#" className="block py-2 pl-4 text-sm">
+                  Contact
+                </Link>
+                <Link href="#" className="block py-2 pl-4 text-sm">
+                  FAQ
+                </Link>
+              </MobileAccordion>
+
+              <Link href="/cart" className="block py-3 font-medium border-t">
+                Cart ({cartItems.length})
+              </Link>
+
+              {/* USER */}
+              <div className="pt-2">
+                {!isLoggedIn ? (
+                  <button
+                    onClick={() => setLoginOpen(true)}
+                    className="flex items-center gap-2 text-sm"
+                  >
+                    <i className="icon-avatar text-[18px]" />
+                    Login
+                  </button>
+                ) : (
+                  <div className="space-y-2 text-sm">
+                    <Link href="/account" className="block">
+                      Dashboard
+                    </Link>
+                    <button onClick={handleLogout}>
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    )}
+  </AnimatePresence>
+</Dialog.Root>
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );

@@ -10,6 +10,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { Mail, Lock, Phone } from "lucide-react";
 import { useDispatch } from "react-redux";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { loginSuccess } from "../../../store/authslice";
 export default function LoginDrawer({ open, setOpen }) {
   const dispatch = useDispatch();
@@ -42,15 +43,18 @@ export default function LoginDrawer({ open, setOpen }) {
       if (loginType === "mobile") {
         if (!otpSent) {
           // 👉 SEND OTP
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/send-otp`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/send-otp`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+
+              body: JSON.stringify({ mobile }),
             },
-            
-            body: JSON.stringify({ mobile }),
-          });
+          );
 
           let data;
 
@@ -67,19 +71,22 @@ export default function LoginDrawer({ open, setOpen }) {
           setOtpSent(true);
         } else {
           // 👉 VERIFY OTP
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/verify-otp`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/verify-otp`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
 
-            body: JSON.stringify({ mobile, otp }),
-          });
+              body: JSON.stringify({ mobile, otp }),
+            },
+          );
 
           const data = await res.json();
 
           if (!res.ok) throw new Error(data.message);
-  localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("isLoggedIn", "true");
           // after success
           localStorage.setItem("token", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
@@ -96,25 +103,30 @@ export default function LoginDrawer({ open, setOpen }) {
 
       // ================= EMAIL LOGIN =================
       else {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({ email, password }),
           },
-          
-          body: JSON.stringify({ email, password }),
-        });
+        );
 
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
 
         localStorage.setItem("token", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-        dispatch(loginSuccess({
-  user: data.user,
-  token: data.token,
-}));
+        dispatch(
+          loginSuccess({
+            user: data.user,
+            token: data.token,
+          }),
+        );
         setOpen(false);
       }
     } catch (err) {
@@ -147,6 +159,9 @@ export default function LoginDrawer({ open, setOpen }) {
                 transition={{ type: "spring", stiffness: 80, damping: 18 }}
                 className="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#f4f4f5] z-50 flex flex-col"
               >
+                <VisuallyHidden>
+                  <Dialog.Title>Login</Dialog.Title>
+                </VisuallyHidden>
                 {/* ✅ HEADER (KEEP THIS) */}
                 <div className="flex items-center justify-between px-6 py-5 bg-white border-b">
                   <button

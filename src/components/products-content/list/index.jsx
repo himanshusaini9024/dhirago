@@ -8,15 +8,14 @@ import ProductItem from "../../product-item";
 export default function ProductList({ initialProducts, slug }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const [isInitialized, setIsInitialized] = useState(false);
   const [products] = useState(initialProducts);
+
   const [sort, setSort] = useState("popular");
+  const [openSort, setOpenSort] = useState(false);
 
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const [showDesktopFilters, setShowDesktopFilters] = useState(false);
-
-  const [touchStartY, setTouchStartY] = useState(0);
-  const [touchEndY, setTouchEndY] = useState(0);
+  const [showFilters, setShowFilters] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const [filters, setFilters] = useState({
     size: [],
@@ -24,42 +23,96 @@ export default function ProductList({ initialProducts, slug }) {
     maxPrice: 10000,
   });
 
-  // ✅ Sync URL
+  const [touchStartY, setTouchStartY] = useState(0);
+  const [touchEndY, setTouchEndY] = useState(0);
+
+  // ✅ Detect screen
   useEffect(() => {
-    const size = searchParams.get("size");
-    const color = searchParams.get("color");
-    const sortParam = searchParams.get("sort") || "popular";
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-    setFilters({
-      size: size ? size.split(",") : [],
-      color: color ? color.split(",") : [],
-      maxPrice: 10000,
-    });
+  const [debouncedPrice, setDebouncedPrice] = useState(filters.maxPrice);
 
-    setSort(sortParam);
-  }, [searchParams]);
+useEffect(() => {
+  const t = setTimeout(() => {
+    setDebouncedPrice(filters.maxPrice);
+  }, 300); // smooth delay
+
+  return () => clearTimeout(t);
+}, [filters.maxPrice]);
+
+  // ✅ Sync URL
+ useEffect(() => {
+  const size = searchParams.get("size");
+  const color = searchParams.get("color");
+  const price = searchParams.get("price");
+  const sortParam = searchParams.get("sort") || "popular";
+
+  setFilters({
+    size: size ? size.split(",") : [],
+    color: color ? color.split(",") : [],
+    maxPrice: price ? Number(price) : 10000, // ✅ FIX
+  });
+
+  setSort(sortParam);
+
+  setIsInitialized(true);
+}, [searchParams]);
 
   // ✅ Update URL
-  const updateURL = (newFilters, newSort = sort) => {
-    const params = new URLSearchParams();
+  // const updateURL = (newFilters, newSort = sort) => {
+  //   const params = new URLSearchParams();
 
-    if (newFilters.size.length) params.set("size", newFilters.size.join(","));
-    if (newFilters.color.length)
-      params.set("color", newFilters.color.join(","));
-    if (newSort) params.set("sort", newSort);
+  //   if (newFilters.size.length) params.set("size", newFilters.size.join(","));
+  //   if (newFilters.color.length)
+  //     params.set("color", newFilters.color.join(","));
+  //    if (newSort && newSort !== "popular") params.set("sort", newSort);
+  // const query = params.toString();
+  //   // router.push(`/collections/${slug}?${params.toString()}`, {
+  //   //   scroll: false,
+  //   // });
+  //    router.replace(`/collections/${slug}${query ? `?${query}` : ""}`, {
+  //   scroll: false,
+  // });
+  // };
 
-    router.push(`/collections/${slug}?${params.toString()}`, {
+ useEffect(() => {
+  if (!isInitialized) return;
+
+  const params = new URLSearchParams();
+
+  if (filters.size.length) params.set("size", filters.size.join(","));
+  if (filters.color.length)
+    params.set("color", filters.color.join(","));
+
+  // ✅ USE DEBOUNCED VALUE
+  if (debouncedPrice < 10000)
+    params.set("price", debouncedPrice.toString());
+
+  if (sort && sort !== "popular") params.set("sort", sort);
+
+  const newQuery = params.toString();
+  const currentQuery = searchParams.toString();
+
+  if (newQuery !== currentQuery) {
+    router.replace(`/collections/${slug}${newQuery ? `?${newQuery}` : ""}`, {
       scroll: false,
     });
-  };
+  }
+}, [filters.size, filters.color, debouncedPrice, sort, isInitialized]);
 
-  // Filters data
+  // Data
   const sizes = [
     ...new Set(products.flatMap((p) => (p.size ? p.size.split(",") : []))),
   ];
   const colors = [...new Set(products.map((p) => p.color).filter(Boolean))];
 
-  // Apply filters
+  // Filtering
   const filteredProducts = useMemo(() => {
     return products
       .filter((product) => {
@@ -76,6 +129,8 @@ export default function ProductList({ initialProducts, slug }) {
         return 0;
       });
   }, [products, filters, sort]);
+
+  const activeCount = filters.size.length + filters.color.length;
 
   return (
     <div className="bg-white min-h-screen">
@@ -109,7 +164,11 @@ export default function ProductList({ initialProducts, slug }) {
                     ? filters.size.filter((s) => s !== size)
                     : [...filters.size, size];
 
-                  setFilters({ ...filters, size: updated });
+                  // setFilters({ ...filters, size: updated });
+                  setFilters((prev) => {
+                    const newFilters = { ...prev, size: updated };
+                    return newFilters;
+                  });
                 }}
                 className={`px-4 py-1.5 rounded-full text-sm border transition-all duration-200
                       ${
@@ -125,30 +184,36 @@ export default function ProductList({ initialProducts, slug }) {
         </div>
       </div>
 
-      {/* TOP BAR */}
-      {/* <div className="hidden md:flex sticky top-0 z-40 bg-white border-b justify-center items-center px-4 md:px-8 h-[55px]">
-        <button
-          onClick={() =>
-            window.innerWidth < 768
-              ? setShowMobileFilters(true)
-              : setShowDesktopFilters(true)
-          }
-          className="flex-1 max-w-[10rem] bg-black text-white py-3 text-sm rounded-full hover:opacity-90 transition"
-        >
-          Filters
-          {filters.size.length + filters.color.length > 0 && (
-            <span className="text-[10px] bg-black text-white px-2 py-[2px] rounded-full">
-              {filters.size.length + filters.color.length}
-            </span>
-          )}
-        </button>
+      {/* ACTIVE FILTERS */}
+      {activeCount > 0 && (
+        <div className="flex gap-2 px-4 overflow-x-auto pb-3">
+          {[...filters.size, ...filters.color].map((item) => (
+            <div
+              key={item}
+              className="flex items-center gap-2 px-3 py-1 bg-black text-white text-xs rounded-full"
+            >
+              {item}
+              <button
+                onClick={() => {
+                  setFilters({
+                    ...filters,
+                    size: filters.size.filter((s) => s !== item),
+                    color: filters.color.filter((c) => c !== item),
+                  });
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
-        
-      </div> */}
+      {/* FLOAT BUTTON */}
 
       <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
         <button
-          onClick={() => setShowDesktopFilters(true)}
+          onClick={() => setShowFilters(true)}
           className="flex items-center gap-2 px-6 py-3 rounded-full bg-white shadow-xl border backdrop-blur-md text-sm font-medium active:scale-95 transition"
         >
           {/* ICON */}
@@ -169,225 +234,189 @@ export default function ProductList({ initialProducts, slug }) {
           Filter & Sort
         </button>
       </div>
-
-      {/* ================= MOBILE FILTER ================= */}
+      {/* DRAWER */}
       <AnimatePresence>
-        {(showMobileFilters || showDesktopFilters) && (
+        {showFilters && (
           <>
             {/* BACKDROP */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[6px]"
-              onClick={() => {
-                setShowMobileFilters(false);
-                setShowDesktopFilters(false);
-              }}
+              className={`fixed inset-0 z-40 ${
+                isDesktop ? "bg-black/20" : "bg-black/30 backdrop-blur-sm"
+              }`}
+              onClick={() => setShowFilters(false)}
             />
 
-            {/* DRAWER */}
+            {/* FILTER PANEL */}
             <motion.div
-              initial={showDesktopFilters ? { x: "-100%" } : { y: "100%" }}
-              animate={showDesktopFilters ? { x: 0 } : { y: 0 }}
-              exit={showDesktopFilters ? { x: "-100%" } : { y: "100%" }}
-              transition={{
-                type: "spring",
-                stiffness: 110,
-                damping: 20,
-                mass: 0.8,
+              initial={isDesktop ? { x: "-100%" } : { y: "100%" }}
+              animate={isDesktop ? { x: 0 } : { y: 0 }}
+              exit={isDesktop ? { x: "-100%" } : { y: "100%" }}
+              transition={{ type: "spring", stiffness: 120, damping: 20 }}
+              onTouchStart={(e) => setTouchStartY(e.touches[0].clientY)}
+              onTouchMove={(e) => setTouchEndY(e.touches[0].clientY)}
+              onTouchEnd={() => {
+                if (!isDesktop && touchStartY - touchEndY > 80) {
+                  setShowFilters(false);
+                }
               }}
-              className={`fixed z-50 bg-white/90 backdrop-blur-xl shadow-2xl
-        ${
-          showDesktopFilters
-            ? "top-0 left-0 h-full w-[380px]"
-            : "left-0 right-0 mx-auto w-full max-w-md  bottom-0 w-full rounded-t-3xl max-h-[90vh]"
-        }`}
+              className={`fixed z-50 bg-white/80 backdrop-blur-2xl shadow-2xl
+              ${
+                isDesktop
+                  ? "top-0 left-0 h-full w-[380px] border-r"
+                  : "bottom-0 left-0 right-0 rounded-t-3xl max-h-[90vh]"
+              }`}
             >
-              {/* HANDLE (Mobile) */}
-              {!showDesktopFilters && (
-                <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mt-3 mb-4" />
-              )}
-
               {/* HEADER */}
-              <div className="flex items-center justify-between px-6 pb-4 border-b">
-                <h2 className="text-lg font-medium tracking-wide">Filters</h2>
-
-                <button
-                  onClick={() => {
-                    setShowMobileFilters(false);
-                    setShowDesktopFilters(false);
-                  }}
-                  className="text-sm text-gray-500 hover:text-black transition"
-                >
-                  ✕
-                </button>
-              </div>
-              
-              <div className="relative">
-                <button
-                  onClick={() => setSort(!sort)}
-                  className="w-full flex justify-between items-center px-4 py-3 border rounded-xl bg-white"
-                >
-                  <span>
-                    {sort === "popular"
-                      ? "Sort"
-                      : sort === "low"
-                        ? "Price: Low → High"
-                        : "Price: High → Low"}
-                  </span>
-                  <span>⌄</span>
-                </button>
-
-                {sort && (
-                  <div className="absolute w-full mt-2 bg-white border rounded-xl shadow-lg overflow-hidden z-50">
-                    {[
-                      { label: "Popular", value: "popular" },
-                      { label: "Low → High", value: "low" },
-                      { label: "High → Low", value: "high" },
-                    ].map((item) => (
-                      <div
-                        key={item.value}
-                        onClick={() => {
-                          setSort(item.value);
-                          updateURL(filters, item.value);
-                          setOpenSort(false);
-                        }}
-                        className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
-                      >
-                        {item.label}
-                      </div>
-                    ))}
-                  </div>
-                )}
+              <div className="flex items-center justify-between px-6 py-5 border-b">
+                <h2 className="text-lg font-medium">Filters & Sort</h2>
+                <button onClick={() => setShowFilters(false)}>✕</button>
               </div>
 
               {/* CONTENT */}
-              <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
-                {/* SIZE */}
-                <motion.div
-                  initial="hidden"
-                  animate="show"
-                  variants={{
-                    hidden: {},
-                    show: { transition: { staggerChildren: 0.05 } },
-                  }}
-                >
-                  <p className="text-xs uppercase text-gray-400 mb-3">Size</p>
+              <div className="p-6 space-y-8 overflow-y-auto">
+                {/* SORT */}
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenSort(!openSort)}
+                    className="w-full flex justify-between border p-3 rounded-xl "
+                  >
+                    {sort === "popular"
+                      ? "Sort"
+                      : sort === "low"
+                        ? "Low → High"
+                        : "High → Low"}
+                    <span>⌄</span>
+                  </button>
 
+                  <AnimatePresence>
+                    {openSort && (
+                      <motion.div className="absolute w-full bg-white border rounded-xl mt-2 shadow-lg text-transform: uppercase">
+                        {["popular", "low", "high"].map((s) => (
+                          <div
+                            key={s}
+                            onClick={() => {
+                              setSort(s);
+                              setOpenSort(false);
+                            }}
+                            className="p-3 hover:bg-gray-100 cursor-pointer"
+                          >
+                            {s}
+                          </div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* SIZE */}
+                <div>
+                  <p className="text-xs text-gray-400 mb-3">SIZE</p>
                   <div className="flex flex-wrap gap-3">
                     {sizes.map((size) => {
                       const active = filters.size.includes(size);
-
                       return (
-                        <motion.button
+                        <button
                           key={size}
-                          whileTap={{ scale: 0.92 }}
-                          whileHover={{ scale: 1.05 }}
                           onClick={() => {
                             const updated = active
                               ? filters.size.filter((s) => s !== size)
                               : [...filters.size, size];
 
-                            setFilters({ ...filters, size: updated });
+                            // setFilters({ ...filters, size: updated });
+                            setFilters((prev) => {
+                              const newFilters = { ...prev, size: updated };
+                              return newFilters;
+                            });
                           }}
-                          className={`px-4 py-1.5 rounded-full text-sm border transition-all duration-200
-                      ${
-                        active
-                          ? "bg-black text-white border-black shadow-sm"
-                          : "border-gray-300 hover:border-black"
-                      }`}
+                          className={`px-4 py-1.5 rounded-full border text-sm ${
+                            active
+                              ? "bg-black text-white"
+                              : "hover:border-black"
+                          }`}
                         >
                           {size}
-                        </motion.button>
+                        </button>
                       );
                     })}
                   </div>
-                </motion.div>
+                </div>
 
                 {/* COLOR */}
-                <motion.div>
-                  <p className="text-xs uppercase text-gray-400 mb-3">Color</p>
-
-                  <div className="flex flex-wrap gap-4">
+                <div>
+                  <p className="text-xs text-gray-400 mb-3">COLOR</p>
+                  <div className="flex gap-4 flex-wrap">
                     {colors.map((color) => {
                       const active = filters.color.includes(color);
-
                       return (
-                        <motion.div
+                        <div
                           key={color}
-                          whileTap={{ scale: 0.9 }}
-                          whileHover={{ scale: 1.1 }}
                           onClick={() => {
                             const updated = active
                               ? filters.color.filter((c) => c !== color)
                               : [...filters.color, color];
 
-                            setFilters({ ...filters, color: updated });
+                            setFilters((prev) => ({
+                              ...prev,
+                              color: updated,
+                            }));
                           }}
-                          className="flex items-center gap-2 cursor-pointer"
+                          className="flex flex-col items-center cursor-pointer"
                         >
                           <div
-                            className={`w-7 h-7 rounded-full border transition-all
-                        ${
-                          active
-                            ? "ring-2 ring-black scale-110"
-                            : "hover:scale-110"
-                        }`}
+                            className={`w-8 h-8 rounded-full ${
+                              active ? "ring-2 ring-black" : ""
+                            }`}
                             style={{ backgroundColor: color }}
                           />
-                          <span className="text-sm">{color}</span>
-                        </motion.div>
+                          <span className="text-[10px]">{color}</span>
+                        </div>
                       );
                     })}
                   </div>
-                </motion.div>
+                </div>
 
                 {/* PRICE */}
-                <motion.div>
-                  <p className="text-xs uppercase text-gray-400 mb-3">Price</p>
-
+                <div>
+                  <p className="text-xs text-gray-400 mb-3">PRICE</p>
                   <input
                     type="range"
                     min="0"
                     max="10000"
                     value={filters.maxPrice}
                     onChange={(e) =>
-                      setFilters({
-                        ...filters,
+                      setFilters((prev) => ({
+                        ...prev,
                         maxPrice: Number(e.target.value),
-                      })
+                      }))
                     }
                     className="w-full accent-black bg-black h-[1px]"
                   />
-
-                  <p className="text-xs text-gray-500 mt-2">
-                    Up to ₹{filters.maxPrice}
-                  </p>
-                </motion.div>
+                  <p className="text-xs mt-2">₹{filters.maxPrice}</p>
+                </div>
               </div>
 
-              {/* ACTION BAR */}
-              <div className="p-4 border-t bg-white/80 backdrop-blur flex gap-3">
+              {/* ACTION */}
+              <div className="p-4 border-t flex gap-3">
                 <button
                   onClick={() =>
                     setFilters({ size: [], color: [], maxPrice: 10000 })
                   }
-                  className="flex-1 border py-3 text-sm rounded-full hover:bg-gray-100 transition"
+                  className="flex-1 border py-3 rounded-full"
                 >
                   Reset
                 </button>
 
                 <button
                   onClick={() => {
-                    updateURL(filters);
-                    setShowMobileFilters(false);
-                    setShowDesktopFilters(false);
+                    // updateURL(filters, sort);
+                    setShowFilters(false);
                   }}
-                  className="flex-1 bg-black text-white py-3 text-sm rounded-full hover:opacity-90 transition"
+                  className="flex-1 bg-black text-white py-3 rounded-full"
                 >
-                  View {filteredProducts.length}
+                  Show {filteredProducts.length}
                 </button>
               </div>
             </motion.div>
@@ -395,48 +424,20 @@ export default function ProductList({ initialProducts, slug }) {
         )}
       </AnimatePresence>
 
-      {/* MOBILE FLOATING FILTER BUTTON */}
-      <div className="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
-        <button
-          onClick={() => setShowMobileFilters(true)}
-          className="flex items-center gap-2 px-6 py-3 rounded-full bg-white shadow-xl border backdrop-blur-md text-sm font-medium active:scale-95 transition"
-        >
-          {/* ICON */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3 4h18M6 12h12M10 20h4"
-            />
-          </svg>
-          Filter & Sort
-        </button>
-      </div>
-
       {/* PRODUCTS */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 md:px-8 py-6"
-      >
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 py-6">
         {filteredProducts.map((item) => (
           <ProductItem
             key={item.id}
             id={item.id}
             slug={item.slug}
+            color={item.color}
             name={item.name}
             currentPrice={item.currentPrice}
             images={item.image}
           />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

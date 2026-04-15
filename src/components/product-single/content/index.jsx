@@ -49,7 +49,7 @@ const Content = ({ product }) => {
         variants.push({
           color: color.trim().toLowerCase(),
           size: size.trim().toLowerCase(),
-          price: product.currentPrice,
+          price: product.price,
           image: product.images?.[0] || "",
           stock: product.quantityAvailable,
         });
@@ -93,29 +93,24 @@ const Content = ({ product }) => {
 
   const addToCart = () => {
     if (!itemSize || itemSize === "Select size") {
-      alert("Please select size");
+      setItemSize("Please select Your Size");
       return;
     }
-
     if (!color) {
       alert("Please select color");
       return;
     }
 
-    console.log("ADD:", {
-      color,
-      size: itemSize,
-      count,
-    });
+   
 
     dispatch(
       addProduct({
-        count,
+        count:1,
         product: {
           id: product.id,
           name: product.name,
           thumb: product.images ? product.images[0] : "",
-          price: product.currentPrice,
+          price: product.price,
           color: color.toLowerCase(),
           size: itemSize.toLowerCase(),
         },
@@ -250,6 +245,9 @@ const Content = ({ product }) => {
               </option>
             ))}
           </select>
+          {itemSize && (
+            <p className="text-xs text-red-500 mt-2">{itemSize}</p>
+          )}
         </div>
 
         {/* QUANTITY + ACTION */}

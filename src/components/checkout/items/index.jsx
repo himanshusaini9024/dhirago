@@ -18,7 +18,7 @@ const CheckoutItems = () => {
     <div className="space-y-4">
       {cartItems.map((item) => (
         <div
-          key={item.id}
+          key={`${item.id}-${item.size}-${item.color}`}
           className="flex gap-4 items-center border rounded-xl p-3 md:p-4 bg-white shadow-sm hover:shadow-md transition"
         >
           {/* IMAGE */}
@@ -48,19 +48,19 @@ const CheckoutItems = () => {
 
             {/* QUANTITY */}
             <p className="text-xs text-gray-500 mt-1">
-              Qty: <span className="font-medium">{item.count}</span>
+              Qty: <span className="font-medium">{item.quantity}</span>
             </p>
           </div>
 
           {/* PRICE */}
           <div className="text-right">
             <p className="text-sm md:text-base font-semibold text-black">
-              ₹{item.price * item.count}
+              ₹{item.price * item.quantity}
             </p>
 
-            {item.count > 1 && (
+            {item.quantity > 1 && (
               <p className="text-xs text-gray-400">
-                ₹{item.price} × {item.count}
+                ₹{item.price} × {item.quantity}
               </p>
             )}
           </div>

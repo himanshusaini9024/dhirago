@@ -30,9 +30,7 @@ export default function SuccessPage() {
 
     fetchOrder();
 
-    // setTimeout(() => {
-    //   router.push("/orders");
-    // }, 8000);
+
   }, [router]);
 
 

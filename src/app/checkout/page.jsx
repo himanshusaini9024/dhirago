@@ -35,6 +35,7 @@ const CheckoutPage = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [addressError, setAddressError] = useState("");
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("user_email");
@@ -61,7 +62,7 @@ const CheckoutPage = () => {
     let totalPrice = 0;
 
     if (cartItems.length > 0) {
-      cartItems.map((item) => (totalPrice += item.price * item.count));
+      cartItems.map((item) => (totalPrice += item.price * item.quantity));
     }
 
     return totalPrice;
@@ -70,11 +71,11 @@ const CheckoutPage = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
 
   const createOrder = async (payment_status, payment_id) => {
-      if (!validateEmail()) return; 
+    if (!validateEmail()) return;
     const orderData = {
       sub_total: priceTotal,
       total_amount: priceTotal,
-      quantity: cartItems.reduce((a, c) => a + c.count, 0),
+      quantity: cartItems.reduce((a, c) => a + c.quantity, 0),
 
       payment_method: payment_status === "paid" ? "online" : "cod",
       payment_status: payment_status,
@@ -263,12 +264,24 @@ const CheckoutPage = () => {
                       </div>
                     </div>
                   ) : (
-                    <button
-                      onClick={() => setShowAddModal(true)}
-                      className="mt-4 w-full border border-dashed py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50"
-                    >
-                      + Add Address
-                    </button>
+                    <>
+                      <button
+                        onClick={() => {
+                          setShowAddModal(true);
+
+                          setAddressError("");
+                        }}
+                        className="mt-4 w-full border border-dashed py-3 rounded-xl text-sm text-gray-600 hover:bg-gray-50"
+                      >
+                        + Add Address
+                      </button>
+
+                      {addressError && (
+                        <p className="text-xs text-red-500 mt-2">
+                          {addressError}
+                        </p>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -284,8 +297,12 @@ const CheckoutPage = () => {
                       setEmail(e.target.value);
                       localStorage.setItem("user_email", e.target.value); // ✅ save instantly
                     }}
-                    error={emailError}
                   />
+                  <>
+                    {emailError && (
+                      <p className="text-xs text-red-500 mt-2">{emailError}</p>
+                    )}
+                  </>
                 </div>
               </div>
 
@@ -364,11 +381,28 @@ const CheckoutPage = () => {
                 <h3 className="block__title">Your cart</h3>
                 <CheckoutItems />
 
-                <div className="mt-6 border-t pt-4 flex justify-between items-center">
-                  <p className="text-sm text-gray-600">Total Amount</p>
-                  <h3 className="text-lg font-semibold text-black">
-                    ₹{priceTotal}
-                  </h3>
+                <div className="bg-gray-50 p-6 h-fit sticky top-24">
+                  <h2 className="text-xs tracking-widest mb-6 text-gray-600">
+                    PRICE DETAILS
+                  </h2>
+
+                  <div className="flex justify-between text-sm mb-3">
+                    <span>Product Total</span>
+                    <span>₹{priceTotal}</span>
+                  </div>
+
+                  <div className="flex justify-between text-sm mb-3">
+                    <span>Shipping</span>
+                    <span className="text-green-600">FREE</span>
+                  </div>
+
+                  <div className="border-t pt-4 flex justify-between font-medium">
+                    <p className="text-sm text-gray-600">Total Amount</p>
+
+                    <h3 className="text-lg font-semibold text-black">
+                      ₹{priceTotal}
+                    </h3>
+                  </div>
                 </div>
               </div>
             </div>
@@ -389,6 +423,15 @@ const CheckoutPage = () => {
                 <button
                   disabled={processing || !selectedAddress}
                   onClick={async () => {
+                    if (!selectedAddress) {
+                      setAddressError("Please add/select a delivery address");
+                      return;
+                    }
+                    if (!email) {
+                      setEmailError("Please add a email");
+                      return;
+                    }
+
                     setProcessing(true);
 
                     await handleOnlinePayment({
@@ -411,6 +454,10 @@ const CheckoutPage = () => {
                 <button
                   disabled={processing || !selectedAddress}
                   onClick={async () => {
+                    if (!selectedAddress) {
+                      setAddressError("Please add/select a delivery address");
+                      return;
+                    }
                     setProcessing(true);
 
                     await handleCOD({

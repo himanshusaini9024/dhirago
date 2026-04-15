@@ -13,7 +13,21 @@ import ProductsContent from "../../../components/products-content";
 //   const data = await res.json();
 //   return data.category || [];
 // }
+import { generateSEO } from "../../../utils/seo";
 
+export async function generateMetadata({ params }) {
+  const { slug } = await  params;
+
+  const name = slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
+  return generateSEO({
+    title: `Buy ${name} Online in India | Best Price`,
+    description: `Shop ${name} online at best price in India. Explore latest styles, premium quality & trending designs.`,
+    path: `/collections/${slug}`,
+  });
+}
 
 async function getProducts(slug) {
   try {
@@ -44,17 +58,31 @@ async function getProducts(slug) {
   }
 }
 
+
+
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
 
   const products = await getProducts(slug);
-
+  const name = slug.replace(/-/g, " ");
   return (
     <>
       <Breadcrumb />
       <section className="mt-1 ">
         <ProductsContent products={products} slug={slug} />
       </section>
+       <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: name,
+            url: `https://yourdomain.com/collections/${slug}`,
+            description: `Shop ${name} online in India`,
+          }),
+        }}
+      />
     </>
   );
 }

@@ -11,22 +11,22 @@ export default function Item({
   id,
   color,
   alt,
+  quantity,
   size,
-  count,
   price,
 }) {
   const dispatch = useDispatch();
 
-  const updateQty = (newCount) => {
-    if (newCount <= 0) return;
+  const updateQty = (newQty) => {
+  if (newQty <= 0) return;
 
-    dispatch(
-      setCount({
-        product: { id, color, size },
-        count: newCount,
-      })
-    );
-  };
+  dispatch(
+    setCount({
+      product: { id, color, size },
+      quantity: newQty,
+    })
+  );
+};
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 items-center py-6 border-b gap-4">
@@ -61,16 +61,16 @@ export default function Item({
       <div className="flex justify-center">
         <div className="flex border">
           <button
-            onClick={() => updateQty(count - 1)}
+            onClick={() => updateQty(quantity - 1)}
             className="px-3 py-1"
           >
             −
           </button>
 
-          <span className="px-3 py-1">{count}</span>
+          <span className="px-3 py-1">{quantity}</span>
 
           <button
-            onClick={() => updateQty(count + 1)}
+            onClick={() => updateQty(quantity + 1)}
             className="px-3 py-1"
           >
             +
@@ -80,7 +80,7 @@ export default function Item({
 
       {/* TOTAL */}
       <p className="text-sm text-right">
-        ₹{(price * count).toFixed(2)}
+        ₹{(price * quantity).toFixed(2)}
       </p>
     </div>
   );

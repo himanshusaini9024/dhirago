@@ -5,8 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { some } from "lodash";
 import { toggleFavProduct } from "../../store/reducers/user";
 import { useEffect, useState } from "react";
+import QuickAddModal from "./qucikview";
+import productsSizes from "../../utils/data/products-sizes";
 
-const ProductItem = ({ images, id, name, slug, currentPrice }) => {
+
+const ProductItem = ({ images, id, name, slug,color, currentPrice }) => {
   const dispatch = useDispatch();
   const favProducts = useSelector((state) => state.user?.favProducts || []);
   const isFavourite = some(favProducts, (productId) => productId === id);
@@ -14,7 +17,7 @@ const ProductItem = ({ images, id, name, slug, currentPrice }) => {
   const toggleFav = () => {
     dispatch(toggleFavProduct({ id }));
   };
-
+  const [openModal, setOpenModal] = useState(false);
   const imageList = images || [];
   const baseURL = "https://res.cloudinary.com/ds48lk80f/";
 
@@ -98,22 +101,39 @@ const ProductItem = ({ images, id, name, slug, currentPrice }) => {
         </Link>
 
         {/* HEART */}
-        <button
+        {/* <button
           onClick={toggleFav}
           className={`absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-md ${
             isFavourite ? "text-red-500" : "text-black"
           }`}
         >
           ♥
-        </button>
+        </button> */}
 
         {/* ADD TO CART */}
         <div className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition duration-500">
-          <button className="w-full bg-black text-white text-xs py-3">
+          <button
+            onClick={() => setOpenModal(true)}
+            className="w-full bg-black text-white text-xs py-3"
+          >
             ADD TO CART
           </button>
         </div>
       </div>
+
+      <QuickAddModal
+        product={{
+          id,
+          name,
+          slug,
+          images,
+          color,
+          currentPrice,
+          sizes:productsSizes, // ⚠️ pass real sizes if available
+        }}
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+      />
 
       {/* DETAILS */}
       <div className="mt-4">

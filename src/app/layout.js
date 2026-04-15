@@ -33,22 +33,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
- title: "Dhirago - Premium Menswear",
-  description:
-    "Shop premium menswear including shirts, t-shirts, polos, trousers & more. High quality products with fast delivery.",
-icons: {
-  icon: [
-    { url: "favicon.ico", sizes: "48x48" },
-    { url: "favicon.ico", sizes: "48x48" },
-  ],
-},
+  metadataBase: new URL("http://localhost:3000"),
+  title: {
+    default: "Your Store",
+    template: "%s | Your Store",
+  },
 };
+
+
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
      <body
-        className={`${playfair.className} font-sans`}
+        className={`${montserrat.className} font-sans`}
       >
             <Script
           src="https://checkout.razorpay.com/v1/checkout.js"

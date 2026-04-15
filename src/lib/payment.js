@@ -9,7 +9,6 @@ export const handleOnlinePayment = async ({
   email,
 }) => {
   if (!selectedAddress) return alert("Select address");
- if (!email) return alert("Enter email");
   const { data } = await API.post("/razorpay/create-order", {
     amount: priceTotal,
   });

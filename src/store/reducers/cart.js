@@ -4,65 +4,76 @@ const initialState = {
   cartItems: [],
 };
 
-// find same product (id + color + size)
-const indexSameProduct = (state, action) => {
-  const sameProduct = (product) =>
-    product.id === action.id &&
-    product.color === action.color &&
-    product.size === action.size;
-
-  return state.cartItems.findIndex(sameProduct);
-};
+// ✅ helper to match exact product
+const isSameItem = (a, b) =>
+  a.id === b.id &&
+  a.color === b.color &&
+  a.size === b.size
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+
+    // ✅ ADD PRODUCT
     addProduct: (state, action) => {
       const { product, count } = action.payload;
 
-      const index = state.cartItems.findIndex(
-        (item) =>
-          item.id === product.id &&
-          item.color === product.color &&
-          item.size === product.size,
+      const existItem = state.cartItems.find((item) =>
+        isSameItem(item, product)
       );
 
-      if (index !== -1) {
-        state.cartItems[index].count += count;
+      if (existItem) {
+        // increase quantity
+        existItem.quantity += count;
       } else {
         state.cartItems.push({
           ...product,
-          count,
+          quantity: count,
         });
       }
     },
 
+    // ✅ REMOVE PRODUCT
     removeProduct: (state, action) => {
-      const index = indexSameProduct(state, action.payload);
-      if (index !== -1) {
-        state.cartItems.splice(index, 1);
+      const product = action.payload;
+
+      state.cartItems = state.cartItems.filter(
+        (item) => !isSameItem(item, product)
+      );
+    },
+
+    // ✅ UPDATE QUANTITY
+    setCount: (state, action) => {
+      const { product, quantity } = action.payload;
+
+      const item = state.cartItems.find((i) =>
+        isSameItem(i, product)
+      );
+
+      if (item) {
+        item.quantity = quantity;
       }
     },
 
-     clearCart: (state) => {
+    // ✅ CLEAR CART
+    clearCart: (state) => {
       state.cartItems = [];
     },
 
-    setCount: (state, action) => {
-      const { product, count } = action.payload;
-
-      const index = indexSameProduct(state, product);
-
-      if (index !== -1) {
-        state.cartItems[index].count = count;
-      }
-    },
-      setCart: (state, action) => {
+    // ✅ SET FULL CART (for API/localStorage)
+    setCart: (state, action) => {
       state.cartItems = action.payload;
     },
   },
 });
 
-export const { addProduct, removeProduct, setCount, setCart,clearCart } = cartSlice.actions;
+export const {
+  addProduct,
+  removeProduct,
+  setCount,
+  setCart,
+  clearCart,
+} = cartSlice.actions;
+
 export default cartSlice.reducer;

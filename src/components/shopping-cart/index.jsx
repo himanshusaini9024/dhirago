@@ -16,19 +16,17 @@ export default function ShoppingCart() {
   const { cartItems } = useSelector((state) => state.cart);
 
   const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.count,
+    (sum, item) => sum + item.price * item.quantity,
     0,
   );
 
-
-
- const handleCheckout = () => {
-  if (user || localStorage.getItem("isLoggedIn")) {
-    router.push("/checkout");
-  } else {
-    setShowLogin(true);
-  }
-};
+  const handleCheckout = () => {
+    if (user || localStorage.getItem("isLoggedIn")) {
+      router.push("/checkout");
+    } else {
+      setShowLogin(true);
+    }
+  };
 
   return (
     <section className="px-4 md:px-10 lg:px-20 py-10 pb-24">
@@ -52,7 +50,9 @@ export default function ShoppingCart() {
           {/* ITEMS */}
           <div className="mt-4">
             {cartItems.length === 0 ? (
-              <p className="text-gray-500 text-center text-[2rem]">Your cart is empty</p>
+              <p className="text-gray-500 text-center text-[2rem]">
+                Your cart is empty
+              </p>
             ) : (
               cartItems.map((item) => (
                 <Item key={`${item.id}-${item.color}-${item.size}`} {...item} />
@@ -95,16 +95,14 @@ export default function ShoppingCart() {
           >
             CHECKOUT • ₹{total.toFixed(2)}
           </Link> */}
-{cartItems && cartItems.length > 0 && (
-   <button
-            onClick={handleCheckout}
-            className="block mt-6 w-full text-center bg-black text-white py-3 text-xs tracking-widest"
-          >
-            CHECKOUT • ₹{total.toFixed(2)}
-          </button>
-)}
-
-         
+          {cartItems && cartItems.length > 0 && (
+            <button
+              onClick={handleCheckout}
+              className="block mt-6 w-full text-center bg-black text-white py-3 text-xs tracking-widest"
+            >
+              CHECKOUT • ₹{total.toFixed(2)}
+            </button>
+          )}
 
           <div className="mt-6 text-center">
             {/* ICON */}

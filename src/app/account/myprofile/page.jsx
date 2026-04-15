@@ -111,6 +111,7 @@ export default function MyProfilePage() {
     try {
       console.log("PROFILE DATA SENT:", profile);
       const res = await api.post("/user/update-profile", profile);
+
       console.log("RESPONSE:", res.data);
       alert("✅ Profile updated");
     } catch (e) {

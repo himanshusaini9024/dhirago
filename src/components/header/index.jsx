@@ -565,8 +565,8 @@ const Header = () => {
               className="flex-1 overflow-y-auto p-4 space-y-2"
             >
               <MobileAccordion title="Topwear" defaultOpen>
-                <Link href="#" className="block py-2 pl-4 text-sm">
-                  T-Shirts
+                <Link href="/collections/mens-fashion" className="block py-2 pl-4 text-sm">
+                  Mens fashion
                 </Link>
                 <Link href="#" className="block py-2 pl-4 text-sm">
                   Shirts
@@ -576,7 +576,7 @@ const Header = () => {
                 </Link>
               </MobileAccordion>
 
-              <MobileAccordion title="Bottomwear" defaultOpen>
+              <MobileAccordion title="Bottom wear" defaultOpen>
                 <Link href="#" className="block py-2 pl-4 text-sm">
                   Joggers
                 </Link>

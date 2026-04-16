@@ -12,7 +12,9 @@ async function getProduct(pid) {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/product/${pid}`,
-      { cache: "no-store" },
+      // { cache: "no-store" },
+      { next: { revalidate: 60 } }, 
+      
     );
 
     // ✅ Handle 404 properly
@@ -36,7 +38,9 @@ export async function generateMetadata({ params }) {
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/product/${slug}`,
-    { cache: "no-store" }
+    // { cache: "no-store" }
+    { next: { revalidate: 60 } } 
+    
   );
 
   if (!res.ok) {

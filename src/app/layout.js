@@ -35,7 +35,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   metadataBase: new URL("http://localhost:3000"),
   title: {
-    default: "Your Store",
+    default: "Dhirago - Premium Cloths",
     template: "%s | Your Store",
   },
 };

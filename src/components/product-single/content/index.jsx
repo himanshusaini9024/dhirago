@@ -111,6 +111,7 @@ const Content = ({ product }) => {
           name: product.name,
           thumb: product.images ? product.images[0] : "",
           price: product.price,
+          slug: product.slug,
           color: color.toLowerCase(),
           size: itemSize.toLowerCase(),
         },
@@ -145,7 +146,7 @@ const Content = ({ product }) => {
         {/* COLOR FIXED */}
         <div>
           <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-4">
-            Select Color
+             Color
           </h4>
 
           <div className="flex gap-4 flex-wrap">
@@ -245,9 +246,7 @@ const Content = ({ product }) => {
               </option>
             ))}
           </select>
-          {itemSize && (
-            <p className="text-xs text-red-500 mt-2">{itemSize}</p>
-          )}
+         
         </div>
 
         {/* QUANTITY + ACTION */}

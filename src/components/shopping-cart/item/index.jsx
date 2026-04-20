@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { removeProduct, setCount } from "../../../store/reducers/cart";
 
@@ -9,6 +10,7 @@ export default function Item({
   thumb,
   name,
   id,
+  slug,
   color,
   alt,
   quantity,
@@ -40,7 +42,7 @@ export default function Item({
         />
 
         <div>
-          <p className="text-sm">{name}</p>
+          <p className="text-sm"><Link href={`/product/${slug}`}>{name}</Link></p>
           <p className="text-xs text-gray-500 mt-1">
             {color}, {size}
           </p>

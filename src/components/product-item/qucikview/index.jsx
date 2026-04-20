@@ -44,6 +44,7 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
         product: {
           id: product.id,
           name: product.name,
+          slug: product.slug,
           thumb: product.images?.[0] || "",
           price: product.currentPrice,
           size: size.toLowerCase(),

@@ -12,7 +12,7 @@ const getDeliveryDate = (createdAt) => {
 export default function OrderDetailsUI({ order }) {
   const steps = [
     { key: "new", label: "Order confirmed" },
-    { key: "processing", label: "Processing" },
+    { key: "process", label: "Processing" },
     { key: "shipped", label: "Shipped" },
     { key: "out_for_delivery", label: "Out for delivery" },
     { key: "delivered", label: "Delivered" },
@@ -23,18 +23,20 @@ export default function OrderDetailsUI({ order }) {
   return (
     <div className="bg-[#f5f5f5] p-4 md:p-6 rounded-2xl">
       <div className="grid md:grid-cols-3 gap-6">
-
         {/* LEFT */}
         <div className="md:col-span-2 space-y-6">
-
           {/* Timeline with line */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm font-semibold mb-6">
+            <p className="text-sm font-semibold mb-6 flex items-center justify-between">
               Items Ordered & Delivery Details
+              {(order.status === "new" || order.status === "process") && (
+                <button className="text-xs text-red-500 hover:underline">
+                  Cancel order
+                </button>
+              )}
             </p>
 
             <div className="flex items-center justify-between relative">
-              
               {/* LINE */}
               <div className="absolute top-4 left-0 w-full h-[2px] bg-gray-200 z-0" />
 
@@ -54,9 +56,7 @@ export default function OrderDetailsUI({ order }) {
                     <Circle className="mx-auto text-gray-300 bg-white" />
                   )}
 
-                  <p className="text-xs mt-2 text-gray-600">
-                    {step.label}
-                  </p>
+                  <p className="text-xs mt-2 text-gray-600">{step.label}</p>
                 </div>
               ))}
             </div>
@@ -83,18 +83,14 @@ export default function OrderDetailsUI({ order }) {
                     Size: {item.size} | Qty: {item.quantity}
                   </p>
 
-                  <p className="text-sm font-semibold mt-2">
-                    ₹{item.price}
-                  </p>
+                  <p className="text-sm font-semibold mt-2">₹{item.price}</p>
                 </div>
               </div>
 
               {/* Status + Delivery */}
               <div className="text-right">
                 <p className="text-orange-500 text-xs font-medium">
-                  {order.status === "delivered"
-                    ? "Delivered"
-                    : "In progress"}
+                  {order.status === "delivered" ? "Delivered" : "In progress"}
                 </p>
 
                 <p className="text-xs text-gray-500 mt-1">
@@ -102,11 +98,6 @@ export default function OrderDetailsUI({ order }) {
                 </p>
 
                 {/* Cancel button */}
-                {order.status !== "delivered" && (
-                  <button className="mt-3 text-xs text-red-500 hover:underline">
-                    Cancel order
-                  </button>
-                )}
               </div>
             </div>
           ))}
@@ -114,12 +105,9 @@ export default function OrderDetailsUI({ order }) {
 
         {/* RIGHT */}
         <div className="space-y-6">
-
           {/* Address */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm font-semibold mb-4">
-              Delivery Address
-            </p>
+            <p className="text-sm font-semibold mb-4">Delivery Address</p>
 
             <p className="text-sm">
               {order.first_name} {order.last_name}
@@ -133,16 +121,12 @@ export default function OrderDetailsUI({ order }) {
               {order.country} - {order.post_code}
             </p>
 
-            <p className="text-xs text-gray-500 mt-1">
-              Phone: {order.phone}
-            </p>
+            <p className="text-xs text-gray-500 mt-1">Phone: {order.phone}</p>
           </div>
 
           {/* Payment */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm font-semibold mb-4">
-              Payment Details
-            </p>
+            <p className="text-sm font-semibold mb-4">Payment Details</p>
 
             <div className="space-y-2 text-sm">
               {order.items.map((item) => (

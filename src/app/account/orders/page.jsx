@@ -9,7 +9,7 @@ const IMGURL = "https://res.cloudinary.com/ds48lk80f/";
 const getSteps = (status) => {
   const steps = [
     { key: "new", label: "Order Placed" },
-    { key: "processing", label: "Processing" },
+    { key: "process", label: "Processing" },
     { key: "shipped", label: "Shipped" },
     { key: "out_for_delivery", label: "Out for Delivery" },
     { key: "delivered", label: "Delivered" },
@@ -221,25 +221,30 @@ export default function OrdersPage() {
                 }}
                 className="bg-white md:mb-[8rem]  w-full max-w-5xl rounded-t-3xl p-6"
                 onClick={(e) => e.stopPropagation()}
-              >
+                >
+                  
                 <h2 className="text-lg font-semibold mb-4">
                   Order #{selectedOrder.order_number}
+                   <button
+                  onClick={() => setSelectedOrder(null)}
+                  className="ml-[50rem] w-1/2  md:w-[3rem] py-1 rounded-full text-black"
+                >
+                  X
+                </button>
                 </h2>
+
+                
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.4 }}
                 >
+                  
                   <OrderDetailsUI order={selectedOrder} />
                 </motion.div>
 
-                <button
-                  onClick={() => setSelectedOrder(null)}
-                  className="mt-6 w-full  md:w-[10rem] py-3 rounded-full bg-black text-white"
-                >
-                  Close
-                </button>
+               
               </motion.div>
             </motion.div>
           )}

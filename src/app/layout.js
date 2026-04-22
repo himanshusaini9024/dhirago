@@ -1,4 +1,10 @@
-import { Geist, Geist_Mono,Playfair_Display, Inter,Montserrat } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Playfair_Display,
+  Inter,
+  Montserrat,
+} from "next/font/google";
 import "./globals.css";
 import "../assets/css/styles.scss";
 
@@ -18,14 +24,13 @@ const geistSans = Geist({
 });
 
 const montserrat = Montserrat({
-  subsets: ['latin'],
-  weights: ['400', '500', '600'], // specify the weights you need
+  subsets: ["latin"],
+  weights: ["400", "500", "600"], // specify the weights you need
 });
 
-
 const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -40,31 +45,42 @@ export const metadata = {
   },
 };
 
-
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-     <body
-        className={`${montserrat.className} font-sans`}
-      >
-            <Script
+      <body className={`${montserrat.className} font-sans`}>
+        <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="beforeInteractive"
         />
         <div className="app-main">
           <ReduxProvider>
-              <AuthLoader />
+            <AuthLoader />
             <PopupProvider>
-            
-                <Header />
-
+              <Header />
 
               <LayoutWrapper>
                 <CartSync />
                 {children}
               </LayoutWrapper>
-
+              <Script
+                id="tawk-chat"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                  __html: `
+      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      (function(){
+        var s1=document.createElement("script"),
+        s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/69e607917d06101c37be0508/1jml8r4fe';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+      })();
+    `,
+                }}
+              />
               <Footer />
             </PopupProvider>
           </ReduxProvider>

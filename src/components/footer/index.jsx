@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, MessageCircle } from "lucide-react";
 import Logo from "../../assets/icons/logo";
 import Link from "next/link";
 
@@ -14,12 +14,13 @@ export default function UltraPremiumFooter() {
       </div>
 
       {/* 🔥 MAIN CONTENT */}
-      <div className="relative max-w-7xl mx-auto px-6 py-20 grid gap-16 md:grid-cols-2 lg:grid-cols-4">
+      <div className="relative max-w-7xl mx-auto px-6 pt-[4rem] md:py-20 grid gap-16 md:grid-cols-2 lg:grid-cols-4">
         {/* BRAND */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="relative bottom-[3.5rem] md:bottom-[0rem]"
         >
           <div className="mb-6">
             <motion.img
@@ -38,13 +39,13 @@ export default function UltraPremiumFooter() {
             </motion.p>
           </div>
 
-          <p className="text-sm text-neutral-400 max-w-sm">
+          <p className="text-sm text-neutral-400 font-semibold max-w-sm">
             Built for dominance in fashion. Designed to stand above the noise.
           </p>
 
           {/* SOCIAL ICONS */}
           <div className="flex gap-4 mt-8">
-            {[Facebook, Twitter, Linkedin, Instagram, Youtube].map(
+            {[Facebook, Twitter, Instagram, Youtube,MessageCircle].map(
               (Icon, i) => (
                 <motion.div
                   key={i}
@@ -56,63 +57,68 @@ export default function UltraPremiumFooter() {
               ),
             )}
           </div>
+
+           
         </motion.div>
 
         {/* LINKS */}
-        {[
-          {
-            title: "Shopping",
-            items: [
-              { label: "Order Status", href: "/order-status" },
-              { label: "Shipping & Delivery", href: "/shipping" },
-              { label: "Returns", href: "/returns" },
-              { label: "FAQ", href: "/faq" },
-            ],
-          },
-          {
-            title: "Company",
-            items: [
-              { label: "About us", href: "/about" },
-              { label: "Contact Us", href: "/contact" },
-              { label: "Privacy policy", href: "/privacy" },
-              { label: "Our office", href: "/office" },
-            ],
-          },
-        ].map((section, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.2 }}
-          >
-            <h3 className="text-white font-semibold mb-6 text-lg tracking-wide">
-              {section.title}
-            </h3>
+        {/* LINKS WRAPPER */}
+        <div className="grid grid-cols-2 gap-[6.5rem]  md:contents relative bottom-[5rem] md:bottom-[0rem]">
+          {[
+            {
+              title: "Shopping",
+              items: [
+                { label: "Order Status", href: "/order-status" },
+                { label: "Shipping & Delivery", href: "/shipping" },
+                { label: "Returns", href: "/returns" },
+                { label: "FAQ", href: "/faq" },
+              ],
+            },
+            {
+              title: "Company",
+              items: [
+                { label: "About us", href: "/about" },
+                { label: "Contact Us", href: "/contact" },
+                { label: "Privacy policy", href: "/privacy" },
+                { label: "Our office", href: "/office" },
+              ],
+            },
+          ].map((section, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.2 }}
+            >
+              <h3 className="text-white font-light mb-4 md:mb-6 text-sm md:text-lg tracking-wide">
+                {section.title}
+              </h3>
 
-            <ul className="space-y-4 text-sm">
-              {section.items.map((item, i) => (
-                <li key={i} className="group">
-                  <Link
-                    href={item.href}
-                    className="relative inline-block text-neutral-400 group-hover:text-white transition"
-                  >
-                    {item.label}
-                    <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
+              <ul className="space-y-2 md:space-y-4 text-xs md:text-sm">
+                {section.items.map((item, i) => (
+                  <li key={i} className="group">
+                    <Link
+                      href={item.href}
+                      className="relative inline-block text-light-800 group-hover:text-white transition"
+                    >
+                      {item.label}
+                      <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
 
         {/* CONTACT + NEWSLETTER */}
+        <div className="grid grid-cols-1 gap-[0rem]  md:contents relative bottom-[5rem] md:bottom-[0rem]">
+
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
         >
-          <h3 className="text-white font-semibold mb-6 text-lg">
-            Stay Connected
-          </h3>
+          <h3 className="text-white font-light mb-6 text-lg">Stay Connected</h3>
 
           <p className="text-sm text-neutral-400 mb-6">
             Get exclusive drops, offers & updates.
@@ -132,10 +138,12 @@ export default function UltraPremiumFooter() {
 
           {/* CONTACT */}
           <div className="mt-6 text-sm space-y-2 text-neutral-400">
-            <p>store@uikit.com</p>
-            <p>Hotline: +1 131 138 138</p>
+            <p>store@dhirago.com</p>
+            <p>Hotline: +91 9999999999</p>
           </div>
+          
         </motion.div>
+        </div>
       </div>
 
       {/* 🔥 DIVIDER WITH GRADIENT */}

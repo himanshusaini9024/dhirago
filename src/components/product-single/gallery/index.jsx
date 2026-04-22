@@ -10,7 +10,26 @@ export default function UltraPremiumGallery({ images }) {
   const [direction, setDirection] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [loaded, setLoaded] = useState({});
+const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
+const handleMouseMove = (e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const midX = rect.width / 2;
+  const midY = rect.height / 2;
+
+  const rotateY = ((x - midX) / midX) * 10;
+  const rotateX = -((y - midY) / midY) * 10;
+
+  setRotate({ x: rotateX, y: rotateY });
+};
+
+const resetRotate = () => {
+  setRotate({ x: 0, y: 0 });
+};
   const imgRefs = useRef([]);
   const containerRef = useRef(null);
 
@@ -150,37 +169,92 @@ export default function UltraPremiumGallery({ images }) {
         {/* RIGHT: PREMIUM PREVIEW */}
         <div className="hidden lg:block sticky top-20 h-fit">
           <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{
-                opacity: 0,
-                x: direction === 1 ? 80 : -80,
-                scale: 0.95,
-              }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{
-                opacity: 0,
-                x: direction === 1 ? -120 : 120,
-                scale: 1.05,
-              }}
-              transition={{
-                duration: 0.9,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <motion.img
-                src={BASE + images[active].url}
-                onClick={() => setIsOpen(true)}
-                className="
-                  w-full
-                  h-[600px] xl:h-[750px]
-                  object-cover
-                  rounded-xl
-                  shadow-2xl
-                  cursor-pointer
-                "
-                whileHover={{ scale: 1.02 }}
-              />
+           <motion.div
+  key={active}
+  initial={{
+    opacity: 0,
+    scale: 0.9,
+    rotateX: 15,
+    rotateY: direction === 1 ? -20 : 20,
+  }}
+  animate={{
+    opacity: 1,
+    scale: 1,
+    rotateX: 0,
+    rotateY: 0,
+  }}
+  exit={{
+    opacity: 0,
+    scale: 0.85,
+    rotateX: -10,
+    rotateY: direction === 1 ? 25 : -25,
+  }}
+  transition={{
+    duration: 1.2,
+    ease: [0.16, 1, 0.3, 1],
+  }}
+  style={{ perspective: 1400 }}
+  className="relative"
+>
+            <motion.img
+  src={BASE + images[active].url}
+  onClick={() => setIsOpen(true)}
+  onMouseMove={handleMouseMove}
+  onMouseLeave={resetRotate}
+  className="
+    w-full
+    h-[600px] xl:h-[750px]
+    object-cover
+    rounded-xl
+    shadow-2xl
+    cursor-pointer
+    will-change-transform
+  "
+  animate={{
+    rotateX: rotate.x,
+    rotateY: rotate.y,
+    scale: 1.03,
+  }}
+  transition={{
+    type: "spring",
+    stiffness: 120,
+    damping: 15,
+    mass: 0.5,
+  }}
+/>
+<motion.div
+  style={{
+    background: `
+      radial-gradient(
+        circle at ${50 + rotate.y * 2}% ${50 - rotate.x * 2}%,
+        rgba(255,255,255,0.25),
+        transparent 60%
+      )
+    `,
+  }}
+  className="
+    absolute inset-0
+    rounded-xl
+    pointer-events-none
+    mix-blend-overlay
+  "
+/>
+<motion.div
+  initial={{ x: "-100%" }}
+  animate={{ x: "120%" }}
+  transition={{
+    duration: 1.5,
+    ease: "easeInOut",
+  }}
+  className="
+    absolute top-0 left-0
+    w-[40%] h-full
+    bg-gradient-to-r from-transparent via-white/20 to-transparent
+    blur-2xl
+    opacity-30
+    pointer-events-none
+  "
+/>
             </motion.div>
           </AnimatePresence>
         </div>

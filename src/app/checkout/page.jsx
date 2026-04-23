@@ -71,9 +71,14 @@ const CheckoutPage = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
 
   const createOrder = async (payment_status, payment_id) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+      console.log('usernew',user.customer_id);
+      
+
     if (!validateEmail()) return;
     const orderData = {
       sub_total: priceTotal,
+      customer_id: user.customer_id,
       total_amount: priceTotal,
       quantity: cartItems.reduce((a, c) => a + c.quantity, 0),
 

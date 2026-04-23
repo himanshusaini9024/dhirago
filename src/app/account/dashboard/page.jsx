@@ -15,15 +15,19 @@ export default function Dashboard({ setActiveTab }) {
 
   const [orders, setOrders] = useState([]);
   const { cartItems } = useSelector((state) => state.cart);
+  const userdata = JSON.parse(localStorage.getItem("user") || "{}");
+  const customer_id = userdata?.customer_id;
   const user = {
-    name: "Himanshu",
+    name: userdata.first_name,
     joined: "March 14, 2026",
   };
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await API.get("/orders");
+        const res = await API.get("/orders", {
+          params: { customer_id },
+        });
 
         setOrders(res.data || []);
       } catch (err) {
@@ -33,8 +37,9 @@ export default function Dashboard({ setActiveTab }) {
 
     fetchOrder();
   }, [router]);
-const latestOrder = [...orders]
-  .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+  const latestOrder = [...orders].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at),
+  )[0];
   const handleLogout = () => {
     dispatch(logout());
 
@@ -64,7 +69,7 @@ const latestOrder = [...orders]
         </div>
 
         <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center">
-          {user.name[0]}
+          {user.name}
         </div>
       </div>
 
@@ -121,7 +126,6 @@ const latestOrder = [...orders]
           </div>
         )}
       </Section>
-
 
       {/* 🎯 RECOMMENDATIONS */}
       {/* <Section title="RECOMMENDED FOR YOU">

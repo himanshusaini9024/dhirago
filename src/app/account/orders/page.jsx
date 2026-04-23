@@ -28,14 +28,17 @@ export default function OrdersPage() {
   const [openId, setOpenId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
+  const userdata = JSON.parse(localStorage.getItem("user") || "{}");
+  const customer_id = userdata?.customer_id;
   useEffect(() => {
     fetchOrders();
   }, []);
 
   const fetchOrders = async () => {
     try {
-      const res = await API.get("/orders");
+      const res = await API.get("/orders",{
+          params: { customer_id },
+        });
       setOrders(res.data);
     } finally {
       setLoading(false);

@@ -26,7 +26,7 @@ const prevLogin = useRef(false);
       try {
         hasFetched.current = true; // 🚀 prevent re-call
 
-        const res = await fetch("http://localhost:8000/api/get-cart", {
+        const res = await fetch("http://192.168.137.63:8000/api/get-cart", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -66,7 +66,7 @@ const prevLogin = useRef(false);
 
     const saveCart = async () => {
       try {
-        await fetch("http://localhost:8000/api/save-cart", {
+        await fetch("http://192.168.137.63:8000/api/save-cart", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

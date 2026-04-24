@@ -30,7 +30,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/components/Dhirago/TrendingStyles.jsx", "src/components/Dhirago/StyleCraftedSection.jsx", "src/components/Dhirago/ReviewsSection.jsx", "src/components/Dhirago/Navbar.jsx", "src/components/Dhirago/MarqueeSection.jsx", "src/components/Dhirago/HeroSection.jsx", "src/components/Dhirago/Footer.jsx", "src/components/Dhirago/FeaturedProducts.jsx", "src/components/Dhirago/FAQSection.jsx", "src/components/Dhirago/EditorialSection.jsx", "src/components/Dhirago/CollectionsSlider.jsx", "src/components/Dhirago/BrandStatement.jsx", "src/components/Dhirago/BestSellers.jsx", "src/components/Dhirago/AnnouncementBar.jsx"  ],
   "exclude": [
     "node_modules"
   ]

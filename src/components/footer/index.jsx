@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function UltraPremiumFooter() {
   return (
-    <footer className="relative bg-black text-neutral-300 overflow-hidden">
+    <footer className="relative bg-[rgb(23,23,23,1)] text-neutral-300 overflow-hidden">
       {/* 🔥 BACKGROUND GLOW */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white/10 blur-[120px] rounded-full" />

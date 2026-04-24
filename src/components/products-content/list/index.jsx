@@ -135,22 +135,22 @@ useEffect(() => {
   return (
     <div className="bg-white min-h-screen">
       {/* HEADER */}
-      <div className="text-center pt-14 pb-8 px-4">
+      <div className="text-center md:pt-1 pt-4 pb-8 px-4">
         <h1 className="text-[15px] md:text-[25px] categoryheading tracking-[4px] md:tracking-[8px] font-light uppercase">
           {slug?.replace("-", " ")}
         </h1>
 
-        <p className="max-w-xl mx-auto text-[12px] md:text-[18px] p-4 mt-4 tracking-wide font-light leading-relaxed">
+        <p className="md:max-w-[55rem] max-w-[27rem] mx-auto text-[11px] md:text-[15px] p-4 mt-1 tracking-wide text-[black] leading-relaxed">
           Influenced by the archives of the House, the collection of elegant
           shirts and overshirts serve as staples for the modern-day Dhirago
           man's wardrobe.
         </p>
 
-        <p className=" text-[12px] md:text-[17px] font-semibold text-black-700 mt-4 tracking-[3px]">
+        <p className=" text-[12px] md:text-[17px] font-semibold text-black mt-4 tracking-[3px]">
           SELECT YOUR SIZE
         </p>
 
-        <div className="flex justify-center flex-wrap gap-3 mt-4">
+        <div className="flex justify-center flex-wrap gap-6 mt-4">
           {sizes.map((size) => {
             const active = filters.size.includes(size);
 
@@ -170,12 +170,18 @@ useEffect(() => {
                     return newFilters;
                   });
                 }}
-                className={`px-4 py-1.5 rounded-full text-sm border transition-all duration-200
+                className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all duration-200
                       ${
                         active
                           ? "bg-black text-white border-black shadow-sm"
                           : "border-gray-300 hover:border-black"
                       }`}
+                        style={{
+    color: active ? "white" : "black",
+    border:"1px solid black",
+    borderRadius:"3px"
+   
+  }}
               >
                 {size}
               </motion.button>
@@ -425,19 +431,23 @@ useEffect(() => {
       </AnimatePresence>
 
       {/* PRODUCTS */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 py-6">
-        {filteredProducts.map((item) => (
-          <ProductItem
-            key={item.id}
-            id={item.id}
-            slug={item.slug}
-            color={item.color}
-            name={item.name}
-            currentPrice={item.currentPrice}
-            images={item.image}
-          />
-        ))}
-      </div>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-1 md:px-4 px-2 py-6">
+  {Array.from({ length: 20 }).map((_, i) => {
+    const item = filteredProducts[i % filteredProducts.length];
+
+    return (
+      <ProductItem
+        key={i}
+        id={item.id}
+        slug={item.slug}
+        color={item.color}
+        name={item.name}
+        currentPrice={item.currentPrice}
+        images={item.image}
+      />
+    );
+  })}
+</div>
     </div>
   );
 }

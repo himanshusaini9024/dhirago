@@ -1,6 +1,7 @@
 // app/collections/[slug]/page.js
 
 import Breadcrumb from "../../../components/breadcrumb";
+import Categorybaner from "../../../components/categorybanner";
 import ProductsContent from "../../../components/products-content";
 
 // async function getProducts(slug) {
@@ -67,8 +68,9 @@ export default async function ProductsPage({ params }) {
   const name = slug.replace(/-/g, " ");
   return (
     <>
+      <Categorybaner />
       <Breadcrumb />
-      <section className="mt-1 ">
+      <section>
         <ProductsContent products={products} slug={slug} />
       </section>
        <script

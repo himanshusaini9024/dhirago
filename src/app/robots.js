@@ -3,7 +3,7 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/cart", "/checkout"],
+      disallow: ["/cart","/account", "/checkout"],
     },
     sitemap: "http://localhost:3000/sitemap.xml",
   };

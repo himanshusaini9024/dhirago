@@ -1,22 +1,48 @@
 export default async function sitemap() {
-  const products = await fetch("http://localhost:3000/products").then((r) =>
-    r.json()
-  );
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+  let products = [];
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
+      { cache: "no-store" }
+    );
+    products = await res.json();
+  } catch (err) {
+    console.error("Sitemap fetch failed:", err);
+  }
 
   const categories = ["mens-shirts", "womens-wear"];
 
   return [
     {
-      url: "https://yourdomain.com",
+      url: baseUrl,
       lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
     },
+
     ...products.map((p) => ({
-      url: `https://yourdomain.com/product/${p.slug}`,
-      lastModified: new Date(),
+      url: `${baseUrl}/product/${p.slug}`,
+      lastModified: new Date(p.updated_at || Date.now()),
+      changeFrequency: "weekly",
+      priority: 0.9,
+
+      images: p.images?.map((img) => ({
+        url: img.url.startsWith("http")
+          ? img.url
+          : `https://res.cloudinary.com/ds48lk80f/${img.url}`,
+        title: p.name,
+      })) || [],
     })),
+
     ...categories.map((c) => ({
-      url: `https://yourdomain.com/collections/${c}`,
+      url: `${baseUrl}/collections/${c}`,
       lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
     })),
   ];
 }

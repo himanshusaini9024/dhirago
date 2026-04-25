@@ -77,29 +77,33 @@ export default async function ProductPage({ params }) {
   return (
     <>
       <Breadcrumb />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: product.name,
-            image: product.images,
-            description: product.description,
-            sku: product._id,
-            brand: {
-              "@type": "premium",
-              name: "Dhirago",
-            },
-            offers: {
-              "@type": "Offer",
-              priceCurrency: "INR",
-              price: product.price,
-              availability: "https://schema.org/InStock",
-            },
-          }),
-        }}
-      />
+     <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      image: product.images?.map((img) => img.url),
+      description: product.description || product.name,
+      sku: product.id,
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "INR",
+        price: product.currentPrice,
+        availability:
+          product.quantityAvailable > 0
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+      },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: product.punctuation?.punctuation || 0,
+        reviewCount: product.punctuation?.countOpinions || 0,
+      },
+    }),
+  }}
+/>
 
       <section className="product-single">
         <div className="container-fluied">

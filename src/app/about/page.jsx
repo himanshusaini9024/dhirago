@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 export default function AboutPage() {
   return (
-    <div className="bg-[#f6f4f2] text-[#1a1a1a]">
+    <div className=" text-[#1a1a1a]">
 
       {/* 🔥 HERO SECTION */}
       <section className="relative h-[30vh] w-full overflow-hidden">
@@ -21,21 +21,21 @@ export default function AboutPage() {
           <p className="tracking-[0.4em] text-xs mb-3 opacity-80">
             DHIRAGO
           </p>
-          <h1 className="text-4xl md:text-6xl font-serif">
+          <h1 className="text-4xl md:text-6xl text-white font-serif">
             Our Story
           </h1>
         </div>
       </section>
 
       {/* 🔥 WELCOME SECTION */}
-      <section className="max-w-4xl mx-auto text-center px-6 py-16">
+      <section className="max-w-4xl mx-auto text-center px-4 py-8">
         <h2 className="text-3xl md:text-4xl font-serif mb-6">
           Welcome
         </h2>
 
-        <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+        <p className="text-xs md:text-base text-black leading-relaxed">
           Welcome to Dhirago, where timeless elegance meets masterful craftsmanship.
-          Since our founding in 2001, we have dedicated ourselves to perfecting
+          Since our founding in 2026, we have dedicated ourselves to perfecting
           the art of bespoke tailoring for the discerning gentleman. Our passion
           lies in creating garments that not only fit you well, but also reflect
           your unique style and personality.
@@ -43,7 +43,7 @@ export default function AboutPage() {
       </section>
 
       {/* 🔥 FABRIC SECTION */}
-      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center px-6 py-10">
+      <section className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center px-6 ">
         
         {/* IMAGE */}
         <motion.div

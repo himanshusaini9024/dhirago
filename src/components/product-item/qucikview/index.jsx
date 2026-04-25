@@ -121,7 +121,7 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
                     onClick={() => setSize(s.label)}
                     className={`py-2 text-sm border ${
                       size === s.label
-                        ? "bg-black text-white border-black"
+                        ? "bg-black text-white border-black w-[35px]"
                         : "border-gray-300"
                     }`}
                   >
@@ -142,7 +142,8 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
                 ADD TO BAG
               </button>
 
-              <button className="w-full py-3 border border-gray-400 text-sm">
+              <button  
+              className="w-full py-3 border border-gray-400 text-sm">
                 BUY IT NOW
               </button>
             </div>

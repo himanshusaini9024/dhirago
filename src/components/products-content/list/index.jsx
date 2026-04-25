@@ -81,6 +81,27 @@ useEffect(() => {
   // });
   // };
 
+  useEffect(() => {
+  const handleScroll = () => {
+    const footer = document.querySelector("footer");
+    const button = document.getElementById("filterBtn");
+
+    if (!footer || !button) return;
+
+    const footerTop = footer.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+
+    if (footerTop < windowHeight) {
+      button.style.display = "none";
+    } else {
+      button.style.display = "flex";
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
  useEffect(() => {
   if (!isInitialized) return;
 
@@ -217,7 +238,7 @@ useEffect(() => {
 
       {/* FLOAT BUTTON */}
 
-      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
+      <div id="filterBtn" className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
         <button
           onClick={() => setShowFilters(true)}
           className="flex items-center gap-2 px-6 py-3 rounded-full bg-white shadow-xl border backdrop-blur-md text-sm font-medium active:scale-95 transition"
@@ -447,6 +468,7 @@ useEffect(() => {
       />
     );
   })}
+  {/* {filteredProducts.map((item) => ( <ProductItem key={item.id} id={item.id} slug={item.slug} color={item.color} name={item.name} currentPrice={item.currentPrice} images={item.image} /> ))} */}
 </div>
     </div>
   );

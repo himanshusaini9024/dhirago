@@ -111,11 +111,12 @@ const ProductItem = ({ images, id, name, slug,color, currentPrice }) => {
         </button> */}
 
         {/* ADD TO CART */}
-        <div className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition duration-500">
+        <div className="absolute bottom-2 left-0  w-full translate-y-full group-hover:translate-y-0 transition duration-500">
           <button
             onClick={() => setOpenModal(true)}
-            className="w-full bg-black text-white text-xs py-3"
+            className="w-full bg-white text-black text-xs py-3"
           >
+            🛒
             ADD TO CART
           </button>
         </div>

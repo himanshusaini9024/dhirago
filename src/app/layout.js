@@ -63,7 +63,7 @@ export default function RootLayout({ children }) {
                 <CartSync />
                 {children}
               </LayoutWrapper>
-              <Script
+              {/* <Script
                 id="tawk-chat"
                 strategy="afterInteractive"
                 dangerouslySetInnerHTML={{
@@ -80,7 +80,32 @@ export default function RootLayout({ children }) {
       })();
     `,
                 }}
-              />
+              /> */}
+
+          <Script id="chatwoot" strategy="afterInteractive">
+          {`
+          window.chatwootSettings = {
+          position: "right",
+          type: "standard",
+          launcherTitle: ""
+          };
+
+          (function(d,t) {
+          var BASE_URL="https://app.chatwoot.com";
+          var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+          g.src=BASE_URL+"/packs/js/sdk.js";
+          g.async = true;
+          s.parentNode.insertBefore(g,s);
+          g.onload=function(){
+          window.chatwootSDK.run({
+          websiteToken: 'ndJv9he5Q5cgDhw8g5hVdQ1r',
+          baseUrl: BASE_URL
+          })
+          }
+          })(document,"script");
+          `}
+          </Script>
+
               <Footer />
             </PopupProvider>
           </ReduxProvider>

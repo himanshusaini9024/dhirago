@@ -82,29 +82,31 @@ export default function RootLayout({ children }) {
                 }}
               /> */}
 
-          <Script id="chatwoot" strategy="afterInteractive">
-          {`
-          window.chatwootSettings = {
-          position: "right",
-          type: "standard",
-          launcherTitle: ""
-          };
+              <Script id="chatwoot" strategy="afterInteractive">
+                {`
+window.chatwootSettings = {
+position: "right",
+type: "standard",
+launcherTitle: "Powered by Dhirago"
+};
 
-          (function(d,t) {
-          var BASE_URL="https://app.chatwoot.com";
-          var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-          g.src=BASE_URL+"/packs/js/sdk.js";
-          g.async = true;
-          s.parentNode.insertBefore(g,s);
-          g.onload=function(){
-          window.chatwootSDK.run({
-          websiteToken: 'ndJv9he5Q5cgDhw8g5hVdQ1r',
-          baseUrl: BASE_URL
-          })
-          }
-          })(document,"script");
-          `}
-          </Script>
+
+  (function(d,t) {
+    var BASE_URL="http://localhost:3000";
+    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=BASE_URL+"/packs/js/sdk.js";
+    g.async = true;
+    s.parentNode.insertBefore(g,s);
+    g.onload=function(){
+      window.chatwootSDK.run({
+        websiteToken: 'LPYhLq3MjmSgPJWBfZt3SkXc',
+        baseUrl: BASE_URL
+      })
+    }
+  })(document,"script");
+
+`}
+              </Script>
 
               <Footer />
             </PopupProvider>

@@ -32,7 +32,7 @@ export default function Home() {
       <BestSellers />
       <VideoSection />
       <FAQSection />
-      <MarqueeSection text="Your Favorite Styles at Unbeatable Prices!" dark slow />
+      {/* <MarqueeSection text="Your Favorite Styles at Unbeatable Prices!" dark slow /> */}
       {/* <Footer /> */}
     </main>
   );

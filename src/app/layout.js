@@ -12,6 +12,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 import Header from "../components/header";
 import ReduxProvider from "../store/provider";
+import MarqueeSection from "../components/Dhirago/MarqueeSection";
+
 import Script from "next/script";
 import PopupProvider from "../components/loginpopup/PopupProvider";
 import LayoutWrapper from "../components/LayoutWrapper";
@@ -81,6 +83,8 @@ export default function RootLayout({ children }) {
     `,
                 }}
               />
+                    <MarqueeSection text="Your Favorite Styles at Unbeatable Prices!" dark slow />
+              
               <Footer />
             </PopupProvider>
           </ReduxProvider>

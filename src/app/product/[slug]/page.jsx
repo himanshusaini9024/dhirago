@@ -70,6 +70,7 @@ export async function generateMetadata({ params }) {
 export default async function ProductPage({ params }) {
   const { slug } = await params;
   const product = await getProduct(slug);
+  console.log('productslug',product);
   if (!product) {
     return <div className="text-center py-10">Product not found</div>;
   }

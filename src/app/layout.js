@@ -91,7 +91,7 @@ launcherTitle: "Powered by Dhirago"
 };
 
 
-  (function(d,t) {
+   (function(d,t) {
     var BASE_URL="http://localhost:3000";
     var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
     g.src=BASE_URL+"/packs/js/sdk.js";
@@ -99,7 +99,7 @@ launcherTitle: "Powered by Dhirago"
     s.parentNode.insertBefore(g,s);
     g.onload=function(){
       window.chatwootSDK.run({
-        websiteToken: 'LPYhLq3MjmSgPJWBfZt3SkXc',
+        websiteToken: 'oxi5FYQSjusPzAKefV22qd3G',
         baseUrl: BASE_URL
       })
     }

@@ -192,10 +192,10 @@ const Content = ({ product }) => {
   const availableColors = [...new Set(variants.map((v) => v.color))];
 
   return (
-    <section className="font-[Montserrat] mt-3 w-full max-w-xl mx-auto px-4 sm:px-6 lg:px-0">
+    <section className="font-[Montserrat] mt-3 w-full max-w-xl mx-auto px-4  lg:px-5">
       {/* HEADER */}
       <div className="space-y-4">
-        <h1 className="text-2xl sm:text-xl lg:text-xl tracking-tight font-light leading-tight">
+        <h1 className="text-xl sm:text-xl lg:text-xl tracking-tight font-light leading-tight">
           {product.name}
         </h1>
 
@@ -245,13 +245,13 @@ const Content = ({ product }) => {
                 >
                   {/* OUTER RING */}
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
+                    className={`lg:w-10 lg:h-10 rounded-full flex items-center justify-center transition-all duration-300
                 ${isActive ? "border-2 border-black" : "border border-gray-300"}
               `}
                   >
                     {/* INNER COLOR */}
                     <div
-                      className="w-9 h-9 rounded-full"
+                      className=" lg:w-5 lg:h-5 w-3 h-3  rounded-full"
                       style={{ backgroundColor: colorObj.color }}
                     />
                   </div>
@@ -260,7 +260,7 @@ const Content = ({ product }) => {
                   {isActive && (
                     <motion.div
                       layoutId="activeColor"
-                      className="absolute w-10 h-10 rounded-full ring-2 ring-black"
+                      className="absolute lg:w-6 lg:h-6 w-4 h-4 rounded-full ring-1 ring-black"
                       transition={{
                         type: "spring",
                         stiffness: 300,
@@ -322,7 +322,7 @@ const Content = ({ product }) => {
               setItemSize(e.target.value);
               setSizeError("");
             }}
-            className={`w-full lg:w-[35rem] border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-blue 
+            className={`w-full lg:w-[32rem] border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-blue 
     ${sizeError ? "border-red-500" : "border-gray-300"}
   `}
           >

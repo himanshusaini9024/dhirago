@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Description from "../../../components/product-single/description";
+import FinalBossUI from "../../../components/product-single/description";
 // import Reviews from "../../../components/product-single/reviews";
 
 const ProductTabs = ({ product }) => {
@@ -20,7 +20,7 @@ const ProductTabs = ({ product }) => {
           Description
         </button>
 
-        <button
+        {/* <button
           type="button"
           onClick={() => setShowBlock("reviews")}
           className={`btn btn--rounded ${
@@ -28,10 +28,10 @@ const ProductTabs = ({ product }) => {
           }`}
         >
           Reviews (2)
-        </button>
+        </button> */}
       </div>
-
-      <Description show={showBlock === "description"} />
+<FinalBossUI product={product} show={showBlock === "description"} />
+      {/* <Description  product={product} show={showBlock === "description"} /> */}
       {/* <Reviews product={product} show={showBlock === "reviews"} /> */}
     </div>
   );

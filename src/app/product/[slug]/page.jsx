@@ -4,6 +4,8 @@ import Content from "../../../components/product-single/content";
 import Description from "../../../components/product-single/description";
 import Gallery from "../../../components/product-single/gallery";
 import ProductsFeatured from "../../../components/products-featured";
+import RecentlyViewedTracker from "../../../components/recentlyviewtracker";
+import  HeroCarousel  from "../../../components/product-single/HeroCarousel";
 import ProductTabs from "../../../components/product-single/producttab"; // ✅ ADD THIS
 import { server } from "../../../utils/server";
 import { generateSEO } from "../../../utils/seo";
@@ -77,7 +79,9 @@ export default async function ProductPage({ params }) {
 
   return (
     <>
-      <Breadcrumb />
+      {/* <Breadcrumb /> */}
+      <Breadcrumb product={product} />
+ <RecentlyViewedTracker product={product} />
      <script
   type="application/ld+json"
   dangerouslySetInnerHTML={{
@@ -110,11 +114,17 @@ export default async function ProductPage({ params }) {
         <div className="container-fluied">
           <div className="product-single__content">
             <Gallery images={product.images} />
-            <Content product={product} />
+            
+              <div className="relative">
+        <div className="lg:sticky top-20">
+          <Content product={product} />
+        </div>
+      </div>
           </div>
 
           {/* ✅ Tabs moved to client component */}
           <ProductTabs product={product} />
+          <HeroCarousel/>
         </div>
       </section>
 

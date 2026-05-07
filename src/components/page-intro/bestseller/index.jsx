@@ -1,152 +1,205 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
+import { useState } from "react";
+import Link from "next/link";
 
-const products = [
+const COLLECTIONS = [
   {
-    id: 1,
-    name: "Current Red Linen Shirt",
-    price: 5999,
-    image: "/images/products/product-1.jpg",
-    video: "/videos/bannervideo.mp4",
-    tag: "BEST SELLER",
+    img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=85&fit=crop",
+    title: "In Linen",
+    desc: "Breathe easy in handwoven linen",
+    count: "24 pieces",
+    href: "/collections/mens-fashion",
   },
   {
-    id: 2,
-    name: "Mist Grey Linen Dobby Shirt",
-    price: 5999,
-    image: "/images/products/product-2.jpg",
-    video: "/videos/banner.mp4",
-    tag: "BEST SELLER",
+    img: "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=800&q=85&fit=crop",
+    title: "Indigo Reserve",
+    desc: "Ancient dye, modern silhouettes",
+    count: "18 pieces",
+    href: "/collections/indigo",
   },
   {
-    id: 3,
-    name: "Blush Pink Linen Structure Shirt",
-    price: 5999,
-    image: "/images/products/product-3.jpg",
-    video: "/videos/bannervideo.mp4",
-    tag: "BEST SELLER",
+    img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=85&fit=crop",
+    title: "Between Tones",
+    desc: "Earth neutrals for every season",
+    count: "31 pieces",
+    href: "/collections/earth-tones",
   },
-  {
-    id: 4,
-    name: "Blush Pink Linen Shirt",
-    price: 5999,
-    image: "/images/products/product-4.jpg",
-    video: "/videos/bannervideo.mp4",
-    tag: "TRENDING",
-  },
-  {
-    id: 5,
-    name: "Blush Pink Linen Shirt",
-    price: 5999,
-    image: "/images/products/product-5.jpg",
-    video: "/videos/bannervideo.mp4",
-    tag: "TRENDING",
-  },{
-    id: 6,
-    name: "Blush Pink Linen Shirt",
-    price: 5999,
-    image: "/images/products/product-6.jpg",
-    video: "/videos/bannervideo.mp4",
-    tag: "TRENDING",
-  },{
-    id: 7,
-    name: "Blush Pink Linen Shirt",
-    price: 5999,
-    video: "/videos/bannervideo.mp4",
-    image: "/images/products/product-7.jpg",
-    tag: "TRENDING",
-  }
 ];
 
-export default function Bestsellers() {
-  const containerRef = useRef(null);
+export default function CollectionBanner() {
+  const [hovered, setHovered] = useState(null);
 
   return (
-    <section className="py-16">
-      {/* ✅ CONTAINER (side spacing like premium sites) */}
-      <div className="max-w-[95%] mx-auto">
-
-        {/* Heading */}
-        <h2 className="text-xl lg:text-2xl font-light tracking-wide mb-8">
-          Bestsellers
-        </h2>
-
-        {/* Horizontal Scroll */}
-        <div
-          ref={containerRef}
-          className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar"
+    <section style={{ background: "var(--cream)" }}>
+      {/* Header */}
+      <div style={{ padding: "88px 56px 48px" }}>
+        <p
+          style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: 9,
+            letterSpacing: "0.26em",
+            textTransform: "uppercase",
+            color: "var(--clay)",
+            marginBottom: 12,
+          }}
         >
-          {products.map((product) => (
+          Curated
+        </p>
+
+        <h2
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(30px, 3.6vw, 50px)",
+            fontWeight: 300,
+            color: "var(--ink)",
+            lineHeight: 1.1,
+          }}
+        >
+          Shop by <em style={{ fontStyle: "italic" }}>Collection</em>
+        </h2>
+      </div>
+
+      {/* GRID */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+        }}
+      >
+        {COLLECTIONS.map((col, i) => (
+          <Link key={i} href={col.href}>
             <div
-              key={product.id}
-              className="min-w-[75%] sm:min-w-[45%] lg:min-w-[28%] snap-start"
+              style={{
+                position: "relative",
+                overflow: "hidden",
+                cursor: "pointer",
+              }}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
             >
-              <ProductCard product={product} />
+              <div
+                style={{
+                  aspectRatio: "4/5",
+                  position: "relative",
+                }}
+              >
+                {/* IMAGE */}
+                <img
+                  src={col.img}
+                  alt={col.title}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    transform: hovered === i ? "scale(1.08)" : "scale(1)",
+                    transition:
+                      "transform 1.6s cubic-bezier(0.22,1,0.36,1)",
+                  }}
+                />
+
+                {/* OVERLAY */}
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      hovered === i
+                        ? "rgba(28,24,20,0.45)"
+                        : "rgba(28,24,20,0.2)",
+                    transition: "0.6s ease",
+                  }}
+                />
+
+                {/* TEXT */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: "28px 28px 32px",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: 9,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: "rgba(253,250,246,0.5)",
+                      marginBottom: 8,
+                    }}
+                  >
+                    {col.count}
+                  </p>
+
+                  <h3
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "clamp(28px, 2.8vw, 40px)",
+                      fontWeight: 300,
+                      color: "#fdfaf6",
+                    }}
+                  >
+                    {col.title}
+                  </h3>
+
+                  <p
+                    style={{
+                      fontSize: 11,
+                      color: "rgba(253,250,246,0.6)",
+                      marginTop: 6,
+                      opacity: hovered === i ? 1 : 0,
+                      transform:
+                        hovered === i
+                          ? "translateY(0)"
+                          : "translateY(8px)",
+                      transition: "all 0.5s ease",
+                    }}
+                  >
+                    {col.desc}
+                  </p>
+
+                  {/* CTA */}
+                  <div
+                    style={{
+                      marginTop: 18,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      opacity: hovered === i ? 1 : 0,
+                      transform:
+                        hovered === i
+                          ? "translateY(0)"
+                          : "translateY(10px)",
+                      transition: "all 0.5s ease 0.1s",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: 10,
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                        color: "rgba(253,250,246,0.8)",
+                      }}
+                    >
+                      Shop Now
+                    </span>
+
+                    <div
+                      style={{
+                        width: 28,
+                        height: 1,
+                        background: "#fdfaf6",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
+          </Link>
+        ))}
       </div>
     </section>
-  );
-}
-
-function ProductCard({ product }) {
-  const videoRef = useRef(null);
-
-  const handleMouseEnter = () => {
-    videoRef.current?.play();
-  };
-
-  const handleMouseLeave = () => {
-    videoRef.current?.pause();
-    videoRef.current.currentTime = 0;
-  };
-
-  return (
-    <div className="group cursor-pointer">
-      {/* IMAGE + VIDEO */}
-      <div
-        className="relative overflow-hidden rounded-md"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {/* Image */}
-        <Image
-          src={product.image}
-          alt={product.name}
-          width={400}
-          height={500}
-          className="w-full h-[420px] object-cover transition duration-700 group-hover:opacity-0"
-        />
-
-        {/* Video */}
-        <video
-          ref={videoRef}
-          src={product.video}
-          muted
-          loop
-          playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-700"
-        />
-
-        {/* Tag */}
-        <span className="absolute top-3 left-3 bg-white/90 text-[10px] tracking-wide px-2 py-1">
-          {product.tag}
-        </span>
-      </div>
-
-      {/* INFO */}
-      <div className="mt-4 space-y-1">
-        <h3 className="text-[14px] font-light tracking-wide text-gray-900">
-          {product.name}
-        </h3>
-
-        <p className="text-[13px] text-gray-500 tracking-wide">
-          ₹ {product.price}
-        </p>
-      </div>
-    </div>
   );
 }

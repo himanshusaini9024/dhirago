@@ -214,7 +214,8 @@ export default function EssencePage() {
         </section>
 
         {/* FUSING CALLOUT */}
-        <section style={{ background: "#1C1814", padding: "clamp(4rem, 8vw, 7rem) 0" }}>
+        <section style={{             background: "linear-gradient(175deg, #0D1B2E 0%, #122338 40%, #152840 100%)",
+ padding: "clamp(4rem, 8vw, 7rem) 0" }}>
           <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 5rem)" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "4rem", alignItems: "center" }}>
               <Reveal>

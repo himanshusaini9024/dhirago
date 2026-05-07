@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
+import { motion } from "framer-motion";
 // ─── REVEAL COMPONENT ────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0, className = "" }) {
   const ref = useRef(null);
@@ -97,12 +98,14 @@ function CraftCard({ num, name, desc, delay = 0 }) {
 }
 
 // ─── SHARED STYLES ────────────────────────────────────────────────────────────
+// Deep navy / midnight blue palette for all dark sections
+// Primary: #0F1C2E  Mid: #152338  Accent navy: #1A2D45
 const S = {
   eyebrow: { fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.5em", textTransform: "uppercase", color: "#A8937E", marginBottom: "1.5rem" },
   eyebrowLight: { fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.5em", textTransform: "uppercase", color: "#C4A882", marginBottom: "2rem" },
   rule: { width: 40, height: 1, background: "#C4A882", marginBottom: "2rem" },
   bodyDark: { fontFamily: "'Jost', sans-serif", fontSize: "clamp(13px, 1.5vw, 15px)", fontWeight: 300, lineHeight: 1.95, color: "#3D3530", marginBottom: "1.5rem" },
-  bodyLight: { fontFamily: "'Jost', sans-serif", fontSize: "clamp(13px, 1.5vw, 15px)", fontWeight: 300, lineHeight: 2, color: "rgba(245,240,232,0.55)", marginBottom: "1.5rem" },
+  bodyLight: { fontFamily: "'Jost', sans-serif", fontSize: "clamp(13px, 1.5vw, 15px)", fontWeight: 300, lineHeight: 2, color: "rgba(245,240,232,0.65)", marginBottom: "1.5rem" },
   sectionInner: { maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.25rem, 4vw, 3rem)" },
   twoCol: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "clamp(2.5rem, 6vw, 6rem)", alignItems: "center" },
 };
@@ -113,6 +116,7 @@ export default function AboutPage() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
         @keyframes scrollPulse {
           0%, 100% { opacity: 0.35; }
           50% { opacity: 0.9; }
@@ -121,36 +125,83 @@ export default function AboutPage() {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+
         .hero-content > * {
           animation: fadeIn 1.2s ease forwards;
         }
         .hero-content > *:nth-child(1) { animation-delay: 0.2s; opacity: 0; }
         .hero-content > *:nth-child(2) { animation-delay: 0.5s; opacity: 0; }
         .hero-content > *:nth-child(3) { animation-delay: 0.8s; opacity: 0; }
+
+        /* Noise texture overlay for depth */
+        .noise-overlay::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .gold-rule-animate {
+          background: linear-gradient(90deg, transparent, #C4A882, #E8D5B0, #C4A882, transparent);
+          background-size: 200% auto;
+          animation: shimmer 4s linear infinite;
+        }
       `}</style>
 
       <div style={{ background: "#F5F0E8", color: "#3D3530", overflowX: "hidden" }}>
 
         {/* ══════════ HERO ══════════ */}
-        <section style={{ position: "relative", height: "100vh", minHeight: 600, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "#1C1814" }}>
-
+        {/* Deep midnight navy — celestial, premium */}
+        <section
+          className="noise-overlay"
+          style={{
+            position: "relative",
+            height: "100vh",
+            minHeight: 600,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+            background: "#0F1C2E",
+          }}
+        >
           <div style={{ position: "absolute", inset: 0 }}>
             <video
-        src="/videos/banner.mp4"
-        autoPlay
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-            {/* <Image src="/images/subscribe.jpg" alt="Dhirago Hero" fill priority style={{ objectFit: "cover", opacity: 0.4 }} /> */}
+              src="/videos/banner.mp4"
+              autoPlay
+              loop
+              playsInline
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+            />
           </div>
 
-          <div style={{ position: "absolute", inset: 0, background: "rgba(20,16,12,0.62)" }} />
+          {/* Deep navy-tinted overlay */}
+          <div style={{ position: "absolute", inset: 0, background: "rgba(10,20,38,0.72)" }} />
+
+          {/* Subtle vignette ring */}
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 40%, rgba(5,12,28,0.55) 100%)" }} />
 
           {/* Play button */}
           <button
             aria-label="Play video"
-            style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", border: "1px solid rgba(196,168,130,0.4)", borderRadius: "50%", width: 80, height: 80, display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", cursor: "pointer", zIndex: 3 }}
+            style={{
+              position: "absolute", top: "50%", left: "50%",
+              transform: "translate(-50%, -50%)",
+              border: "1px solid rgba(196,168,130,0.4)",
+              borderRadius: "50%",
+              width: 80, height: 80,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: "transparent",
+              cursor: "pointer",
+              zIndex: 3,
+              transition: "border-color 0.3s, background 0.3s",
+            }}
           >
             <div style={{ width: 0, height: 0, borderStyle: "solid", borderWidth: "9px 0 9px 16px", borderColor: "transparent transparent transparent #C4A882", marginLeft: 4 }} />
           </button>
@@ -179,7 +230,7 @@ export default function AboutPage() {
             <div style={S.twoCol}>
               <Reveal>
                 <p style={S.eyebrow}>Our Name</p>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2rem, 4.5vw, 3.5rem)", lineHeight: 1.2, color: "#1C1814", letterSpacing: "0.01em" }}>
+                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2rem, 4.5vw, 3.5rem)", lineHeight: 1.2, color: "#0F1C2E", letterSpacing: "0.01em" }}>
                   The state of<br /><em style={{ fontStyle: "italic", color: "#6B5B4E" }}>Dheera</em>
                 </h2>
               </Reveal>
@@ -207,8 +258,24 @@ export default function AboutPage() {
         </section>
 
         {/* ══════════ PHILOSOPHY ══════════ */}
-        <section style={{ background: "#1C1814", padding: "clamp(5rem, 12vw, 10rem) 0" }}>
-          <div style={{ ...S.sectionInner, textAlign: "center" }}>
+        {/* Rich midnight navy with subtle indigo warmth */}
+        <section
+          className="noise-overlay"
+          style={{
+            position: "relative",
+            background: "linear-gradient(160deg, #0F1C2E 0%, #122338 50%, #0D1E35 100%)",
+            padding: "clamp(5rem, 12vw, 10rem) 0",
+          }}
+        >
+          {/* Decorative star-map dot pattern overlay */}
+          <div style={{
+            position: "absolute", inset: 0, opacity: 0.05,
+            backgroundImage: "radial-gradient(circle, #C4A882 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+            pointerEvents: "none",
+          }} />
+
+          <div style={{ ...S.sectionInner, textAlign: "center", position: "relative", zIndex: 2 }}>
             <Reveal>
               <p style={S.eyebrowLight}>Our Philosophy</p>
             </Reveal>
@@ -242,7 +309,7 @@ export default function AboutPage() {
                     width={600} height={420}
                     style={{ width: "100%", height: "clamp(260px, 40vw, 420px)", objectFit: "cover", display: "block" }}
                   />
-                  <div style={{ position: "absolute", bottom: "1.5rem", left: "1.5rem", background: "rgba(28,24,20,0.7)", padding: "0.6rem 1.2rem" }}>
+                  <div style={{ position: "absolute", bottom: "1.5rem", left: "1.5rem", background: "rgba(15,28,46,0.80)", padding: "0.6rem 1.2rem" }}>
                     <p style={{ fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.4em", textTransform: "uppercase", color: "#C4A882", margin: 0 }}>
                       60-count European Linen
                     </p>
@@ -253,7 +320,7 @@ export default function AboutPage() {
               <div>
                 <Reveal>
                   <p style={S.eyebrow}>Our Materials</p>
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2rem, 4vw, 3.2rem)", color: "#1C1814", lineHeight: 1.2, marginBottom: "2rem" }}>
+                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2rem, 4vw, 3.2rem)", color: "#0F1C2E", lineHeight: 1.2, marginBottom: "2rem" }}>
                     Fabrics that<br /><em style={{ fontStyle: "italic", color: "#6B5B4E" }}>breathe and evolve</em>
                   </h2>
                 </Reveal>
@@ -276,7 +343,7 @@ export default function AboutPage() {
           <div style={S.sectionInner}>
             <Reveal>
               <div style={{ display: "flex", alignItems: "baseline", gap: "2rem", marginBottom: "clamp(3rem, 6vw, 5rem)", flexWrap: "wrap" }}>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2.2rem, 5vw, 3.8rem)", color: "#1C1814", letterSpacing: "0.01em" }}>
+                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2.2rem, 5vw, 3.8rem)", color: "#0F1C2E", letterSpacing: "0.01em" }}>
                   Craftsmanship
                 </h2>
                 <span style={{ fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.4em", textTransform: "uppercase", color: "#A8937E" }}>
@@ -294,22 +361,78 @@ export default function AboutPage() {
         </section>
 
         {/* ══════════ HERON / LOGO ══════════ */}
+        {/* Warm parchment — consistent with light sections */}
         <section style={{ padding: "clamp(4rem, 10vw, 9rem) 0", background: "#E8E0D0" }}>
           <div style={S.sectionInner}>
             <div style={S.twoCol}>
-              <Reveal>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2rem" }}>
-                  <HeronSVG />
-                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "1.8rem", letterSpacing: "0.3em", color: "#1C1814", textTransform: "uppercase" }}>
-                    Dhirago
-                  </span>
+               <Reveal>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+
+                  {/* Logo mark — animated entry */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 28, scale: 0.95 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                    viewport={{ once: true }}
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <img
+                      src="/images/logo/3.svg"
+                      alt="Dhirago Logo"
+                      style={{ width: "clamp(110px, 14vw, 160px)", opacity: 0.92, display: "block" }}
+                    />
+                  </motion.div>
+
+                  {/* Wordmark lockup: rule · name · tagline · rule */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                    style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.65rem" }}
+                  >
+                    {/* Top rule */}
+                    <div style={{ width: 52, height: 1, background: "linear-gradient(90deg, transparent, #C4A882, transparent)" }} />
+
+                    {/* Brand name */}
+                    <span style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontWeight: 300,
+                      fontSize: "clamp(1.3rem, 2.5vw, 1.6rem)",
+                      letterSpacing: "0.45em",
+                      paddingLeft: "0.45em", /* compensate optical shift from letter-spacing */
+                      color: "#0F1C2E",
+                      textTransform: "uppercase",
+                      lineHeight: 1,
+                    }}>
+                      Dhirago
+                    </span>
+
+                    {/* Tagline */}
+                    <span style={{
+                      fontFamily: "'Jost', sans-serif",
+                      fontWeight: 300,
+                      fontSize: 9,
+                      letterSpacing: "0.38em",
+                      paddingLeft: "0.38em",
+                      textTransform: "uppercase",
+                      color: "#A8937E",
+                      lineHeight: 1,
+                    }}>
+                      Conscious Luxury · Est. 2026
+                    </span>
+
+                    {/* Bottom rule */}
+                    <div style={{ width: 52, height: 1, background: "linear-gradient(90deg, transparent, #C4A882, transparent)" }} />
+                  </motion.div>
+
                 </div>
               </Reveal>
 
               <div>
                 <Reveal delay={150}>
                   <p style={S.eyebrow}>Our Symbol</p>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: "#1C1814", lineHeight: 1.25, marginBottom: "2rem" }}>
+                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: "#0F1C2E", lineHeight: 1.25, marginBottom: "2rem" }}>
                     The <em style={{ fontStyle: "italic", color: "#6B5B4E" }}>Heron</em> —<br />quiet balance,<br />understated strength
                   </h3>
                 </Reveal>
@@ -328,8 +451,26 @@ export default function AboutPage() {
         </section>
 
         {/* ══════════ UDAIPUR ══════════ */}
-        <section style={{ background: "#1C1814", padding: "clamp(5rem, 12vw, 10rem) 0", overflow: "hidden" }}>
-          <div style={S.sectionInner}>
+        {/* Deep navy — evokes still lake at night reflecting stars */}
+        <section
+          className="noise-overlay"
+          style={{
+            position: "relative",
+            background: "linear-gradient(175deg, #0D1B2E 0%, #122338 40%, #152840 100%)",
+            padding: "clamp(5rem, 12vw, 10rem) 0",
+            overflow: "hidden",
+          }}
+        >
+          {/* Decorative large circle — moonlight on water */}
+          <div style={{
+            position: "absolute", top: "-15%", right: "-8%",
+            width: "clamp(280px, 40vw, 520px)", height: "clamp(280px, 40vw, 520px)",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(130, 142, 196, 0.06) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }} />
+
+          <div style={{ ...S.sectionInner, position: "relative", zIndex: 2 }}>
             <Reveal>
               <p style={S.eyebrowLight}>Our Inspiration</p>
             </Reveal>
@@ -345,10 +486,12 @@ export default function AboutPage() {
                   src="/images/subscribe.jpg"
                   alt="Udaipur — City of Lakes"
                   fill
-                  style={{ objectFit: "cover", opacity: 0.65 }}
+                  style={{ objectFit: "cover", opacity: 0.6 }}
                 />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(28,24,20,0.65) 0%, transparent 55%)" }} />
-                <p style={{ position: "absolute", bottom: "1.5rem", right: "2rem", fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.45em", textTransform: "uppercase", color: "rgba(196,168,130,0.5)", margin: 0 }}>
+                {/* Navy-tinted overlay for cohesion */}
+                <div style={{ position: "absolute", inset: 0, background: "rgba(10,22,40,0.30)" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(13,27,46,0.72) 0%, transparent 55%)" }} />
+                <p style={{ position: "absolute", bottom: "1.5rem", right: "2rem", fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.45em", textTransform: "uppercase", color: "rgba(196,168,130,0.55)", margin: 0 }}>
                   Udaipur, Rajasthan
                 </p>
               </div>
@@ -379,7 +522,7 @@ export default function AboutPage() {
               <div>
                 <Reveal>
                   <p style={S.eyebrow}>Our Story</p>
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2rem, 4vw, 3.2rem)", color: "#1C1814", lineHeight: 1.2, marginBottom: "2rem" }}>
+                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontSize: "clamp(2rem, 4vw, 3.2rem)", color: "#0F1C2E", lineHeight: 1.2, marginBottom: "2rem" }}>
                     A legacy<br /><em style={{ fontStyle: "italic", color: "#6B5B4E" }}>woven in fabric</em>
                   </h2>
                 </Reveal>
@@ -409,10 +552,29 @@ export default function AboutPage() {
         </section>
 
         {/* ══════════ CLOSING ══════════ */}
-        <section style={{ padding: "clamp(5rem, 12vw, 11rem) 0", background: "#1C1814", textAlign: "center" }}>
-          <div style={S.sectionInner}>
+        {/* Deepest midnight navy — ceremonial, starless sky */}
+        <section
+          className="noise-overlay"
+          style={{
+            position: "relative",
+            padding: "clamp(5rem, 12vw, 11rem) 0",
+            textAlign: "center",
+            background: "linear-gradient(180deg, #0D1B2E 0%, #08121F 100%)",
+            overflow: "hidden",
+          }}
+        >
+          {/* Radial glow from below — moonlight on water */}
+          <div style={{
+            position: "absolute", bottom: "-20%", left: "50%", transform: "translateX(-50%)",
+            width: "80%", height: "60%",
+            background: "radial-gradient(ellipse, rgba(196,168,130,0.07) 0%, transparent 65%)",
+            pointerEvents: "none",
+          }} />
+
+          <div style={{ ...S.sectionInner, position: "relative", zIndex: 2 }}>
             <Reveal>
-              <div style={{ width: 1, height: 80, background: "linear-gradient(to bottom, #C4A882, transparent)", margin: "0 auto 3.5rem" }} />
+              {/* Animated gold shimmer rule */}
+              <div className="gold-rule-animate" style={{ width: 1, height: 80, margin: "0 auto 3.5rem" }} />
             </Reveal>
             <Reveal delay={100}>
               <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, fontSize: "clamp(1.8rem, 4.5vw, 3.5rem)", color: "#F5F0E8", lineHeight: 1.3, maxWidth: 760, margin: "0 auto 3rem", letterSpacing: "0.02em" }}>

@@ -169,7 +169,7 @@ export default function LinenPage() {
         </section>
 
         {/* CRAFTSMANSHIP BRIDGE */}
-        <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#171410" }}>
+        <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#a19482" }}>
           <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 5rem)" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "4rem", alignItems: "center" }}>
 

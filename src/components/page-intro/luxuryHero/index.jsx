@@ -1,159 +1,355 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useSelector, useDispatch } from "react-redux";
-import { useState, useRef, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useSelector } from "react-redux";
+import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
- 
-import LoginDrawer from "../../header/logindashboard"
+import LoginDrawer from "../../header/logindashboard";
+
+// ─── Ornamental SVG divider ───────────────────────────────────────────────────
+function OrnamentDivider() {
+  return (
+    <svg width="220" height="20" viewBox="0 0 220 20" fill="none" style={{ display: "block", margin: "0 auto" }}>
+      {/* Left arm */}
+      <line x1="0" y1="10" x2="80" y2="10" stroke="#C4A882" strokeWidth="0.6" />
+      <line x1="72" y1="10" x2="80" y2="5" stroke="#C4A882" strokeWidth="0.6" />
+      <line x1="72" y1="10" x2="80" y2="15" stroke="#C4A882" strokeWidth="0.6" />
+      {/* Centre diamond */}
+      <rect x="106" y="6" width="8" height="8" stroke="#C4A882" strokeWidth="0.8" transform="rotate(45 110 10)" fill="none" />
+      <rect x="108" y="8" width="4" height="4" fill="#C4A882" transform="rotate(45 110 10)" />
+      {/* Right arm */}
+      <line x1="140" y1="10" x2="220" y2="10" stroke="#C4A882" strokeWidth="0.6" />
+      <line x1="140" y1="5" x2="148" y2="10" stroke="#C4A882" strokeWidth="0.6" />
+      <line x1="140" y1="15" x2="148" y2="10" stroke="#C4A882" strokeWidth="0.6" />
+    </svg>
+  );
+}
+
+// ─── Corner ornament ──────────────────────────────────────────────────────────
+function CornerMark({ flip = false }) {
+  return (
+    <svg
+      width="48" height="48" viewBox="0 0 48 48" fill="none"
+      style={{ transform: flip ? "rotate(180deg)" : "none", opacity: 0.35 }}
+    >
+      <path d="M4 4 L4 20 M4 4 L20 4" stroke="#C4A882" strokeWidth="1" strokeLinecap="round" />
+      <path d="M8 8 L8 16 M8 8 L16 8" stroke="#C4A882" strokeWidth="0.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// ─── Woven linen noise texture ────────────────────────────────────────────────
+const noiseDataUri = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E")`;
 
 export default function LuxurySection() {
-   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
-
   const [loginOpen, setLoginOpen] = useState(false);
-    const pathname = usePathname();
-  
-  return (
-    <section className="bg-white  border-t font-[Montserrat] overflow-hidden">
-      
-      <div className="max-w-3xl mx-auto px-6 text-center">
+  const [btnHovered, setBtnHovered] = useState(false);
+  const pathname = usePathname();
+  const sectionRef = useRef(null);
 
-        {/* Logo with floating animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="flex justify-center mb-2"
+  const firstName = user?.first_name ?? "";
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap');
+
+        @keyframes shimmerGold {
+          0%   { background-position: -300% center; }
+          100% { background-position:  300% center; }
+        }
+        @keyframes breathe {
+          0%,100% { opacity: 0.55; transform: scaleX(1); }
+          50%      { opacity: 1;    transform: scaleX(1.04); }
+        }
+        @keyframes rotateRing {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+
+        .dhirago-cta {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
+          padding: 0.85rem 2.6rem;
+          border: 1px solid rgba(196,168,130,0.55);
+          letter-spacing: 0.38em;
+          font-family: 'Jost', sans-serif;
+          font-size: 10px;
+          font-weight: 400;
+          text-transform: uppercase;
+          color: #1C1814;
+          background: transparent;
+          cursor: pointer;
+          overflow: hidden;
+          transition: color 0.45s ease, border-color 0.45s ease;
+          text-decoration: none;
+        }
+        .dhirago-cta::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: #1C1814;
+          transform: translateY(101%);
+          transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .dhirago-cta:hover::before  { transform: translateY(0); }
+        .dhirago-cta:hover           { color: #F5F0E8; border-color: #1C1814; }
+        .dhirago-cta span            { position: relative; z-index: 1; }
+
+        .dhirago-cta .arrow {
+          position: relative; z-index: 1;
+          width: 14px; height: 1px;
+          background: currentColor;
+          transition: width 0.4s ease;
+          flex-shrink: 0;
+        }
+        .dhirago-cta .arrow::after {
+          content: '';
+          position: absolute;
+          right: 0; top: -3px;
+          width: 6px; height: 6px;
+          border-top: 1px solid currentColor;
+          border-right: 1px solid currentColor;
+          transform: rotate(45deg);
+        }
+        .dhirago-cta:hover .arrow { width: 22px; }
+      `}</style>
+
+      <section
+        ref={sectionRef}
+        style={{
+          position: "relative",
+          background: "#F5F0E8",
+          backgroundImage: noiseDataUri,
+          overflow: "hidden",
+          borderTop: "1px solid rgba(196,168,130,0.2)",
+        }}
+      >
+        {/* ── Subtle radial glow from centre ── */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(196,168,130,0.08) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }} />
+
+        {/* ── Faint geometric background lines ── */}
+        <svg
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.04, pointerEvents: "none" }}
+          preserveAspectRatio="xMidYMid slice"
+          viewBox="0 0 800 500"
         >
-          <motion.img
+          {/* Concentric oval rings */}
+          {[60, 110, 160, 210, 260].map((r, i) => (
+            <ellipse key={i} cx="400" cy="250" rx={r * 2.2} ry={r} stroke="#C4A882" strokeWidth="0.5" fill="none" />
+          ))}
+          {/* Crossed diagonals */}
+          <line x1="0" y1="0" x2="800" y2="500" stroke="#C4A882" strokeWidth="0.4" />
+          <line x1="800" y1="0" x2="0" y2="500" stroke="#C4A882" strokeWidth="0.4" />
+        </svg>
+
+        {/* ── Corner ornaments ── */}
+        <div style={{ position: "absolute", top: "2rem", left: "2rem" }}>
+          <CornerMark />
+        </div>
+        <div style={{ position: "absolute", bottom: "2rem", right: "2rem" }}>
+          <CornerMark flip />
+        </div>
+
+        {/* ── Main content ── */}
+        <div style={{
+          position: "relative", zIndex: 2,
+          maxWidth: 680,
+          margin: "0 auto",
+          padding: "clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2rem)",
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 0,
+        }}>
+
+          {/* ─── Logo ─── */}
+          <motion.div
+            initial={{ opacity: 0, y: 32, scale: 0.94 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true }}
+            style={{ marginBottom: "1.5rem" }}
+          >
+              <motion.img
             src="/images/logo/3.svg"
             alt="Logo"
             className="w-[110px] md:w-[160px] opacity-90"
           
           />
-        </motion.div>
+          </motion.div>
 
-        {/* Brand label */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          viewport={{ once: true }}
-          className="text-[11px] tracking-[0.5em] text-gray-400 mb-4"
-        >
-          DHIRAGO
-        </motion.p>
+          {/* ─── Eyebrow + brand name ─── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.25 }}
+            viewport={{ once: true }}
+            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.35rem", marginBottom: "1.2rem" }}
+          >
+            <div style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #C4A882, transparent)" }} />
+            <p style={{
+              fontFamily: "'Jost', sans-serif", fontWeight: 300,
+              fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase",
+              color: "#A8937E", paddingLeft: "0.55em",
+            }}>
+              Dhirago · Conscious Luxury · Est. 2026
+            </p>
+            <div style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #C4A882, transparent)" }} />
+          </motion.div>
 
-        {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-2xl md:text-3xl  text-gray-900 mb-6 leading-tight"
-        >
-          Welcome to Dhirago
-        </motion.h2>
+          {/* ─── Headline ─── */}
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true }}
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontWeight: 300,
+              fontSize: "clamp(1.6rem, 4vw, 2.4rem)",
+              lineHeight: 1.18,
+              color: "#1C1814",
+              letterSpacing: "0.01em",
+              marginBottom: "1rem",
+            }}
+          >
+            Welcome to{" "}
+            <em style={{ fontStyle: "italic", color: "#6B5B4E" }}>Dhirago</em>
+          </motion.h2>
 
-        {/* Animated divider */}
+          {/* ─── Ornamental divider ─── */}
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0.4 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            viewport={{ once: true }}
+            style={{ marginBottom: "1.2rem", width: "100%" }}
+          >
+            <OrnamentDivider />
+          </motion.div>
+
+          {/* ─── Body copy ─── */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.58 }}
+            viewport={{ once: true }}
+            style={{ marginBottom: "1.75rem" }}
+          >
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: "italic",
+              fontWeight: 300,
+              fontSize: "clamp(0.95rem, 1.6vw, 1.1rem)",
+              lineHeight: 1.6,
+              color: "#6B5B4E",
+              letterSpacing: "0.02em",
+              marginBottom: "0.4rem",
+            }}>
+              Every Dhirago piece is thoughtfully designed
+            </p>
+            <p style={{
+              fontFamily: "'Jost', sans-serif",
+              fontWeight: 300,
+              fontSize: "clamp(11px, 1.3vw, 13px)",
+              lineHeight: 1.75,
+              color: "#8A7A6E",
+              letterSpacing: "0.03em",
+            }}>
+              to reflect timeless sophistication — for those who demand nothing less than the finest.
+            </p>
+          </motion.div>
+
+          {/* ─── CTA ─── */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.72 }}
+            viewport={{ once: true }}
+            style={{ marginBottom: "1.5rem" }}
+          >
+            {!isLoggedIn ? (
+              <button
+                onClick={() => setLoginOpen(true)}
+                style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+              >
+                <a href="#" className="dhirago-cta">
+                  <span>Join Us</span>
+                  <span className="arrow" />
+                </a>
+              </button>
+            ) : (
+              <a href="#" className="dhirago-cta">
+                <span>Welcome, {firstName || "Member"}</span>
+                <span className="arrow" />
+              </a>
+            )}
+          </motion.div>
+
+          {/* ─── Bottom tag strip ─── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.92 }}
+            viewport={{ once: true }}
+            style={{
+              display: "flex",
+              gap: "clamp(0.8rem, 2vw, 1.5rem)",
+              alignItems: "center",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            {["Limited Drops", "Members Only", "Premium Fabric"].map((tag, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "clamp(0.8rem, 2vw, 1.5rem)" }}>
+                <span style={{
+                  fontFamily: "'Jost', sans-serif",
+                  fontWeight: 300,
+                  fontSize: 9,
+                  letterSpacing: "0.4em",
+                  textTransform: "uppercase",
+                  color: "#B0A090",
+                  paddingLeft: "0.4em",
+                }}>
+                  {tag}
+                </span>
+                {i < 2 && (
+                  <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#C4A882", opacity: 0.5, display: "inline-block", flexShrink: 0 }} />
+                )}
+              </div>
+            ))}
+          </motion.div>
+
+        </div>
+
+        {/* ── Bottom border rule with shimmer ── */}
         <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: "50px" }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
           viewport={{ once: true }}
-          className="h-[1px] bg-black mx-auto mb-4"
+          style={{
+            height: 1,
+            background: "linear-gradient(90deg, transparent 0%, #C4A882 30%, #E8D5B0 50%, #C4A882 70%, transparent 100%)",
+            backgroundSize: "200% auto",
+            animation: "shimmerGold 5s linear infinite",
+          }}
         />
 
-        {/* Description */}
-   <div className="max-w-2xl mx-auto mb-8 text-black text-sm md:text-base leading-relaxed md:leading-loose">
-  
-  <p>
-    {/* We craft premium menswear, designed to last. */}
-    Every Dhirago piece is thoughtfully designed
-    
-  </p>
+      </section>
 
-  <p className="font-light tracking-wide">
-To reflect timeless sophistication{" "}
-
-    {/* Start exploring our categories and make sure you{" "} */}
-   
-     for those who demand nothing less than the finest.
-    {/* for exclusive benefits. */}
-  </p>
-
-</div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          viewport={{ once: true }}
-        >
-          
-          {/* <a
-            href="/pages/signup"
-            className="relative inline-block px-10 py-3 border border-black text-black text-xs tracking-[0.35em] rounded-full overflow-hidden group"
-          >
-            <span className="relative z-10">JOIN US</span>
-
-            <span className="absolute inset-0 bg-black scale-x-0 group-hover:scale-x-100  origin-left transition-transform duration-300" />
-            <span className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition duration-300 font-semibold" >
-              JOIN US
-            </span>
-          </a> */}
-           {!isLoggedIn ? (
-                <button
-                  onClick={() => setLoginOpen(true)}
-                  className={`text-[18px] ${
-                    pathname === "/"  ? "text-white" : "text-black"
-                  }`}
-                >
-                 <a
-            href="#"
-            className="relative inline-block px-10 py-3 border border-black text-black text-xs tracking-[0.35em] rounded-full overflow-hidden group"
-          >
-            <span className="relative z-10">JOIN US</span>
-
-            <span className="absolute inset-0 bg-black scale-x-0 group-hover:scale-x-100  origin-left transition-transform duration-300" />
-            <span className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition duration-300 font-semibold" >
-              JOIN US
-            </span>
-          </a>
-                </button>
-              ) : ( 
-                             <a
-            href="#"
-            className="relative inline-block px-10 py-3 border border-black text-black text-xs tracking-[0.35em] rounded-full overflow-hidden group"
-          >
-            <span className="relative z-10">WELCOME  {user ? (user.first_name): ('')}</span>
-
-            <span className="absolute inset-0 bg-black scale-x-0 group-hover:scale-x-100  origin-left transition-transform duration-300" />
-            <span className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition duration-300 font-semibold" >
-              WELCOME {user ? (user.first_name): ('')}
-            </span>
-          </a>
-
-              )}
-        </motion.div>
-
-        {/* Conversion Line */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          viewport={{ once: true }}
-          className="text-[10px] md:text-[11px] text-gray-400 mt-5 tracking-widest"
-        >
-          LIMITED DROPS • MEMBERS ONLY • PREMIUM FABRIC
-        </motion.p>
-
-      </div>
-              <LoginDrawer open={loginOpen} setOpen={setLoginOpen} />
-      
-    </section>
+      <LoginDrawer open={loginOpen} setOpen={setLoginOpen} />
+    </>
   );
 }

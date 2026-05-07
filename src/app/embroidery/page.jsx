@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
+// ─── Color tokens ─────────────────────────────────────────────────────────────
+// Dark sections: deep indigo #1F1D3A → #252345 (replaces #1C1814 black)
+// Light sections: warm parchment #F0EBE0 (as requested)
+// ─────────────────────────────────────────────────────────────────────────────
+
 function useReveal() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -33,19 +38,16 @@ function Reveal({ children, delay = 0, style = {} }) {
   );
 }
 
-// Decorative stitch SVG patterns
+// ─── Decorative patterns ──────────────────────────────────────────────────────
 function SashikoPattern({ size = 120, opacity = 0.12 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 120 120" fill="none" style={{ opacity }}>
-      {/* Horizontal lines */}
       {[10, 30, 50, 70, 90, 110].map(y => (
         <line key={`h${y}`} x1="0" y1={y} x2="120" y2={y} stroke="#C4A882" strokeWidth="1" strokeDasharray="6 4" />
       ))}
-      {/* Vertical lines */}
       {[10, 30, 50, 70, 90, 110].map(x => (
         <line key={`v${x}`} x1={x} y1="0" x2={x} y2="120" stroke="#C4A882" strokeWidth="1" strokeDasharray="6 4" />
       ))}
-      {/* Diamond intersections */}
       {[30, 70, 110].map(x => [30, 70, 110].map(y => (
         <circle key={`d${x}${y}`} cx={x} cy={y} r="3" stroke="#C4A882" strokeWidth="1" fill="none" />
       )))}
@@ -99,7 +101,7 @@ const techniques = [
     name: "Miniature Art",
     origin: "Rajasthan",
     tag: "Hand-Painted Motifs",
-    description: "Drawing from the tradition of Rajasthani miniature painting, every motif on a Dhirago garment is created entirely by hand. No two are identical — each carries the subtle variation of the artist&apos;s hand, making every piece a singular work.",
+    description: "Drawing from the tradition of Rajasthani miniature painting, every motif on a Dhirago garment is created entirely by hand. No two are identical — each carries the subtle variation of the artist's hand, making every piece a singular work.",
     detail: "Exquisite craftsmanship meets material excellence — where detail is not an addition, but a signature of the piece.",
     pattern: (
       <svg width={160} height={160} viewBox="0 0 160 160" fill="none" style={{ opacity: 0.2 }}>
@@ -108,9 +110,9 @@ const techniques = [
         <rect x="55" y="55" width="50" height="50" stroke="#C4A882" strokeWidth="0.5" transform="rotate(-15 80 80)" />
         <circle cx="80" cy="80" r="15" stroke="#C4A882" strokeWidth="0.8" />
         <circle cx="80" cy="80" r="5" fill="#C4A882" />
-        {[0,60,120,180,240,300].map((a,i) => {
+        {[0, 60, 120, 180, 240, 300].map((a, i) => {
           const r = (a * Math.PI) / 180;
-          return <line key={i} x1={80 + 18*Math.cos(r)} y1={80 + 18*Math.sin(r)} x2={80 + 38*Math.cos(r)} y2={80 + 38*Math.sin(r)} stroke="#C4A882" strokeWidth="0.6" />;
+          return <line key={i} x1={80 + 18 * Math.cos(r)} y1={80 + 18 * Math.sin(r)} x2={80 + 38 * Math.cos(r)} y2={80 + 38 * Math.sin(r)} stroke="#C4A882" strokeWidth="0.6" />;
         })}
       </svg>
     ),
@@ -124,10 +126,12 @@ export default function EmbroideryPage() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Mulish:wght@200;300;400;600&display=swap');
+
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         @keyframes fadeUp { from { opacity:0; transform:translateY(35px); } to { opacity:1; transform:translateY(0); } }
-        .tech-tab { 
-          padding: 1.2rem 0; 
+
+        .tech-tab {
+          padding: 1.2rem 0;
           border-bottom: 1px solid rgba(245,240,232,0.1);
           cursor: pointer;
           transition: all 0.3s;
@@ -141,13 +145,28 @@ export default function EmbroideryPage() {
         .tech-tab.active .tech-tab-name { color: #F5F0E8; }
       `}</style>
 
-      <div style={{ background: "#F7F3EC", color: "#1C1814", fontFamily: "'Mulish', sans-serif", minHeight: "100vh" }}>
+      <div style={{ background: "#F0EBE0", color: "#1C1814", fontFamily: "'Mulish', sans-serif", minHeight: "100vh" }}>
 
-        {/* HERO — editorial magazine style */}
-        <section style={{ position: "relative", minHeight: "100vh", display: "grid", gridTemplateRows: "1fr auto", background: "#1C1814", overflow: "hidden" }}>
+        {/* ══════════ HERO ══════════ */}
+        {/* Deep indigo replaces near-black: richer, more distinguished */}
+        <section style={{
+          position: "relative",
+          minHeight: "100vh",
+          display: "grid",
+          gridTemplateRows: "1fr auto",
+          background: "linear-gradient(155deg, #000000 0%, #000000 55%, #000000 100%)",
+          overflow: "hidden",
+        }}>
 
-          {/* Background pattern */}
-          <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gridTemplateRows: "repeat(6, 1fr)", opacity: 0.04 }}>
+          {/* Subtle noise texture */}
+          <div style={{
+            position: "absolute", inset: 0,
+            backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
+            pointerEvents: "none", zIndex: 0,
+          }} />
+
+          {/* Background stitch grid */}
+          <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gridTemplateRows: "repeat(6, 1fr)", opacity: 0.04, zIndex: 1 }}>
             {Array.from({ length: 36 }).map((_, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <SashikoPattern size={80} opacity={1} />
@@ -155,26 +174,32 @@ export default function EmbroideryPage() {
             ))}
           </div>
 
+          {/* Radial glow — warm gold from centre */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "radial-gradient(ellipse at 30% 55%, rgba(196,168,130,0.06) 0%, transparent 60%)",
+            pointerEvents: "none", zIndex: 1,
+          }} />
+
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(4rem, 8vw, 7rem) clamp(2rem, 5vw, 6rem)", zIndex: 2, paddingBottom: "2rem" }}>
-           
             <div style={{ animation: "fadeUp 1s ease 0.5s both", maxWidth: 900 }}>
-              <h1 style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400, fontSize: "clamp(3rem, 7vw, 6.5rem)", lineHeight: 1.05, color: "#F5F0E8", marginBottom: "1.5rem" }}>
-                A Touch of<br /><em style={{ fontStyle: "italic", color: "#D4B896" }}>Embroidery,</em><br />a Shade of Elegance
+              <h1 style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400, fontSize: "clamp(3rem, 7vw, 6.5rem)", lineHeight: 1.05, color: "#ffffff", marginBottom: "1.5rem" }}>
+                A Touch of<br /><em style={{ fontStyle: "italic", color: "#fffdfd" }}>Embroidery,</em><br />a Shade of Elegance
               </h1>
             </div>
             <div style={{ animation: "fadeUp 1s ease 0.7s both" }}>
-              <p style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 300, fontSize: "clamp(13px, 1.5vw, 16px)", lineHeight: 1.9, color: "rgba(245,240,232,0.55)", maxWidth: 560 }}>
+              <p style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 300, fontSize: "clamp(13px, 1.5vw, 16px)", lineHeight: 1.9, color: "rgba(255, 255, 255, 0.55)", maxWidth: 560 }}>
                 Indigenous textile techniques and natural fabrics — integrating time-honoured weaving practices into garments that remain connected to tradition while expressed with a modern sensibility.
               </p>
             </div>
           </div>
 
-          {/* Floating pattern */}
+          {/* Floating Kantha pattern */}
           <div style={{ position: "absolute", right: "5%", top: "50%", transform: "translateY(-50%)", animation: "float 6s ease-in-out infinite", opacity: 0.6, zIndex: 1 }}>
             <KanthaPattern opacity={0.35} />
           </div>
 
-          {/* Bottom strip */}
+          {/* Bottom technique strip */}
           <div style={{ borderTop: "1px solid rgba(196,168,130,0.2)", padding: "2rem clamp(2rem, 5vw, 6rem)", display: "flex", gap: "4rem", zIndex: 2, flexWrap: "wrap" }}>
             {["Sashiko", "Kantha", "Miniature Art", "Hand Painting"].map((t, i) => (
               <span key={i} style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 200, fontSize: 10, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(245,240,232,0.35)" }}>
@@ -184,12 +209,16 @@ export default function EmbroideryPage() {
           </div>
         </section>
 
-        {/* TECHNIQUES — interactive */}
-        <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#1C1814" }}>
+        {/* ══════════ TECHNIQUES ══════════ */}
+        {/* Mid indigo — slightly lighter than hero for depth separation */}
+        <section style={{
+          padding: "clamp(4rem, 8vw, 8rem) 0",
+          background: "linear-gradient(180deg, #232140 0%, #1E1C3A 100%)",
+        }}>
           <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 5rem)" }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "5rem", alignItems: "start" }}>
 
-              {/* Left panel */}
+              {/* Left — tab list */}
               <div>
                 <Reveal>
                   <p style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 200, fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#C4A882", marginBottom: "2.5rem" }}>
@@ -226,12 +255,18 @@ export default function EmbroideryPage() {
               {/* Right — detail panel */}
               <div style={{ position: "sticky", top: "6rem" }}>
                 <Reveal>
-                  <div style={{ position: "relative", border: "1px solid rgba(196,168,130,0.15)", padding: "3.5rem", overflow: "hidden", minHeight: 360 }}>
+                  <div style={{
+                    position: "relative",
+                    border: "1px solid rgba(196,168,130,0.15)",
+                    padding: "3.5rem",
+                    overflow: "hidden",
+                    minHeight: 360,
+                    background: "rgba(255,255,255,0.03)", /* very subtle inset lift */
+                  }}>
                     {/* Background pattern */}
                     <div style={{ position: "absolute", right: "-20px", bottom: "-20px" }}>
                       {techniques[active].pattern}
                     </div>
-
                     <div style={{ position: "relative", zIndex: 2 }}>
                       <span style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 200, fontSize: 9, letterSpacing: "0.5em", textTransform: "uppercase", color: "#C4A882", display: "block", marginBottom: "1rem" }}>
                         {techniques[active].tag}
@@ -247,12 +282,14 @@ export default function EmbroideryPage() {
                   </div>
                 </Reveal>
               </div>
+
             </div>
           </div>
         </section>
 
-        {/* HERITAGE STATEMENT */}
-        <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#F7F3EC" }}>
+        {/* ══════════ HERITAGE STATEMENT ══════════ */}
+        {/* Warm parchment as requested */}
+        <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#F0EBE0" }}>
           <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 5rem)" }}>
 
             <Reveal>
@@ -281,7 +318,8 @@ export default function EmbroideryPage() {
             <Reveal>
               <div style={{ position: "relative", overflow: "hidden" }}>
                 <Image src="/images/subscribe.jpg" alt="Heritage Craft" width={1200} height={500} style={{ width: "100%", height: "clamp(280px, 45vw, 500px)", objectFit: "cover", display: "block" }} />
-                <div style={{ position: "absolute", inset: 0, background: "rgba(28,24,20,0.35)" }} />
+                {/* Indigo-tinted overlay for brand cohesion */}
+                <div style={{ position: "absolute", inset: 0, background: "rgba(30,26,55,0.40)" }} />
                 <div style={{ position: "absolute", bottom: "2.5rem", left: "2.5rem" }}>
                   <p style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)", color: "#F5F0E8", maxWidth: 500, lineHeight: 1.4 }}>
                     "Detail is not an addition — it is a signature of the piece."
@@ -289,6 +327,7 @@ export default function EmbroideryPage() {
                 </div>
               </div>
             </Reveal>
+
           </div>
         </section>
 

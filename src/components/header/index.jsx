@@ -13,6 +13,8 @@ import { usePathname } from "next/navigation";
 import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
 import { Montserrat } from "next/font/google";
+import API from "../../lib/api"; 
+
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
@@ -55,12 +57,16 @@ const Header = () => {
   //   setMenuOpen(false);
   // };
 
-  const handleLogout = async () => {
+ const handleLogout = async () => {
   try {
-    await API.post("/logout"); // ✅ destroy session on backend
+    await API.post("/logout");
   } catch (err) {
     console.error("Logout error:", err);
   } finally {
+    // ✅ clear any frontend cookies too
+    Cookies.remove("token");
+    Cookies.remove("XSRF-TOKEN");
+    
     dispatch(logout());
     setMenuOpen(false);
     router.replace("/");

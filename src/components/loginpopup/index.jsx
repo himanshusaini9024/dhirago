@@ -12,6 +12,24 @@ export default function LoginPopup({ isOpen, onClose }) {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
+const API = process.env.NEXT_PUBLIC_API_URL;
+
+// Helper: fetch CSRF token from Sanctum before any state-changing request
+const fetchCsrf = async () => {
+  await fetch(`${API}/sanctum/csrf-cookie`, {
+    credentials: "include",
+  });
+};
+
+// Helper: read XSRF-TOKEN cookie (Sanctum sets it after csrf-cookie call)
+const getXsrfToken = () => {
+  return decodeURIComponent(
+    document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("XSRF-TOKEN="))
+      ?.split("=")[1] || ""
+  );
+};
 
   if (!isOpen) return null;
 
@@ -22,16 +40,24 @@ export default function LoginPopup({ isOpen, onClose }) {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/send-otp`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mobile }),
-        }
-      );
+     await fetchCsrf();
 
-      if (!res.ok) throw new Error("Failed to send OTP");
+        const res = await fetch(`${API}/api/send-otp`, {
+          method: "POST",
+          credentials: "include",           // ✅ added
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-XSRF-TOKEN": getXsrfToken(), // ✅ added
+          },
+          body: JSON.stringify({ mobile }),
+        });
+
+        const data = await res.json().catch(async () => {
+          throw new Error("Server error");
+        });
+
+        if (!res.ok) throw new Error(data.message);
 
       setStep("otp");
     } catch (err) {
@@ -49,30 +75,33 @@ export default function LoginPopup({ isOpen, onClose }) {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/verify-otp`,
-        {
+     await fetchCsrf();
+
+        const res = await fetch(`${API}/api/verify-otp`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          credentials: "include",           // ✅ already had this
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-XSRF-TOKEN": getXsrfToken(), // ✅ added
+          },
           body: JSON.stringify({ mobile, otp }),
-        }
-      );
+        });
 
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "Invalid OTP");
 
-      // ✅ Save login
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // // ✅ Save login
+      // localStorage.setItem("token", data.token);
+      // localStorage.setItem("isLoggedIn", true);
+      // localStorage.setItem("user", JSON.stringify(data.user));
 
-      Cookies.set("token", data.token);
-
+      // Cookies.set("token", data.token);
+  
       dispatch(
         loginSuccess({
-          user: data.user,
-          token: data.token,
+          user: data.user
         })
       );
 

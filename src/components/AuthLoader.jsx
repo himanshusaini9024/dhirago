@@ -2,13 +2,15 @@
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loadUserFromStorage } from "../store/authslice";
+
+import { loginSuccess, logout } from "../store/authslice";
+import { restoreAuth } from "../lib/auth";
 
 export default function AuthLoader() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadUserFromStorage());
+    restoreAuth(dispatch, loginSuccess, logout);
   }, [dispatch]);
 
   return null;

@@ -41,17 +41,31 @@ const Header = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("user_email");
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("popupCount");
-    Cookies.remove("token");
+  console.log('isLoggedIn',isLoggedIn)
+
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("user");
+  //   localStorage.removeItem("user_email");
+  //   localStorage.removeItem("isLoggedIn");
+  //   localStorage.removeItem("popupCount");
+  //   Cookies.remove("token");
+  //   dispatch(logout());
+  //   router.replace("/");
+  //   setMenuOpen(false);
+  // };
+
+  const handleLogout = async () => {
+  try {
+    await API.post("/logout"); // ✅ destroy session on backend
+  } catch (err) {
+    console.error("Logout error:", err);
+  } finally {
     dispatch(logout());
-    router.replace("/");
     setMenuOpen(false);
-  };
+    router.replace("/");
+  }
+};
   const handleMouseEnterMen = () => {
     clearTimeout(timeoutRef.current);
     setMegaMenuMen(true);

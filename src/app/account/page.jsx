@@ -4,10 +4,36 @@ import { LayoutDashboard, ShoppingBag, User, Heart } from "lucide-react";
 import MyProfilePage from "./myprofile/page";
 import Dashboard from "./dashboard/page";
 import Orders from "./orders/page";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 export default function AccountPage() {
+
+   const router = useRouter();
   const [activeTab, setActiveTab] = useState("dashboard");
+
+  const isLoggedIn = useSelector(
+    (state) => state.auth.isLoggedIn
+  );
+
+  const userdata = useSelector(
+    (state) => state.auth.user
+  );
+
+  // Redirect if logged out
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.replace("/");
+    }
+  }, [isLoggedIn, router]);
+
+  // Prevent page flash
+  if (!isLoggedIn || !userdata) {
+    return null;
+  }
+
   return (
     <div className="bg-[#f6f6f6] min-h-screen w-full">
       {/* MOBILE MENU */}

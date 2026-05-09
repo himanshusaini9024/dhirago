@@ -1,4 +1,6 @@
 "use client";
+import { useSelector, useDispatch } from "react-redux";
+
 import { useEffect, useState } from "react";
 import API from "../../../lib/api";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,7 +30,9 @@ export default function OrdersPage() {
   const [openId, setOpenId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const userdata = JSON.parse(localStorage.getItem("user") || "{}");
+  // const userdata = JSON.parse(localStorage.getItem("user") || "{}");
+  const userdata = useSelector((state) => state.auth.user);
+
   const customer_id = userdata?.customer_id;
   useEffect(() => {
     fetchOrders();

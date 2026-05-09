@@ -32,109 +32,107 @@ export default function LoginDrawer({ open, setOpen }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+const API = process.env.NEXT_PUBLIC_API_URL;
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+// Helper: fetch CSRF token from Sanctum before any state-changing request
+const fetchCsrf = async () => {
+  await fetch(`${API}/sanctum/csrf-cookie`, {
+    credentials: "include",
+  });
+};
 
-    try {
-      // ================= OTP FLOW =================
-      if (loginType === "mobile") {
-        if (!otpSent) {
-          // 👉 SEND OTP
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/send-otp`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
+// Helper: read XSRF-TOKEN cookie (Sanctum sets it after csrf-cookie call)
+const getXsrfToken = () => {
+  return decodeURIComponent(
+    document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("XSRF-TOKEN="))
+      ?.split("=")[1] || ""
+  );
+};
 
-              body: JSON.stringify({ mobile }),
-            },
-          );
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-          let data;
+  try {
+    // ================= OTP FLOW =================
+    if (loginType === "mobile") {
+      if (!otpSent) {
+        // SEND OTP — fetch CSRF first
+        await fetchCsrf();
 
-          try {
-            data = await res.json();
-          } catch (e) {
-            const text = await res.text();
-            console.error("Invalid JSON:", text);
-            throw new Error("Server error");
-          }
-
-          if (!res.ok) throw new Error(data.message);
-
-          setOtpSent(true);
-        } else {
-          // 👉 VERIFY OTP
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/verify-otp`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-
-              body: JSON.stringify({ mobile, otp }),
-            },
-          );
-
-          const data = await res.json();
-
-          if (!res.ok) throw new Error(data.message);
-          localStorage.setItem("isLoggedIn", "true");
-          // after success
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
-          Cookies.set("token", data.token);
-          dispatch(
-            loginSuccess({
-              user: data.user,
-              token: data.token,
-            }),
-          );
-          setOpen(false);
-        }
-      }
-
-      // ================= EMAIL LOGIN =================
-      else {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-
-            body: JSON.stringify({ email, password }),
+        const res = await fetch(`${API}/api/send-otp`, {
+          method: "POST",
+          credentials: "include",           // ✅ added
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-XSRF-TOKEN": getXsrfToken(), // ✅ added
           },
-        );
+          body: JSON.stringify({ mobile }),
+        });
+
+        const data = await res.json().catch(async () => {
+          throw new Error("Server error");
+        });
+
+        if (!res.ok) throw new Error(data.message);
+        setOtpSent(true);
+
+      } else {
+        // VERIFY OTP — fetch CSRF again (fresh token)
+        await fetchCsrf();
+
+        const res = await fetch(`${API}/api/verify-otp`, {
+          method: "POST",
+          credentials: "include",           // ✅ already had this
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-XSRF-TOKEN": getXsrfToken(), // ✅ added
+          },
+          body: JSON.stringify({ mobile, otp }),
+        });
 
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
 
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        dispatch(
-          loginSuccess({
-            user: data.user,
-            token: data.token,
-          }),
-        );
+        dispatch(loginSuccess({ user: data.user })); // ✅ no token (session-based)
         setOpen(false);
       }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
     }
-  };
+
+    // ================= EMAIL LOGIN =================
+    else {
+      await fetchCsrf(); // ✅ fetch CSRF before login
+
+      const res = await fetch(`${API}/api/login`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-XSRF-TOKEN": getXsrfToken(), // ✅ added
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      // ✅ Session-based, no token needed — remove Cookies.set
+      dispatch(loginSuccess({ user: data.user }));
+      setOpen(false);
+    }
+
+  } catch (err) {
+    setError(err.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <AnimatePresence>

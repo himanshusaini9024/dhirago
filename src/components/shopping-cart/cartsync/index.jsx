@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCart } from "../../../store/reducers/cart";
 import { mergeCartItems } from "../../../utils/megacart";
-
+import API from "../../../lib/api"; 
 const CartSync = () => {
   const dispatch = useDispatch();
 
@@ -25,25 +25,12 @@ const prevLogin = useRef(false);
     const fetchCart = async () => {
       try {
         hasFetched.current = true; // 🚀 prevent re-call
+  const res = await API.get("/get-cart");
+      
+     
 
-        const res = await fetch("http://192.168.137.63:8000/api/get-cart", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        // ❗ handle API error (prevents HTML crash)
-        if (!res.ok) {
-          console.error("Fetch error:", res.status);
-          return;
-        }
-
-        const data = await res.json();
-
-        const dbCart = data.cart || [];
+        const dbCart = res.data.cart || [];
         const guestCart = cartItems || [];
-
-        // ✅ MERGE
         const mergedCart = mergeCartItems(guestCart, dbCart);
 
         // ✅ update redux ONLY if changed
@@ -66,16 +53,7 @@ const prevLogin = useRef(false);
 
     const saveCart = async () => {
       try {
-        await fetch("http://192.168.137.63:8000/api/save-cart", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            cart: cartItems,
-          }),
-        });
+     await API.post("/save-cart", { cart: cartItems });
       } catch (err) {
         console.error("Cart save error:", err);
       }

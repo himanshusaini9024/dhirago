@@ -15,19 +15,20 @@ export default function Dashboard({ setActiveTab }) {
 
   const [orders, setOrders] = useState([]);
   const { cartItems } = useSelector((state) => state.cart);
-  const userdata = JSON.parse(localStorage.getItem("user") || "{}");
+  // const userdata = JSON.parse(localStorage.getItem("user") || "{}");
+  const userdata = useSelector((state) => state.auth.user);
+  console.log('userdata',userdata);
   const customer_id = userdata?.customer_id;
+
   const user = {
-    name: userdata.first_name,
+    name: userdata?.first_name || '',
     joined: "March 14, 2026",
   };
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await API.get("/orders", {
-          params: { customer_id },
-        });
+        const res = await API.get("/orders");
 
         setOrders(res.data || []);
       } catch (err) {
@@ -63,14 +64,14 @@ export default function Dashboard({ setActiveTab }) {
               {user.name}
             </span>
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
+          {/* <p className="text-sm text-gray-500 mt-1">
             Customer since <span className="text-gray-700">{user.joined}</span>
-          </p>
+          </p> */}
         </div>
 
-        <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center">
+        {/* <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center">
           {user.name}
-        </div>
+        </div> */}
       </div>
 
       {/* ACTIONS */}

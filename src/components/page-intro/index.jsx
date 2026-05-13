@@ -50,7 +50,7 @@ const PageIntro = () => {
 
           {/* Button */}
           <button className="border border-white px-6 py-2 text-sm tracking-wide hover:bg-white hover:text-black transition duration-300">
-            Discover
+            Discovessr
           </button>
         </div>
       </div>

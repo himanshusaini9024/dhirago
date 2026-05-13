@@ -1,15 +1,16 @@
 export default function robots() {
-  const isProduction = process.env.NODE_ENV === "production";
+  const isIndexingEnabled =
+    process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
 
   return {
     rules: {
       userAgent: "*",
-      allow: isProduction ? "/" : "",
-      disallow: isProduction
+      allow: isIndexingEnabled ? "/" : "",
+      disallow: isIndexingEnabled
         ? ["/cart", "/account", "/checkout"]
         : "/",
     },
-    sitemap: isProduction
+    sitemap: isIndexingEnabled
       ? "https://dhirago-a6xq.vercel.app/sitemap.xml"
       : "",
   };

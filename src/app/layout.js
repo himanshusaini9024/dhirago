@@ -9,7 +9,7 @@ import "./globals.css";
 import "../assets/css/styles.scss";
 
 const inter = Inter({ subsets: ["latin"] });
-
+import { futura  } from "./font";
 import Header from "../components/header";
 import ReduxProvider from "../store/provider";
 import Script from "next/script";
@@ -51,7 +51,7 @@ export default function RootLayout({ children }) {
     
     <html lang="en">
       
-      <body className={`${montserrat.className} font-sans`}>
+      <body className={`${futura.variable} `}>
         <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="beforeInteractive"

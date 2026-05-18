@@ -17,6 +17,8 @@ import PopupProvider from "../components/loginpopup/PopupProvider";
 import LayoutWrapper from "../components/LayoutWrapper";
 import AuthLoader from "../components/AuthLoader";
 import Footer from "../components/footer";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react";
 import CartSync from "../components/shopping-cart/cartsync";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +68,8 @@ export default function RootLayout({ children }) {
               <LayoutWrapper>
                 <CartSync />
                 {children}
+                 <Analytics />
+                   <SpeedInsights />
               </LayoutWrapper>
               {/* <Script
                 id="tawk-chat"

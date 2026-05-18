@@ -259,7 +259,7 @@ const Header = () => {
     }
   `}
             >
-              <Link href={"/"}>Dhirago</Link>
+              <Link href={"/"}>Dhirago s</Link>
             </div>
 
             {/* RIGHT */}

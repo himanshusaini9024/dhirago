@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { Josefin_Sans } from "next/font/google";
 
-// ─── Color tokens ─────────────────────────────────────────────────────────────
-// Dark sections: deep indigo #1F1D3A → #252345 (replaces #1C1814 black)
-// Light sections: warm parchment #F0EBE0 (as requested)
-// ─────────────────────────────────────────────────────────────────────────────
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 function useReveal() {
   const ref = useRef(null);
@@ -38,7 +39,6 @@ function Reveal({ children, delay = 0, style = {} }) {
   );
 }
 
-// ─── Decorative patterns ──────────────────────────────────────────────────────
 function SashikoPattern({ size = 120, opacity = 0.12 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 120 120" fill="none" style={{ opacity }}>
@@ -64,11 +64,7 @@ function KanthaPattern({ opacity = 0.1 }) {
       <circle cx="100" cy="100" r="20" stroke="#C4A882" strokeWidth="1" />
       {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => {
         const rad = (angle * Math.PI) / 180;
-        const x1 = 100 + 22 * Math.cos(rad);
-        const y1 = 100 + 22 * Math.sin(rad);
-        const x2 = 100 + 78 * Math.cos(rad);
-        const y2 = 100 + 78 * Math.sin(rad);
-        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#C4A882" strokeWidth="0.7" strokeDasharray="2 4" />;
+        return <line key={i} x1={100 + 22 * Math.cos(rad)} y1={100 + 22 * Math.sin(rad)} x2={100 + 78 * Math.cos(rad)} y2={100 + 78 * Math.sin(rad)} stroke="#C4A882" strokeWidth="0.7" strokeDasharray="2 4" />;
       })}
     </svg>
   );
@@ -125,48 +121,76 @@ export default function EmbroideryPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Mulish:wght@200;300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .heading-font { font-family: ${josefin.style.fontFamily}; }
+        .font-futura  { font-family: "Century Gothic", Futura, "Trebuchet MS", sans-serif; }
+
+        @keyframes float  { 0%,100% { transform: translateY(-50%) translateX(0); } 50% { transform: translateY(calc(-50% - 12px)) translateX(0); } }
         @keyframes fadeUp { from { opacity:0; transform:translateY(35px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
+        /* ── Technique tabs ─────────────────────────────────── */
         .tech-tab {
           padding: 1.2rem 0;
-          border-bottom: 1px solid rgba(245,240,232,0.1);
+          border-bottom: 1px solid rgba(28,24,20,0.1);
           cursor: pointer;
           transition: all 0.3s;
           display: flex;
           align-items: center;
           gap: 1.5rem;
         }
-        .tech-tab:hover .tech-tab-name { color: #F5F0E8; }
+        .tech-tab:first-of-type { border-top: 1px solid rgba(28,24,20,0.1); }
+        .tech-tab:hover .tech-tab-name  { color: #1C1814; }
         .tech-tab-indicator { width: 3px; height: 0; background: #C4A882; transition: height 0.4s; flex-shrink: 0; }
         .tech-tab.active .tech-tab-indicator { height: 2.5rem; }
-        .tech-tab.active .tech-tab-name { color: #F5F0E8; }
+        .tech-tab.active .tech-tab-name  { color: #1C1814; }
+
+        /* ── Responsive ─────────────────────────────────────── */
+        .techniques-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 5rem;
+          align-items: start;
+        }
+        .heritage-grid {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: 5rem;
+          align-items: start;
+          margin-bottom: clamp(3rem, 6vw, 5rem);
+        }
+        .sticky-panel { position: sticky; top: 6rem; }
+
+        @media (max-width: 900px) {
+          .techniques-grid { grid-template-columns: 1fr; gap: 3rem; }
+          .heritage-grid   { grid-template-columns: 1fr; gap: 2.5rem; }
+          .sticky-panel    { position: relative; top: unset; }
+          .hero-strip      { gap: 2.5rem !important; }
+        }
+
+        @media (max-width: 600px) {
+          .hero-strip      { gap: 2rem !important; }
+          .tech-panel      { padding: 2rem !important; }
+          .hero-heading    { font-size: clamp(2.2rem, 10vw, 3.5rem) !important; }
+        }
       `}</style>
 
-      <div style={{ background: "#F0EBE0", color: "#1C1814", fontFamily: "'Mulish', sans-serif", minHeight: "100vh" }}>
+      <div style={{ background: "#FAFAF7", color: "#1C1814", fontFamily: "'Century Gothic', Futura, 'Trebuchet MS', sans-serif", minHeight: "100vh" }}>
 
-        {/* ══════════ HERO ══════════ */}
-        {/* Deep indigo replaces near-black: richer, more distinguished */}
+        {/* ══ HERO ════════════════════════════════════════════ */}
         <section style={{
           position: "relative",
           minHeight: "100vh",
           display: "grid",
           gridTemplateRows: "1fr auto",
-          background: "linear-gradient(155deg, #000000 0%, #000000 55%, #000000 100%)",
+          background: "#000",
           overflow: "hidden",
         }}>
-
-          {/* Subtle noise texture */}
-          <div style={{
-            position: "absolute", inset: 0,
-            backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
-            pointerEvents: "none", zIndex: 0,
-          }} />
-
           {/* Background stitch grid */}
-          <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gridTemplateRows: "repeat(6, 1fr)", opacity: 0.04, zIndex: 1 }}>
+          <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gridTemplateRows: "repeat(6, 1fr)", opacity: 0.04, zIndex: 1, pointerEvents: "none" }}>
             {Array.from({ length: 36 }).map((_, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <SashikoPattern size={80} opacity={1} />
@@ -174,54 +198,67 @@ export default function EmbroideryPage() {
             ))}
           </div>
 
-          {/* Radial glow — warm gold from centre */}
-          <div style={{
-            position: "absolute", inset: 0,
-            background: "radial-gradient(ellipse at 30% 55%, rgba(196,168,130,0.06) 0%, transparent 60%)",
-            pointerEvents: "none", zIndex: 1,
-          }} />
+          {/* Radial warm glow */}
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 30% 55%, rgba(196,168,130,0.07) 0%, transparent 60%)", pointerEvents: "none", zIndex: 1 }} />
 
+          {/* Hero content */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(4rem, 8vw, 7rem) clamp(2rem, 5vw, 6rem)", zIndex: 2, paddingBottom: "2rem" }}>
             <div style={{ animation: "fadeUp 1s ease 0.5s both", maxWidth: 900 }}>
-              <h1 style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400, fontSize: "clamp(3rem, 7vw, 6.5rem)", lineHeight: 1.05, color: "#ffffff", marginBottom: "1.5rem" }}>
-                A Touch of<br /><em style={{ fontStyle: "italic", color: "#fffdfd" }}>Embroidery,</em><br />a Shade of Elegance
+              <p className="font-futura" style={{ fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#C4A882", marginBottom: "2rem", fontWeight: 400 }}>
+                Why Dhirago — 03
+              </p>
+              <h1 className="heading-font hero-heading" style={{ fontWeight: 100, fontSize: "clamp(1.8rem, 7vw, 3rem)", lineHeight: 1.05, letterSpacing: "0.05em", color: "#F5F0E8", marginBottom: "2rem" }}>
+                A Touch of<br />
+                <em style={{ fontStyle: "italic", color: "#D4B896", fontWeight: 100 }}>Embroidery,</em><br />
+                a Shade of Elegance
               </h1>
             </div>
             <div style={{ animation: "fadeUp 1s ease 0.7s both" }}>
-              <p style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 300, fontSize: "clamp(13px, 1.5vw, 16px)", lineHeight: 1.9, color: "rgba(255, 255, 255, 0.55)", maxWidth: 560 }}>
+              <p className="font-futura" style={{ fontWeight: 100, fontSize: "clamp(23px, 1.5vw, 25px)", lineHeight: 1.9, color: "rgba(245,240,232,0.6)", maxWidth: 520, textAlign: "justify" }}>
                 Indigenous textile techniques and natural fabrics — integrating time-honoured weaving practices into garments that remain connected to tradition while expressed with a modern sensibility.
               </p>
             </div>
           </div>
 
-          {/* Floating Kantha pattern */}
-          <div style={{ position: "absolute", right: "5%", top: "50%", transform: "translateY(-50%)", animation: "float 6s ease-in-out infinite", opacity: 0.6, zIndex: 1 }}>
+          {/* Floating Kantha */}
+          <div style={{ position: "absolute", right: "5%", top: "50%", transform: "translateY(-50%)", animation: "float 6s ease-in-out infinite", opacity: 0.5, zIndex: 1, pointerEvents: "none" }}>
             <KanthaPattern opacity={0.35} />
           </div>
 
-          {/* Bottom technique strip */}
-          <div style={{ borderTop: "1px solid rgba(196,168,130,0.2)", padding: "2rem clamp(2rem, 5vw, 6rem)", display: "flex", gap: "4rem", zIndex: 2, flexWrap: "wrap" }}>
+          {/* Bottom strip */}
+          <div style={{ borderTop: "1px solid rgba(196,168,130,0.2)", padding: "1.8rem clamp(2rem, 5vw, 6rem)", display: "flex", gap: "4rem", zIndex: 2, flexWrap: "wrap" }} className="hero-strip">
             {["Sashiko", "Kantha", "Miniature Art", "Hand Painting"].map((t, i) => (
-              <span key={i} style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 200, fontSize: 10, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(245,240,232,0.35)" }}>
+              <span key={i} className="font-futura" style={{ fontWeight: 300, fontSize: 10, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(245,240,232,0.3)" }}>
                 {t}
               </span>
             ))}
           </div>
         </section>
 
-        {/* ══════════ TECHNIQUES ══════════ */}
-        {/* Mid indigo — slightly lighter than hero for depth separation */}
-        <section style={{
-          padding: "clamp(4rem, 8vw, 8rem) 0",
-          background: "linear-gradient(180deg, #232140 0%, #1E1C3A 100%)",
-        }}>
+        {/* ══ MARQUEE STRIP ═══════════════════════════════════ */}
+        <section style={{ background: "#C4A882", padding: "1.3rem 0", overflow: "hidden" }}>
+          <div style={{ display: "flex", width: "100%", overflow: "hidden" }}>
+            {[0, 1].map(clone => (
+              <div key={clone} style={{ display: "flex", gap: "4rem", whiteSpace: "nowrap", flexShrink: 0, paddingRight: "4rem", animation: "marqueeScroll 22s linear infinite" }}>
+                {["Sashiko · Japan", "Kantha · India", "Miniature Art · Rajasthan", "Hand Painting", "Heritage Craft", "Indigenous Textile"].map((t, i) => (
+                  <span key={i} className="font-futura" style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.4em", textTransform: "uppercase", color: "#1C1814", flexShrink: 0 }}>
+                    {t} &nbsp;·
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ══ TECHNIQUES ══════════════════════════════════════ */}
+        <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#FAFAF7" }}>
           <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 5rem)" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "5rem", alignItems: "start" }}>
+            <div className="techniques-grid">
 
               {/* Left — tab list */}
               <div>
                 <Reveal>
-                  <p style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 200, fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#C4A882", marginBottom: "2.5rem" }}>
+                  <p className="font-futura" style={{ fontWeight: 300, fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#B09880", marginBottom: "2.5rem" }}>
                     The Techniques
                   </p>
                 </Reveal>
@@ -234,16 +271,22 @@ export default function EmbroideryPage() {
                     <div className="tech-tab-indicator" />
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", alignItems: "baseline", gap: "1rem", marginBottom: "0.3rem" }}>
-                        <span style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.85rem", color: "rgba(196,168,130,0.5)" }}>{t.num}</span>
-                        <span className="tech-tab-name" style={{ fontFamily: "'EB Garamond', serif", fontSize: "clamp(1.1rem, 2vw, 1.4rem)", color: active === i ? "#F5F0E8" : "rgba(245,240,232,0.45)", transition: "color 0.3s" }}>
+                        <span className="font-futura" style={{ fontSize: "0.75rem", color: "rgba(176,152,128,0.6)", fontWeight: 300 }}>{t.num}</span>
+                        <span className="tech-tab-name heading-font" style={{
+                          fontSize: "clamp(1rem, 2vw, 1.3rem)",
+                          fontWeight: 400,
+                          letterSpacing: "0.08em",
+                          color: active === i ? "#1C1814" : "rgba(28,24,20,0.35)",
+                          transition: "color 0.3s",
+                        }}>
                           {t.name}
                         </span>
-                        <span style={{ fontFamily: "'Mulish', sans-serif", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(196,168,130,0.5)", marginLeft: "auto" }}>
+                        <span className="font-futura" style={{ fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#B09880", marginLeft: "auto" }}>
                           {t.origin}
                         </span>
                       </div>
                       {active === i && (
-                        <p style={{ fontFamily: "'Mulish', sans-serif", fontSize: "clamp(12px, 1.3vw, 13px)", fontWeight: 300, lineHeight: 1.8, color: "rgba(245,240,232,0.45)", marginTop: "0.75rem", marginBottom: 0, paddingBottom: "0.5rem" }}>
+                        <p className="font-futura" style={{ fontSize: "clamp(12px, 1.3vw, 13px)", fontWeight: 300, lineHeight: 1.8, color: "#6B5B4E", marginTop: "0.75rem", marginBottom: 0, paddingBottom: "0.5rem" }}>
                           {t.tag}
                         </p>
                       )}
@@ -253,28 +296,27 @@ export default function EmbroideryPage() {
               </div>
 
               {/* Right — detail panel */}
-              <div style={{ position: "sticky", top: "6rem" }}>
+              <div className="sticky-panel">
                 <Reveal>
-                  <div style={{
+                  <div className="tech-panel" style={{
                     position: "relative",
-                    border: "1px solid rgba(196,168,130,0.15)",
+                    border: "1px solid rgba(196,168,130,0.3)",
                     padding: "3.5rem",
                     overflow: "hidden",
                     minHeight: 360,
-                    background: "rgba(255,255,255,0.03)", /* very subtle inset lift */
+                    background: "rgba(196,168,130,0.05)",
                   }}>
-                    {/* Background pattern */}
                     <div style={{ position: "absolute", right: "-20px", bottom: "-20px" }}>
                       {techniques[active].pattern}
                     </div>
                     <div style={{ position: "relative", zIndex: 2 }}>
-                      <span style={{ fontFamily: "'Mulish', sans-serif", fontWeight: 200, fontSize: 9, letterSpacing: "0.5em", textTransform: "uppercase", color: "#C4A882", display: "block", marginBottom: "1rem" }}>
+                      <span className="font-futura" style={{ fontWeight: 300, fontSize: 9, letterSpacing: "0.5em", textTransform: "uppercase", color: "#C4A882", display: "block", marginBottom: "1rem" }}>
                         {techniques[active].tag}
                       </span>
-                      <h3 style={{ fontFamily: "'EB Garamond', serif", fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 400, color: "#F5F0E8", marginBottom: "1.5rem", lineHeight: 1.2 }}>
+                      <h3 className="heading-font" style={{ fontSize: "clamp(1.6rem, 3vw, 2.3rem)", fontWeight: 300, letterSpacing: "0.08em", textTransform: "uppercase", color: "#1C1814", marginBottom: "1.5rem", lineHeight: 1.2 }}>
                         {techniques[active].name}
                       </h3>
-                      <p style={{ fontFamily: "'Mulish', sans-serif", fontSize: "clamp(13px, 1.4vw, 15px)", fontWeight: 300, lineHeight: 1.9, color: "rgba(245,240,232,0.55)", marginBottom: "1.5rem" }}>
+                      <p className="font-futura" style={{ fontSize: "clamp(13px, 1.4vw, 15px)", fontWeight: 300, lineHeight: 1.9, color: "#4A4035", marginBottom: "1.5rem", textAlign: "justify" }}>
                         {techniques[active].description}
                       </p>
                       <div style={{ width: 30, height: 1, background: "#C4A882", marginTop: "2rem" }} />
@@ -282,32 +324,31 @@ export default function EmbroideryPage() {
                   </div>
                 </Reveal>
               </div>
-
             </div>
           </div>
         </section>
 
-        {/* ══════════ HERITAGE STATEMENT ══════════ */}
-        {/* Warm parchment as requested */}
+        {/* ══ HERITAGE STATEMENT ══════════════════════════════ */}
         <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#F0EBE0" }}>
           <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 5rem)" }}>
 
             <Reveal>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "5rem", alignItems: "start", marginBottom: "clamp(3rem, 6vw, 5rem)" }}>
+              <div className="heritage-grid">
                 <div>
-                  <p style={{ fontFamily: "'Mulish', sans-serif", fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#B09880", marginBottom: "1.5rem" }}>
+                  <p className="font-futura" style={{ fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#B09880", marginBottom: "1.5rem" }}>
                     Our Commitment
                   </p>
-                  <h2 style={{ fontFamily: "'EB Garamond', serif", fontWeight: 400, fontSize: "clamp(2rem, 4vw, 3rem)", color: "#1C1814", lineHeight: 1.2 }}>
-                    Preserving India&apos;s Textile <em style={{ fontStyle: "italic", color: "#6B5040" }}>Heritage</em>
+                  <h2 className="heading-font" style={{ fontWeight: 100, fontSize: "clamp(1.3rem, 4vw, 2.8rem)", letterSpacing: "0.06em", textTransform: "uppercase", color: "#1C1814", lineHeight: 1.2 }}>
+                    Preserving India&apos;s Textile{" "}
+                    <em style={{ fontStyle: "italic", color: "#6B5040", fontWeight: 200 }}>Heritage</em>
                   </h2>
                 </div>
                 <div>
                   <div style={{ width: 40, height: 1, background: "#C4A882", marginBottom: "2rem" }} />
-                  <p style={{ fontFamily: "'Mulish', sans-serif", fontSize: "clamp(13px, 1.5vw, 16px)", fontWeight: 300, lineHeight: 1.9, color: "#4A4035", marginBottom: "1.5rem" }}>
+                  <p className="font-futura" style={{ fontSize: "clamp(15px, 1.5vw, 15px)", fontWeight: 300, lineHeight: 1.9, color: "#4A4035", marginBottom: "1.5rem", textAlign: "justify" }}>
                     These practices are deeply rooted in India&apos;s cultural heritage, incorporated with sophistication and finesse, creating garments that remain connected to tradition while expressed with a modern sensibility and quiet artistry.
                   </p>
-                  <p style={{ fontFamily: "'Mulish', sans-serif", fontSize: "clamp(13px, 1.5vw, 16px)", fontWeight: 300, lineHeight: 1.9, color: "#4A4035" }}>
+                  <p className="font-futura" style={{ fontSize: "clamp(15px, 1.5vw, 15px)", fontWeight: 300, lineHeight: 1.9, color: "#4A4035", textAlign: "justify" }}>
                     By continuing these techniques, Dhirago upholds its commitment to preserving age-old craftsmanship and celebrating India&apos;s rich textile legacy — presenting ethical and heritage-driven making as a form of true luxury.
                   </p>
                 </div>
@@ -317,11 +358,16 @@ export default function EmbroideryPage() {
             {/* Full-width image */}
             <Reveal>
               <div style={{ position: "relative", overflow: "hidden" }}>
-                <Image src="/images/subscribe.jpg" alt="Heritage Craft" width={1200} height={500} style={{ width: "100%", height: "clamp(280px, 45vw, 500px)", objectFit: "cover", display: "block" }} />
-                {/* Indigo-tinted overlay for brand cohesion */}
-                <div style={{ position: "absolute", inset: 0, background: "rgba(30,26,55,0.40)" }} />
-                <div style={{ position: "absolute", bottom: "2.5rem", left: "2.5rem" }}>
-                  <p style={{ fontFamily: "'EB Garamond', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)", color: "#F5F0E8", maxWidth: 500, lineHeight: 1.4 }}>
+                <Image
+                  src="/images/subscribe.jpg"
+                  alt="Heritage Craft"
+                  width={1200}
+                  height={500}
+                  style={{ width: "100%", height: "clamp(280px, 45vw, 500px)", objectFit: "cover", display: "block" }}
+                />
+                <div style={{ position: "absolute", inset: 0, background: "rgba(28,24,20,0.45)" }} />
+                <div style={{ position: "absolute", bottom: "2.5rem", left: "2.5rem", right: "2.5rem" }}>
+                  <p className="heading-font" style={{ fontStyle: "italic", fontWeight: 200, fontSize: "clamp(1.1rem, 2.5vw, 1.8rem)", letterSpacing: "0.04em", color: "#F5F0E8", maxWidth: 500, lineHeight: 1.4 }}>
                     "Detail is not an addition — it is a signature of the piece."
                   </p>
                 </div>

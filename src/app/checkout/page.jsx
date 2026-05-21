@@ -91,12 +91,15 @@ const CheckoutPage = () => {
       address1: selectedAddress.address1,
       address2: selectedAddress.address2,
       state: selectedAddress.state,
+      city: selectedAddress.city,
       pincode: selectedAddress.pincode,
 
       items: cartItems,
     };
 
     try {
+      console.log('orderData',orderData);
+ 
       const res = await API.post("/orders", orderData);
 
       // 👉 clear cart (important)
@@ -436,7 +439,7 @@ const CheckoutPage = () => {
                       setEmailError("Please add a email");
                       return;
                     }
-
+                       if (processing) return;
                     setProcessing(true);
 
                     await handleOnlinePayment({
@@ -463,6 +466,7 @@ const CheckoutPage = () => {
                       setAddressError("Please add/select a delivery address");
                       return;
                     }
+                     if (processing) return;
                     setProcessing(true);
 
                     await handleCOD({

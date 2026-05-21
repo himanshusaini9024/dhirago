@@ -13,6 +13,12 @@ import { usePathname } from "next/navigation";
 import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
 import { Montserrat } from "next/font/google";
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "300", "300",],
+});
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
@@ -150,20 +156,20 @@ const Header = () => {
           title: "About Dhirago",
           children: [
             { name: "Our Story", href: "/about" },
-            { name: "Customer Reviews", href: "/reviews" },
-            { name: "Club", href: "/club" },
-            { name: "Gifting", href: "/gifting" },
-            { name: "Shipping", href: "/shipping" },
-            { name: "Returns", href: "/returns" },
+            // { name: "Customer Reviews", href: "/reviews" },
+            // { name: "Club", href: "/club" },
+            // { name: "Gifting", href: "/gifting" },
+            // { name: "Shipping", href: "/shipping" },
+            // { name: "Returns", href: "/returns" },
           ],
         },
         {
           title: "Why Dhirago",
           children: [
-            { name: "Better Materials", href: "/about#materials" },
-            { name: "Quality Promise", href: "/about#quality" },
-            { name: "Sustainability", href: "/about#sustainability" },
-            { name: "Our Partners", href: "/about#partners" },
+            { name: "Why Dhirago", href: "/pages/why-dhirago" },
+            // { name: "Quality Promise", href: "/about#quality" },
+            // { name: "Sustainability", href: "/about#sustainability" },
+            // { name: "Our Partners", href: "/about#partners" },
           ],
         },
       ],
@@ -224,7 +230,7 @@ const Header = () => {
                 />
               </button>
 
-              <nav className="hidden lg:flex items-center gap-8 text-base lg:text-sm font-montserrat tracking-wider text-sm uppercase">
+              <nav  className={`${josefin.className}  uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-sm  tracking-wider text-sm uppercase`}>
                 <div
                   onMouseEnter={handleMouseEnterMen}
                   onMouseLeave={handleMouseLeaveMen}

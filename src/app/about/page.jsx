@@ -626,10 +626,9 @@ export default function AboutPage() {
             <Reveal>
               <blockquote
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
                   fontStyle: "italic",
                   fontWeight: 300,
-                  fontSize: "clamp(1rem, 4vw, 2.5rem)",
+                  fontSize: "clamp(1rem, 4vw, 2.1rem)",
                   lineHeight: 1.35,
                   color: "#F5F0E8",
                   letterSpacing: "0.02em",

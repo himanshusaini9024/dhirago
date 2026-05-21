@@ -14,7 +14,7 @@ export const handleOnlinePayment = async ({
   });
 
   const options = {
-    key: "rzp_test_Sr7DDb9eVDeT5m",
+    key: "rzp_test_Ss17h9Jo21ufHR",
     amount: data.amount,
     currency: "INR",
     order_id: data.id,

@@ -17,7 +17,7 @@ import { Josefin_Sans } from "next/font/google";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
-  weight: ["300", "300", "300",],
+  weight: ["300", "300", "300"],
 });
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -117,6 +117,7 @@ const Header = () => {
             { name: "Shop All", href: "/collections" },
           ],
         },
+
         {
           title: "Categories",
           children: [
@@ -129,6 +130,7 @@ const Header = () => {
             { name: "Denims", href: "/collections/pure-denim" },
           ],
         },
+
         {
           title: "Collections",
           children: [
@@ -142,35 +144,28 @@ const Header = () => {
               href: "/collections/postcards-from-andamen",
               tag: "New",
             },
-            { name: "Rise", href: "/collections/rise-collection", tag: "New" },
+            {
+              name: "Rise",
+              href: "/collections/rise-collection",
+              tag: "New",
+            },
             { name: "Escape", href: "/collections/escape" },
             { name: "Shop All Collection", href: "/collections" },
           ],
         },
       ],
     },
+
     {
       title: "About",
       children: [
         {
-          title: "About Dhirago",
-          children: [
-            { name: "Our Story", href: "/about" },
-            // { name: "Customer Reviews", href: "/reviews" },
-            // { name: "Club", href: "/club" },
-            // { name: "Gifting", href: "/gifting" },
-            // { name: "Shipping", href: "/shipping" },
-            // { name: "Returns", href: "/returns" },
-          ],
+          name: "About Dhirago",
+          href: "/about",
         },
         {
-          title: "Why Dhirago",
-          children: [
-            { name: "Why Dhirago", href: "/pages/why-dhirago" },
-            // { name: "Quality Promise", href: "/about#quality" },
-            // { name: "Sustainability", href: "/about#sustainability" },
-            // { name: "Our Partners", href: "/about#partners" },
-          ],
+          name: "Why Dhirago",
+          href: "/pages/why-dhirago",
         },
       ],
     },
@@ -230,7 +225,9 @@ const Header = () => {
                 />
               </button>
 
-              <nav  className={`${josefin.className}  uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-sm  tracking-wider text-sm uppercase`}>
+              <nav
+                className={`${josefin.className}  uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-sm  tracking-wider text-sm uppercase`}
+              >
                 <div
                   onMouseEnter={handleMouseEnterMen}
                   onMouseLeave={handleMouseLeaveMen}
@@ -609,7 +606,11 @@ const Header = () => {
                     className="flex-1 overflow-y-auto px-4 py-4"
                   >
                     {mobileMenu.map((section, i) => (
-                      <AccordionItem key={i} item={section} />
+                      <AccordionItem
+                        key={i}
+                        item={section}
+                        setMenuOpen={setMenuOpen}
+                      />
                     ))}
 
                     {/* CART */}
@@ -648,8 +649,27 @@ const Header = () => {
   );
 };
 
-function AccordionItem({ item }) {
+function AccordionItem({ item, setMenuOpen }) {
   const [open, setOpen] = useState(false);
+
+  // ✅ If item has href → direct link
+  if (item.href) {
+    return (
+      <Link
+        href={item.href}
+        onClick={() => setMenuOpen(false)}
+        className="flex items-center justify-between py-3 text-sm text-gray-700 hover:text-black"
+      >
+        {item.name || item.title}
+
+        {item.tag && (
+          <span className="text-[10px] bg-black text-white px-2 py-[2px] ml-2">
+            {item.tag}
+          </span>
+        )}
+      </Link>
+    );
+  }
 
   return (
     <div className="border-b">
@@ -657,7 +677,8 @@ function AccordionItem({ item }) {
         onClick={() => setOpen(!open)}
         className="w-full flex justify-between items-center py-3 text-left"
       >
-        <span className="text-sm font-medium">{item.title}</span>
+        <span className="text-sm font-medium">{item.title || item.name}</span>
+
         <span className="text-xs">{open ? "−" : "+"}</span>
       </button>
 
@@ -669,24 +690,9 @@ function AccordionItem({ item }) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden pl-3"
           >
-            {item.children?.map((child, i) =>
-              child.children ? (
-                <AccordionItem key={i} item={child} />
-              ) : (
-                <Link
-                  key={i}
-                  href={child.href}
-                  className="flex items-center justify-between py-2 text-sm text-gray-600 hover:text-black"
-                >
-                  {child.name}
-                  {child.tag && (
-                    <span className="text-[10px] bg-black text-white px-2 py-[2px] ml-2">
-                      {child.tag}
-                    </span>
-                  )}
-                </Link>
-              ),
-            )}
+            {item.children?.map((child, i) => (
+              <AccordionItem key={i} item={child} setMenuOpen={setMenuOpen} />
+            ))}
           </motion.div>
         )}
       </AnimatePresence>

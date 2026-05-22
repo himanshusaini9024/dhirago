@@ -55,11 +55,12 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-12 px-4 md:px-10 font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',sans-serif]">
+    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-12 px-4 md:px-10 ">
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
         <div className="mb-16">
-          <h1 className="text-4xl tracking-tight text-gray-900">My Orders</h1>
+        <h1 className="text-3xl font-light tracking-tight">My Orders</h1>
+
         </div>
 
         {/* Skeleton */}

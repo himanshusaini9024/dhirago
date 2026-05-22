@@ -27,7 +27,7 @@ export default function OrderDetailsUI({ order }) {
         <div className="md:col-span-2 space-y-6">
           {/* Timeline with line */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm font-semibold mb-6 flex items-center justify-between">
+            <p className="text-sm font-light mb-6 flex items-center justify-between">
               Items Ordered & Delivery Details
               {(order.status === "new" || order.status === "process") && (
                 <button className="text-xs text-red-500 hover:underline">
@@ -107,7 +107,7 @@ export default function OrderDetailsUI({ order }) {
         <div className="space-y-6">
           {/* Address */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm font-semibold mb-4">Delivery Address</p>
+            <p className="text-sm font-light mb-4">Delivery Address</p>
 
             <p className="text-sm">
               {order.first_name} {order.last_name}
@@ -126,15 +126,15 @@ export default function OrderDetailsUI({ order }) {
 
           {/* Payment */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <p className="text-sm font-semibold mb-4">Payment Details</p>
+            <p className="text-sm font-light mb-4">Payment Details</p>
 
             <div className="space-y-2 text-sm">
-              {order.items.map((item) => (
+              {/* {order.items.map((item) => (
                 <div key={item.id} className="flex justify-between">
                   <span>Product #{item.product_id}</span>
                   <span>₹{item.price}</span>
                 </div>
-              ))}
+              ))} */}
 
               <div className="border-t pt-3 flex justify-between font-semibold">
                 <span>Total</span>

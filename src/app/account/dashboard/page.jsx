@@ -57,14 +57,13 @@ export default function Dashboard({ setActiveTab }) {
       {/* 🔐 HEADER */}
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>
-          <h2 className="text-3xl lg:text-5xl font-light">
+          <h2 className="text-3xl lg:text-3xl font-light">
             Hello,{" "}
-            <span className="font-medium bg-gradient-to-r from-black to-gray-500 bg-clip-text text-transparent">
+            <span className="font-light bg-gradient-to-r from-black to-gray-500 bg-clip-text ">
               {user.name}
             </span>
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Customer since <span className="text-gray-700">{user.joined}</span>
           </p>
         </div>
 

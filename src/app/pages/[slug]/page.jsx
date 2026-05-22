@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Josefin_Sans } from "next/font/google";
-
+import React from "react";
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "600", "700"],

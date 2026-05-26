@@ -179,65 +179,22 @@ export default function LuxurySection() {
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
             viewport={{ once: true }}
-            style={{ marginBottom: "1.5rem" }}
           >
               <motion.img
             src="/images/logo/3.svg"
             alt="Logo"
-            className="w-[110px] md:w-[160px] opacity-90"
+            className="w-[110px] md:w-[130px] opacity-90"
           
           />
           </motion.div>
 
-          {/* ─── Eyebrow + brand name ─── */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.25 }}
-            viewport={{ once: true }}
-            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.35rem", marginBottom: "1.2rem" }}
-          >
-            <div style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #C4A882, transparent)" }} />
-            <p style={{
-              fontFamily: "'Jost', sans-serif", fontWeight: 300,
-              fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase",
-              color: "#A8937E", paddingLeft: "0.55em",
-            }}>
-              Dhirago · Conscious Luxury · Est. 2026
-            </p>
-            <div style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #C4A882, transparent)" }} />
-          </motion.div>
+       
 
           {/* ─── Headline ─── */}
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
-            viewport={{ once: true }}
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 300,
-              fontSize: "clamp(1.6rem, 4vw, 2.4rem)",
-              lineHeight: 1.18,
-              color: "#1C1814",
-              letterSpacing: "0.01em",
-              marginBottom: "1rem",
-            }}
-          >
-            Welcome to{" "}
-            <em style={{ fontStyle: "italic", color: "#6B5B4E" }}>Dhirago</em>
-          </motion.h2>
+         
 
           {/* ─── Ornamental divider ─── */}
-          <motion.div
-            initial={{ opacity: 0, scaleX: 0.4 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            viewport={{ once: true }}
-            style={{ marginBottom: "1.2rem", width: "100%" }}
-          >
-            <OrnamentDivider />
-          </motion.div>
+        
 
           {/* ─── Body copy ─── */}
           <motion.div
@@ -248,9 +205,7 @@ export default function LuxurySection() {
             style={{ marginBottom: "1.75rem" }}
           >
             <p style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: "italic",
-              fontWeight: 300,
+              fontWeight: 100,
               fontSize: "clamp(0.95rem, 1.6vw, 1.1rem)",
               lineHeight: 1.6,
               color: "#6B5B4E",
@@ -260,7 +215,6 @@ export default function LuxurySection() {
               Every Dhirago piece is thoughtfully designed
             </p>
             <p style={{
-              fontFamily: "'Jost', sans-serif",
               fontWeight: 300,
               fontSize: "clamp(11px, 1.3vw, 13px)",
               lineHeight: 1.75,
@@ -272,64 +226,10 @@ export default function LuxurySection() {
           </motion.div>
 
           {/* ─── CTA ─── */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.72 }}
-            viewport={{ once: true }}
-            style={{ marginBottom: "1.5rem" }}
-          >
-            {!isLoggedIn ? (
-              <button
-                onClick={() => setLoginOpen(true)}
-                style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
-              >
-                <a href="#" className="dhirago-cta">
-                  <span>Join Us</span>
-                  <span className="arrow" />
-                </a>
-              </button>
-            ) : (
-              <a href="#" className="dhirago-cta">
-                <span>Welcome, {firstName || "Member"}</span>
-                <span className="arrow" />
-              </a>
-            )}
-          </motion.div>
+        
 
           {/* ─── Bottom tag strip ─── */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.92 }}
-            viewport={{ once: true }}
-            style={{
-              display: "flex",
-              gap: "clamp(0.8rem, 2vw, 1.5rem)",
-              alignItems: "center",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            {["Limited Drops", "Members Only", "Premium Fabric"].map((tag, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: "clamp(0.8rem, 2vw, 1.5rem)" }}>
-                <span style={{
-                  fontFamily: "'Jost', sans-serif",
-                  fontWeight: 300,
-                  fontSize: 9,
-                  letterSpacing: "0.4em",
-                  textTransform: "uppercase",
-                  color: "#B0A090",
-                  paddingLeft: "0.4em",
-                }}>
-                  {tag}
-                </span>
-                {i < 2 && (
-                  <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#C4A882", opacity: 0.5, display: "inline-block", flexShrink: 0 }} />
-                )}
-              </div>
-            ))}
-          </motion.div>
+       
 
         </div>
 

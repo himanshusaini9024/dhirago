@@ -99,60 +99,14 @@ const Header = () => {
   };
 
   const mobileMenu = [
+   
     {
       title: "Shop",
       children: [
         {
-          title: "Featured",
-          children: [
-            {
-              name: "New Arrivals",
-              href: "/collections/new-arrivals",
-              tag: "New",
-            },
-            { name: "Bestsellers", href: "/collections/bestsellers" },
-            { name: "Back in Stock", href: "/collections/back-in-stock" },
-            { name: "Foundational Prices", href: "/collections/perfect-price" },
-            { name: "Special Prices", href: "/collections/special-prices" },
-            { name: "Shop All", href: "/collections" },
-          ],
-        },
-
-        {
-          title: "Categories",
-          children: [
-            { name: "Shirts", href: "/collections/all-shirts" },
-            { name: "Polos", href: "/collections/all-polos" },
-            { name: "Tees", href: "/collections/all-tees" },
-            { name: "Bottomwear", href: "/collections/trousers-shorts" },
-            { name: "Winterwear", href: "/collections/winterwear" },
-            { name: "Ethnicwear", href: "/collections/ethnic" },
-            { name: "Denims", href: "/collections/pure-denim" },
-          ],
-        },
-
-        {
-          title: "Collections",
-          children: [
-            {
-              name: "Everyday Elevated",
-              href: "/collections/fundamentals",
-              tag: "New",
-            },
-            {
-              name: "Postcards from Andamen",
-              href: "/collections/postcards-from-andamen",
-              tag: "New",
-            },
-            {
-              name: "Rise",
-              href: "/collections/rise-collection",
-              tag: "New",
-            },
-            { name: "Escape", href: "/collections/escape" },
-            { name: "Shop All Collection", href: "/collections" },
-          ],
-        },
+          name: "Shirts",
+          href: "/collections/mens-fashion",
+        }
       ],
     },
 
@@ -229,12 +183,15 @@ const Header = () => {
                 className={`${josefin.className}  uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-sm  tracking-wider text-sm uppercase`}
               >
                 <div
-                  onMouseEnter={handleMouseEnterMen}
-                  onMouseLeave={handleMouseLeaveMen}
+                  // onMouseEnter={handleMouseEnterMen}
+                  // onMouseLeave={handleMouseLeaveMen}
                 >
+              <Link href={"/collections/mens-fashion"}>
+                  
                   <button className="hover:text-yellow-400 transition duration-300">
                     Shop
                   </button>
+                  </Link>
                 </div>
 
                 <div
@@ -437,11 +394,11 @@ const Header = () => {
         {/* HOME MEGA MENU */}
         {megaMenuHome && (
           <div
-            className="absolute top-full left-1/2 -translate-x-1/2 w-full bg-white text-black shadow-lg"
+            className="absolute top-full left-[30%] -translate-x-1/2 w-[60%] bg-white text-black shadow-lg"
             onMouseEnter={handleMouseEnterHome}
             onMouseLeave={handleMouseLeaveHome}
           >
-            <div className="max-w-[103rem] mx-auto py-6 grid grid-cols-12 gap-12">
+            <div className="max-w-[103rem] mx-auto py-6 grid grid-cols-12 gap-12 pl-20">
               {/* LEFT CONTENT */}
               <div className="col-span-12 grid md:grid-cols-3 gap-10">
                 {/* ABOUT DHIRAGO */}
@@ -454,9 +411,8 @@ const Header = () => {
                     {[
                       { name: "Our Story", href: "/about" },
                       { name: "Contact Us", href: "/contact" },
-                      { name: "Privacy Policy", href: "/privacy" },
-                      { name: "Shipping & Return", href: "/shipping&returns" },
-                      { name: "FAQ", href: "/faq" },
+                      { name: "Free Shipping", href: "/shipping&returns" },
+                      { name: "Return", href: "/shipping&returns" },
                       { name: "Shop All", href: "/" },
                     ].map((item) => (
                       <li key={item.name} className="py-2">
@@ -658,9 +614,10 @@ function AccordionItem({ item, setMenuOpen }) {
       <Link
         href={item.href}
         onClick={() => setMenuOpen(false)}
-        className="flex items-center justify-between py-3 text-sm text-gray-700 hover:text-black"
+        className="flex items-center justify-between py-3 text-sm  hover:text-black"
       >
-        {item.name || item.title}
+        <span className="text-sm font-medium">{item.title || item.name}</span>
+
 
         {item.tag && (
           <span className="text-[10px] bg-black text-white px-2 py-[2px] ml-2">

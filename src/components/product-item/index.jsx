@@ -9,7 +9,7 @@ import QuickAddModal from "./qucikview";
 import productsSizes from "../../utils/data/products-sizes";
 
 
-const ProductItem = ({ images, id, name, slug,color, currentPrice }) => {
+const ProductItem = ({ images, id, name,sku, slug,color, currentPrice }) => {
   const dispatch = useDispatch();
   const favProducts = useSelector((state) => state.user?.favProducts || []);
   const isFavourite = some(favProducts, (productId) => productId === id);
@@ -127,6 +127,7 @@ const ProductItem = ({ images, id, name, slug,color, currentPrice }) => {
           id,
           name,
           slug,
+          sku,
           images,
           color,
           currentPrice,

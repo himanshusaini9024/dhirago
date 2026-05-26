@@ -1,94 +1,71 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
 
-const IMAGES = [
-  "/images/bg2.avif",
-  "/images/bg3.avif",
-];
+import { Josefin_Sans } from "next/font/google";
+// const IMAGES = ["/images/bg2.avif", "/images/bg3.avif"];
 
+import { motion } from "framer-motion";
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 export default function RunwayHero() {
-  const [index, setIndex] = useState(0);
-  const [active, setActive] = useState(false);
-  const containerRef = useRef(null);
-
-  // ⏱ Slow cinematic autoplay
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((p) => (p + 1) % IMAGES.length);
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // 👁 Scroll activation (luxury reveal)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { threshold: 0.4 }
-    );
-    if (containerRef.current) observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  // 🖱 Ultra subtle parallax
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const move = (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 6;
-      const y = (e.clientY / window.innerHeight - 0.5) * 6;
-
-      el.style.setProperty("--px", `${x}px`);
-      el.style.setProperty("--py", `${y}px`);
-    };
-
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, []);
-
   return (
-    <section ref={containerRef} className={`runway ${active ? "active" : ""}`}>
-      
-      {/* Background layers */}
-      {IMAGES.map((img, i) => (
-        <div
-          key={i}
-          className={`bg ${i === index ? "show" : ""}`}
-          style={{ backgroundImage: `url(${img})` }}
-        />
-      ))}
+    <section className="runway">
+      {/* Single Background Image */}
+      <div
+        className="bg"
+        style={{
+          backgroundImage: `url("/images/bg2.avif")`,
+        }}
+      />
 
-      {/* Soft wash */}
+      {/* Soft overlay */}
       <div className="overlay" />
 
-      {/* Grain */}
-      <div className="grain" />
-
-      {/* Light sweep */}
-      <div className="light" />
-
       {/* Content */}
-      <div className="content">
-        <p>
-          <strong>DHIRAGO</strong> is a premium menswear luxury brand—a menswear
-          practice built from the logic of a lake city, with one core idea:
-          calmness made wearable.
-          <br /><br />
-          Rooted in Udaipur’s lake-light and stone stillness, our design
-          language follows water’s logic: hold, reflect, and move without noise.
-          Marble courtyards, jharokha shadows, and the softened edge of evening
-          water inform a minimal palette and silhouettes that feel composed
-          rather than decorated.
-        </p>
+      <div className="contentWrap">
+        <div className="content">
+          <span className="eyebrow">
+            Luxury Menswear • Udaipur
+          </span>
+
+          <h1 className={` ${josefin.className} uppercase tracking-[0.2em]`}>
+            Calmness
+            <br />
+            Made Wearable
+          </h1>
+
+          <div className="line" />
+
+          <p
+            className="font-futura desc"
+            style={{
+              fontWeight: 300,
+              textAlign: "justify",
+            }}
+          >
+            <strong>DHIRAGO</strong> is a premium menswear luxury
+            brand — a design practice shaped by the stillness of
+            Udaipur’s lake city. Inspired by water, stone,
+            marble courtyards, and fading evening light, our
+            garments are built with restraint, softness, and
+            quiet presence.
+            <br />
+            <br />
+            Every silhouette follows the logic of calm movement
+            — minimal, timeless, and deeply composed rather than
+            decorated.
+          </p>
+        </div>
       </div>
 
       <style jsx>{`
         .runway {
           position: relative;
-          height: 95vh;
+          width: 100%;
+          min-height: 100vh;
           overflow: hidden;
-          --px: 0px;
-          --py: 0px;
+          background: #ede7df;
         }
 
         /* Background */
@@ -97,101 +74,158 @@ export default function RunwayHero() {
           inset: 0;
           background-size: cover;
           background-position: center;
-          opacity: 0;
-          transform: scale(1.08) translate(var(--px), var(--py));
-          transition: opacity 4s ease;
+          background-repeat: no-repeat;
         }
 
-        .bg.show {
-          opacity: 1;
-          animation: zoom 14s ease forwards;
-        }
-
-        /* Cinematic zoom */
-        @keyframes zoom {
-          from { transform: scale(1.08) translate(var(--px), var(--py)); }
-          to { transform: scale(1.15) translate(var(--px), var(--py)); }
-        }
-
-        /* Soft overlay */
+        /* Simple luxury overlay */
         .overlay {
           position: absolute;
           inset: 0;
-          background: rgba(245,240,232,0.38);
-          backdrop-filter: blur(1.2px);
+          background: rgba(245, 240, 233, 0.42);
         }
 
-        
+        /* Content wrapper */
+        .contentWrap {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          min-height: 100vh;
 
-        /* Grain */
-        .grain {
-          position: absolute;
-          inset: 0;
-          background: url("https://grainy-gradients.vercel.app/noise.svg");
-          opacity: 0.05;
-          pointer-events: none;
-        }
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
 
-        /* Light sweep */
-        .light {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            120deg,
-            transparent 40%,
-            rgba(255,255,255,0.15),
-            transparent 60%
-          );
-          animation: sweep 12s linear infinite;
-          opacity: 0.4;
-        }
-
-        @keyframes sweep {
-          from { transform: translateX(-120%); }
-          to { transform: translateX(120%); }
+          padding: 6vw;
         }
 
         /* Content */
         .content {
-          position: relative;
-          z-index: 2;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          padding: 0 100px;
+          width: 100%;
+          max-width: 620px;
         }
 
-        .content p {
-          max-width: 540px;
-          font-family: "Cormorant Garamond", serif;
-          font-size: clamp(16px, 1.3vw, 20px);
-          line-height: 1.9;
-          color: #1a1714;
-          letter-spacing: 0.03em;
+        /* Small label */
+        .eyebrow {
+          display: inline-block;
+          margin-bottom: 22px;
+
+          font-size: 11px;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+
+          color: #5e564e;
         }
 
-        .content strong {
-          font-weight: 600;
+        /* Heading */
+        .title {
+          margin: 0;
+
+          font-size: clamp(1rem, 7vw, 2rem);
+          line-height: 0.92;
+          font-weight: 100;
+          letter-spacing: -0.06em;
+
+          color: #15120f;
         }
 
-        /* Scroll reveal */
-        .runway .content {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: all 1.6s ease;
+        /* Divider */
+        .line {
+          width: 90px;
+          height: 1px;
+
+          background: rgba(0, 0, 0, 0.22);
+
+          margin: 34px 0;
         }
 
-        .runway.active .content {
-          opacity: 1;
-          transform: translateY(0);
+        /* Description */
+        .desc {
+          max-width: 560px;
+
+          font-size: clamp(0.95rem, 1.1vw, 1.08rem);
+          line-height: 2;
+          letter-spacing: 0.01em;
+
+          color: #2d2823;
+        }
+
+        .desc strong {
+          font-weight: 500;
+        }
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+          .contentWrap {
+            justify-content: center;
+            padding: 80px 40px;
+          }
+
+          .content {
+            max-width: 100%;
+          }
+
+          .title {
+            font-size: clamp(3rem, 10vw, 5rem);
+          }
         }
 
         /* Mobile */
-        @media (max-width: 900px) {
-          .content {
+        @media (max-width: 768px) {
+          .runway {
+            min-height: 100svh;
+          }
+
+          .contentWrap {
+            align-items: flex-end;
             justify-content: center;
-            padding: 40px 20px;
+
+            padding: 100px 22px 50px;
+          }
+
+          .content {
+            background: rgba(248, 244, 239, 0.58);
+            backdrop-filter: blur(10px);
+
+            border-radius: 28px;
+            padding: 28px;
+          }
+
+          .eyebrow {
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            margin-bottom: 18px;
+          }
+
+          .title {
+            font-size: clamp(2.6rem, 14vw, 4rem);
+            line-height: 0.95;
+          }
+
+          .line {
+            width: 70px;
+            margin: 24px 0;
+          }
+
+          .desc {
+            font-size: 0.92rem;
+            line-height: 1.9;
+          }
+        }
+
+        /* Small Mobile */
+        @media (max-width: 480px) {
+          .content {
+            padding: 24px 20px;
+            border-radius: 24px;
+          }
+
+          .title {
+            font-size: 2.4rem;
+          }
+
+          .desc {
+            font-size: 0.88rem;
+            line-height: 1.8;
           }
         }
       `}</style>

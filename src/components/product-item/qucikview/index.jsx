@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { addProduct } from "../../../store/reducers/cart";
 
 const QuickAddModal = ({ product, isOpen, onClose }) => {
-    
   const dispatch = useDispatch();
   const baseURL = "https://res.cloudinary.com/ds48lk80f/";
   const [imgIndex, setImgIndex] = useState(0);
@@ -44,6 +43,7 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
         product: {
           id: product.id,
           name: product.name,
+          sku: product.sku,
           slug: product.slug,
           thumb: product.images?.[0] || "",
           price: product.currentPrice,

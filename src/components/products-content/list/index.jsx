@@ -115,7 +115,6 @@ export default function ProductList({ initialProducts, slug }) {
         return 0;
       });
   }, [products, filters, sort]);
-
   const sortLabels = { popular: "Popular", low: "Price: Low → High", high: "Price: High → Low" };
   const activeCount = filters.size.length + filters.color.length;
 
@@ -331,7 +330,7 @@ export default function ProductList({ initialProducts, slug }) {
         {/* ── PRODUCT GRID ───────────────────────────────────── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-1 md:px-4 px-2 py-6">
           {filteredProducts.map((item) => (
-            <ProductItem key={item.id} id={item.id} slug={item.slug} color={item.color} name={item.name} currentPrice={item.currentPrice} images={item.image} />
+            <ProductItem key={item.id} id={item.id} sku={item.sku} slug={item.slug} color={item.color} name={item.name} currentPrice={item.currentPrice} images={item.image} />
           ))}
         </div>
 

@@ -4,6 +4,8 @@ import API from "../../../lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, Circle, ChevronDown } from "lucide-react";
 import OrderDetailsUI from "../../../components/orders";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 const IMGURL = "https://res.cloudinary.com/ds48lk80f/";
 
 const getSteps = (status) => {
@@ -30,15 +32,16 @@ export default function OrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const userdata = JSON.parse(localStorage.getItem("user") || "{}");
   const customer_id = userdata?.customer_id;
+  const router = useRouter();
   useEffect(() => {
     fetchOrders();
   }, []);
 
   const fetchOrders = async () => {
     try {
-      const res = await API.get("/orders",{
-          params: { customer_id },
-        });
+      const res = await API.get("/orders", {
+        params: { customer_id },
+      });
       setOrders(res.data);
     } finally {
       setLoading(false);
@@ -58,9 +61,22 @@ export default function OrdersPage() {
     <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-12 px-4 md:px-10 ">
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
-        <div className="mb-16">
-        <h1 className="text-3xl font-light tracking-tight">My Orders</h1>
 
+        {/* Heading */}
+        <div className="mb-16 flex items-center justify-between">
+          <h1 className="text-3xl font-light tracking-tight">My Orders</h1>
+
+          {/* RIGHT BUTTONS */}
+          <div className="flex gap-4">
+            {/* TRACK ORDER */}
+            <Link href="/return/track-order">
+              <button className="border border-black px-8 py-4 uppercase tracking-[3px]  text-xs hover:bg-black hover:text-white transition-all duration-300">
+                Track Order
+              </button>
+            </Link>
+
+            {/* RETURN / EXCHANGE */}
+          </div>
         </div>
 
         {/* Skeleton */}
@@ -110,6 +126,12 @@ export default function OrdersPage() {
                         <p className="text-xs text-gray-400">TOTAL</p>
                         <p className="text-xl font-semibold">
                           ₹{order.total_amount}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-sm text-gray-500">
+                          Estimated Delivery: {order.expected_delivery_date}
                         </p>
                       </div>
 
@@ -169,17 +191,127 @@ export default function OrdersPage() {
                           </div>
 
                           {/* Footer */}
-                          <div className="px-8 py-6 border-t flex justify-between items-center">
+                          <div className="px-8 py-6 border-t flex flex-col md:flex-row md:items-center justify-between gap-5">
+                            {/* DATE */}
                             <p className="text-xs text-gray-400">
                               {new Date(order.created_at).toLocaleDateString()}
                             </p>
 
-                            <div className="flex gap-3">
-                           
+                            {/* RIGHT ACTIONS */}
+                            <div className="flex flex-wrap items-center gap-3">
+                              {/* ORDER NOT DELIVERED */}
 
+                              {/* RETURN REQUEST EXISTS */}
+                              {order.return_request && (
+                                <>
+                                  {/* PENDING */}
+                                  {order.return_request.status ===
+                                    "pending" && (
+                                    <div className="px-5 h-12 rounded-full bg-amber-50 border border-amber-200 flex items-center gap-3">
+                                      <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+
+                                      <span className="text-xs uppercase tracking-[2px] text-amber-700 font-medium">
+                                        Return Request Sent
+                                      </span>
+                                    </div>
+                                  )}
+
+                                  {/* APPROVED */}
+                                  {order.return_request.status ===
+                                    "approved" && (
+                                    <div className="px-5 h-12 rounded-full bg-sky-50 border border-sky-200 flex items-center gap-3">
+                                      <div className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+
+                                      <span className="text-xs uppercase tracking-[2px] text-sky-700 font-medium">
+                                        Return Approved
+                                      </span>
+                                    </div>
+                                  )}
+
+                                  {/* PICKUP SCHEDULED */}
+                                  {order.return_request?.status ===
+                                    "pickup_scheduled" && (
+                                    <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-5">
+                                      <p className="text-emerald-700 font-medium">
+                                        Reverse pickup scheduled successfully
+                                      </p>
+
+                                      <p className="text-sm text-emerald-600 mt-2">
+                                        Our courier partner will pick up your
+                                        order shortly.
+                                      </p>
+                                    </div>
+                                  )}
+
+                                  {/* PICKED UP */}
+                                  {order.return_request.status ===
+                                    "picked_up" && (
+                                    <div className="px-5 h-12 rounded-full bg-purple-50 border border-purple-200 flex items-center gap-3">
+                                      <div className="w-2 h-2 rounded-full bg-purple-500" />
+
+                                      <span className="text-xs uppercase tracking-[2px] text-purple-700 font-medium">
+                                        Return Picked Up
+                                      </span>
+                                    </div>
+                                  )}
+
+                                  {/* DELIVERED */}
+                                  {order.return_request.status ===
+                                    "delivered" && (
+                                    <div className="px-5 h-12 rounded-full bg-indigo-50 border border-indigo-200 flex items-center gap-3">
+                                      <div className="w-2 h-2 rounded-full bg-indigo-500" />
+
+                                      <span className="text-xs uppercase tracking-[2px] text-indigo-700 font-medium">
+                                        Return Delivered
+                                      </span>
+                                    </div>
+                                  )}
+
+                                  {/* REFUNDED */}
+                                  {order.return_request.status ===
+                                    "refunded" && (
+                                    <div className="px-5 h-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center gap-3">
+                                      <div className="w-2 h-2 rounded-full bg-emerald-500" />
+
+                                      <span className="text-xs uppercase tracking-[2px] text-emerald-700 font-medium">
+                                        Refund Completed
+                                      </span>
+                                    </div>
+                                  )}
+
+                                  {/* REJECTED */}
+                                  {order.return_request.status ===
+                                    "rejected" && (
+                                    <div className="px-5 h-12 rounded-full bg-red-50 border border-red-200 flex items-center gap-3">
+                                      <div className="w-2 h-2 rounded-full bg-red-500" />
+
+                                      <span className="text-xs uppercase tracking-[2px] text-red-700 font-medium">
+                                        Return Rejected
+                                      </span>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+
+                              {/* SHOW RETURN BUTTON */}
+                              {order.status === "delivered" &&
+                                !order.return_request && (
+                                  <button
+                                    onClick={() =>
+                                      router.push(
+                                        `/return/${order.order_number}`,
+                                      )
+                                    }
+                                    className="h-12 px-7 rounded-full border border-black uppercase tracking-[3px] text-xs hover:bg-black hover:text-white transition-all duration-300"
+                                  >
+                                    Return Order
+                                  </button>
+                                )}
+
+                              {/* DETAILS */}
                               <button
                                 onClick={() => setSelectedOrder(order)}
-                                className="px-5 py-2 text-sm bg-black text-white rounded-full"
+                                className="h-12 px-7 rounded-full bg-black text-white uppercase tracking-[3px] text-xs"
                               >
                                 Details
                               </button>
@@ -225,30 +357,24 @@ export default function OrdersPage() {
                 }}
                 className="bg-white md:mb-[8rem]  w-full max-w-5xl rounded-t-3xl p-6"
                 onClick={(e) => e.stopPropagation()}
-                >
-                  
+              >
                 <h2 className="text-lg font-semibold mb-4">
                   Order #{selectedOrder.order_number}
-                   <button
-                  onClick={() => setSelectedOrder(null)}
-                  className="ml-[50rem] w-1/2  md:w-[3rem] py-1 rounded-full text-black"
-                >
-                  X
-                </button>
+                  <button
+                    onClick={() => setSelectedOrder(null)}
+                    className="ml-[50rem] w-1/2  md:w-[3rem] py-1 rounded-full text-black"
+                  >
+                    X
+                  </button>
                 </h2>
-
-                
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.4 }}
                 >
-                  
                   <OrderDetailsUI order={selectedOrder} />
                 </motion.div>
-
-               
               </motion.div>
             </motion.div>
           )}

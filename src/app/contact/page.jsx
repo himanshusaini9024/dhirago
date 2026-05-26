@@ -113,7 +113,7 @@ export default function UltraPremiumContactGodLevel() {
 
           <div className="space-y-6 text-black">
             <Info label="Address" value="3rd floor, New electric market, 120, ft Road, A.M Business Center, Mali Colony, Central Area, Udaipur, Rajasthan 313002" />
-            <Info label="Phone" value="+91 12345 67890" />
+            <Info label="Phone" value="+91 8905524932" />
             <Info label="Email" value="contact@email.com" />
           </div>
         </motion.div>

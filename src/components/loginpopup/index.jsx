@@ -4,6 +4,53 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../../store/authslice";
  // adjust path
+ import { Toaster, toast } from "react-hot-toast";
+ import { CheckCircle2, XCircle } from "lucide-react";
+ 
+
+ const successToast = (msg) => {
+  toast.custom(
+    (t) => (
+      <div
+        className={`${
+          t.visible ? "animate-enter" : "animate-leave"
+        } bg-white border border-green-100 shadow-2xl rounded-2xl px-5 py-4 flex items-center gap-4 min-w-[320px]`}
+      >
+        <div className="w-11 h-11 rounded-full bg-green-100 flex items-center justify-center">
+          <CheckCircle2 className="text-green-600 w-6 h-6" />
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-gray-900">Success</p>
+          <p className="text-xs text-gray-500 mt-1">{msg}</p>
+        </div>
+      </div>
+    ),
+    { duration: 3000 }
+  );
+};
+
+const errorToast = (msg) => {
+  toast.custom(
+    (t) => (
+      <div
+        className={`${
+          t.visible ? "animate-enter" : "animate-leave"
+        } bg-white border border-red-100 shadow-2xl rounded-2xl px-5 py-4 flex items-center gap-4 min-w-[320px]`}
+      >
+        <div className="w-11 h-11 rounded-full bg-red-100 flex items-center justify-center">
+          <XCircle className="text-red-600 w-6 h-6" />
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-gray-900">Error</p>
+          <p className="text-xs text-gray-500 mt-1">{msg}</p>
+        </div>
+      </div>
+    ),
+    { duration: 3000 }
+  );
+};
 
 export default function LoginPopup({ isOpen, onClose }) {
   const [mobile, setMobile] = useState("");
@@ -34,8 +81,12 @@ export default function LoginPopup({ isOpen, onClose }) {
       if (!res.ok) throw new Error("Failed to send OTP");
 
       setStep("otp");
+
+      successToast("Otp successfully sent to your registered mobile number");
+
     } catch (err) {
-      alert("Error sending OTP");
+      errorToast(err.message || "Error sending OTP");
+
       console.error(err);
     }
 
@@ -78,9 +129,11 @@ export default function LoginPopup({ isOpen, onClose }) {
 
       // ✅ Close popup
       onClose();
+      successToast("Otp successfully Verifyed");
 
     } catch (err) {
-      alert(err.message);
+      errorToast(err.message || "Error Verify OTP");
+
       console.error(err);
     }
 

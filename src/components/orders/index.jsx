@@ -29,11 +29,11 @@ export default function OrderDetailsUI({ order }) {
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <p className="text-sm font-light mb-6 flex items-center justify-between">
               Items Ordered & Delivery Details
-              {(order.status === "new" || order.status === "process") && (
+              {/* {(order.status === "new" || order.status === "process") && (
                 <button className="text-xs text-red-500 hover:underline">
                   Cancel order
                 </button>
-              )}
+              )} */}
             </p>
 
             <div className="flex items-center justify-between relative">

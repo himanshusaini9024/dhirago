@@ -30,7 +30,7 @@ export default function Home() {
       <LuxuryHero />
       <Homecontent />
       <Marquee/>
-      <Bestsellers />
+      {/* <Bestsellers /> */}
       <EditorialGrid />
 
       {/* <ProductsFeatured /> */}

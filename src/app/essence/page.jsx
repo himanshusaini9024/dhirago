@@ -273,7 +273,7 @@ export default function EssencePage() {
                 className="heading-font uppercase"
                 style={{
                   fontWeight: 300,
-                  fontSize: "clamp(2.5rem, 7vw, 3rem)",
+                  fontSize: "clamp(2.1rem, 7vw, 1rem)",
                   lineHeight: 1,
                   letterSpacing: "0.08em",
                   color: "#1C1814",
@@ -281,12 +281,10 @@ export default function EssencePage() {
                 }}
               >
                 The Essence
-                <br />
                 of a Fine
                 <br />
                 <em
                   style={{
-                    fontStyle: "italic",
                     color: "#6B5040",
                     fontWeight: 300,
                   }}
@@ -752,10 +750,9 @@ export default function EssencePage() {
           >
             <Reveal>
               <p
-                className="quote-text heading-font"
+                className=" font-futura"
                 style={{
-                  fontStyle: "italic",
-                  fontSize: "clamp(0.88rem, 2vw, 1.7rem)",
+                  fontSize: "clamp(0.88rem, 2vw, 1.5rem)",
                   fontWeight: 100,
                   textAlign:"justify",
                   color: "#1C1814",
@@ -763,9 +760,9 @@ export default function EssencePage() {
                   marginBottom: "2rem",
                 }}
               >
-                "Everything is thoughtfully done — from how the fabric feels on
+                Everything is thoughtfully done — from how the fabric feels on
                 your skin, to how the collar sits, to the neatness of every
-                stitch."
+                stitch.
               </p>
 
               <div

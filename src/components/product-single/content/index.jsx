@@ -180,6 +180,7 @@ const Content = ({ product }) => {
         product: {
           id: product.id,
           name: product.name,
+          sku: product.sku,
           thumb: product.images ? product.images[0] : "",
           price: product.price,
           slug: product.slug,

@@ -30,6 +30,7 @@ export default function RecentlyViewed() {
             key={item.id}
             id={item.id}
             name={item.name}
+            sku={item.sku}
             slug={item.slug}
             images={
               item.image

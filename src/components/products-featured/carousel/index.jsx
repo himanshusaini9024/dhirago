@@ -54,6 +54,7 @@ const ProductsCarousel = ({ products }) => {
               id={item.id}
               name={item.name}
               price={item.price}
+              sku={item.sku}
               color={item.color}
               discount={item.discount}
               currentPrice={item.currentPrice}

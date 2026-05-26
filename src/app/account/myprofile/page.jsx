@@ -2,6 +2,53 @@
 
 import { useEffect, useState } from "react";
 import api from "../../../lib/api";
+import { Toaster, toast } from "react-hot-toast";
+import { CheckCircle2, XCircle } from "lucide-react";
+
+/* ---------------- PREMIUM TOAST ---------------- */
+const successToast = (msg) => {
+  toast.custom(
+    (t) => (
+      <div
+        className={`${
+          t.visible ? "animate-enter" : "animate-leave"
+        } bg-white border border-green-100 shadow-2xl rounded-2xl px-5 py-4 flex items-center gap-4 min-w-[320px]`}
+      >
+        <div className="w-11 h-11 rounded-full bg-green-100 flex items-center justify-center">
+          <CheckCircle2 className="text-green-600 w-6 h-6" />
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-gray-900">Success</p>
+          <p className="text-xs text-gray-500 mt-1">{msg}</p>
+        </div>
+      </div>
+    ),
+    { duration: 3000 }
+  );
+};
+
+const errorToast = (msg) => {
+  toast.custom(
+    (t) => (
+      <div
+        className={`${
+          t.visible ? "animate-enter" : "animate-leave"
+        } bg-white border border-red-100 shadow-2xl rounded-2xl px-5 py-4 flex items-center gap-4 min-w-[320px]`}
+      >
+        <div className="w-11 h-11 rounded-full bg-red-100 flex items-center justify-center">
+          <XCircle className="text-red-600 w-6 h-6" />
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-gray-900">Error</p>
+          <p className="text-xs text-gray-500 mt-1">{msg}</p>
+        </div>
+      </div>
+    ),
+    { duration: 3000 }
+  );
+};
 
 /* ---------------- INPUT COMPONENT ---------------- */
 function InputField({ label, name, value, onChange, type = "text" }) {
@@ -42,7 +89,6 @@ function InputField({ label, name, value, onChange, type = "text" }) {
 
 /* ---------------- MAIN PAGE ---------------- */
 export default function MyProfilePage() {
-  /* ---------------- STATES ---------------- */
   const [profile, setProfile] = useState({
     first_name: "",
     last_name: "",
@@ -60,7 +106,7 @@ export default function MyProfilePage() {
     line2: "",
     city: "",
     state: "",
-    zip: ""
+    zip: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -69,10 +115,9 @@ export default function MyProfilePage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-      const res = await api.get("/user");
+        const res = await api.get("/user");
 
-    localStorage.setItem("user_email", res.data.email); // ✅ save instantly
-   
+        localStorage.setItem("user_email", res.data.email);
 
         setProfile({
           first_name: res.data.first_name || "",
@@ -105,53 +150,67 @@ export default function MyProfilePage() {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
-  /* ---------------- API CALLS ---------------- */
+  /* ---------------- SAVE PROFILE ---------------- */
   const saveProfile = async () => {
     setLoading(true);
-    try {
-      console.log("PROFILE DATA SENT:", profile);
-      const res = await api.post("/user/update-profile", profile);
 
-      console.log("RESPONSE:", res.data);
-      alert("✅ Profile updated");
+    try {
+      await api.post("/user/update-profile", profile);
+
+      successToast("Profile updated successfully");
     } catch (e) {
-      console.log(e.response?.data);
-      alert(e.response?.data?.message || "Error");
+      errorToast(e.response?.data?.message || "Something went wrong");
     }
+
     setLoading(false);
   };
 
+  /* ---------------- UPDATE PASSWORD ---------------- */
   const updatePassword = async () => {
     setLoading(true);
-    try {
-      const res = await api.post("/user/update-password", password);
 
-      
-      alert("✅ Password updated");
-      setPassword({ password: "", password_confirmation: "" });
+    try {
+      await api.post("/user/update-password", password);
+
+      successToast("Password updated successfully");
+
+      setPassword({
+        password: "",
+        password_confirmation: "",
+      });
     } catch (e) {
-      alert("❌ Error updating password");
+      errorToast("Error updating password");
     }
+
     setLoading(false);
   };
 
+  /* ---------------- SAVE ADDRESS ---------------- */
   const saveAddress = async () => {
     setLoading(true);
+
     try {
       await api.post("/user/update-address", address);
-      alert("✅ Address saved");
+
+      successToast("Address saved successfully");
     } catch (e) {
-      alert("❌ Error saving address");
+      errorToast("Error saving address");
     }
+
     setLoading(false);
   };
 
   /* ---------------- UI ---------------- */
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f5f5] to-[#eeeeee] px-4 md:px-12 py-12 font-[Inter]">
+      
+      {/* PREMIUM TOASTER */}
+      <Toaster position="top-right" reverseOrder={false} />
+
       {/* HEADER */}
       <div className="mb-14">
         <h1 className="text-2xl font-light tracking-tight">My Profile</h1>
+
         <p className="text-sm text-gray-500 mt-2 tracking-wide">
           Manage your personal details & address
         </p>
@@ -159,6 +218,7 @@ export default function MyProfilePage() {
 
       {/* GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        
         {/* PROFILE */}
         <div className="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow border">
           <h3 className="text-xs tracking-[3px] text-gray-400 mb-8">
@@ -172,12 +232,14 @@ export default function MyProfilePage() {
               value={profile.first_name}
               onChange={handleProfile}
             />
+
             <InputField
               label="Last Name"
               name="last_name"
               value={profile.last_name}
               onChange={handleProfile}
             />
+
             <InputField
               label="Email"
               name="email"
@@ -189,6 +251,7 @@ export default function MyProfilePage() {
               name="phone"
               value={profile.phone}
               onChange={handleProfile}
+              maxLength={10}
               placeholder="Contact Number"
               className="w-full border-b py-3 text-sm bg-transparent focus:outline-none focus:border-black"
             />
@@ -216,6 +279,7 @@ export default function MyProfilePage() {
               value={password.password}
               onChange={handlePassword}
             />
+
             <InputField
               label="Confirm Password"
               name="password_confirmation"
@@ -239,23 +303,22 @@ export default function MyProfilePage() {
         <h2 className="text-xl font-medium mb-8">Add New Address</h2>
 
         <div className="space-y-6">
-            <InputField
-              label="Address Line 1"
-              name="line1"
-              type="text"
-              value={address.line1}
-              onChange={handleAddress}
-            />
+          <InputField
+            label="Address Line 1"
+            name="line1"
+            type="text"
+            value={address.line1}
+            onChange={handleAddress}
+          />
 
-             <InputField
-              label="Address Line 2"
-              name="line2"
-              type="text"
-              value={address.line2}
-              onChange={handleAddress}
-            />
-         
-         
+          <InputField
+            label="Address Line 2"
+            name="line2"
+            type="text"
+            value={address.line2}
+            onChange={handleAddress}
+          />
+
           <input
             name="city"
             value={address.city}
@@ -263,6 +326,7 @@ export default function MyProfilePage() {
             placeholder="City"
             className="w-full border-b py-3 text-sm"
           />
+
           <input
             name="state"
             value={address.state}
@@ -270,6 +334,7 @@ export default function MyProfilePage() {
             placeholder="State"
             className="w-full border-b py-3 text-sm"
           />
+
           <input
             name="zip"
             value={address.zip}

@@ -176,7 +176,7 @@ const Content = ({ product }) => {
 
     dispatch(
       addProduct({
-        count: 1,
+        count: count,
         product: {
           id: product.id,
           name: product.name,

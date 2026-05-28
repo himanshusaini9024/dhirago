@@ -129,61 +129,81 @@ export default function OrdersPage() {
                         </p>
                       </div>
 
-                   <div className="mt-3">
-  {order.status === "delivered" ? (
-    <div className="inline-flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-4 py-3">
-      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-        <CheckCircle className="h-5 w-5 text-green-600" />
-      </div>
+                      <div className="mt-3">
+                        {order.status === "delivered" ? (
+                          <div className="inline-flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-4 py-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                              <CheckCircle className="h-5 w-5 text-green-600" />
+                            </div>
 
-      <div>
-        <p className="text-sm font-semibold text-green-700 uppercase tracking-wide">
-          Order Delivered
-        </p>
+                            <div>
+                              <p className="text-sm font-semibold text-green-700 uppercase tracking-wide">
+                                Order Delivered
+                              </p>
 
-        <p className="text-sm text-green-600">
-          Delivered successfully on{" "}
-          <span className="font-medium">
-            {new Date(order.expected_delivery_date).toLocaleDateString(
-              "en-IN",
-              {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              }
-            )}
-          </span>
-        </p>
-      </div>
-    </div>
-  ) : (
-    <div className="inline-flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
-      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
-        🚚
-      </div>
+                              <p className="text-sm text-green-600">
+                                Delivered successfully on{" "}
+                                <span className="font-medium">
+                                  {new Date(
+                                    order.expected_delivery_date,
+                                  ).toLocaleDateString("en-IN", {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                  })}
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
+                              🚚
+                            </div>
 
-      <div>
-        <p className="text-sm font-semibold text-black uppercase tracking-wide">
-          Estimated Delivery
-        </p>
+                            <div>
+                              <p className="text-sm font-semibold text-black uppercase tracking-wide">
+                                Estimated Delivery
+                              </p>
 
-        <p className="text-sm text-gray-600">
-          Expected by{" "}
-          <span className="font-medium text-black">
-            {new Date(order.expected_delivery_date).toLocaleDateString(
-              "en-IN",
-              {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              }
-            )}
-          </span>
-        </p>
-      </div>
-    </div>
-  )}
-</div>
+                              <p className="text-sm text-gray-600">
+                                {(() => {
+                                  let deliveryDate;
+
+                                  if (order.expected_delivery_date) {
+                                    deliveryDate = new Date(
+                                      order.expected_delivery_date,
+                                    );
+                                  } else {
+                                    deliveryDate = new Date(order.created_at);
+
+                                    // add 6 days
+                                    deliveryDate.setDate(
+                                      deliveryDate.getDate() + 5,
+                                    );
+                                  }
+
+                                  return (
+                                    <>
+                                      Expected by{" "}
+                                      <span className="font-medium text-black">
+                                        {deliveryDate.toLocaleDateString(
+                                          "en-IN",
+                                          {
+                                            day: "numeric",
+                                            month: "long",
+                                            year: "numeric",
+                                          },
+                                        )}
+                                      </span>
+                                    </>
+                                  );
+                                })()}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
 
                       <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
                         <ChevronDown />

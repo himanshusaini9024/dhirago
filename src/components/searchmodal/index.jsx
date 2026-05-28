@@ -52,18 +52,18 @@ export default function SearchDrawer({ open, onClose }) {
   }, [query]);
 
   const getImage = (photo) => {
-  try {
-    if (!photo) return "/placeholder.png";
+    try {
+      if (!photo) return "/placeholder.png";
 
-    const images = typeof photo === "string" ? JSON.parse(photo) : photo;
+      const images = typeof photo === "string" ? JSON.parse(photo) : photo;
 
-    return images?.[0]?.url
-      ? `https://res.cloudinary.com/ds48lk80f/${images[0].url}`
-      : "/placeholder.png";
-  } catch {
-    return "/placeholder.png";
-  }
-};
+      return images?.[0]?.url
+        ? `https://res.cloudinary.com/ds48lk80f/${images[0].url}`
+        : "/placeholder.png";
+    } catch {
+      return "/placeholder.png";
+    }
+  };
 
   // ✅ ESC close
   useEffect(() => {
@@ -147,10 +147,17 @@ export default function SearchDrawer({ open, onClose }) {
                     onClick={onClose}
                     className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded transition"
                   >
-                    <img
-                      src={cat.photo}
-                      className="w-10 h-10 rounded object-cover"
-                    />
+                    {cat.photo ? (
+                      <img
+                        src={cat.photo}
+                        alt={cat.name || "Product"}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-100 text-xs text-gray-400">
+                        No Image
+                      </div>
+                    )}
                     <span className="text-sm">{cat.name}</span>
                   </Link>
                 ))}
@@ -171,10 +178,18 @@ export default function SearchDrawer({ open, onClose }) {
                     onClick={onClose}
                     className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded transition"
                   >
-                    <img
-                      src={getImage(prod.photo)}
-                      className="w-12 h-16 rounded object-cover"
-                    />
+                    {prod.photo ? (
+                      <img
+                        src={getImage(prod.photo)}
+                        alt={prod.name || "Product"}
+                        className="w-1/2 h-1/2 object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-100 text-xs text-gray-400">
+                        No Image
+                      </div>
+                    )}
+                  
                     <span className="text-sm">{prod.name}</span>
                   </Link>
                 ))}

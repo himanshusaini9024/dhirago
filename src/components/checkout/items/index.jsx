@@ -21,8 +21,10 @@ const CheckoutItems = () => {
           key={`${item.id}-${item.size}-${item.color}`}
           className="flex gap-4 items-center border rounded-xl p-3 md:p-4 bg-white shadow-sm hover:shadow-md transition"
         >
+          
           {/* IMAGE */}
           <div className="w-40 h-48 md:w-36 md:h-44 flex-shrink-0 overflow-hidden rounded-lg border bg-gray-50">
+             
             <img
               src={`${IMGURL}${item.thumb?.url}`}
               alt={item.name}
@@ -32,7 +34,7 @@ const CheckoutItems = () => {
 
           {/* DETAILS */}
           <div className="flex-1">
-            <h3 className="text-sm md:text-base font-semibold text-gray-800 line-clamp-1">
+            <h3 className="text-sm md:text-base font-light ">
               {item.name}
             </h3>
 
@@ -54,7 +56,7 @@ const CheckoutItems = () => {
 
           {/* PRICE */}
           <div className="text-right">
-            <p className="text-sm md:text-base font-semibold text-black">
+            <p className="text-sm md:text-base font-light ">
               ₹{item.price * item.quantity}
             </p>
 

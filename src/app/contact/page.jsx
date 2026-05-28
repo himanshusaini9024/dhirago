@@ -3,6 +3,12 @@
 import { Montserrat } from "next/font/google";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -77,14 +83,14 @@ export default function UltraPremiumContactGodLevel() {
   };
 
   return (
-    <div className={`${montserrat.className} min-h-screen relative overflow-hidden text-white`}>
+    <div className={` ${josefin.className} uppercase min-h-screen relative overflow-hidden text-white`}>
 
       {/* HEADING */}
       <div className="relative z-10 text-center pt-16">
-        <h1 className="text-5xl md:text-6xl font-light bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+        <h1  className="text-5xl md:text-4xl  font-light bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
           Contact Us
         </h1>
-        <p className="text-gray-400 mt-4 text-lg">
+        <p className="text-gray-400  mt-4 text-xs">
           We’d love to hear from you — let’s build something amazing.
         </p>
       </div>
@@ -106,12 +112,12 @@ export default function UltraPremiumContactGodLevel() {
           style={{ rotateX, rotateY }}
           className="bg-white/80 border border-black/10 rounded-3xl p-12"
         >
-          <h2 className="text-3xl text-black font-bold mb-6">Build Something Legendary</h2>
-          <p className="text-black mb-12">
+          <h2 className="text-2xl text-black font-semibold mb-3">Build Something Legendary</h2>
+          <p className="text-black text-xs mb-10">
             We craft elite digital experiences. Let’s connect.
           </p>
 
-          <div className="space-y-6 text-black">
+          <div className="space-y-6 text-black text-xs">
             <Info label="Address" value="3rd floor, New electric market, 120, ft Road, A.M Business Center, Mali Colony, Central Area, Udaipur, Rajasthan 313002" />
             <Info label="Phone" value="+91 8905524932" />
             <Info label="Email" value="contact@email.com" />
@@ -120,7 +126,9 @@ export default function UltraPremiumContactGodLevel() {
 
         {/* RIGHT FORM */}
         <motion.div className="bg-white/80 border border-black/10 rounded-3xl p-12">
-          <h3 className="text-3xl text-black font-semibold mb-10">Send Message</h3>
+          {/* <h3 className="text-3xl text-black font-semibold mb-10">Send Message</h3> */}
+          <h2 className="text-2xl text-black font-semibold mb-3">Send Message</h2>
+
 
           <form onSubmit={handleSubmit} className="space-y-8 text-black">
 
@@ -150,9 +158,10 @@ export default function UltraPremiumContactGodLevel() {
       {/* MAP */}
       <div className="relative z-10 px-6 pb-24">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3628.438883949638!2d73.7109645760963!3d24.57404535665716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3967ef7de90bb7e5%3A0xe61bd17d9db996d3!2sWakal%20Mata%20Rd%2C%20Udaipur%2C%20Rajasthan%20313002!5e0!3m2!1sen!2sin!4v1776501653254!5m2!1sen!2sin"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6063.807756469185!2d73.70282194750479!3d24.571471576492037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3967e5000703e1d7%3A0x48989a03f4f52743!2sDHIRAGO%20FASHION%20PRIVATE%20LIMITED!5e0!3m2!1sen!2sin!4v1779878374563!5m2!1sen!2sin"
           className="w-full h-[400px] rounded-3xl border border-white/10"
         />
+    
       </div>
     </div>
   );

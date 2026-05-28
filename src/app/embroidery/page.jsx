@@ -199,22 +199,20 @@ export default function EmbroideryPage() {
           </div>
 
           {/* Radial warm glow */}
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 30% 55%, rgba(196,168,130,0.07) 0%, transparent 60%)", pointerEvents: "none", zIndex: 1 }} />
+          <div style={{ position: "absolute", inset: 0, background: "#FAFAF7", pointerEvents: "none", zIndex: 1 }} />
 
           {/* Hero content */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(4rem, 8vw, 7rem) clamp(2rem, 5vw, 6rem)", zIndex: 2, paddingBottom: "2rem" }}>
             <div style={{ animation: "fadeUp 1s ease 0.5s both", maxWidth: 900 }}>
-              <p className="font-futura" style={{ fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#C4A882", marginBottom: "2rem", fontWeight: 400 }}>
-                Why Dhirago — 03
-              </p>
-              <h1 className="heading-font hero-heading" style={{ fontWeight: 100, fontSize: "clamp(1.8rem, 7vw, 3rem)", lineHeight: 1.05, letterSpacing: "0.05em", color: "#F5F0E8", marginBottom: "2rem" }}>
-                A Touch of<br />
-                <em style={{ fontStyle: "italic", color: "#D4B896", fontWeight: 100 }}>Embroidery,</em><br />
+            
+              <h1 className="heading-font hero-heading" style={{ fontWeight: 100, fontSize: "clamp(1.8rem, 7vw, 2rem)", lineHeight: 1.05, letterSpacing: "0.05em", color: "#000000", marginBottom: "2rem" }}>
+                A Touch of
+                <em style={{ fontStyle: "italic", color: "#000000", fontWeight: 100 }}>Embroidery,</em>
                 a Shade of Elegance
               </h1>
             </div>
             <div style={{ animation: "fadeUp 1s ease 0.7s both" }}>
-              <p className="font-futura" style={{ fontWeight: 100, fontSize: "clamp(23px, 1.5vw, 25px)", lineHeight: 1.9, color: "rgba(245,240,232,0.6)", maxWidth: 520, textAlign: "justify" }}>
+              <p className="font-futura" style={{ fontWeight: 100, fontSize: "clamp(23px, 1.5vw, 25px)", lineHeight: 1.9, color: "#000000", maxWidth: 520, textAlign: "justify" }}>
                 Indigenous textile techniques and natural fabrics — integrating time-honoured weaving practices into garments that remain connected to tradition while expressed with a modern sensibility.
               </p>
             </div>

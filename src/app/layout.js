@@ -7,6 +7,8 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import "../assets/css/styles.scss";
+import GoogleAnalytics from "../components/GoogleAnalytics";
+import PageTracker from "../components/PageTracker";
 
 const inter = Inter({ subsets: ["latin"] });
 import { futura  } from "./font";
@@ -67,7 +69,9 @@ export default function RootLayout({ children }) {
 
               <LayoutWrapper>
                 <CartSync />
+                <PageTracker/>
                 {children}
+                <GoogleAnalytics />
                  <Analytics />
                    <SpeedInsights />
               </LayoutWrapper>

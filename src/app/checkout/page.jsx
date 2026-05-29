@@ -341,7 +341,7 @@ const CheckoutPage = () => {
                     if (processing) return;
                     setProcessing(true);
                     await new Promise((r) => setTimeout(r, 1200));
-                    await handleCOD({ createOrder });
+                    await handleCOD({ createOrder,email ,priceTotal});
                     setProcessing(false);
                   }}
                 >

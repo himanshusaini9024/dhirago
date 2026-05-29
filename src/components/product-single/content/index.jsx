@@ -8,6 +8,8 @@ import Image from "next/image";
 import { addProduct } from "../../../store/reducers/cart";
 import { toggleFavProduct } from "../../../store/reducers/user";
 
+import { event } from "../../../lib/gtag";
+
 import productsColors from "../../../utils/data/products-colors";
 import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
@@ -173,6 +175,12 @@ const Content = ({ product }) => {
       alert("Please select color");
       return;
     }
+    event({
+      action: "add_to_cart",
+      category : product.category,
+      label:product.name,
+      value:product.price,
+    }),
 
     dispatch(
       addProduct({

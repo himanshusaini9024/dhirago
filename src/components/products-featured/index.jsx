@@ -19,7 +19,7 @@ export default function RecentlyViewed() {
 
   return (
     <div className="mt-16 px-4 md:px-8">
-      <h2 className="text-2xl md:text-3xl font-semibold mb-8">
+      <h2 style={{ textAlign:"center", fontWeight:400}} className="text-2xl md:text-3xl uppercase font-light mb-8">
         Recently Viewed
       </h2>
 

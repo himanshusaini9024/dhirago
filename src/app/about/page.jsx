@@ -195,17 +195,17 @@ export default function AboutPage() {
 
             <Reveal delay={260}>
               <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.5rem" }}>
-                DHIRAGO originates from a narrative that simplicity holds depth and life is meant to be felt, not rushed. The name is inspired by <em style={{ fontStyle: "italic" }}>"Dheera"</em> a state of calmness, reflecting a mindset that values quiet clarity over constant distraction. Minimally and responsibly crafted, each piece carries a quiet sense of stillness. In a world that moves quickly, it offers a sense of ease — inviting you to slow down and experience things more thoughtfully.
+                DHIRAGO originates from a narrative that simplicity holds depth and life is meant to be felt, not rushed. The name is inspired by <em style={{ fontStyle: "italic" }}>"Dheera"</em> a state of calmness that values clarity and thoughtful living. In a world that moves quickly, it offers a sense of ease—inviting you to slow down and experience beauty found in small details. DHIRAGO crafts menswear that celebrates simplicity, comfort, and the beauty of well-considered details.
               </p>
             </Reveal>
             <Reveal delay={340}>
               <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.5rem" }}>
-                As a conscious luxury label, DHIRAGO works with 60 count European linen and organically sourced fibres, valued for its breathability, texture, and the way it softens and evolves over time. Produced in small batches in close collaboration with artisans. This allows to focus on precision and detail in a way that large-scale production simply cannot. The process is slower, but it ensures that every piece meets a certain standards and quality.
+               As a conscious luxury label, DHIRAGO works with 60 count European linen and organically sourced fabric, valued for its breathability, texture, and the way it softens over time. Produced in small batches in close collaboration with artisans, where each item is hand-cut, sewn by a single tailor from beginning to end and carefully hand-finished.
               </p>
             </Reveal>
             <Reveal delay={420}>
               <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: 0 }}>
-                Craftsmanship lies at the heart of Dhirago, our designs draw from heritage techniques and time honoured practices including hand painting and the intricate detailing of miniature art. Handwork techniques like sashiko, kantha and tangaliya inspired weaving are thoughtfully incorporated — each carrying the imprint of tradition and care. In doing so, we honour and preserve the richness of Indian heritage — bringing its legacy forward with quiet pride in every piece we create.
+                Craftsmanship lies at the heart of DHIRAGO, our designs draw from heritage techniques and time honoured practices like block printing, natural dye and intricate detailing of miniature art alongside handwork traditions inspired from Sashiko, Kantha and Tangaliya weaving . We actively collaborate with karigars across India to create piece that celebrate traditional craftsmanship while remaining relevant to modern wardrobe.
               </p>
             </Reveal>
 
@@ -240,14 +240,14 @@ export default function AboutPage() {
             </Reveal>
 
             {/* Heading — both views */}
-            <Reveal delay={100}>
+            {/* <Reveal delay={100}>
               <h2 className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(1.5rem,4.5vw,3.2rem)", color: "#F5F0E8", lineHeight: 1.08, marginBottom: "clamp(2rem,5vw,3.5rem)", maxWidth: 720 }}>
                 Udaipur —{" "}
                 <em style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontWeight: 300, color: "#C4A882", textTransform: "none" }}>
                   the city of lake
                 </em>
               </h2>
-            </Reveal>
+            </Reveal> */}
 
             {/* Gold rule — both views */}
             <Reveal delay={180}>
@@ -265,13 +265,21 @@ export default function AboutPage() {
               }}
             >
               {/* Left — big italic quote */}
-              <Reveal delay={240}>
+              {/* <Reveal delay={240}>
                 <div style={{ borderLeft: "1px solid rgba(196,168,130,0.4)", paddingLeft: "1.75rem" }}>
                   <p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontWeight: 300, fontSize: "clamp(1.3rem,2.8vw,2rem)", color: "#F5F0E8", lineHeight: 1.6, letterSpacing: "0.02em", margin: 0 }}>
                     "The lakes do not rush — they hold the sky, the light, the moment."
                   </p>
                 </div>
-              </Reveal>
+              </Reveal> */}
+
+               <Reveal delay={100}>
+              <h2 className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(1.5rem,4.5vw,2.6rem)", color: "#F5F0E8", lineHeight: 1.08, marginBottom: "clamp(2rem,5vw,3.5rem)", maxWidth: 720 }}>
+                <em style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontWeight: 300, color: "#C4A882", textTransform: "none" }}>
+                  Udaipur — The city of lake
+                </em>
+              </h2>
+            </Reveal>
 
               {/* Right — body + location */}
               <div>

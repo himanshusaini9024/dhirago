@@ -7,509 +7,467 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { addProduct } from "../../../store/reducers/cart";
 import { toggleFavProduct } from "../../../store/reducers/user";
-
 import { event } from "../../../lib/gtag";
-
 import productsColors from "../../../utils/data/products-colors";
 import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
-const Content = ({ product }) => {
+
+const F = "'Josefin Sans', sans-serif";
+
+function useIsMobile() {
+  const [m, setM] = useState(false);
+  useEffect(() => {
+    const check = () => setM(window.innerWidth < 900);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return m;
+}
+const BORDER = "0.5px solid #dedad2";
+
+const SectionLabel = ({ children }) => (
+  <p style={{
+    margin: 0,
+    fontSize: "11.5px",
+    letterSpacing: "0.26em",
+    textTransform: "uppercase",
+    color: "#aaa",
+    fontFamily: F,
+    fontWeight: 400,
+  }}>
+    {children}
+  </p>
+);
+
+const HR = () => (
+  <div style={{ width: "100%", height: "0.5px", background: "#dedad2" }} />
+);
+
+// ── Accordion with single-open control ───────────────────────────────────────
+function AccordionRow({ title, children, isOpen, onToggle }) {
+  return (
+    <>
+      <HR />
+      <button
+        onClick={onToggle}
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "13px 0",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          textAlign: "left",
+          fontFamily: F,
+        }}
+      >
+        <span style={{
+          fontSize: "10px",
+          fontWeight: 400,
+          letterSpacing: "0.28em",
+          textTransform: "uppercase",
+          color: "#1a1a1a",
+          fontFamily: F,
+        }}>
+          {title}
+        </span>
+        <motion.span
+          animate={{ rotate: isOpen ? 45 : 0 }}
+          transition={{ duration: 0.16 }}
+          style={{ fontSize: "16px", color: "#c0bbb3", lineHeight: 1 }}
+        >
+          +
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            <div style={{ paddingBottom: "18px" }}>{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+export default function Content({ product }) {
   const dispatch = useDispatch();
-  const [activeDrawer, setActiveDrawer] = useState(null); // Stores the ID of the open drawer
+  const isMobile = useIsMobile();
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const menuItems = [
-    {
-      id: "measurements",
-      title: "PRODUCT DESCRIPTION",
-      content: product?.description || "No description available.",
-      type: "text",
-    },
-    {
-      id: "composition",
-      title: "COMPOSITION, CARE & ORIGIN",
-      type: "care",
-    },
-    {
-      id: "shipping",
-      title: "SHIPPING, EXCHANGES AND RETURNS",
-      content: `
-      <div class="accordion__body no-js-accordion" id="description-2" data-accordion-body="">
-              <p>Shipping &amp; Dispatch: Ready-to-ship suits/jackets/kurtas dispatch in 2–4 days; embroidered styles (Sherwanis/Indowesterns) usually dispatch in 15–20 days. Overall production timelines range from 2–30 days; the exact timeline is shown on this product.</p><p>Delivery: Express courier after dispatch; typically 4–5 business days across most of India. Tracking is shared when your order ships.</p><p>Changes: Orders are made to your specifications; changes after confirmation aren’t guaranteed. If you’d like to request a change, email brahaanbynarains@gmail.com with your order details and we’ll try our best.</p><p>Returns/Alterations: Refunds/returns are possible in certain situations; fitting alterations can be arranged.</p><p><a href="${baseUrl}/" target="_blank" title="">Read more</a></p>
-            </div>
-      `,
-      type: "text",
-    },
-  ];
-
-  const CareContent = () => {
-    return (
-      <div className="space-y-6 text-[13px] text-gray-700 leading-relaxed">
-        <p>
-          It is advisable to wash this garment separately and avoid direct
-          sunlight to prevent colour variation.
-        </p>
-
-        {/* CARE ICON LIST */}
-        <div className="space-y-3">
-          {[
-            {
-              icon: "/image/upload/v1777724031/no-bleach_nksy8e.png",
-              label: "Do not bleach",
-            },
-            {
-              icon: "/image/upload/v1777724031/iron-steam_qixmn4.png",
-              label: "Iron or steam with warm heat",
-            },
-            {
-              icon: "/image/upload/v1777724031/hand-wash_ptmbbz.png",
-              label: "Separately hand wash",
-            },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_IMG_URL}${item.icon}`}
-                  width={30}
-                  height={40}
-                  alt=""
-                  className="w-5 h-5 object-contain"
-                />
-              </div>
-              <span className="text-sm">{item.label}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* NOTE */}
-        <div className="pt-4 border-t text-[12px] text-gray-500">
-          <span className="block tracking-widest text-[10px] mb-2 text-black">
-            NOTE
-          </span>
-          Colour bleeding is normal in naturally dyed garments in the initial
-          washes. Over time, the fabric develops a softer, lived-in character.
-        </div>
-      </div>
-    );
-  };
 
   const [openSizeChart, setOpenSizeChart] = useState(false);
-  const generateVariants = (product) => {
-    const sizes = product.sizes?.split(",") || [];
-    const colors = product.colors?.split(",") || [];
-
-    let variants = [];
-
-    colors.forEach((color) => {
-      sizes.forEach((size) => {
-        variants.push({
-          color: color.trim().toLowerCase(),
-          size: size.trim().toLowerCase(),
-          price: product.price,
-          image: product.images?.[0] || "",
-          stock: product.quantityAvailable,
-        });
-      });
-    });
-
-    return variants;
-  };
-
-  // ✅ Memoized variants (important)
-  const variants = useMemo(() => generateVariants(product), [product]);
-
-  const [count, setCount] = useState(1);
-  const [color, setColor] = useState("");
   const [itemSize, setItemSize] = useState("");
   const [sizeError, setSizeError] = useState("");
-  const [activeVariant, setActiveVariant] = useState(null);
+  const [color, setColor] = useState("");
+  // single open accordion: null | "care" | "shipment" | "returns"
+  const [openAccordion, setOpenAccordion] = useState(null);
 
-  const favProducts = useSelector((state) => state.user?.favProducts || []);
+  const toggleAccordion = (key) =>
+    setOpenAccordion(prev => prev === key ? null : key);
 
-  const isFavourite = some(
-    favProducts,
-    (productId) => productId === product.id,
-  );
+  const variants = useMemo(() => {
+    const sizes = product.sizes?.split(",") || [];
+    const colors = product.colors?.split(",") || [];
+    return colors.flatMap((c) =>
+      sizes.map((s) => ({
+        color: c.trim().toLowerCase(),
+        size: s.trim().toLowerCase(),
+        price: product.price,
+        stock: product.quantityAvailable,
+      })),
+    );
+  }, [product]);
 
-  const findVariant = (selectedColor) => {
-    return variants.find((v) => v.color === selectedColor?.toLowerCase());
-  };
-
-  // ⭐ Auto select first variant
+  const availableColors = [...new Set(variants.map((v) => v.color))];
   useEffect(() => {
-    if (variants.length) {
-      const first = variants[0];
-      setColor(first.color);
-      setActiveVariant(first);
-    }
+    if (variants.length) setColor(variants[0].color);
   }, [variants]);
 
-  const toggleFav = () => {
-    dispatch(toggleFavProduct({ id: product.id }));
-  };
-  // ✅ Parse measurements safely
+  const favProducts = useSelector((s) => s.user?.favProducts || []);
+  const isFav = some(favProducts, (id) => id === product.id);
+
   const measurements = useMemo(() => {
     try {
       if (!product?.measurements) return null;
-
-      // if already object → return directly
-      if (typeof product.measurements === "object") {
-        return product.measurements;
-      }
-
-      // if string → parse JSON
-      return JSON.parse(product.measurements);
-    } catch (e) {
-      console.error("Invalid measurements JSON", e);
-      return null;
-    }
+      return typeof product.measurements === "object"
+        ? product.measurements
+        : JSON.parse(product.measurements);
+    } catch { return null; }
   }, [product]);
 
   const addToCart = () => {
-    if (!itemSize || itemSize === "Select size") {
-      // setItemSize("Please select Your Size");
-      setSizeError("Please select Your size");
-      return;
-    }
+    if (!itemSize) { setSizeError("Please select your size"); return; }
     setSizeError("");
-    if (!color) {
-      alert("Please select color");
-      return;
-    }
-    event({
-      action: "add_to_cart",
-      category : product.category,
-      label:product.name,
-      value:product.price,
-    }),
-
-    dispatch(
-      addProduct({
-        count: count,
-        product: {
-          id: product.id,
-          name: product.name,
-          sku: product.sku,
-          thumb: product.images ? product.images[0] : "",
-          price: product.price,
-          slug: product.slug,
-          color: color.toLowerCase(),
-          size: itemSize.toLowerCase(),
-        },
-      }),
-    );
+    event({ action: "add_to_cart", category: product.category, label: product.name, value: product.price });
+    dispatch(addProduct({
+      count: 1,
+      product: {
+        id: product.id, name: product.name, sku: product.sku,
+        thumb: product.images?.[0] || "", price: product.price,
+        slug: product.slug, color: color.toLowerCase(), size: itemSize.toLowerCase(),
+      },
+    }));
   };
-  const availableColors = [...new Set(variants.map((v) => v.color))];
+
+  const prose = {
+    fontSize: "12px", lineHeight: "1.7", color: "#555", fontWeight: 400, fontFamily: F,
+  };
+
+  const CareSection = () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "11px" }}>
+      <p style={prose}>
+        It is advisable to wash this garment separately and do not expose it to
+        direct sunlight as it could lead to variation in colour.
+      </p>
+      {[
+        { icon: "/image/upload/v1777724031/no-bleach_nksy8e.png", label: "Do not bleach" },
+        { icon: "/image/upload/v1777724031/iron-steam_qixmn4.png", label: "Iron or steam with warm heat" },
+        { icon: "/image/upload/v1777724031/hand-wash_ptmbbz.png", label: "Separately hand wash" },
+      ].map((item, i) => (
+        <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{
+            width: "28px", height: "28px", borderRadius: "50%", flexShrink: 0,
+            background: "#f4f1ea", display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_IMG_URL}${item.icon}`}
+              width={15} height={15} alt=""
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+          <span style={prose}>{item.label}</span>
+        </div>
+      ))}
+      <div style={{ borderTop: BORDER, paddingTop: "10px" }}>
+        <p style={prose}>
+          NOTE:<br />
+          Colour bleeding is normal in naturally dyed garments in the initial
+          washes after which the colours stabilise. The fading and bleeding of
+          the natural dyes result in graceful fades with the passage of time.
+        </p>
+      </div>
+    </div>
+  );
 
   return (
-    <section className="font-[Montserrat] mt-3 w-full max-w-xl mx-auto px-4  lg:px-5">
-      {/* HEADER */}
-      <div className="space-y-4">
-        <h1 className="text-xl sm:text-xl lg:text-xl tracking-tight font-light leading-tight">
+    <>
+      <section style={{ width: "100%", fontFamily: F }}>
+        {/* NAME */}
+        <h1 style={{
+          fontSize: isMobile ? "14px" : "15px", fontWeight: 400, textTransform: "uppercase",
+          color: "#111", lineHeight: 1.45, margin: "0 0 4px", fontFamily: F,
+        }}>
           {product.name}
         </h1>
 
-        <div className="flex items-center gap-3">
-          <span className="text-xl sm:text-xl ">₹,{product.price}</span>
+        {/* SKU */}
+        {product.sku && (
+          <p className="!mt-4" style={{
+            fontSize: "13.3px", color: "#rgb(28,28,28)", fontWeight: 450,
+            textTransform: "uppercase", margin: "0 0 10px", fontFamily: F,
+          }}>
+            SKU: {product.sku}
+          </p>
+        )}
 
-          {product.discount && (
-            <span className="bg-gradient-to-r from-black to-gray-700 text-white text-[10px] px-3 py-1 rounded-full">
-              SALE
-            </span>
-          )}
+        {/* PRICE */}
+        <div className="!mt-6" style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "18px" }}>
+          <span style={{
+            fontSize: isMobile ? "17px" : "19px", color: "rgb(28,28,28)",
+            letterSpacing: "0.08em", fontWeight: 380, fontFamily: F,
+          }}>
+            RS. {product.price?.toLocaleString("en-IN")}.00
+          </span>
         </div>
 
-        <div className="w-16 h-[2px] bg-gradient-to-r from-black to-gray-300"></div>
-      </div>
-
-      {/* OPTIONS */}
-      <div className="mt-10 space-y-10">
-        {/* COLOR FIXED */}
-        <div>
-          <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-4">
-            Color
-          </h4>
-
-          <div className="flex gap-4 flex-wrap">
-            {availableColors.map((colorValue, index) => {
-              const colorObj = productsColors.find(
-                (c) => c.label.toLowerCase() === colorValue,
-              );
-
-              if (!colorObj) return null;
-
-              const isActive = color === colorValue;
-
-              return (
-                <motion.button
-                  key={index}
-                  onClick={() => {
-                    setColor(colorValue);
-
-                    const variant = findVariant(colorValue);
-                    setActiveVariant(variant || null);
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                  whileHover={{ scale: 1.08 }}
-                  className="relative flex items-center justify-center"
-                >
-                  {/* OUTER RING */}
-                  <div
-                    className={`lg:w-10 lg:h-10 rounded-full flex items-center justify-center transition-all duration-300
-                ${isActive ? "border-2 border-black" : "border border-gray-300"}
-              `}
-                  >
-                    {/* INNER COLOR */}
-                    <div
-                      className=" lg:w-5 lg:h-5 w-3 h-3  rounded-full"
-                      style={{ backgroundColor: colorObj.color }}
-                    />
-                  </div>
-
-                  {/* ACTIVE ANIMATION RING */}
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeColor"
-                      className="absolute lg:w-6 lg:h-6 w-4 h-4 rounded-full ring-1 ring-black"
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20,
-                      }}
-                    />
-                  )}
-                </motion.button>
-              );
-            })}
+        {/* COLOUR */}
+        {availableColors.length > 1 && (
+          <div style={{ marginBottom: "16px" }}>
+            <SectionLabel>
+              Colour —{" "}
+              <span style={{ textTransform: "capitalize", color: "#666" }}>{color}</span>
+            </SectionLabel>
+            <div style={{ display: "flex", gap: "7px", marginTop: "7px" }}>
+              {availableColors.map((val, i) => {
+                const obj = productsColors.find((c) => c.label.toLowerCase() === val);
+                if (!obj) return null;
+                return (
+                  <button key={i} onClick={() => setColor(val)} aria-label={val} style={{
+                    width: "19px", height: "19px", borderRadius: "50%",
+                    background: obj.color, border: "none", cursor: "pointer", padding: 0,
+                    boxShadow: color === val
+                      ? "0 0 0 1.5px #fff, 0 0 0 2.5px #333"
+                      : "0 0 0 1px rgba(0,0,0,0.12)",
+                    transition: "box-shadow 0.18s",
+                  }} />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* SIZE */}
-        <div>
-          <div className="flex justify-between items-center mb-3">
-            <h4 className="text-xs uppercase tracking-widest text-gray-500">
-              Select Size
-            </h4>
-            <span
+        <div className="!mt-12" style={{ marginBottom: "12px" }}>
+          <div style={{
+            display: "flex", justifyContent: "space-between",
+            alignItems: "center", marginBottom: "7px",
+          }}>
+            <SectionLabel>Size:</SectionLabel>
+            <button
               onClick={() => setOpenSizeChart(true)}
-              className="text-xs text-black/70 cursor-pointer hover:underline relative right-[25px]"
+              style={{
+                background: "none", border: "none", cursor: "pointer", padding: 0,
+                fontSize: "13.5px", color: "#666", textDecoration: "underline",
+                textUnderlineOffset: "3px", fontFamily: F,
+              }}
             >
-              Size guide
-            </span>
+              View Size Guide
+            </button>
           </div>
 
-          <AnimatePresence>
-            {openSizeChart && (
-              <motion.div
-                className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <motion.div
-                  initial={{ scale: 0.9, y: 40 }}
-                  animate={{ scale: 1, y: 0 }}
-                  exit={{ scale: 0.9, y: 40 }}
-                  transition={{ duration: 0.25 }}
-                  className="bg-white w-[95%] p-[60px] max-w-5xl rounded-2xl shadow-2xl relative max-h-[100vh] overflow-y-auto"
-                >
-                  <button
-                    onClick={() => setOpenSizeChart(false)}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
-                  >
-                    ✕
-                  </button>
-
-                  <MensSizeChart />
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <select
-            value={itemSize}
-            onChange={(e) => {
-              setItemSize(e.target.value);
-              setSizeError("");
-            }}
-            className={`w-full lg:w-[32rem] border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-blue 
-    ${sizeError ? "border-red-500" : "border-gray-300"}
-  `}
-          >
-            <option value="">Select size</option>
-
-            {productsSizes.map((type) => (
-              <option key={type.id} value={type.label.toLowerCase()}>
-                {type.label}
-              </option>
-            ))}
-          </select>
+          <div style={{ position: "relative" }}>
+            <select
+              value={itemSize}
+              onChange={(e) => { setItemSize(e.target.value); setSizeError(""); }}
+              style={{
+                width: "100%", height: "40px",
+                border: sizeError ? "1px solid #c0392b" : "1px solid #d5d0c8",
+                padding: "0 32px 0 10px", fontSize: "13px",
+                color: "#111", fontFamily: F, fontWeight: 300,
+                background: "#fff", appearance: "none",
+                WebkitAppearance: "none", cursor: "pointer",
+                outline: "none", letterSpacing: "0.06em", borderRadius: 0,
+              }}
+            >
+              <option value="">XS</option>
+              {productsSizes.map((type) => (
+                <option key={type.id} value={type.label.toLowerCase()}>{type.label}</option>
+              ))}
+            </select>
+            <div style={{
+              position: "absolute", right: "10px", top: "50%",
+              transform: "translateY(-50%)", pointerEvents: "none",
+              fontSize: "10px", color: "#999",
+            }}>▾</div>
+          </div>
           {sizeError && (
-            <p className="text-red-500 text-xs mt-2">{sizeError}</p>
+            <p style={{ fontSize: "9.5px", color: "#c0392b", margin: "5px 0 0", fontFamily: F }}>
+              {sizeError}
+            </p>
           )}
         </div>
 
-        {/* QUANTITY + ACTION */}
-        <div className="space-y-4">
-          <h4 className="text-xs uppercase tracking-widest text-gray-500">
-            Quantity
-          </h4>
+        <br /><br />
 
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex items-center border rounded-xl overflow-hidden">
-              <button
-                onClick={() => setCount(Math.max(1, count - 1))}
-                className="px-4 py-3 hover:bg-gray-100"
-              >
-                −
-              </button>
+        {/* ADD TO CART */}
+        <button
+          onClick={addToCart}
+          style={{
+            width: "100%", height: isMobile ? "50px" : "46px", background: "#1a1a1a", color: "#fff",
+            border: "none", fontSize: "11px", letterSpacing: "0.32em",
+            textTransform: "uppercase", cursor: "pointer", fontFamily: F,
+            fontWeight: 600, marginBottom: "7px", transition: "background 0.18s",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "#333")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "#1a1a1a")}
+        >
+          Add to Cart
+        </button>
 
-              <span className="px-5 text-sm">{count}</span>
+        <br /><br />
 
-              <button
-                onClick={() => setCount(count + 1)}
-                className="px-4 py-3 hover:bg-gray-100"
-              >
-                +
-              </button>
-            </div>
+        {/* MEET THE MAKERS */}
+        <button style={{
+          width: "100%", height: isMobile ? "46px" : "42px", background: "transparent",
+          color: "#1a1a1a", border: "1px solid #d5d0c8", fontSize: "11px",
+          letterSpacing: "0.32em", textTransform: "uppercase", cursor: "pointer",
+          fontFamily: F, fontWeight: 400, marginBottom: "23px",
+          transition: "border-color 0.18s", borderRadius: 0,
+        }}
+          onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#555")}
+          onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#d5d0c8")}
+        >
+          Meet the Makers
+        </button>
 
-            <motion.button
-              whileTap={{ scale: 0.96 }}
-              whileHover={{ scale: 1.02 }}
-              onClick={addToCart}
-              className="flex-1 bg-gradient-to-r from-black to-gray-800 max-w-[25rem] text-white py-3 rounded-xl text-sm tracking-wide shadow-lg"
-            >
-              Add to Cart
-            </motion.button>
-
-            {/* <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={toggleFav}
-              className={`px-4 py-3 rounded-xl border transition ${
-                isFavourite ? "bg-black text-white" : "hover:bg-gray-100"
-              }`}
-            >
-              ❤
-            </motion.button> */}
-          </div>
+        {/* ARTISAN CALLOUT */}
+        <div style={{ textAlign: "center", marginBottom: "18px" }}>
+          <p style={{ fontSize: "17.5px", color: "#111", margin: "0 0 7px", fontFamily: F, letterSpacing: "0.03em" }}>
+            Meticulously Crafted By 6 Artisans In 14.12 Hours
+          </p>
+          <p style={{ fontSize: "17.5px", color: "#c0bbb3", margin: 0, fontFamily: F, fontWeight: 350 }}>
+            Know More About Them On The Link Above
+          </p>
         </div>
-      </div>
 
-      {/* TRUST */}
-      <div className="mt-16 border-t max-w-[34rem] border-black/10">
-        {menuItems.map((item) => (
+        {/* ACCORDIONS — single open at a time */}
+        <AccordionRow
+          title="Product Details"
+          isOpen={openAccordion === "details"}
+          onToggle={() => toggleAccordion("details")}
+        >
+          <div style={{ fontSize: "12px", lineHeight: "1.7", color: "#555", fontWeight: 400, fontFamily: F }}
+            dangerouslySetInnerHTML={{ __html: product?.description || "No description available." }}
+          />
+          {measurements && (
+            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "12px" }}>
+              <tbody>
+                {Object.entries(measurements).map(([k, v]) => (
+                  <tr key={k} style={{ borderBottom: BORDER }}>
+                    <td style={{ padding: "7px 0", fontSize: "10.5px", color: "#a8a49c", textTransform: "capitalize", fontFamily: F }}>
+                      {k.replace(/_/g, " ")}
+                    </td>
+                    <td style={{ padding: "7px 0", fontSize: "10.5px", color: "#1a1a1a", textAlign: "right", fontFamily: F }}>
+                      {v}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </AccordionRow>
+
+        <AccordionRow
+          title="Wash Care for Cotton"
+          isOpen={openAccordion === "care"}
+          onToggle={() => toggleAccordion("care")}
+        >
+          <CareSection />
+        </AccordionRow>
+
+        <AccordionRow
+          title="Shipment and Delivery"
+          isOpen={openAccordion === "shipment"}
+          onToggle={() => toggleAccordion("shipment")}
+        >
+          <div style={prose}>
+            <p style={{ margin: "0 0 6px" }}>Ready-to-ship styles dispatch in 2–4 days. Embroidered styles in 15–20 days.</p>
+            <p style={{ margin: "0 0 6px" }}>Express delivery 4–5 business days across India after dispatch.</p>
+            <p style={{ margin: 0 }}>
+              For changes email&nbsp;
+              <a href="mailto:brahaanbynarains@gmail.com" style={{ color: "#111", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                brahaanbynarains@gmail.com
+              </a>
+            </p>
+          </div>
+        </AccordionRow>
+
+        <AccordionRow
+          title="Return and Exchange"
+          isOpen={openAccordion === "returns"}
+          onToggle={() => toggleAccordion("returns")}
+        >
+          <div style={prose}>
+            <p style={{ margin: "0 0 6px" }}>Refunds and returns possible in certain situations. Fitting alterations can be arranged.</p>
+            <p style={{ margin: 0 }}>
+              <a href={`${baseUrl}/`} target="_blank" style={{ color: "#111", textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                Read full policy →
+              </a>
+            </p>
+          </div>
+        </AccordionRow>
+
+        <HR />
+
+        {/* WISHLIST */}
+        <div style={{ padding: "12px 0", textAlign: "center" }}>
           <button
-            key={item.id}
-            onClick={() => setActiveDrawer(item.id)}
-            className="w-full flex justify-between items-center py-5 border-b border-black/10 group hover:opacity-60 transition-opacity"
+            onClick={() => dispatch(toggleFavProduct({ id: product.id }))}
+            style={{
+              background: "none", border: "none", cursor: "pointer", padding: 0,
+              fontSize: "8.5px", letterSpacing: "0.2em", color: "#b0aba3",
+              textDecoration: "underline", textUnderlineOffset: "3px", fontFamily: F,
+            }}
           >
-            <span className="text-[10px] font-medium tracking-[2px] text-black uppercase">
-              {item.title}
-            </span>
-            <span className="text-sm font-light">+</span>
+            {isFav ? "♥  Saved to Wishlist" : "♡  Add to Wishlist"}
           </button>
-        ))}
-      </div>
+        </div>
+      </section>
 
-      {/* SIDE DRAWER OVERLAY */}
+      {/* SIZE CHART MODAL */}
       <AnimatePresence>
-        {activeDrawer && (
-          <>
-            {/* Backdrop */}
+        {openSizeChart && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            style={{
+              position: "fixed", inset: 0, zIndex: 9990,
+              background: "rgba(0,0,0,0.38)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}
+          >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setActiveDrawer(null)}
-              className="fixed inset-0 bg-black/20 z-[60] cursor-pointer"
-            />
-
-            {/* Drawer Panel */}
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              // className="fixed top-0 right-0 h-full w-full max-w-[450px] bg-white z-[70] shadow-2xl p-8 flex flex-col"
-              className="fixed top-0 right-0 h-full w-full max-w-[460px] bg-white z-[70] shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-10 flex flex-col"
+              initial={{ scale: 0.94, y: 18 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.94, y: 18 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                background: "#fff", width: "95%", maxWidth: "840px",
+                padding: "40px", position: "relative",
+                maxHeight: "90vh", overflowY: "auto",
+              }}
             >
-              <div className="flex justify-between items-center mb-12">
-                {/* <h2 className="text-[11px] font-bold tracking-[2px] uppercase"> */}
-                <h2 className="text-[11px] font-semibold tracking-[2px] uppercase text-black">
-                  {menuItems.find((m) => m.id === activeDrawer)?.title}
-                </h2>
-                <button
-                  onClick={() => setActiveDrawer(null)}
-                  className="text-2xl font-light hover:rotate-90 transition-transform"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto">
-                <div className="flex-1 overflow-y-auto pr-2">
-                  {(() => {
-                    const activeItem = menuItems.find(
-                      (m) => m.id === activeDrawer,
-                    );
-
-                    if (!activeItem) return null;
-
-                    if (activeItem.type === "care") {
-                      return <CareContent />;
-                    }
-
-                    return (
-                      <div className="space-y-4 text-[13px] leading-relaxed text-gray-700">
-                        {/* HTML Content */}
-                        <div
-                          className="prose prose-sm max-w-none
-                     [&_li]:mb-2 [&_li]:list-disc [&_li]:ml-4
-                     [&_p]:mb-3 [&_a]:text-black [&_a]:underline"
-                          dangerouslySetInnerHTML={{
-                            __html: activeItem.content,
-                          }}
-                        />
-                      </div>
-                    );
-                  })()}
-                </div>
-
-                {/* If it's measurements, you could render your table here */}
-                {activeDrawer === "measurements" && measurements && (
-                  <div className="mt-8 border-t pt-6">
-                    <h3 className="text-xs tracking-widest text-gray-500 mb-4 uppercase">
-                      Garment Measurements (in inches)
-                    </h3>
-
-                    <div className="overflow-hidden rounded-xl border border-gray-200">
-                      <table className="w-full text-sm">
-                        <tbody>
-                          {Object.entries(measurements).map(([key, value]) => (
-                            <tr
-                              key={key}
-                              className="border-b last:border-b-0 hover:bg-gray-50 transition"
-                            >
-                              <td className="px-4 py-3 text-gray-500 capitalize">
-                                {key.replace(/_/g, " ")}
-                              </td>
-                              <td className="px-4 py-3 text-right font-medium text-black">
-                                {value}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <button
+                onClick={() => setOpenSizeChart(false)}
+                style={{
+                  position: "absolute", top: "14px", right: "16px",
+                  background: "none", border: "none", cursor: "pointer",
+                  fontSize: "15px", color: "#aaa",
+                }}
+              >✕</button>
+              <MensSizeChart />
             </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </>
   );
-};
-
-export default Content;
+}

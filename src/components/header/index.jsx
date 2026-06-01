@@ -99,14 +99,13 @@ const Header = () => {
   };
 
   const mobileMenu = [
-   
     {
       title: "Shop",
       children: [
         {
           name: "Shirts",
           href: "/collections/mens-fashion",
-        }
+        },
       ],
     },
 
@@ -183,14 +182,13 @@ const Header = () => {
                 className={`${josefin.className}  uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-sm  tracking-wider text-sm uppercase`}
               >
                 <div
-                  // onMouseEnter={handleMouseEnterMen}
-                  // onMouseLeave={handleMouseLeaveMen}
+                // onMouseEnter={handleMouseEnterMen}
+                // onMouseLeave={handleMouseLeaveMen}
                 >
-              <Link href={"/collections/mens-fashion"}>
-                  
-                  <button className="hover:text-yellow-400 transition duration-300">
-                    Shop
-                  </button>
+                  <Link href={"/collections/mens-fashion"}>
+                    <button className="hover:text-yellow-400 transition duration-300">
+                      Shop
+                    </button>
                   </Link>
                 </div>
 
@@ -206,7 +204,6 @@ const Header = () => {
             {/* LOGO CENTER */}
             <div
               className={`
-    ${montserrat.className}
     absolute left-1/2 transform -translate-x-[74%] sm:-translate-x-1/2
     
     text-[1.6rem] sm:text-[2rem] lg:text-[3rem]
@@ -219,7 +216,7 @@ const Header = () => {
     }
   `}
             >
-              <Link href={"/"}>Dhirago</Link>
+              <Link className="font-futura" href={"/"}>Dhirago</Link>
             </div>
 
             {/* RIGHT */}
@@ -588,7 +585,9 @@ const Header = () => {
                         </button>
                       ) : (
                         <div className="space-y-2 text-sm">
-                          <Link href="/account">Dashboard</Link>
+                          <Link href="/account">My Profile</Link>
+                          <br />
+                          <br />
                           <button onClick={handleLogout}>Logout</button>
                         </div>
                       )}
@@ -617,7 +616,6 @@ function AccordionItem({ item, setMenuOpen }) {
         className="flex items-center justify-between py-3 text-sm  hover:text-black"
       >
         <span className="text-sm font-medium">{item.title || item.name}</span>
-
 
         {item.tag && (
           <span className="text-[10px] bg-black text-white px-2 py-[2px] ml-2">

@@ -15,16 +15,15 @@ const CheckoutItems = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {cartItems.map((item) => (
         <div
           key={`${item.id}-${item.size}-${item.color}`}
-          className="flex gap-4 items-center border rounded-xl p-3 md:p-4 bg-white shadow-sm hover:shadow-md transition"
+          className="flex gap-3 items-center border rounded-xl p-3 bg-white shadow-sm hover:shadow-md transition"
         >
-          
-          {/* IMAGE */}
-          <div className="w-40 h-48 md:w-36 md:h-44 flex-shrink-0 overflow-hidden rounded-lg border bg-gray-50">
-             
+          {/* IMAGE — fixed small size so name always has room */}
+          <div className="w-14 h-18 flex-shrink-0 overflow-hidden rounded-lg border bg-gray-50"
+               style={{ width: 56, height: 70 }}>
             <img
               src={`${IMGURL}${item.thumb?.url}`}
               alt={item.name}
@@ -32,34 +31,24 @@ const CheckoutItems = () => {
             />
           </div>
 
-          {/* DETAILS */}
-          <div className="flex-1">
-            <h3 className="text-sm md:text-base font-light ">
+          {/* DETAILS — min-w-0 lets it shrink properly */}
+          <div className="flex-1 min-w-0">
+            <h3 className="text-sm font-futura font-medium text-gray-600 leading-snug break-words">
               {item.name}
             </h3>
 
-            <p className="text-xs text-gray-600 mt-1">
+            <div className="flex flex-wrap gap-x-3 mt-1 text-xs text-gray-500">
               {item.color && <span>Color: {item.color}</span>}
-
-            </p>
-
-            {/* EXTRA INFO */}
-            <div className="flex items-center gap-3 mt-2 text-xs text-gray-600">
               {item.size && <span>Size: {item.size}</span>}
+              <span>Qty: {item.quantity}</span>
             </div>
-
-            {/* QUANTITY */}
-            <p className="text-xs text-gray-500 mt-1">
-              Qty: <span className="font-medium">{item.quantity}</span>
-            </p>
           </div>
 
-          {/* PRICE */}
-          <div className="text-right">
-            <p className="text-sm md:text-base font-light ">
+          {/* PRICE — flex-shrink-0 so it never gets squeezed */}
+          <div className="text-right flex-shrink-0">
+            <p className="text-sm font-medium text-gray-900">
               ₹{item.price * item.quantity}
             </p>
-
             {item.quantity > 1 && (
               <p className="text-xs text-gray-400">
                 ₹{item.price} × {item.quantity}

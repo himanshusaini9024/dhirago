@@ -164,12 +164,12 @@ const CheckoutPage = () => {
   );
 
   return (
-    <div className="checkout-page">
+    <div className="checkout-page ">
       <div className="co-container">
 
         {/* TOPBAR */}
         <div className="co-topbar">
-          <Link href="/" className="co-logo">DHIRAGO</Link>
+          <Link href="/" className="co-logo font-futura">DHIRAGO</Link>
           <div className="co-steps">
             <span>Cart</span>
             <span className="co-step-dot" />
@@ -257,7 +257,7 @@ const CheckoutPage = () => {
                   onClick={() => { setPaymentMethod("online"); localStorage.setItem("paymentMethod", "online"); }}
                 >
                   <RadioDot active={paymentMethod === "online"} />
-                  <span className="pay-label">Razorpay — UPI, Cards, Wallets</span>
+                  <span className="pay-label">Razorpay — UPI, Cards</span>
                   <div className="pay-logos">
                     {["UPI", "VISA", "MC", "+12"].map((l) => (
                       <span key={l} className="pay-logo-tag">{l}</span>
@@ -350,7 +350,7 @@ const CheckoutPage = () => {
                       <span className="co-spinner" />
                       <span>Placing Your Order...</span>
                     </span>
-                  ) : "Place Order — COD"}
+                  ) : "Place Order "}
                 </button>
               )}
 

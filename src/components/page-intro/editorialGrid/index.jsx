@@ -23,42 +23,7 @@ export default function RunwayHero() {
       <div className="overlay" />
 
       {/* Content */}
-      <div className="contentWrap">
-        <div className="content">
-          <span className="eyebrow">
-            Luxury Menswear • Udaipur
-          </span>
-
-          <h1 className={` ${josefin.className} uppercase tracking-[0.2em]`}>
-            Calmness
-            <br />
-            Made Wearable
-          </h1>
-
-          <div className="line" />
-
-          <p
-            className="font-futura desc"
-            style={{
-              fontWeight: 300,
-              textAlign: "justify",
-            }}
-          >
-            <strong>DHIRAGO</strong> is a premium menswear luxury
-            brand — a design practice shaped by the stillness of
-            Udaipur’s lake city. Inspired by water, stone,
-            marble courtyards, and fading evening light, our
-            garments are built with restraint, softness, and
-            quiet presence.
-            <br />
-            <br />
-            Every silhouette follows the logic of calm movement
-            — minimal, timeless, and deeply composed rather than
-            decorated.
-          </p>
-        </div>
-      </div>
-
+  
       <style jsx>{`
         .runway {
           position: relative;
@@ -81,7 +46,7 @@ export default function RunwayHero() {
         .overlay {
           position: absolute;
           inset: 0;
-          background: rgba(245, 240, 233, 0.42);
+          background: rgba(245, 240, 233, 0.444);
         }
 
         /* Content wrapper */

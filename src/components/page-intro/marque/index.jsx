@@ -1,77 +1,107 @@
 "use client";
 
-export default function Marquee() {
-  const items = [
-    "Slow Fashion",
-    "Natural Fibres",
-    "Handcrafted in India",
-    "Earth Tones",
-    "Artisan Made",
-    "Conscious Living",
-    "Seed to Stitch",
-    "Natural Dyes",
-  ];
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { Josefin_Sans } from "next/font/google";
 
-  const doubled = [...items, ...items];
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+
+
+  function useReveal() {
+    const ref = useRef(null);
+    const [visible, setVisible] = useState(false);
+  
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+  
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setVisible(true);
+        },
+        { threshold: 0.1 }
+      );
+  
+      observer.observe(el);
+  
+      return () => observer.disconnect();
+    }, []);
+  
+    return [ref, visible];
+  }
+  
+
+function Reveal({ children, delay = 0, style = {} }) {
+  const [ref, visible] = useReveal();
 
   return (
-    <div className="marquee">
-      <div className="marquee-inner">
-        {doubled.map((item, i) => (
-          <span key={i} className="marquee-item">
-            {item}
-            <svg width="4" height="4" viewBox="0 0 4 4">
-              <circle cx="2" cy="2" r="2" fill="var(--clay)" />
-            </svg>
-          </span>
-        ))}
-      </div>
-
-      {/* STYLES */}
-      <style jsx>{`
-        .marquee {
-          overflow: hidden;
-          border-top: 1px solid rgba(184, 153, 110, 0.2);
-          border-bottom: 1px solid rgba(184, 153, 110, 0.2);
-          padding: 13px 0;
-          background: var(--warm-white);
-        }
-
-        .marquee-inner {
-          display: flex;
-          width: max-content;
-          animation: scroll 28s linear infinite;
-        }
-
-        .marquee-item {
-          font-family: "Cormorant Garamond", serif;
-          font-size: 14px;
-          font-style: italic;
-          font-weight: 400;
-          color: var(--muted);
-          letter-spacing: 0.06em;
-          margin-right: 56px;
-          display: inline-flex;
-          align-items: center;
-          gap: 56px;
-          white-space: nowrap;
-        }
-
-        /* 🔥 SMOOTH LUXURY SCROLL */
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-
-        /* OPTIONAL: slow on hover (premium feel) */
-        .marquee:hover .marquee-inner {
-          animation-play-state: paused;
-        }
-      `}</style>
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(28px)",
+        transition: `opacity 1s ease ${delay}ms, transform 1s ease ${delay}ms`,
+        ...style,
+      }}
+    >
+      {children}
     </div>
+  );
+}
+
+
+export default function Marquee() {
+  
+
+  
+  return (
+  <section
+          style={{
+            padding: "clamp(4rem, 8vw, 7rem) 0",
+            background: "#ffffff",
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: 900,
+              margin: "0 auto",
+              padding: "0 clamp(1.5rem, 4vw, 3rem)",
+            }}
+          >
+            <Reveal>
+              <p
+                className="font-futura"
+                style={{
+              fontSize: "clamp(11px, 1.3vw, 19px)",
+
+                  fontWeight: 300,
+                  textAlign:"justify",
+                  color: "#1C1814",
+                  lineHeight: 1.5,
+                  marginBottom: "2rem",
+                }}
+              >
+                "Everything is thoughtfully done — from how the fabric feels on
+                your skin, to how the collar sits, <br />to the neatness of every
+                stitch."
+              </p>
+
+              <div
+                style={{
+                  width: 1,
+                  height: 60,
+                  background:
+                    "linear-gradient(to bottom, #C4A882, transparent)",
+                  margin: "0 auto",
+                }}
+              />
+            </Reveal>
+          </div>
+        </section>
   );
 }

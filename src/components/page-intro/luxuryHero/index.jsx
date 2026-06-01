@@ -124,7 +124,7 @@ export default function LuxurySection() {
         ref={sectionRef}
         style={{
           position: "relative",
-          background: "#F5F0E8",
+          background: "#ffffff",
           backgroundImage: noiseDataUri,
           overflow: "hidden",
           borderTop: "1px solid rgba(196,168,130,0.2)",
@@ -163,7 +163,7 @@ export default function LuxurySection() {
         {/* ── Main content ── */}
         <div style={{
           position: "relative", zIndex: 2,
-          maxWidth: 680,
+          maxWidth: 980,
           margin: "0 auto",
           padding: "clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2rem)",
           textAlign: "center",
@@ -204,7 +204,10 @@ export default function LuxurySection() {
             viewport={{ once: true }}
             style={{ marginBottom: "1.75rem" }}
           >
-            <p style={{
+            <p 
+            className="font-futura"
+            
+            style={{
               fontWeight: 100,
               fontSize: "clamp(0.95rem, 1.6vw, 1.1rem)",
               lineHeight: 1.6,
@@ -212,16 +215,20 @@ export default function LuxurySection() {
               letterSpacing: "0.02em",
               marginBottom: "0.4rem",
             }}>
-              Every Dhirago piece is thoughtfully designed
+              Label woven in stillness, defined by craftsmanship
+
             </p>
-            <p style={{
+            <br />
+            <p
+            className="font-futura"
+            style={{
               fontWeight: 300,
-              fontSize: "clamp(11px, 1.3vw, 13px)",
+              fontSize: "clamp(11px, 1.3vw, 15px)",
               lineHeight: 1.75,
               color: "#8A7A6E",
               letterSpacing: "0.03em",
             }}>
-              to reflect timeless sophistication — for those who demand nothing less than the finest.
+              An expression of calm, craftsmanship, and enduring design-where heritage techniques and thoughtful details come together with purpose and timeless character.
             </p>
           </motion.div>
 

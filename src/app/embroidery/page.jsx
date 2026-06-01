@@ -2,12 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Josefin_Sans } from "next/font/google";
-
-const josefin = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
 
 function useReveal() {
   const ref = useRef(null);
@@ -115,24 +109,183 @@ const techniques = [
   },
 ];
 
-export default function EmbroideryPage() {
-  const [active, setActive] = useState(0);
 
+export default function HandEmbroideryPage() {
+      const [active, setActive] = useState(0);
+    
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .heading-font { font-family: ${josefin.style.fontFamily}; }
-        .font-futura  { font-family: "Century Gothic", Futura, "Trebuchet MS", sans-serif; }
+        :root {
+          --white: #ffffff;
+          --black: #000000;
+          --text: #1a1a1a;
+          --muted: #666666;
+          --border: #e0e0e0;
+          --ff-serif: 'Cormorant Garamond', serif;
+          --ff-sans: 'Century Gothic", Futura, "Trebuchet MS", sans-serif;
+          --ff-mono: 'Courier New', Courier, monospace;
+        }
 
-        @keyframes float  { 0%,100% { transform: translateY(-50%) translateX(0); } 50% { transform: translateY(calc(-50% - 12px)) translateX(0); } }
-        @keyframes fadeUp { from { opacity:0; transform:translateY(35px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+        body { font-family: var(--ff-sans); background: var(--white); color: var(--text); }
 
-        /* ── Technique tabs ─────────────────────────────────── */
+        /* NAV */
+        .k-nav {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          background: var(--white); border-bottom: 1px solid var(--border);
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 0 48px; height: 68px;
+        }
+        .k-nav-logo {
+          font-family: var(--ff-sans); font-size: 13px; font-weight: 600;
+          letter-spacing: 0.3em; text-transform: uppercase;
+          text-decoration: none; color: var(--black);
+        }
+        .k-nav-center { display: flex; gap: 36px; list-style: none; }
+        .k-nav-center a {
+          font-family: var(--ff-sans); font-size: 10px; font-weight: 500;
+          letter-spacing: 0.2em; text-transform: uppercase;
+          text-decoration: none; color: var(--black);
+        }
+        .k-nav-right { display: flex; gap: 28px; }
+        .k-nav-right a {
+          font-family: var(--ff-sans); font-size: 10px; font-weight: 400;
+          letter-spacing: 0.15em; text-transform: uppercase;
+          text-decoration: none; color: var(--black);
+        }
+
+        /* HERO */
+        .k-hero { width: 100%; line-height: 0; }
+        .k-hero img { width: 100%; height: auto; display: block; max-height: 100vh; object-fit: cover; }
+
+        /* SHARED WRAP */
+        .k-wrap { max-width: 1280px; margin: 0 auto; padding: 0 64px; }
+
+        /* INTRO */
+        .k-intro { padding: 96px 0; }
+        .k-intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .k-intro-heading {
+          font-family: var(--ff-sans); font-size: 12px; font-weight: 600;
+          letter-spacing: 0.25em; text-transform: uppercase; line-height: 1.7;
+          margin-bottom: 28px; color: var(--black);
+        }
+        .k-intro-body {
+                  font-family: 'Century Gothic", Futura, "Trebuchet MS", sans-serif;
+
+           font-size: 13px; font-weight: 300;
+          line-height: 2.1; color: var(--muted); letter-spacing: 0.02em;
+        }
+        .k-video-wrap { width: 100%; max-width: 340px; aspect-ratio: 9/16; overflow: hidden; background: #111; margin-left: auto; }
+        .k-video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* ═══════════════════════════════════════
+           PROCESS SECTION — matches image 2
+           ═══════════════════════════════════════ */
+        .k-process {
+          padding: 80px 0 100px;
+        }
+        .k-process-title {
+          font-family: var(--ff-serif);
+          font-size: 37px;
+          font-weight: 360;
+          text-transform: uppercase;
+          color: var(--black);
+          text-align: center;
+          margin-bottom: 60px;
+        }
+        .k-process-list {
+          max-width: 1020px;
+          color : #464646 !important;
+          margin: 0 auto;
+          letter-spacing : 1.6px !important;
+        }
+        .k-process-item {
+          margin-bottom: 44px;
+        }
+        .k-process-item:last-child {
+          margin-bottom: 0;
+        }
+        .k-process-item-title {
+          font-family: 'Century Gothic", Futura, "Trebuchet MS", sans-serif;
+          font-size: 13px !important;
+          font-weight: 600 !important;
+          text-transform: uppercase !important;
+          display: block !important;
+          margin-bottom: 10px !important;
+        }
+        .k-process-item-desc {
+          font-family: 'Century Gothic", Futura, "Trebuchet MS", sans-serif;
+          font-size: 13px !important;
+          font-weight: 300 !important;
+          line-height: 1.85 !important;
+          text-align:justify;
+          color: #1a1a1a !important;
+          display: block !important;
+        }
+
+        /* PHOTO GRID */
+         .k-photo-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 60px;
+        }
+        .k-photo-item { aspect-ratio: 4/3; overflow: hidden; line-height: 0; }
+        .k-photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+        .k-photo-item:hover img { transform: scale(1.04); }
+ @media (max-width: 640px) {
+          .k-photo-grid { grid-template-columns: 1fr; padding: 0 20px; }
+        }
+        /* ARTIST */
+        .k-artist-label { padding: 80px 0 0; }
+        .k-artist-label h2 {
+          font-family: var(--ff-sans); font-size: 12px; font-weight: 600;
+          letter-spacing: 0.3em; text-transform: uppercase; color: var(--black);
+          line-height: 1.8; margin-bottom: 0;
+        }
+        .k-artist-body { padding: 48px 0 80px; }
+        .k-artist-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
+        .k-artist-grid img { width: 100%; display: block; }
+        .k-artist-bio p {
+                  font-family: 'Century Gothic", Futura, "Trebuchet MS", sans-serif ;
+font-size: 13px; font-weight: 300;
+          line-height: 2.1; color: var(--muted); letter-spacing: 0.02em;
+          margin-bottom: 22px;
+        }
+
+        /* QUOTE */
+        .k-quote {
+          padding: 60px 0 80px;
+          border-top: 1px solid var(--border);
+          text-align: center;
+        }
+        .k-quote p {
+          font-family: var(--ff-sans); font-size: 13px; font-weight: 300;
+          line-height: 2; color: var(--black); letter-spacing: 0.03em;
+        }
+
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+          .k-wrap { padding: 0 32px; }
+          .k-intro-grid { grid-template-columns: 1fr; gap: 48px; }
+          .k-video-wrap { max-width: 100%; aspect-ratio: 16/9; }
+          .k-artist-grid { grid-template-columns: 1fr; }
+          .k-nav-center { display: none; }
+        }
+        @media (max-width: 640px) {
+          .k-wrap { padding: 0 20px; }
+          .k-nav { padding: 0 20px; }
+          .k-photo-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+
         .tech-tab {
           padding: 1.2rem 0;
           border-bottom: 1px solid rgba(28,24,20,0.1);
@@ -147,109 +300,165 @@ export default function EmbroideryPage() {
         .tech-tab-indicator { width: 3px; height: 0; background: #C4A882; transition: height 0.4s; flex-shrink: 0; }
         .tech-tab.active .tech-tab-indicator { height: 2.5rem; }
         .tech-tab.active .tech-tab-name  { color: #1C1814; }
-
-        /* ── Responsive ─────────────────────────────────────── */
-        .techniques-grid {
+        
+         .techniques-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 5rem;
           align-items: start;
         }
-        .heritage-grid {
-          display: grid;
-          grid-template-columns: 1fr 2fr;
-          gap: 5rem;
-          align-items: start;
-          margin-bottom: clamp(3rem, 6vw, 5rem);
-        }
-        .sticky-panel { position: sticky; top: 6rem; }
 
-        @media (max-width: 900px) {
+            @media (max-width: 900px) {
           .techniques-grid { grid-template-columns: 1fr; gap: 3rem; }
           .heritage-grid   { grid-template-columns: 1fr; gap: 2.5rem; }
           .sticky-panel    { position: relative; top: unset; }
-          .hero-strip      { gap: 2.5rem !important; }
         }
 
         @media (max-width: 600px) {
-          .hero-strip      { gap: 2rem !important; }
           .tech-panel      { padding: 2rem !important; }
           .hero-heading    { font-size: clamp(2.2rem, 10vw, 3.5rem) !important; }
         }
       `}</style>
 
-      <div style={{ background: "#FAFAF7", color: "#1C1814", fontFamily: "'Century Gothic', Futura, 'Trebuchet MS', sans-serif", minHeight: "100vh" }}>
+      {/* NAV */}
 
-        {/* ══ HERO ════════════════════════════════════════════ */}
-        <section style={{
-          position: "relative",
-          minHeight: "100vh",
-          display: "grid",
-          gridTemplateRows: "1fr auto",
-          background: "#000",
-          overflow: "hidden",
-        }}>
-          {/* Background stitch grid */}
-          <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gridTemplateRows: "repeat(6, 1fr)", opacity: 0.04, zIndex: 1, pointerEvents: "none" }}>
-            {Array.from({ length: 36 }).map((_, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <SashikoPattern size={80} opacity={1} />
+      {/* HERO */}
+      <section className="k-hero">
+        <img
+          src="https://kardo.co/wp-content/uploads/2025/06/Hand-embroidery-scaled.jpg"
+          alt="Hand Embroidery"
+        />
+      </section>
+
+      {/* WHAT IS HAND EMBROIDERY */}
+      <section className="k-intro">
+        <div className="k-wrap">
+          <div className="k-intro-grid">
+            <div>
+              <h2 className="k-intro-heading">
+                A Touch ofEmbroidery
+                <br />a Shade of Elegance
+              </h2>
+              <p className="k-intro-body">
+                Indigenous textile techniques and natural fabrics — integrating
+                time-honoured weaving practices into garments that remain
+                connected to tradition while expressed with a modern
+                sensibility.
+              </p>
+            </div>
+            <div>
+              <div className="k-video-wrap">
+                <video
+                  src="https://kardo.co/wp-content/uploads/2025/06/reel-2-2.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PROCESS */}
+      <section className="k-process">
+        <div className="k-wrap">
+          <h2 className="k-process-title">PROCESS</h2>
+          <div className="k-process-list">
+            {[
+              {
+                title: "PANEL MARKING",
+                desc: "Each piece begins in our studio, where garment panels are meticulously cut and marked in alignment with our design patterns—framing the path the handwork will trace.",
+              },
+              {
+                title: "KHAKHA PINNING",
+                desc: "The panels are then sent to our embroidery artisan, Ashraf, and his team. Here, the design is translated onto tracing paper and pin-pricked along its outlines to create a khakha—a perforated stencil. This becomes the guide by which the design is gently transferred onto the fabric, priming the surface for the handwork to begin.",
+              },
+              {
+                title: "CHAPPAI (MARKING THE EMBROIDERY)",
+                desc: "Using these hand-pricked stencils, the design is carefully impressed onto the fabric using choona (lime) for dark fabrics, or neel (indigo) for lighter ones. This step rests on studied care that holds every motif in balance—allowing the embroidery to unfold withaa symmetry and structure.",
+              },
+              {
+                title: "SETTING THE ADDA",
+                desc: "The marked fabric is then mounted onto a traditional wooden adda, stretched to tension and anchored in place. It is here that the most time-intensive, meditative phase of the process begins.",
+              },
+              {
+                title: "HAND EMBROIDERY",
+                desc: "Thread by thread, the embroidery emerges—shaped slowly, with method and motion. Depending on the intricacy of the design, a single panel may take up to three days—or longer—to complete. Each stitch is placed deliberately, paced by a sense of rhythm and restraint.",
+              },
+            ].map((step) => (
+              <div key={step.title} className="k-process-item">
+                <span className="k-process-item-title">{step.title}</span>
+                <span className="k-process-item-desc">{step.desc}</span>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Radial warm glow */}
-          <div style={{ position: "absolute", inset: 0, background: "#FAFAF7", pointerEvents: "none", zIndex: 1 }} />
+      {/* PHOTO GRID */}
+      <div className="k-photo-grid">
+        {[
+          "https://kardo.co/wp-content/uploads/2025/06/DSC00774-1024x1024.jpg",
+          "https://kardo.co/wp-content/uploads/2025/06/DSC00825-2-1024x1024.jpg",
+          "https://kardo.co/wp-content/uploads/2025/06/DSC00856-1024x1024.jpg",
+          "https://kardo.co/wp-content/uploads/2025/06/DSC00757-1024x1024.jpg",
+        ].map((src, i) => (
+          <div key={i} className="k-photo-item">
+            <img src={src} alt={`Process ${i + 1}`} loading="lazy" />
+          </div>
+        ))}
+      </div>
 
-          {/* Hero content */}
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(4rem, 8vw, 7rem) clamp(2rem, 5vw, 6rem)", zIndex: 2, paddingBottom: "2rem" }}>
-            <div style={{ animation: "fadeUp 1s ease 0.5s both", maxWidth: 900 }}>
-            
-              <h1 className="heading-font hero-heading" style={{ fontWeight: 100, fontSize: "clamp(1.8rem, 7vw, 2rem)", lineHeight: 1.05, letterSpacing: "0.05em", color: "#000000", marginBottom: "2rem" }}>
-                A Touch of
-                <em style={{ fontStyle: "italic", color: "#000000", fontWeight: 100 }}>Embroidery,</em>
-                a Shade of Elegance
-              </h1>
+      {/* MEET THE ARTIST */}
+      <section className="k-artist-label">
+        <div className="k-wrap">
+          <h2>MEET THE ARTIST:</h2>
+          <h2>MOHAMMAD ASHRAF</h2>
+        </div>
+      </section>
+
+      <section className="k-artist-body">
+        <div className="k-wrap">
+          <div className="k-artist-grid">
+            <div>
+              <img
+                src="https://kardo.co/wp-content/uploads/2025/06/DSC00742-1-844x1024.jpg"
+                alt="Mohammad Ashraf"
+                loading="lazy"
+              />
             </div>
-            <div style={{ animation: "fadeUp 1s ease 0.7s both" }}>
-              <p className="font-futura" style={{ fontWeight: 100, fontSize: "clamp(23px, 1.5vw, 25px)", lineHeight: 1.9, color: "#000000", maxWidth: 520, textAlign: "justify" }}>
-                Indigenous textile techniques and natural fabrics — integrating time-honoured weaving practices into garments that remain connected to tradition while expressed with a modern sensibility.
+            <div className="k-artist-bio">
+              <p>
+                Ashraf began his journey with embroidery in the workshops of
+                Bombay's City Centre, where he learned the foundational grammar
+                of the needle and frame. He moved to Delhi over two decades ago
+                with a friend, both seeking new possibilities. That journey led
+                him to jewelry designer Olivia Dar, the wife of our founder,
+                Rikki Kher—a meeting that shaped the course of his craft. He has
+                worked with her since, and in 2020, joined Kardo.
+              </p>
+              <p>
+                There's a quiet, deliberate gesture to his way of working—each
+                movement unhurried, each decision exacting. The needle answers a
+                calm held in his fingers, his attention attuned to the subtle
+                pull of the thread. What is drawn forth is never rushed, never
+                overstated—only composed, thoughtful, and complete in its
+                stillness.
+              </p>
+              <p>
+                More than an artisan at our studio, Ashraf is a custodian of a
+                tradition—continuing its evolution, thread by thread, in the
+                present.
               </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Floating Kantha */}
-          <div style={{ position: "absolute", right: "5%", top: "50%", transform: "translateY(-50%)", animation: "float 6s ease-in-out infinite", opacity: 0.5, zIndex: 1, pointerEvents: "none" }}>
-            <KanthaPattern opacity={0.35} />
-          </div>
 
-          {/* Bottom strip */}
-          <div style={{ borderTop: "1px solid rgba(196,168,130,0.2)", padding: "1.8rem clamp(2rem, 5vw, 6rem)", display: "flex", gap: "4rem", zIndex: 2, flexWrap: "wrap" }} className="hero-strip">
-            {["Sashiko", "Kantha", "Miniature Art", "Hand Painting"].map((t, i) => (
-              <span key={i} className="font-futura" style={{ fontWeight: 300, fontSize: 10, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(245,240,232,0.3)" }}>
-                {t}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        {/* ══ MARQUEE STRIP ═══════════════════════════════════ */}
-        <section style={{ background: "#C4A882", padding: "1.3rem 0", overflow: "hidden" }}>
-          <div style={{ display: "flex", width: "100%", overflow: "hidden" }}>
-            {[0, 1].map(clone => (
-              <div key={clone} style={{ display: "flex", gap: "4rem", whiteSpace: "nowrap", flexShrink: 0, paddingRight: "4rem", animation: "marqueeScroll 22s linear infinite" }}>
-                {["Sashiko · Japan", "Kantha · India", "Miniature Art · Rajasthan", "Hand Painting", "Heritage Craft", "Indigenous Textile"].map((t, i) => (
-                  <span key={i} className="font-futura" style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.4em", textTransform: "uppercase", color: "#1C1814", flexShrink: 0 }}>
-                    {t} &nbsp;·
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ══ TECHNIQUES ══════════════════════════════════════ */}
-        <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#FAFAF7" }}>
+          <section style={{ padding: "clamp(1rem, 8vw, 8rem) 0", background: "#FAFAF7" }}>
           <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 5rem)" }}>
             <div className="techniques-grid">
 
@@ -326,56 +535,16 @@ export default function EmbroideryPage() {
           </div>
         </section>
 
-        {/* ══ HERITAGE STATEMENT ══════════════════════════════ */}
-        <section style={{ padding: "clamp(4rem, 8vw, 8rem) 0", background: "#F0EBE0" }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(1.5rem, 4vw, 5rem)" }}>
-
-            <Reveal>
-              <div className="heritage-grid">
-                <div>
-                  <p className="font-futura" style={{ fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#B09880", marginBottom: "1.5rem" }}>
-                    Our Commitment
-                  </p>
-                  <h2 className="heading-font" style={{ fontWeight: 100, fontSize: "clamp(1.3rem, 4vw, 2.8rem)", letterSpacing: "0.06em", textTransform: "uppercase", color: "#1C1814", lineHeight: 1.2 }}>
-                    Preserving India&apos;s Textile{" "}
-                    <em style={{ fontStyle: "italic", color: "#6B5040", fontWeight: 200 }}>Heritage</em>
-                  </h2>
-                </div>
-                <div>
-                  <div style={{ width: 40, height: 1, background: "#C4A882", marginBottom: "2rem" }} />
-                  <p className="font-futura" style={{ fontSize: "clamp(15px, 1.5vw, 15px)", fontWeight: 300, lineHeight: 1.9, color: "#4A4035", marginBottom: "1.5rem", textAlign: "justify" }}>
-                    These practices are deeply rooted in India&apos;s cultural heritage, incorporated with sophistication and finesse, creating garments that remain connected to tradition while expressed with a modern sensibility and quiet artistry.
-                  </p>
-                  <p className="font-futura" style={{ fontSize: "clamp(15px, 1.5vw, 15px)", fontWeight: 300, lineHeight: 1.9, color: "#4A4035", textAlign: "justify" }}>
-                    By continuing these techniques, Dhirago upholds its commitment to preserving age-old craftsmanship and celebrating India&apos;s rich textile legacy — presenting ethical and heritage-driven making as a form of true luxury.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Full-width image */}
-            <Reveal>
-              <div style={{ position: "relative", overflow: "hidden" }}>
-                <Image
-                  src="/images/subscribe.jpg"
-                  alt="Heritage Craft"
-                  width={1200}
-                  height={500}
-                  style={{ width: "100%", height: "clamp(280px, 45vw, 500px)", objectFit: "cover", display: "block" }}
-                />
-                <div style={{ position: "absolute", inset: 0, background: "rgba(28,24,20,0.45)" }} />
-                <div style={{ position: "absolute", bottom: "2.5rem", left: "2.5rem", right: "2.5rem" }}>
-                  <p className="heading-font" style={{ fontStyle: "italic", fontWeight: 200, fontSize: "clamp(1.1rem, 2.5vw, 1.8rem)", letterSpacing: "0.04em", color: "#F5F0E8", maxWidth: 500, lineHeight: 1.4 }}>
-                    "Detail is not an addition — it is a signature of the piece."
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-          </div>
-        </section>
-
-      </div>
+      {/* QUOTE */}
+      <section className="k-quote">
+        <div className="k-wrap">
+          <p>
+            "An exceptionally skilled artisan, with the most brilliant
+            <br />
+            hands—we couldn't have asked for anyone better."
+          </p>
+        </div>
+      </section>
     </>
   );
 }

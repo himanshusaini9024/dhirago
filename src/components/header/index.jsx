@@ -113,15 +113,21 @@ const Header = () => {
       title: "About",
       children: [
         {
-          name: "About Dhirago",
+          name: "Our Story",
           href: "/about",
-        },
-        {
-          name: "Why Dhirago",
-          href: "/pages/why-dhirago",
-        },
+        }
       ],
     },
+
+     {
+          title: "Why Dhirago",
+          children: [
+            { name: "The Essence of Fine Garment", href: "/pages/why-dhirago" },
+            { name: "A Touch of Embroidery", href: "/embroidery" },
+            { name: "Sustainability Fashion", href: "/sustainability" }
+          ],
+        },
+    
   ];
 
   return (
@@ -434,12 +440,9 @@ const Header = () => {
                     {[
                       {
                         name: "The Essence of Fine Garment",
-                        href: "/essence",
+                        href: "/pages/why-dhirago",
                       },
-                      {
-                        name: "60 Count European Linen",
-                        href: "/linen",
-                      },
+                    
                       {
                         name: "A Touch of Embroidery",
                         href: "/embroidery",

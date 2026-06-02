@@ -125,7 +125,7 @@ export default function ContactPage() {
                 label: "Address",
                 value: "3rd Floor, New Electric Market\n120 ft Road, A.M Business Center\nMali Colony, Udaipur, Rajasthan 313002",
               },
-              { label: "Phone",         value: "+91 8905524932" },
+              { label: "Phone",         value: "+91-8905524932" },
               { label: "Email",         value: "contact@dhirago.com" },
               { label: "Response Time", value: "Within 24 hours on working days" },
             ].map((item) => (

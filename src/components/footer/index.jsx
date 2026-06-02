@@ -151,7 +151,7 @@ export default function UltraPremiumFooter() {
         .join-btn:hover { background: #C4A882; color: #1C1814; }
       `}</style>
 
-      <footer style={{ background: "rgb(251 251 252)", color: "#1C1814", position: "relative", overflow: "hidden" }}>
+      <footer style={{ background: "#f2f0ec", color: "#1C1814", position: "relative", overflow: "hidden" }}>
 
         {/* Subtle warm glow */}
         <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 600, height: 300, background: "radial-gradient(ellipse, rgba(196,168,130,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
@@ -173,7 +173,7 @@ export default function UltraPremiumFooter() {
                 alt="Dhirago"
                 style={{ width: 100, marginLeft: -8, opacity: 0.85, marginBottom: "0.75rem" }}
               />
-              <p className="font-futura" style={{ fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase", color: "#B09880" }}>
+              <p className="font-futura" style={{ fontSize: 12, letterSpacing: "0.55em", textTransform: "uppercase", color: "#111111" }}>
                 Dhirago
               </p>
             </div>
@@ -266,7 +266,7 @@ export default function UltraPremiumFooter() {
                 contact@dhirago.com
               </p>
               <p className="font-futura" style={{ fontSize: 12, fontWeight: 300, color: "#6B5B4E", letterSpacing: "0.02em" }}>
-                +91 8905524932
+                +91-8905524932
               </p>
             </div>
           </motion.div>

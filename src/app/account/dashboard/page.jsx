@@ -67,9 +67,7 @@ export default function Dashboard({ setActiveTab }) {
           </p>
         </div>
 
-        <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center">
-          {user.name}
-        </div>
+     
       </div>
 
       {/* ACTIONS */}

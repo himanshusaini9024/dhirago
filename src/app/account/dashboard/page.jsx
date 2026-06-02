@@ -53,7 +53,7 @@ export default function Dashboard({ setActiveTab }) {
   const wishlist = []; // 🔥 replace with API later
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 font-futura">
       {/* 🔐 HEADER */}
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>

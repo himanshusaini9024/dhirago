@@ -202,7 +202,7 @@ export default function MyProfilePage() {
 
   /* ---------------- UI ---------------- */
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f5f5f5] to-[#eeeeee] px-4 md:px-12 py-12 font-[Inter]">
+    <div className="min-h-screen font-futura bg-gradient-to-br from-[#f5f5f5] to-[#eeeeee] px-4 md:px-12 py-12 font-[Inter]">
       
       {/* PREMIUM TOASTER */}
       <Toaster position="top-right" reverseOrder={false} />

@@ -56,12 +56,12 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-8 md:py-12 px-4 md:px-10">
+    <div className="min-h-screen font-futura bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-8 md:py-12 px-4 md:px-10">
       <div className="max-w-6xl mx-auto">
 
         {/* Heading */}
         <div className="mb-10 md:mb-16 flex items-center justify-between gap-4">
-          <h1 className="text-2xl md:text-3xl font-light tracking-tight">My Orders</h1>
+          <h1 className="text-2xl md:text-3xl font-futura font-light tracking-tight">My Orders</h1>
           <Link href="/return/track-order">
             <button className="border border-black px-4 md:px-8 py-3 md:py-4 uppercase tracking-[2px] md:tracking-[3px] text-xs hover:bg-black hover:text-white transition-all duration-300 whitespace-nowrap">
               Track Order
@@ -121,7 +121,7 @@ export default function OrdersPage() {
                       {/* Total — desktop only */}
                       <div className="hidden sm:block">
                         <p className="text-xs text-gray-400">TOTAL</p>
-                        <p className="text-xl font-semibold">₹{order.total_amount}</p>
+                        <p className="text-xl font-light">₹{order.total_amount}</p>
                       </div>
 
                       {/* Status Badge */}
@@ -151,7 +151,7 @@ export default function OrdersPage() {
                               🚚
                             </div>
                             <div>
-                              <p className="text-xs font-semibold text-black uppercase tracking-wide">
+                              <p className="text-xs font-medium text-black uppercase tracking-wide">
                                 Estimated Delivery
                               </p>
                               <p className="text-xs text-gray-600">
@@ -225,7 +225,7 @@ export default function OrdersPage() {
                                   <p className="text-sm font-medium truncate">Product #{item.product_id}</p>
                                   <p className="text-xs text-gray-500 mt-1">Qty: {item.quantity}</p>
                                 </div>
-                                <p className="font-semibold text-sm shrink-0">₹{item.price}</p>
+                                <p className="font-medium text-sm shrink-0">₹{item.price}</p>
                               </motion.div>
                             ))}
                           </div>

@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 const TRANSPARENT_HERO_PAGES = [
   "/",
-  "/pages/why-dhirago",
+  "/pages/better-materials",
   // Add more hero pages here as needed, e.g.:
   // "/pages/why-dhirago",
   // "/about",

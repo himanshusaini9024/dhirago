@@ -52,10 +52,15 @@ async function getProducts(slug) {
     }
 
     const data = await res.json();
-    return data.category;
+
+    return data;
   } catch (error) {
     console.error("🔥 Fetch Error:", error);
-    return []; // prevent crash
+    // return []; // prevent crash
+    return {
+  category: [],
+  catbanner: null,
+};
   }
 }
 
@@ -65,13 +70,14 @@ export default async function ProductsPage({ params }) {
   const { slug } = await params;
 
   const products = await getProducts(slug);
+  console.log('catproducts',products);
   const name = slug.replace(/-/g, " ");
   return (
     <>
-      <Categorybaner />
+      <Categorybaner catbanner={products?.catbanner} />
       <Breadcrumb />
       <section>
-        <ProductsContent products={products} slug={slug} />
+        <ProductsContent products={products?.category || []} slug={slug} />
       </section>
        <script
         type="application/ld+json"

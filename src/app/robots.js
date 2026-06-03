@@ -1,10 +1,17 @@
 export default function robots() {
+  const isIndexingEnabled =
+    process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
-      disallow: ["/cart","/account", "/checkout"],
+      allow: isIndexingEnabled ? "/" : "",
+      disallow: isIndexingEnabled
+        ? ["/cart", "/account", "/checkout","/"]
+        : "/",
     },
-    sitemap: "http://localhost:3000/sitemap.xml",
+    sitemap: isIndexingEnabled
+      ? "https://dhirago-a6xq.vercel.app/sitemap.xml"
+      : "",
   };
 }

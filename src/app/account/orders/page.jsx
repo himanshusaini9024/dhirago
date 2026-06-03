@@ -6,6 +6,9 @@ import API from "../../../lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, Circle, ChevronDown } from "lucide-react";
 import OrderDetailsUI from "../../../components/orders";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 const IMGURL = "https://res.cloudinary.com/ds48lk80f/";
 
 const getSteps = (status) => {
@@ -16,9 +19,7 @@ const getSteps = (status) => {
     { key: "out_for_delivery", label: "Out for Delivery" },
     { key: "delivered", label: "Delivered" },
   ];
-
   const currentIndex = steps.findIndex((s) => s.key === status);
-
   return steps.map((step, index) => ({
     ...step,
     completed: index <= currentIndex,
@@ -34,15 +35,15 @@ export default function OrdersPage() {
   const userdata = useSelector((state) => state.auth.user);
 
   const customer_id = userdata?.customer_id;
+  const router = useRouter();
+
   useEffect(() => {
     fetchOrders();
   }, []);
 
   const fetchOrders = async () => {
     try {
-      const res = await API.get("/orders",{
-          params: { customer_id },
-        });
+      const res = await API.get("/orders", { params: { customer_id } });
       setOrders(res.data);
     } finally {
       setLoading(false);
@@ -59,28 +60,34 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-12 px-4 md:px-10 font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',sans-serif]">
+    <div className="min-h-screen font-futura bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-8 md:py-12 px-4 md:px-10">
       <div className="max-w-6xl mx-auto">
+
         {/* Heading */}
-        <div className="mb-16">
-          <h1 className="text-4xl tracking-tight text-gray-900">My Orders</h1>
+        <div className="mb-10 md:mb-16 flex items-center justify-between gap-4">
+          <h1 className="text-2xl md:text-3xl font-futura font-light tracking-tight">My Orders</h1>
+          <Link href="/return/track-order">
+            <button className="border border-black px-4 md:px-8 py-3 md:py-4 uppercase tracking-[2px] md:tracking-[3px] text-xs hover:bg-black hover:text-white transition-all duration-300 whitespace-nowrap">
+              Track Order
+            </button>
+          </Link>
         </div>
 
         {/* Skeleton */}
         {loading && (
           <div className="space-y-6 animate-pulse">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white rounded-3xl p-8 shadow-sm">
-                <div className="h-4 w-32 bg-gray-200 rounded mb-4"></div>
-                <div className="h-6 w-48 bg-gray-200 rounded mb-6"></div>
-                <div className="h-20 bg-gray-100 rounded"></div>
+              <div key={i} className="bg-white rounded-3xl p-6 md:p-8 shadow-sm">
+                <div className="h-4 w-32 bg-gray-200 rounded mb-4" />
+                <div className="h-6 w-48 bg-gray-200 rounded mb-6" />
+                <div className="h-20 bg-gray-100 rounded" />
               </div>
             ))}
           </div>
         )}
 
         {/* Orders */}
-        <div className="space-y-10">
+        <div className="space-y-6 md:space-y-10">
           {!loading &&
             orders.map((order, i) => {
               const steps = getSteps(order.status);
@@ -94,30 +101,91 @@ export default function OrdersPage() {
                   transition={{ delay: i * 0.05 }}
                 >
                   <motion.div
-                    whileHover={{ y: -6 }}
+                    whileHover={{ y: -4 }}
                     className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-sm hover:shadow-2xl overflow-hidden"
                   >
                     {/* Header */}
                     <div
                       onClick={() => setOpenId(isOpen ? null : order.id)}
-                      className="cursor-pointer p-8 flex justify-between items-center hover:bg-gray-50"
+                      className="cursor-pointer p-5 md:p-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 sm:justify-between hover:bg-gray-50"
                     >
-                      <div>
-                        <p className="text-xs text-gray-400">ORDER</p>
-                        <p className="text-lg font-medium">
-                          #{order.order_number}
-                        </p>
+                      {/* Order ID + Total row on mobile */}
+                      <div className="flex justify-between sm:block">
+                        <div>
+                          <p className="text-xs text-gray-400">ORDER-ID</p>
+                          <p className="text-base md:text-lg font-medium">#{order.order_number}</p>
+                        </div>
+                        {/* Total — shown inline on mobile next to ID */}
+                        <div className="sm:hidden text-right">
+                          <p className="text-xs text-gray-400">TOTAL</p>
+                          <p className="text-lg font-semibold">₹{order.total_amount}</p>
+                        </div>
                       </div>
 
-                      <div>
+                      {/* Total — desktop only */}
+                      <div className="hidden sm:block">
                         <p className="text-xs text-gray-400">TOTAL</p>
-                        <p className="text-xl font-semibold">
-                          ₹{order.total_amount}
-                        </p>
+                        <p className="text-xl font-light">₹{order.total_amount}</p>
                       </div>
 
-                      <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+                      {/* Status Badge */}
+                      <div>
+                        {order.status === "delivered" ? (
+                          <div className="inline-flex items-center gap-2 md:gap-3 rounded-2xl border border-green-200 bg-green-50 px-3 md:px-4 py-2 md:py-3">
+                            <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-green-100 shrink-0">
+                              <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+                            </div>
+                            <div>
+                              <p className="text-xs font-semibold text-green-700 uppercase tracking-wide">
+                                Order Delivered
+                              </p>
+                              <p className="text-xs text-green-600">
+                                Delivered on{" "}
+                                <span className="font-medium">
+                                  {new Date(order.expected_delivery_date).toLocaleDateString("en-IN", {
+                                    day: "numeric", month: "long", year: "numeric",
+                                  })}
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center gap-2 md:gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-3 md:px-4 py-2 md:py-3">
+                            <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-black text-white shrink-0 text-base">
+                              🚚
+                            </div>
+                            <div>
+                              <p className="text-xs font-medium text-black uppercase tracking-wide">
+                                Estimated Delivery
+                              </p>
+                              <p className="text-xs text-gray-600">
+                                {(() => {
+                                  let deliveryDate = order.expected_delivery_date
+                                    ? new Date(order.expected_delivery_date)
+                                    : new Date(new Date(order.created_at).setDate(new Date(order.created_at).getDate() + 5));
+                                  return (
+                                    <>
+                                      Expected by{" "}
+                                      <span className="font-medium text-black">
+                                        {deliveryDate.toLocaleDateString("en-IN", {
+                                          day: "numeric", month: "long", year: "numeric",
+                                        })}
+                                      </span>
+                                    </>
+                                  );
+                                })()}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      <motion.div animate={{ rotate: isOpen ? 180 : 0 }} className="hidden sm:block">
                         <ChevronDown />
+                      </motion.div>
+                      {/* Chevron on mobile — shown at end of status row */}
+                      <motion.div animate={{ rotate: isOpen ? 180 : 0 }} className="sm:hidden self-end">
+                        <ChevronDown className="w-4 h-4" />
                       </motion.div>
                     </div>
 
@@ -128,61 +196,111 @@ export default function OrdersPage() {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          className="border-t"
+                          className="border-t overflow-hidden"
                         >
                           {/* Timeline */}
-                          <div className="px-8 py-6 flex justify-between">
+                          <div className="px-4 md:px-8 py-5 md:py-6 flex justify-between items-start overflow-x-auto">
                             {steps.map((step, idx) => (
-                              <div key={idx} className="text-center flex-1">
+                              <div key={idx} className="text-center flex-1 min-w-0 px-1">
                                 {step.completed ? (
-                                  <CheckCircle className="mx-auto text-blue-600" />
+                                  <CheckCircle className="mx-auto text-blue-600 w-5 h-5" />
                                 ) : (
-                                  <Circle className="mx-auto text-gray-300" />
+                                  <Circle className="mx-auto text-gray-300 w-5 h-5" />
                                 )}
-                                <p className="text-xs mt-1">{step.label}</p>
+                                <p className="text-[10px] md:text-xs mt-1 leading-tight hidden sm:block">{step.label}</p>
                               </div>
                             ))}
                           </div>
 
                           {/* Items */}
-                          <div className="px-8 pb-8 grid md:grid-cols-2 gap-6">
+                          <div className="px-4 md:px-8 pb-6 md:pb-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             {order.items.map((item) => (
                               <motion.div
                                 key={item.id}
-                                whileHover={{ scale: 1.03 }}
-                                className="flex gap-4 bg-white border rounded-2xl p-4 shadow-sm"
+                                whileHover={{ scale: 1.02 }}
+                                className="flex gap-3 md:gap-4 bg-white border rounded-2xl p-3 md:p-4 shadow-sm"
                               >
                                 <img
                                   src={`${IMGURL}${item.image}`}
-                                  className="w-24 h-28 object-cover rounded-xl"
+                                  className="w-20 h-24 md:w-24 md:h-28 object-cover rounded-xl shrink-0"
+                                  alt={`Product ${item.product_id}`}
                                 />
-
-                                <div className="flex-1">
-                                  <p className="text-sm font-medium">
-                                    Product #{item.product_id}
-                                  </p>
-                                  <p className="text-xs text-gray-500 mt-1">
-                                    Qty: {item.quantity}
-                                  </p>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-medium truncate">Product #{item.product_id}</p>
+                                  <p className="text-xs text-gray-500 mt-1">Qty: {item.quantity}</p>
                                 </div>
-
-                                <p className="font-semibold">₹{item.price}</p>
+                                <p className="font-medium text-sm shrink-0">₹{item.price}</p>
                               </motion.div>
                             ))}
                           </div>
 
                           {/* Footer */}
-                          <div className="px-8 py-6 border-t flex justify-between items-center">
+                          <div className="px-4 md:px-8 py-5 md:py-6 border-t flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                             <p className="text-xs text-gray-400">
                               {new Date(order.created_at).toLocaleDateString()}
                             </p>
 
-                            <div className="flex gap-3">
-                           
+                            <div className="flex flex-wrap items-center gap-3">
+                              {/* Return request statuses */}
+                              {order.return_request && (
+                                <>
+                                  {order.return_request.status === "pending" && (
+                                    <div className="px-4 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                                      <span className="text-xs uppercase tracking-[2px] text-amber-700 font-medium">Return Request Sent</span>
+                                    </div>
+                                  )}
+                                  {order.return_request.status === "approved" && (
+                                    <div className="px-4 h-10 rounded-full bg-sky-50 border border-sky-200 flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+                                      <span className="text-xs uppercase tracking-[2px] text-sky-700 font-medium">Return Approved</span>
+                                    </div>
+                                  )}
+                                  {order.return_request?.status === "pickup_scheduled" && (
+                                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
+                                      <p className="text-emerald-700 font-medium text-sm">Reverse pickup scheduled</p>
+                                      <p className="text-xs text-emerald-600 mt-1">Our courier will pick up shortly.</p>
+                                    </div>
+                                  )}
+                                  {order.return_request.status === "picked_up" && (
+                                    <div className="px-4 h-10 rounded-full bg-purple-50 border border-purple-200 flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-purple-500" />
+                                      <span className="text-xs uppercase tracking-[2px] text-purple-700 font-medium">Return Picked Up</span>
+                                    </div>
+                                  )}
+                                  {order.return_request.status === "delivered" && (
+                                    <div className="px-4 h-10 rounded-full bg-indigo-50 border border-indigo-200 flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-indigo-500" />
+                                      <span className="text-xs uppercase tracking-[2px] text-indigo-700 font-medium">Return Delivered</span>
+                                    </div>
+                                  )}
+                                  {order.return_request.status === "refunded" && (
+                                    <div className="px-4 h-10 rounded-full bg-emerald-50 border border-emerald-200 flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                                      <span className="text-xs uppercase tracking-[2px] text-emerald-700 font-medium">Refund Completed</span>
+                                    </div>
+                                  )}
+                                  {order.return_request.status === "rejected" && (
+                                    <div className="px-4 h-10 rounded-full bg-red-50 border border-red-200 flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-red-500" />
+                                      <span className="text-xs uppercase tracking-[2px] text-red-700 font-medium">Return Rejected</span>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+
+                              {order.status === "delivered" && !order.return_request && (
+                                <button
+                                  onClick={() => router.push(`/return/${order.order_number}`)}
+                                  className="h-10 md:h-12 px-5 md:px-7 rounded-full border border-black uppercase tracking-[2px] md:tracking-[3px] text-xs hover:bg-black hover:text-white transition-all duration-300"
+                                >
+                                  Return Order
+                                </button>
+                              )}
 
                               <button
                                 onClick={() => setSelectedOrder(order)}
-                                className="px-5 py-2 text-sm bg-black text-white rounded-full"
+                                className="h-10 md:h-12 px-5 md:px-7 rounded-full bg-black text-white uppercase tracking-[2px] md:tracking-[3px] text-xs"
                               >
                                 Details
                               </button>
@@ -199,7 +317,7 @@ export default function OrdersPage() {
 
         {/* Empty */}
         {!loading && orders.length === 0 && (
-          <div className="text-center py-32">
+          <div className="text-center py-24 md:py-32">
             <p className="text-gray-500">No orders yet</p>
           </div>
         )}
@@ -219,39 +337,29 @@ export default function OrdersPage() {
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: "100%", opacity: 0 }}
-                // 🔥 THIS IS THE MAGIC
-                transition={{
-                  type: "spring",
-                  stiffness: 80,
-                  damping: 18,
-                  mass: 0.8,
-                }}
-                className="bg-white md:mb-[8rem]  w-full max-w-5xl rounded-t-3xl p-6"
+                transition={{ type: "spring", stiffness: 80, damping: 18, mass: 0.8 }}
+                className="bg-white w-full max-w-5xl rounded-t-3xl p-5 md:p-6 md:mb-[8rem] max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
-                >
-                  
-                <h2 className="text-lg font-semibold mb-4">
-                  Order #{selectedOrder.order_number}
-                   <button
-                  onClick={() => setSelectedOrder(null)}
-                  className="ml-[50rem] w-1/2  md:w-[3rem] py-1 rounded-full text-black"
-                >
-                  X
-                </button>
-                </h2>
-
-                
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-base md:text-lg font-semibold">
+                    Order #{selectedOrder.order_number}
+                  </h2>
+                  <button
+                    onClick={() => setSelectedOrder(null)}
+                    className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 transition-colors text-sm font-medium"
+                  >
+                    ✕
+                  </button>
+                </div>
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.4 }}
                 >
-                  
                   <OrderDetailsUI order={selectedOrder} />
                 </motion.div>
-
-               
               </motion.div>
             </motion.div>
           )}

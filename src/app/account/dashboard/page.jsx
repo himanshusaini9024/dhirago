@@ -54,24 +54,21 @@ export default function Dashboard({ setActiveTab }) {
   const wishlist = []; // 🔥 replace with API later
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 font-futura">
       {/* 🔐 HEADER */}
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>
-          <h2 className="text-3xl lg:text-5xl font-light">
+          <h2 className="text-3xl lg:text-3xl font-light">
             Hello,{" "}
-            <span className="font-medium bg-gradient-to-r from-black to-gray-500 bg-clip-text text-transparent">
+            <span className="font-light bg-gradient-to-r from-black to-gray-500 bg-clip-text ">
               {user.name}
             </span>
           </h2>
-          {/* <p className="text-sm text-gray-500 mt-1">
-            Customer since <span className="text-gray-700">{user.joined}</span>
-          </p> */}
+          <p className="text-sm text-gray-500 mt-1">
+          </p>
         </div>
 
-        {/* <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center">
-          {user.name}
-        </div> */}
+     
       </div>
 
       {/* ACTIONS */}

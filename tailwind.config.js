@@ -8,7 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Montserrat', 'sans-serif'], // 👈 set as default
+        // sans: ['Montserrat', 'sans-serif'], 
+         futura: ["var(--font-futura)"],// 👈 set as default
       },
     },
   },

@@ -1,5 +1,7 @@
 // lib/payment.js
 import API from "./api";
+import { event } from "./gtag";
+
 
 export const handleOnlinePayment = async ({
   priceTotal,
@@ -13,8 +15,15 @@ export const handleOnlinePayment = async ({
     amount: priceTotal,
   });
 
+   event({
+      action: "checkout",
+      category : "online",
+      label:email,
+      value:priceTotal,
+    });
+
   const options = {
-    key: "rzp_test_Saui0g7QNWR2e4",
+    key: "rzp_test_Ss17h9Jo21ufHR",
     amount: data.amount,
     currency: "INR",
     order_id: data.id,
@@ -45,6 +54,12 @@ export const handleOnlinePayment = async ({
   rzp.open();
 };
 
-export const handleCOD = async ({ createOrder }) => {
+export const handleCOD = async ({ createOrder,email,priceTotal }) => {
+   event({
+      action: "checkout",
+      category : "unpaid",
+      label:email,
+      value:priceTotal,
+    });
   await createOrder("unpaid", null);
 };

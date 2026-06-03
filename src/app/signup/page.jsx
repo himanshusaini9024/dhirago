@@ -3,6 +3,31 @@
 import { useState } from "react";
 import Link from "next/link";
 import Logo from "../../assets/icons/logo";
+import { Toaster, toast } from "react-hot-toast";
+import { CheckCircle2, XCircle } from "lucide-react";
+
+
+const successToast = (msg) => {
+  toast.custom(
+    (t) => (
+      <div
+        className={`${
+          t.visible ? "animate-enter" : "animate-leave"
+        } bg-white border border-green-100 shadow-2xl rounded-2xl px-5 py-4 flex items-center gap-4 min-w-[320px]`}
+      >
+        <div className="w-11 h-11 rounded-full bg-green-100 flex items-center justify-center">
+          <CheckCircle2 className="text-green-600 w-6 h-6" />
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-gray-900">Success</p>
+          <p className="text-xs text-gray-500 mt-1">{msg}</p>
+        </div>
+      </div>
+    ),
+    { duration: 3000 }
+  );
+};
 
 export default function SignupPage() {
   const [name, setName] = useState("");
@@ -31,8 +56,8 @@ export default function SignupPage() {
       if (!res.ok) {
         throw new Error(data.message || "Signup failed");
       }
+      successToast("Account successfully created 🎉");
 
-      alert("Account created 🎉");
       window.location.href = "/";
 
     } catch (err) {

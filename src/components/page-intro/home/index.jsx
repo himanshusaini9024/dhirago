@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-
+import Image from "next/image";
 const slides = [
   {
-    product: "https://images.unsplash.com/photo-1594938298603-c8148c4b4e51?w=900&q=85&fit=crop",
+    product: "https://11-11.in/cdn/shop/files/MEETTHEMAKERS1.webp?v=1778240611&width=1800",
     ambient: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=900&q=80&fit=crop",
     label: "The Mist Shirt",
     subtitle: "Linen · Sun-washed Yellow",
@@ -186,9 +186,12 @@ export default function Hero() {
         }
 
         .title {
-          font-size: clamp(42px, 5vw, 68px);
-          font-weight: 300;
+        
+          font-size: clamp(42px, 5vw, 38px);
+          font-weight: 400;
           margin-bottom: 10px;
+          color: #faf8f4;
+
         }
 
         .subtitle {

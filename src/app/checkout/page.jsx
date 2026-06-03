@@ -59,6 +59,8 @@ const CheckoutPage = () => {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   });
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const userdata = useSelector((state) => state.auth.user);
+  const customer_id = userdata?.customer_id;
 
   // ── create order ───────────────────────────
   const createOrder = async (payment_status, payment_id) => {
@@ -66,7 +68,7 @@ const CheckoutPage = () => {
     if (!validateEmail()) return;
     const orderData = {
       sub_total: priceTotal,
-      customer_id: user.customer_id,
+      customer_id: customer_id,
       total_amount: priceTotal,
       quantity: cartItems.reduce((a, c) => a + c.quantity, 0),
       payment_method: payment_status === "paid" ? "online" : "cod",

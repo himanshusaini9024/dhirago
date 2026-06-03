@@ -14,6 +14,12 @@ import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
 import { Montserrat } from "next/font/google";
 import API from "../../lib/api"; 
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "300", "300"],
+});
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -81,6 +87,8 @@ const Header = () => {
     router.replace("/");
   }
 };
+  const isHeroPage = TRANSPARENT_HERO_PAGES.includes(pathname);
+
   const handleMouseEnterMen = () => {
     clearTimeout(timeoutRef.current);
     setMegaMenuMen(true);

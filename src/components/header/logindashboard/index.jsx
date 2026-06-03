@@ -190,7 +190,7 @@ export default function LoginDrawer({ open, setOpen }) {
                       />
 
                       {/* Dark Overlay */}
-                      <div className="absolute inset-0 bg-black/50" />
+                      {/* <div className="absolute inset-0 bg-black/50" /> */}
                     </div>
 
                     {/* CONTENT */}

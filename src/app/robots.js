@@ -7,7 +7,7 @@ export default function robots() {
       userAgent: "*",
       allow: isIndexingEnabled ? "/" : "",
       disallow: isIndexingEnabled
-        ? ["/cart", "/account", "/checkout"]
+        ? ["/cart", "/account", "/checkout","/"]
         : "/",
     },
     sitemap: isIndexingEnabled

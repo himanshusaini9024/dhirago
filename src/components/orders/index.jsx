@@ -118,9 +118,9 @@ export default function OrderDetailsUI({ order }) {
 
           {/* Address */}
           <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm">
-            <p className="text-sm font-light mb-3 md:mb-4">Delivery Address</p>
+            <p className="text-sm font-medium mb-3 md:mb-4">Delivery Address</p>
             <p className="text-sm font-medium">
-              {order.first_name} {order.last_name}
+              <label htmlFor="">Customer Name:-</label> {order.first_name} 
             </p>
             <p className="text-xs text-gray-500 mt-2">
               {order.address1}{order.address2 ? `, ${order.address2}` : ""}

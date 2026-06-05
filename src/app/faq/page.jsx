@@ -111,12 +111,14 @@ export default function FAQPage() {
   // Update active category on scroll
   useEffect(() => {
     const handleScroll = () => {
+      let current = categories[0];
       categories.forEach((key) => {
         const el = sectionRefs.current[key];
         if (!el) return;
         const rect = el.getBoundingClientRect();
-        if (rect.top < 200 && rect.bottom > 200) setActiveCategory(key);
+        if (rect.top <= 120) current = key;
       });
+      setActiveCategory(current);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -128,14 +130,20 @@ export default function FAQPage() {
     if (!container) return;
     const activeBtn = container.querySelector("[data-active='true']");
     if (activeBtn) {
-      activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      const offset = btnRect.left - containerRect.left - containerRect.width / 2 + btnRect.width / 2;
+      container.scrollBy({ left: offset, behavior: "smooth" });
     }
   }, [activeCategory]);
 
   const scrollTo = (key) => {
     setMobileMenuOpen(false);
     setTimeout(() => {
-      sectionRefs.current[key]?.scrollIntoView({ behavior: "smooth", block: "start" });
+      const el = sectionRefs.current[key];
+      if (!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo({ top, behavior: "smooth" });
     }, 10);
   };
 
@@ -146,11 +154,9 @@ export default function FAQPage() {
       <div className="w-full border-b border-stone-200 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-16 py-12 md:py-20 flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6">
           <div>
-            <p className="text-[10px] tracking-[0.5em] uppercase text-stone-400 mb-3 md:mb-4">
-              Support
-            </p>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight text-stone-900 uppercase">
-              Frequently Asked <br className="hidden sm:block" />
+           
+            <h1 className="text-[0.88rem] text-center sm:text-3xl  md:text-2xl font-medium leading-tight text-stone-900 uppercase">
+              Frequently Asked 
               Questions
             </h1>
           </div>
@@ -213,17 +219,17 @@ export default function FAQPage() {
             )}
           </AnimatePresence>
 
-          {/* DESKTOP: horizontal scrollable tab row */}
+          {/* DESKTOP: horizontal tab row — wraps so it never traps page scroll */}
           <div
             ref={tabsScrollRef}
-            className="hidden md:flex gap-4 lg:gap-6  scrollbar-hide"
+            className="hidden md:flex flex-wrap gap-x-4 lg:gap-x-6"
           >
             {categories.map((key) => (
               <button
                 key={key}
                 data-active={activeCategory === key}
                 onClick={() => scrollTo(key)}
-                className={`relative py-4 text-[10px] tracking-[0.3em] uppercase shrink-0 transition-colors duration-200 whitespace-nowrap ${
+                className={`relative py-4 text-[10px] tracking-[0.2em] uppercase shrink-0 transition-colors duration-200 whitespace-nowrap ${
                   activeCategory === key
                     ? "text-stone-900"
                     : "text-stone-400 hover:text-stone-600"
@@ -248,7 +254,7 @@ export default function FAQPage() {
           <section
             key={category}
             ref={(el) => (sectionRefs.current[category] = el)}
-            className="scroll-mt-24"
+            style={{ scrollMarginTop: "96px" }}
           >
             {/* Category heading */}
             <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">

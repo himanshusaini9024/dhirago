@@ -98,8 +98,7 @@ const handleLogin = async (e) => {
           body: JSON.stringify({ mobile, otp }),
         });
   const resuser = await api.get("/debug-auth");
-
-        localStorage.setItem("resuser", resuser);
+        console.log("resuser",resuser)
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
 

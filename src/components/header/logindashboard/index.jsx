@@ -12,6 +12,8 @@ import { Mail, Lock, Phone } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { loginSuccess } from "../../../store/authslice";
+import api from "../../../lib/api";
+
 export default function LoginDrawer({ open, setOpen }) {
   const dispatch = useDispatch();
 
@@ -95,7 +97,9 @@ const handleLogin = async (e) => {
           },
           body: JSON.stringify({ mobile, otp }),
         });
+  const resuser = await api.get("/debug-auth");
 
+        localStorage.setItem("resuser", resuser);
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
 

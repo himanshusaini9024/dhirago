@@ -108,14 +108,42 @@ export default function MyProfilePage() {
     state: "",
     zip: "",
   });
+const API = process.env.NEXT_PUBLIC_API_URL;
 
   const [loading, setLoading] = useState(false);
 
+const fetchCsrf = async () => {
+  await fetch(`${API}/sanctum/csrf-cookie`, {
+    credentials: "include",
+  });
+};
+
+// Helper: read XSRF-TOKEN cookie (Sanctum sets it after csrf-cookie call)
+const getXsrfToken = () => {
+  return decodeURIComponent(
+    document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("XSRF-TOKEN="))
+      ?.split("=")[1] || ""
+  );
+};
   /* ---------------- FETCH USER ---------------- */
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await api.get("/user");
+        await fetchCsrf();
+
+        // const res = await api.get("/user");
+
+        const res = await fetch(`${API}/api/user`, {
+          method: "GET",
+          credentials: "include",           // ✅ added
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-XSRF-TOKEN": getXsrfToken(), // ✅ added
+          }
+        });
 
         localStorage.setItem("user_email", res.data.email);
 

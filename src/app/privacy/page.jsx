@@ -13,14 +13,14 @@ export default function PrivacyPolicyPage() {
         <h1 className="text-[26px] font-normal tracking-wide text-stone-900 uppercase">Privacy Policy</h1>
       </div>
 
-      <div className="max-w-10xl mx-auto px-6 md:px-10 py-14">
+      <div className="max-w-5xl mx-auto px-6 md:px-10 py-14">
         
 
         <h1 className={`lg:text-[22px] font-semibold uppercase tracking-wide text-stone-900 mb-8 }`}>
           What is your Privacy Policy?
         </h1>
 
-        <div className="lg:text-[17px] text-[14px] text-align  font-medium leading-[2.2] text-stone-700 space-y-4">
+        <div className="lg:text-[17px] text-[14px] text-align  font-medium leading-[1.9] text-stone-700 space-y-4">
           <p>
             This Website with the URL <a href="https://www.dhirago.com" className="underline text-stone-900">www.dhirago.com</a> ("Website/Site") is operated by Dhirago Fashion Private Limited ("We/Our/Us"). We are committed to protecting and respecting your privacy. We collect your personal information and process your personal data in accordance with applicable law in India relating to the processing of personal data. Please read the following carefully to understand how we use your personal data.
           </p>

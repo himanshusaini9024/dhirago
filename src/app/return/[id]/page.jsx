@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { Josefin_Sans } from "next/font/google";
+import API from "../../../lib/api";
 
 import {
   RefreshCcw,
@@ -37,11 +38,12 @@ export default function ReturnPage() {
   const submitReturn = async () => {
     try {
       setLoading(true);
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/returns/create`,
-        { order_id: params.id, customer_id, reason, comment },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-      );
+       await API.post("/returns/create", {
+      order_id: params.id,
+      customer_id,
+      reason,
+      comment,
+    });
       router.push("/account");
     } catch (err) {
       console.log(err);

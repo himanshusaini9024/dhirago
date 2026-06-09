@@ -8,6 +8,12 @@ import { CheckCircle, Circle, ChevronDown } from "lucide-react";
 import OrderDetailsUI from "../../../components/orders";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 const IMGURL = "https://res.cloudinary.com/ds48lk80f/";
 
@@ -24,6 +30,24 @@ const getSteps = (status) => {
     ...step,
     completed: index <= currentIndex,
   }));
+};
+
+const canReturnOrder = (order) => {
+  if (order.status !== "delivered") return false;
+  if (order.return_request) return false;
+
+  const deliveryDate = new Date(
+   order.expected_delivery_date
+  );
+
+  const today = new Date();
+
+  const diffDays = Math.floor(
+    (today - deliveryDate) / (1000 * 60 * 60 * 24)
+  );
+  console.log('diffdays',diffDays)
+  console.log('deliveryDate',deliveryDate)
+  return diffDays <= 15;
 };
 
 export default function OrdersPage() {
@@ -60,12 +84,16 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen font-futura bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-8 md:py-12 px-4 md:px-10">
+    <div
+      className={`min-h-screen font-futura bg-gradient-to-br from-[#f8fafc] via-white to-[#eef2f7] py-8 md:py-12 px-4 md:px-10 ${josefin.className} `}
+    >
       <div className="max-w-6xl mx-auto">
-
         {/* Heading */}
         <div className="mb-10 md:mb-16 flex items-center justify-between gap-4">
-          <h1 className="text-2xl md:text-3xl font-futura font-light tracking-tight">My Orders</h1>
+          <h1 className="text-2xl md:text-2xl  font-medium tracking-tight">
+            My Orders
+          </h1>
+
           <Link href="/return/track-order">
             <button className="border border-black px-4 md:px-8 py-3 md:py-4 uppercase tracking-[2px] md:tracking-[3px] text-xs hover:bg-black hover:text-white transition-all duration-300 whitespace-nowrap">
               Track Order
@@ -77,7 +105,10 @@ export default function OrdersPage() {
         {loading && (
           <div className="space-y-6 animate-pulse">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white rounded-3xl p-6 md:p-8 shadow-sm">
+              <div
+                key={i}
+                className="bg-white rounded-3xl p-6 md:p-8 shadow-sm"
+              >
                 <div className="h-4 w-32 bg-gray-200 rounded mb-4" />
                 <div className="h-6 w-48 bg-gray-200 rounded mb-6" />
                 <div className="h-20 bg-gray-100 rounded" />
@@ -113,19 +144,25 @@ export default function OrdersPage() {
                       <div className="flex justify-between sm:block">
                         <div>
                           <p className="text-xs text-gray-400">ORDER-ID</p>
-                          <p className="text-base md:text-lg font-medium">#{order.order_number}</p>
+                          <p className="text-base md:text-lg font-medium">
+                            #{order.order_number}
+                          </p>
                         </div>
                         {/* Total — shown inline on mobile next to ID */}
                         <div className="sm:hidden text-right">
                           <p className="text-xs text-gray-400">TOTAL</p>
-                          <p className="text-lg font-semibold">₹{order.total_amount}</p>
+                          <p className="text-lg font-semibold">
+                            ₹{order.total_amount}
+                          </p>
                         </div>
                       </div>
 
                       {/* Total — desktop only */}
                       <div className="hidden sm:block">
                         <p className="text-xs text-gray-400">TOTAL</p>
-                        <p className="text-xl font-light">₹{order.total_amount}</p>
+                        <p className="text-xl font-medium">
+                          ₹{order.total_amount}
+                        </p>
                       </div>
 
                       {/* Status Badge */}
@@ -142,8 +179,12 @@ export default function OrdersPage() {
                               <p className="text-xs text-green-600">
                                 Delivered on{" "}
                                 <span className="font-medium">
-                                  {new Date(order.expected_delivery_date).toLocaleDateString("en-IN", {
-                                    day: "numeric", month: "long", year: "numeric",
+                                  {new Date(
+                                    order.expected_delivery_date,
+                                  ).toLocaleDateString("en-IN", {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
                                   })}
                                 </span>
                               </p>
@@ -160,16 +201,28 @@ export default function OrdersPage() {
                               </p>
                               <p className="text-xs text-gray-600">
                                 {(() => {
-                                  let deliveryDate = order.expected_delivery_date
-                                    ? new Date(order.expected_delivery_date)
-                                    : new Date(new Date(order.created_at).setDate(new Date(order.created_at).getDate() + 5));
+                                  let deliveryDate =
+                                    order.expected_delivery_date
+                                      ? new Date(order.expected_delivery_date)
+                                      : new Date(
+                                          new Date(order.created_at).setDate(
+                                            new Date(
+                                              order.created_at,
+                                            ).getDate() + 5,
+                                          ),
+                                        );
                                   return (
                                     <>
                                       Expected by{" "}
                                       <span className="font-medium text-black">
-                                        {deliveryDate.toLocaleDateString("en-IN", {
-                                          day: "numeric", month: "long", year: "numeric",
-                                        })}
+                                        {deliveryDate.toLocaleDateString(
+                                          "en-IN",
+                                          {
+                                            day: "numeric",
+                                            month: "long",
+                                            year: "numeric",
+                                          },
+                                        )}
                                       </span>
                                     </>
                                   );
@@ -180,11 +233,17 @@ export default function OrdersPage() {
                         )}
                       </div>
 
-                      <motion.div animate={{ rotate: isOpen ? 180 : 0 }} className="hidden sm:block">
+                      <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        className="hidden sm:block"
+                      >
                         <ChevronDown />
                       </motion.div>
                       {/* Chevron on mobile — shown at end of status row */}
-                      <motion.div animate={{ rotate: isOpen ? 180 : 0 }} className="sm:hidden self-end">
+                      <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        className="sm:hidden self-end"
+                      >
                         <ChevronDown className="w-4 h-4" />
                       </motion.div>
                     </div>
@@ -201,13 +260,18 @@ export default function OrdersPage() {
                           {/* Timeline */}
                           <div className="px-4 md:px-8 py-5 md:py-6 flex justify-between items-start overflow-x-auto">
                             {steps.map((step, idx) => (
-                              <div key={idx} className="text-center flex-1 min-w-0 px-1">
+                              <div
+                                key={idx}
+                                className="text-center flex-1 min-w-0 px-1"
+                              >
                                 {step.completed ? (
                                   <CheckCircle className="mx-auto text-blue-600 w-5 h-5" />
                                 ) : (
                                   <Circle className="mx-auto text-gray-300 w-5 h-5" />
                                 )}
-                                <p className="text-[10px] md:text-xs mt-1 leading-tight hidden sm:block">{step.label}</p>
+                                <p className="text-[10px] md:text-xs mt-1 leading-tight hidden sm:block">
+                                  {step.label}
+                                </p>
                               </div>
                             ))}
                           </div>
@@ -226,10 +290,16 @@ export default function OrdersPage() {
                                   alt={`Product ${item.product_id}`}
                                 />
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-medium truncate">Product #{item.product_id}</p>
-                                  <p className="text-xs text-gray-500 mt-1">Qty: {item.quantity}</p>
+                                  <p className="text-sm font-medium truncate">
+                                    Product #{item.product_id}
+                                  </p>
+                                  <p className="text-xs text-gray-500 mt-1">
+                                    Qty: {item.quantity}
+                                  </p>
                                 </div>
-                                <p className="font-medium text-sm shrink-0">₹{item.price}</p>
+                                <p className="font-medium text-sm shrink-0">
+                                  ₹{item.price}
+                                </p>
                               </motion.div>
                             ))}
                           </div>
@@ -244,54 +314,79 @@ export default function OrdersPage() {
                               {/* Return request statuses */}
                               {order.return_request && (
                                 <>
-                                  {order.return_request.status === "pending" && (
+                                  {order.return_request.status ===
+                                    "pending" && (
                                     <div className="px-4 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-                                      <span className="text-xs uppercase tracking-[2px] text-amber-700 font-medium">Return Request Sent</span>
+                                      <span className="text-xs uppercase tracking-[2px] text-amber-700 font-medium">
+                                        Return Request Sent
+                                      </span>
                                     </div>
                                   )}
-                                  {order.return_request.status === "approved" && (
+                                  {order.return_request.status ===
+                                    "approved" && (
                                     <div className="px-4 h-10 rounded-full bg-sky-50 border border-sky-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
-                                      <span className="text-xs uppercase tracking-[2px] text-sky-700 font-medium">Return Approved</span>
+                                      <span className="text-xs uppercase tracking-[2px] text-sky-700 font-medium">
+                                        Return Approved
+                                      </span>
                                     </div>
                                   )}
-                                  {order.return_request?.status === "pickup_scheduled" && (
+                                  {order.return_request?.status ===
+                                    "pickup_scheduled" && (
                                     <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-                                      <p className="text-emerald-700 font-medium text-sm">Reverse pickup scheduled</p>
-                                      <p className="text-xs text-emerald-600 mt-1">Our courier will pick up shortly.</p>
+                                      <p className="text-emerald-700 font-medium text-sm">
+                                        Reverse pickup scheduled
+                                      </p>
+                                      <p className="text-xs text-emerald-600 mt-1">
+                                        Our courier will pick up shortly.
+                                      </p>
                                     </div>
                                   )}
-                                  {order.return_request.status === "picked_up" && (
+                                  {order.return_request.status ===
+                                    "picked_up" && (
                                     <div className="px-4 h-10 rounded-full bg-purple-50 border border-purple-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-purple-500" />
-                                      <span className="text-xs uppercase tracking-[2px] text-purple-700 font-medium">Return Picked Up</span>
+                                      <span className="text-xs uppercase tracking-[2px] text-purple-700 font-medium">
+                                        Return Picked Up
+                                      </span>
                                     </div>
                                   )}
-                                  {order.return_request.status === "delivered" && (
+                                  {order.return_request.status ===
+                                    "delivered" && (
                                     <div className="px-4 h-10 rounded-full bg-indigo-50 border border-indigo-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-indigo-500" />
-                                      <span className="text-xs uppercase tracking-[2px] text-indigo-700 font-medium">Return Delivered</span>
+                                      <span className="text-xs uppercase tracking-[2px] text-indigo-700 font-medium">
+                                        Return Delivered
+                                      </span>
                                     </div>
                                   )}
-                                  {order.return_request.status === "refunded" && (
+                                  {order.return_request.status ===
+                                    "refunded" && (
                                     <div className="px-4 h-10 rounded-full bg-emerald-50 border border-emerald-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                                      <span className="text-xs uppercase tracking-[2px] text-emerald-700 font-medium">Refund Completed</span>
+                                      <span className="text-xs uppercase tracking-[2px] text-emerald-700 font-medium">
+                                        Refund Completed
+                                      </span>
                                     </div>
                                   )}
-                                  {order.return_request.status === "rejected" && (
+                                  {order.return_request.status ===
+                                    "rejected" && (
                                     <div className="px-4 h-10 rounded-full bg-red-50 border border-red-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-red-500" />
-                                      <span className="text-xs uppercase tracking-[2px] text-red-700 font-medium">Return Rejected</span>
+                                      <span className="text-xs uppercase tracking-[2px] text-red-700 font-medium">
+                                        Return Rejected
+                                      </span>
                                     </div>
                                   )}
                                 </>
                               )}
 
-                              {order.status === "delivered" && !order.return_request && (
+                              {canReturnOrder(order) && (
                                 <button
-                                  onClick={() => router.push(`/return/${order.order_number}`)}
+                                  onClick={() =>
+                                    router.push(`/return/${order.order_number}`)
+                                  }
                                   className="h-10 md:h-12 px-5 md:px-7 rounded-full border border-black uppercase tracking-[2px] md:tracking-[3px] text-xs hover:bg-black hover:text-white transition-all duration-300"
                                 >
                                   Return Order
@@ -337,7 +432,12 @@ export default function OrdersPage() {
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: "100%", opacity: 0 }}
-                transition={{ type: "spring", stiffness: 80, damping: 18, mass: 0.8 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 80,
+                  damping: 18,
+                  mass: 0.8,
+                }}
                 className="bg-white w-full max-w-5xl rounded-t-3xl p-5 md:p-6 md:mb-[8rem] max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >

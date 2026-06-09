@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LayoutDashboard, ShoppingBag, User, Heart } from "lucide-react";
 
 const TRANSPARENT_HERO_PAGES = ["/", "/pages/better-materials"];
 const LoginDropdown = ({ user, handleLogout }) => {
@@ -48,11 +49,11 @@ const [scrolled, setScrolled] = useState(false);
       {open && (
         <div
           className={`          
-            absolute right-0 mt-3 w-56  rounded-xl shadow-2xl border
+            absolute right-0 mt-3 w-56  rounded-xs shadow-2xl border
             overflow-hidden z-[999]
             transition-all duration-200
 
-            ${isHeroPage && scrolled ? "bg-white" : "bg-black"}
+            ${isHeroPage && scrolled ? "bg-white" : "bg-white text-black"}
 
           `}
         >
@@ -67,21 +68,33 @@ const [scrolled, setScrolled] = useState(false);
           </div> */}
 
           {/* MENU */}
+
           <Link
             href="/account"
             className={`block px-4 py-2 text-sm transition-colors duration-200
-            ${isHeroPage && scrolled ? "hover:bg-black hover:text-white" : "hover:bg-white hover:text-black"}
+            ${isHeroPage && scrolled ? "hover:bg-black hover:text-white" : "hover:bg-black hover:text-white"}
               
               `}
           >
+            <span className="flex gap-[9px]">
+          <LayoutDashboard size={18} />
+
+
             Dashboard
+            </span>
           </Link>
 
           <button
             onClick={handleLogout}
-            className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200  ${isHeroPage && scrolled ? "hover:bg-black hover:text-white" : "hover:bg-white hover:text-black"}`}
+            className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200  ${isHeroPage && scrolled ? "hover:bg-black hover:text-white" : "hover:bg-black hover:text-white"}`}
           >
+               <span className="flex gap-[9px]">
+          <User size={18} />
+
+
             Logout
+            </span>
+            
           </button>
         </div>
       )}

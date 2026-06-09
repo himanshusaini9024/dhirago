@@ -288,7 +288,7 @@ export default function Content({ product }) {
                 outline: "none", letterSpacing: "0.06em", borderRadius: 0,
               }}
             >
-              <option value="">XS</option>
+              <option value="">Select Size</option>
               {productsSizes.map((type) => (
                 <option key={type.id} value={type.label.toLowerCase()}>{type.label}</option>
               ))}

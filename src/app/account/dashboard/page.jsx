@@ -59,9 +59,9 @@ export default function Dashboard({ setActiveTab }) {
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>
           <h2 className="text-3xl lg:text-3xl font-light">
-            Hello,{" "}
+            Hello {" "}
             <span className="font-light bg-gradient-to-r from-black to-gray-500 bg-clip-text ">
-              {user.name}
+              {user.name}👋
             </span>
           </h2>
           <p className="text-sm text-gray-500 mt-1">

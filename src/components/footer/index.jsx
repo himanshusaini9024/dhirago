@@ -24,7 +24,7 @@ const supportLinks = [
   { label: "Frequently Asked Questions", href: "/faq" },
   { label: "Track order", href: "/return/track-order" },
   { label: "Product Care", href: "/product-care" },
-  { label: "Size Guide", href: "/size-guide.pdf" },
+  { label: "Size Guide", href: "/size-guide.pdf", target: "_blank" },
   { label: "Privacy Policy", href: "/privacy" },
 ];
 
@@ -147,6 +147,7 @@ export default function UltraPremiumFooter() {
               <Link
                 key={i}
                 href={link.href}
+                target={link.target}
                 style={{ color: "#111111"}}
                 className="text-[15px]  hover:text-stone-700 hover:underline underline-offset-2 transition-colors duration-200 leading-snug"
               >

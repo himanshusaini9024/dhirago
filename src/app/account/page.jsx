@@ -70,9 +70,32 @@ export default function AccountPage() {
 
       <div className="flex">
         {/* SIDEBAR (DESKTOP ONLY) */}
-        <aside className="hidden lg:block w-[260px] bg-white border-r min-h-screen p-6">
-          <ul className="space-y-2 text-sm">
-            {[
+       <aside className="hidden lg:flex flex-col w-[320px] min-h-screen bg-white border-r border-gray-200 sticky top-0">
+          {/* PROFILE CARD */}
+          <div className="p-3 border-b">
+            <div className="flex items-center gap-4">
+           
+
+              <div>
+                <h2 className="font-semibold text-lg">
+                  {userdata?.name}
+                </h2>
+
+                <p className="text-sm text-gray-500">
+                  {userdata?.email}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* MENU */}
+          <div className="p-6 flex-1">
+            <p className="uppercase text-xs tracking-widest text-gray-400 mb-5 px-3">
+              Account Settings
+            </p>
+
+            <ul className="space-y-3">
+              {[
               {
                 name: "Dashboard",
                 key: "dashboard",
@@ -86,18 +109,30 @@ export default function AccountPage() {
               { name: "My Profile", key: "profile", icon: <User size={18} /> },
               { name: "Wishlist", key: "wishlist", icon: <Heart size={18} /> },
             ].map((item) => (
-              <li
-                key={item.key}
-                onClick={() => setActiveTab(item.key)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition
-      ${activeTab === item.key ? "bg-black text-white" : "hover:bg-black hover:text-white"}
-    `}
-              >
-                {item.icon}
-                {item.name}
-              </li>
-            ))}
-          </ul>
+                <li
+                  key={item.key}
+                  onClick={() => setActiveTab(item.key)}
+                  className={` group cursor-pointer flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300
+                  
+                  ${
+                    activeTab === item.key
+                      ? "bg-black text-white shadow-lg"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }
+                  `}
+                >
+                  <span>{item.icon}</span>
+
+                  <span className="font-medium">
+                    {item.name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* FOOTER */}
+        
         </aside>
 
         {/* MAIN CONTENT */}

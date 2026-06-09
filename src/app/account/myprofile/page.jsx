@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import api from "../../../lib/api";
 import { Toaster, toast } from "react-hot-toast";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 /* ---------------- PREMIUM TOAST ---------------- */
 const successToast = (msg) => {
@@ -202,14 +208,14 @@ export default function MyProfilePage() {
 
   /* ---------------- UI ---------------- */
   return (
-    <div className="min-h-screen font-futura bg-gradient-to-br from-[#f5f5f5] to-[#eeeeee] px-4 md:px-12 py-12 font-[Inter]">
+    <div className={` ${josefin.className} min-h-screen  bg-gradient-to-br  px-4 md:px-12 py-12`}>
       
       {/* PREMIUM TOASTER */}
       <Toaster position="top-right" reverseOrder={false} />
 
       {/* HEADER */}
       <div className="mb-14">
-        <h1 className="text-2xl font-light tracking-tight">My Profile</h1>
+        <h1 className="text-2xl font-medium tracking-tight">My Profile</h1>
 
         <p className="text-sm text-gray-500 mt-2 tracking-wide">
           Manage your personal details & address
@@ -221,7 +227,7 @@ export default function MyProfilePage() {
         
         {/* PROFILE */}
         <div className="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow border">
-          <h3 className="text-xs tracking-[3px] text-gray-400 mb-8">
+          <h3 className="text-normal tracking-[1px] font-semibold text-gray-800 mb-8">
             PROFILE DETAILS
           </h3>
 
@@ -267,7 +273,9 @@ export default function MyProfilePage() {
 
         {/* PASSWORD */}
         <div className="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow border">
-          <h3 className="text-xs tracking-[3px] text-gray-400 mb-8">
+          {/* <h3 className="text-xs tracking-[3px] text-gray-400 mb-8"> */}
+          <h3 className="text-normal tracking-[1px] font-semibold text-gray-800 mb-8">
+
             CHANGE PASSWORD
           </h3>
 
@@ -300,7 +308,8 @@ export default function MyProfilePage() {
 
       {/* ADDRESS */}
       <div className="mt-16 bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow border">
-        <h2 className="text-xl font-medium mb-8">Add New Address</h2>
+          <h3 className="text-normal tracking-[1px] font-semibold text-gray-800 mb-8">
+        Add New Address</h3>
 
         <div className="space-y-6">
           <InputField

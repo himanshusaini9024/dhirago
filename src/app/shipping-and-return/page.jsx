@@ -1,17 +1,32 @@
 "use client";
 
 import { Josefin_Sans } from "next/font/google";
-
+import Image from "next/image";
 const josefin = Josefin_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "600"] });
 
 export default function ShippingReturn() {
   return (
     <div className={`min-h-screen bg-white text-stone-800 ${josefin.className}`}>
 
-      <div className="w-full bg-stone-100 py-10 text-center border-b border-stone-200">
-        <h1 className="text-[26px] font-normal tracking-wide text-stone-900 uppercase">Shipping & Return</h1>
+     
+  <div className="relative w-full h-[240px]   sm:h-[320px] md:h-[350px] overflow-hidden rounded-sm">
+                 <Image
+                   src="/images/european-linen.jpg"
+                   alt="EUROPEAN LINEN"
+                   fill
+                   className="w-full h-full md:px-10  object-cover"
+                   
+                 />
+                   <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-200 via-sky-100 to-blue-300" />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/1">
+              <h3
+                className="text-white text-xl sm:text-2xl md:text-3xl font-medium tracking-[0.2em] drop-shadow-xl"
+                style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
+              >
+               Shipping & Return
+              </h3>
+            </div>
       </div>
-
       <div className="max-w-3xl mx-auto px-6 md:px-10 py-14">
 
         <h1 className={`text-[22px] font-semibold uppercase  underline text-center tracking-wide text-stone-900 mb-8`}>

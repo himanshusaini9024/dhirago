@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Josefin_Sans } from "next/font/google";
-
+import Image from "next/image";
 const josefin = Josefin_Sans({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 // ── Icons ──────────────────────────────────────────────────────────────────
@@ -206,17 +206,26 @@ export default function ProductCarePage() {
   return (
     <div className={`${josefin.className} min-h-screen bg-white`}>
 
-      {/* ── Header ── */}
-      <header className="text-center pt-12 md:pt-16 pb-8 md:pb-10 px-6">
-      
-        <h1 className={`${josefin.className} text-3xl md:text-4xl font-medium text-[#2c2417] mb-3`}>
-          Product Care
-        </h1>
-        <p className={`${josefin.className} text-xs lg:tracking-[0.25em] tracking-[0.05em] text-[#a89070] uppercase`}>
-          A Guide to Caring for Your Fabrics
-        </p>
-        <div className="mx-auto mt-6 w-24 h-px bg-[#c4b49a]" />
-      </header>
+    
+
+        <div className="relative w-full h-[240px]   sm:h-[320px] md:h-[450px] overflow-hidden rounded-sm">
+                 <Image
+                   src="/images/european-linen.jpg"
+                   alt="EUROPEAN LINEN"
+                   fill
+                   className="w-full h-full md:px-[23rem] md:py-20  object-cover"
+                   
+                 />
+                   <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-200 via-sky-100 to-blue-300" />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/1">
+              <h3
+                className="text-white text-xl sm:text-2xl md:text-3xl font-medium tracking-[0.2em] drop-shadow-xl"
+                style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
+              >
+              Product Care
+              </h3>
+            </div>
+      </div>
 
       {/* ── MOBILE: Accordion Layout (hidden on md+) ── */}
       <div className="md:hidden px-4 pb-10 space-y-2">

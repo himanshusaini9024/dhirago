@@ -44,7 +44,7 @@ export default function UltraPremiumFooter() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <div style={{ marginBottom: "1.5rem" }}>
+          <div style={{ marginBottom: "0.271rem" }}>
             <img
               src="/images/logo/3.svg"
               alt="Dhirago"
@@ -64,7 +64,7 @@ export default function UltraPremiumFooter() {
           </div>
 
           <p
-            className="font-futura text-[15px]  font-medium"
+            className="font-futura text-[13px] md:text-[15px]   font-medium"
             style={{
               lineHeight: 1.85,
               color: "#111111",              
@@ -121,7 +121,7 @@ export default function UltraPremiumFooter() {
         >
           {/* Logo + wordmark */}
 
-          <p className="text-[15px]  font-medium leading-[2.1] text-stone-700  font-futura">
+          <p className="text-[13px] md:text-[15px] font-medium leading-[2.1] text-stone-700  font-futura">
             <em className={`text-[2xl] ${josefin.className}`}>““</em>Dhirago designs powerful clothing for those who refuse to blend in
             — statement pieces, bold silhouettes, and styles that invite a
             second glance.<em className={`text-[2xl] ${josefin.className}`}>““</em>
@@ -149,7 +149,7 @@ export default function UltraPremiumFooter() {
                 href={link.href}
                 target={link.target}
                 style={{ color: "#111111"}}
-                className="text-[15px]  hover:text-stone-700 hover:underline underline-offset-2 transition-colors duration-200 leading-snug"
+                className="text-[13px] md:text-[15px]   hover:text-stone-700 hover:underline underline-offset-2 transition-colors duration-200 leading-snug"
               >
                 {link.label}
               </Link>

@@ -13,6 +13,7 @@ import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
 
 const F = "'Josefin Sans', sans-serif";
+const BASE = "https://res.cloudinary.com/ds48lk80f/";
 
 function useIsMobile() {
   const [m, setM] = useState(false);
@@ -179,7 +180,7 @@ export default function Content({ product }) {
             background: "#f4f1ea", display: "flex", alignItems: "center", justifyContent: "center",
           }}>
             <Image
-              src={`${process.env.NEXT_PUBLIC_IMG_URL}${item.icon}`}
+              src={`${BASE}${item.icon}`}
               width={15} height={15} alt=""
               style={{ objectFit: "contain" }}
             />

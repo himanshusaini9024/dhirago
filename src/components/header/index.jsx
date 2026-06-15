@@ -396,8 +396,7 @@ const Header = () => {
                     {[
                       { name: "Our Story", href: "/about" },
                       { name: "Contact Us", href: "/contact" },
-                      { name: "Free Shipping", href: "/shipping&returns" },
-                      { name: "Return", href: "/shipping&returns" },
+                      { name: "Free Shipping & Return", href: "/shipping-and-return" },
                       { name: "Shop All", href: "/" },
                     ].map((item) => (
                       <li key={item.name} className="py-2">

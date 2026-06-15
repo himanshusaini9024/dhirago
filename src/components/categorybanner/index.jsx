@@ -6,8 +6,7 @@ const Categorybaner = ({ catbanner, title = "", subtitle = "" }) => {
   let banner = "";
 
   try {
-    const parsed = JSON.parse(catbanner || "[]");
-    banner = Array.isArray(parsed) ? parsed[0] : parsed;
+    banner = catbanner || "";
   } catch (e) {
     console.error("Invalid banner JSON", e);
   }

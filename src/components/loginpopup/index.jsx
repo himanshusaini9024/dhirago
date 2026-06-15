@@ -191,7 +191,7 @@ const getXsrfToken = () => {
 
         <ul className="text-sm text-gray-600 mb-6 space-y-1">
           <li>✔ Easy order tracking</li>
-          <li>✔ Manage return within 15-days</li>
+          <li>✔ Manage return within 7-days</li>
           <li>✔ Exclusive deals</li>
         </ul>
 

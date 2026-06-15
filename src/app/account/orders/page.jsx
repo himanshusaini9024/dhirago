@@ -47,7 +47,7 @@ const canReturnOrder = (order) => {
   );
   console.log('diffdays',diffDays)
   console.log('deliveryDate',deliveryDate)
-  return diffDays <= 15;
+  return diffDays <= 7;
 };
 
 export default function OrdersPage() {

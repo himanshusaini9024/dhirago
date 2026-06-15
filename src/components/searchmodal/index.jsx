@@ -2,15 +2,17 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SearchDrawer({ open, onClose }) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState({
-    products: [],
-    categories: [],
-    suggestions: [],
-  });
-
+  // const [results, setResults] = useState({
+  //   products: [],
+  //   categories: [],
+  //   suggestions: [],
+  // });
+  const [results, setResults] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
   const inputRef = useRef(null);
 
   // ✅ Autofocus
@@ -23,11 +25,8 @@ export default function SearchDrawer({ open, onClose }) {
   // ✅ API Search
   useEffect(() => {
     if (!query) {
-      setResults({
-        products: [],
-        categories: [],
-        suggestions: [],
-      });
+      setResults([]);
+      setSuggestions([]);
       return;
     }
 
@@ -37,12 +36,8 @@ export default function SearchDrawer({ open, onClose }) {
           `${process.env.NEXT_PUBLIC_API_URL}/api/search?q=${query}`,
         );
         const data = await res.json();
-
-        setResults({
-          products: data?.products || [],
-          categories: data?.categories || [],
-          suggestions: data?.suggestions || [],
-        });
+        setResults(data?.results || []);
+        setSuggestions(data?.suggestions || []);
       } catch (err) {
         console.error(err);
       }
@@ -75,6 +70,9 @@ export default function SearchDrawer({ open, onClose }) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
+  const products = results.filter((item) => item.type === "product");
+
+  const categories = results.filter((item) => item.type === "category");
   return (
     <div
       className={`fixed inset-0 z-[999] ${
@@ -114,13 +112,13 @@ export default function SearchDrawer({ open, onClose }) {
         {/* CONTENT */}
         <div className="h-[calc(100%-60px)] overflow-y-auto p-5 space-y-6">
           {/* Suggestions */}
-          {results.suggestions.length > 0 && (
+          {suggestions.length > 0 && (
             <div>
               <h3 className="text-xs text-gray-400 uppercase mb-3">
                 Suggestions
               </h3>
 
-              {results.suggestions.map((item, i) => (
+              {suggestions.map((item, i) => (
                 <div
                   key={i}
                   onClick={() => setQuery(item)}
@@ -133,14 +131,14 @@ export default function SearchDrawer({ open, onClose }) {
           )}
 
           {/* Categories */}
-          {results.categories.length > 0 && (
+          {categories.length > 0 && (
             <div>
               <h3 className="text-xs text-gray-400 uppercase mb-3">
                 Categories
               </h3>
 
               <div className="space-y-2">
-                {results.categories.map((cat) => (
+                {categories.map((cat) => (
                   <Link
                     key={cat.id}
                     href={`/collections/${cat.slug}`}
@@ -148,10 +146,12 @@ export default function SearchDrawer({ open, onClose }) {
                     className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded transition"
                   >
                     {cat.photo ? (
-                      <img
+                      <Image
                         src={cat.photo}
                         alt={cat.name || "Product"}
-                        className="w-full h-full object-cover"
+                        width={15}
+                        height={15}
+                        className="object-cover"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-100 text-xs text-gray-400">
@@ -166,12 +166,12 @@ export default function SearchDrawer({ open, onClose }) {
           )}
 
           {/* Products */}
-          {results.products.length > 0 && (
+          {products.length > 0 && (
             <div>
               <h3 className="text-xs text-gray-400 uppercase mb-3">Products</h3>
 
               <div className="space-y-2">
-                {results.products.map((prod) => (
+                {products.map((prod) => (
                   <Link
                     key={prod.id}
                     href={`/product/${prod.slug}`}
@@ -182,14 +182,14 @@ export default function SearchDrawer({ open, onClose }) {
                       <img
                         src={getImage(prod.photo)}
                         alt={prod.name || "Product"}
-                        className="w-1/2 h-1/2 object-cover"
+                        className="w-14 h-14 object-cover rounded"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-100 text-xs text-gray-400">
                         No Image
                       </div>
                     )}
-                  
+
                     <span className="text-sm">{prod.name}</span>
                   </Link>
                 ))}
@@ -198,11 +198,9 @@ export default function SearchDrawer({ open, onClose }) {
           )}
 
           {/* Empty */}
-          {query &&
-            results.products.length === 0 &&
-            results.categories.length === 0 && (
-              <p className="text-gray-400 text-sm">No results found</p>
-            )}
+          {query && results.length === 0 && (
+            <p className="text-gray-400 text-sm">No results found</p>
+          )}
         </div>
       </div>
     </div>

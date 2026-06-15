@@ -107,7 +107,9 @@ export default function RootLayout({ children }) {
 
 
             (function(d,t) {
-            var BASE_URL= "${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}";
+            // var BASE_URL= "${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"}";
+            var BASE_URL= "http://192.168.137.116:3001";
+
             var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src=BASE_URL+"/packs/js/sdk.js";
             g.defer = true;

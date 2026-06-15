@@ -68,26 +68,26 @@ export default function Marquee() {
         >
           <div
             style={{
-              maxWidth: 900,
+              maxWidth: 1090,
               margin: "0 auto",
               padding: "0 clamp(1.5rem, 4vw, 3rem)",
             }}
           >
             <Reveal>
               <p
-                className="font-futura"
+                className="font-futura lg:text-justify"
                 style={{
-              fontSize: "clamp(11px, 1.3vw, 19px)",
+              fontSize: "clamp(15px, 1.3vw, 19px)",
 
-                  fontWeight: 300,
-                  textAlign:"justify",
-                  color: "#1C1814",
+                  fontWeight: 100,
+
+                  color: "#111111",
                   lineHeight: 1.5,
-                  marginBottom: "2rem",
+                  marginBottom: "1rem",
                 }}
               >
                 "Everything is thoughtfully done — from how the fabric feels on
-                your skin, to how the collar sits, <br />to the neatness of every
+                your skin, to how the collar sits,to the neatness of every
                 stitch."
               </p>
 

@@ -165,7 +165,7 @@ export default function LuxurySection() {
           position: "relative", zIndex: 2,
           maxWidth: 980,
           margin: "0 auto",
-          padding: "clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2rem)",
+          padding: "clamp(1.5rem, 5vw, 3.5rem) clamp(1.1rem, 4vw, 2rem)",
           textAlign: "center",
           display: "flex",
           flexDirection: "column",
@@ -205,25 +205,24 @@ export default function LuxurySection() {
             style={{ marginBottom: "1.75rem" }}
           >
             <p 
-            className="font-futura"
+            className="font-futura lg:font-medium font-normal"
             
             style={{
-              fontWeight: 100,
-              fontSize: "clamp(0.95rem, 1.6vw, 1.1rem)",
+          
+              fontSize: "clamp(0.725rem, 1.6vw, 1.4rem)",
               lineHeight: 1.6,
-              color: "#6B5B4E",
+              color: "#111111",
               letterSpacing: "0.02em",
               marginBottom: "0.4rem",
             }}>
               Label woven in stillness, defined by craftsmanship
 
             </p>
-            <br />
             <p
             className="font-futura"
             style={{
               fontWeight: 300,
-              fontSize: "clamp(11px, 1.3vw, 15px)",
+              fontSize: "clamp(14px, 1.3vw, 1.1rem)",
               lineHeight: 1.75,
               color: "#8A7A6E",
               letterSpacing: "0.03em",
@@ -241,18 +240,7 @@ export default function LuxurySection() {
         </div>
 
         {/* ── Bottom border rule with shimmer ── */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-          viewport={{ once: true }}
-          style={{
-            height: 1,
-            background: "linear-gradient(90deg, transparent 0%, #C4A882 30%, #E8D5B0 50%, #C4A882 70%, transparent 100%)",
-            backgroundSize: "200% auto",
-            animation: "shimmerGold 5s linear infinite",
-          }}
-        />
+     
 
       </section>
 

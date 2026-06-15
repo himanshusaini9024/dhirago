@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+
 const slides = [
   {
     product: "https://11-11.in/cdn/shop/files/MEETTHEMAKERS1.webp?v=1778240611&width=1800",
@@ -10,7 +10,6 @@ const slides = [
     tag: "New Season",
     price: "₹ 3,800",
   },
- 
   {
     product: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=900&q=85&fit=crop",
     ambient: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=900&q=80&fit=crop",
@@ -21,254 +20,286 @@ const slides = [
   },
 ];
 
-export default function Hero() {
-  const [current, setCurrent] = useState(0);
-  const [prev, setPrev] = useState(null);
-  const [transitioning, setTransitioning] = useState(false);
-  const timerRef = useRef(null);
+const mobileBanners = slides.flatMap((s) => [
+  { img: s.product, label: s.label, subtitle: s.subtitle, tag: s.tag, price: s.price, type: "product" },
+  { img: s.ambient, label: s.label, subtitle: s.subtitle, tag: s.tag, price: s.price, type: "ambient" },
+]);
 
-  const goTo = (idx) => {
-    if (idx === current || transitioning) return;
-    setTransitioning(true);
-    setPrev(current);
-    setCurrent(idx);
-    setTimeout(() => {
-      setPrev(null);
-      setTransitioning(false);
-    }, 1400); // slower transition
-  };
+const DURATION = 6000;
+const FADE_MS = 800;
+
+// CrossfadeImage: keeps OLD image mounted underneath so there's never a black frame
+function CrossfadeImage({ src, alt, className }) {
+  const [displayed, setDisplayed] = useState(src);
+  const [incoming, setIncoming] = useState(null);
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setCurrent((c) => {
-        const next = (c + 1) % slides.length;
-        setPrev(c);
-        setTransitioning(true);
-        setTimeout(() => {
-          setPrev(null);
-          setTransitioning(false);
-        }, 1400);
-        return next;
-      });
-    }, 9000); // slower autoplay
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
-
-  const slide = slides[current];
+    if (src === displayed) return;
+    // Mount new image on top at opacity-0
+    setIncoming(src);
+    setFading(false);
+    // Tiny rAF delay so browser paints it at opacity-0 first
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setFading(true));
+    });
+    // After transition finishes, promote incoming → displayed
+    const t = setTimeout(() => {
+      setDisplayed(src);
+      setIncoming(null);
+      setFading(false);
+    }, FADE_MS + 50);
+    return () => { cancelAnimationFrame(raf); clearTimeout(t); };
+  }, [src]);
 
   return (
-    <section className="hero">
-      <div className="split">
-        {/* LEFT */}
-        <div className="imgWrap">
-          <img
-            key={`prod-${current}`}
-            src={slide.product}
-            alt=""
-            className="img zoomFade"
-          />
+    <div className={`relative overflow-hidden ${className}`}>
+      {/* Layer 1 — current (always visible) */}
+      <img
+        src={displayed}
+        alt={alt}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {/* Layer 2 — incoming (fades in on top) */}
+      {incoming && (
+        <img
+          src={incoming}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            opacity: fading ? 1 : 0,
+            transform: fading ? "scale(1)" : "scale(1.04)",
+            transition: `opacity ${FADE_MS}ms ease-out, transform ${FADE_MS + 200}ms ease-out`,
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+export default function Hero() {
+  const [desktopIdx, setDesktopIdx] = useState(0);
+  const [mobileIdx, setMobileIdx] = useState(0);
+
+  // Text transition only (no image flash)
+  const [dTextKey, setDTextKey] = useState(0);
+  const [mTextKey, setMTextKey] = useState(0);
+
+  const [progress, setProgress] = useState(0);
+  const progressRef = useRef(null);
+  const desktopTimerRef = useRef(null);
+  const mobileTimerRef = useRef(null);
+
+  const startProgress = () => {
+    clearInterval(progressRef.current);
+    setProgress(0);
+    const t0 = Date.now();
+    progressRef.current = setInterval(() => {
+      setProgress(Math.min(((Date.now() - t0) / DURATION) * 100, 100));
+    }, 30);
+  };
+
+  // Desktop auto-advance
+  useEffect(() => {
+    startProgress();
+    desktopTimerRef.current = setInterval(() => {
+      setDesktopIdx((c) => (c + 1) % slides.length);
+      setDTextKey((k) => k + 1);
+      startProgress();
+    }, DURATION);
+    return () => { clearInterval(desktopTimerRef.current); clearInterval(progressRef.current); };
+  }, []);
+
+  const goToDesktop = (idx) => {
+    if (idx === desktopIdx) return;
+    setDesktopIdx(idx);
+    setDTextKey((k) => k + 1);
+    startProgress();
+    clearInterval(desktopTimerRef.current);
+    desktopTimerRef.current = setInterval(() => {
+      setDesktopIdx((c) => (c + 1) % slides.length);
+      setDTextKey((k) => k + 1);
+      startProgress();
+    }, DURATION);
+  };
+
+  // Mobile auto-advance
+  useEffect(() => {
+    mobileTimerRef.current = setInterval(() => {
+      setMobileIdx((c) => (c + 1) % mobileBanners.length);
+      setMTextKey((k) => k + 1);
+    }, DURATION);
+    return () => clearInterval(mobileTimerRef.current);
+  }, []);
+
+  const goToMobile = (idx) => {
+    if (idx === mobileIdx) return;
+    setMobileIdx(idx);
+    setMTextKey((k) => k + 1);
+    clearInterval(mobileTimerRef.current);
+    mobileTimerRef.current = setInterval(() => {
+      setMobileIdx((c) => (c + 1) % mobileBanners.length);
+      setMTextKey((k) => k + 1);
+    }, DURATION);
+  };
+
+  const ds = slides[desktopIdx];
+  const mb = mobileBanners[mobileIdx];
+
+  return (
+    <>
+      {/* ══════════════════════════════════════
+          DESKTOP  (md+)  —  full-viewport split
+      ══════════════════════════════════════ */}
+      <section className="relative hidden md:flex w-full h-screen bg-[#0d0d0d] overflow-hidden">
+
+        {/* Left — product */}
+        <CrossfadeImage
+          src={ds.product}
+          alt={ds.label}
+          className="w-1/2 h-full"
+        />
+
+        {/* Right — ambient */}
+        <CrossfadeImage
+          src={ds.ambient}
+          alt=""
+          className="w-1/2 h-full"
+        />
+
+        {/* Centre hairline */}
+        <div className="absolute left-1/2 top-0 -translate-x-px w-px h-full bg-white/15 z-10 pointer-events-none" />
+
+        {/* Bottom scrim */}
+        <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-[#0d0d0d]/90 to-transparent pointer-events-none z-10" />
+        {/* Side vignettes */}
+        <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-t from-[#0d0d0d]/50 via-transparent to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-t from-[#0d0d0d]/60 via-transparent to-transparent pointer-events-none z-10" />
+
+        {/* Tag — top left */}
+        <div className="absolute top-8 left-10 z-20">
+          <span className="inline-block text-[9px] tracking-[0.28em] uppercase text-white/50 border border-white/15 px-3 py-1.5">
+            {ds.tag}
+          </span>
         </div>
 
-        {/* RIGHT */}
-        <div className="imgWrap">
-          <img
-            key={`amb-${current}`}
-            src={slide.ambient}
-            alt=""
-            className="img zoomFadeSlow"
-          />
+        {/* Counter — top right */}
+        <div className="absolute top-8 right-10 z-20 flex items-center gap-3">
+          <span className="text-[10px] tracking-[0.2em] text-white/30 font-light">0{desktopIdx + 1}</span>
+          <div className="relative w-10 h-px bg-white/20">
+            <div className="absolute top-0 left-0 h-full bg-white/70" style={{ width: `${progress}%`, transition: "width 0.1s linear" }} />
+          </div>
+          <span className="text-[10px] tracking-[0.2em] text-white/20 font-light">0{slides.length}</span>
         </div>
-      </div>
 
-      {/* Divider */}
-      <div className="divider" />
-
-      {/* TEXT */}
-      <div key={current} className="info">
-        <p className="tag">{slide.tag}</p>
-        <h1 className="title">{slide.label}</h1>
-        <p className="subtitle">{slide.subtitle}</p>
-
-        <div className="ctaRow">
-          <button className="btn">Shop Now</button>
-          <span className="price">{slide.price}</span>
+        {/* Text — bottom left */}
+        <div key={dTextKey} className="absolute bottom-14 left-10 z-20 max-w-xs animate-[fadeUp_0.8s_ease-out_both]">
+          <p className="text-[9px] tracking-[0.3em] uppercase text-white/40 mb-3">{ds.subtitle}</p>
+          <h1 className="text-5xl xl:text-6xl font-light tracking-tight text-white leading-none mb-5">{ds.label}</h1>
+          <div className="flex items-center gap-5">
+            <button className="bg-white text-[#0d0d0d] px-7 py-3 text-[10px] tracking-[0.2em] uppercase font-medium hover:bg-white/90 active:scale-95 transition-all">
+              Shop Now
+            </button>
+            <span className="text-2xl font-light italic text-white/80 tracking-wide">{ds.price}</span>
+          </div>
         </div>
-      </div>
 
-      {/* INDICATORS */}
-      <div className="indicators">
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => goTo(i)} className="indicator">
-            <span className={i === current ? "activeText" : ""}>
-              0{i + 1}
-            </span>
-            <div className={i === current ? "line active" : "line"} />
-          </button>
-        ))}
-      </div>
+        {/* Indicators — bottom right */}
+        <div className="absolute bottom-14 right-10 z-20 flex flex-col gap-4">
+          {slides.map((s, i) => (
+            <button key={i} onClick={() => goToDesktop(i)} className="flex items-center gap-3 group" aria-label={`Go to ${s.label}`}>
+              <span className={`text-[9px] tracking-[0.2em] font-light transition-colors duration-400 ${i === desktopIdx ? "text-white" : "text-white/25 group-hover:text-white/50"}`}>
+                0{i + 1}
+              </span>
+              <div className={`h-px transition-all duration-500 ${i === desktopIdx ? "w-10 bg-white" : "w-4 bg-white/20 group-hover:w-6 group-hover:bg-white/40"}`} />
+            </button>
+          ))}
+        </div>
+      </section>
 
-      {/* STYLES */}
-      <style jsx>{`
-        .hero {
-          height: 100vh;
-          width: 100%;
-          overflow: hidden;
-          position: relative;
-          background: #111;
-        }
+      {/* ══════════════════════════════════════
+          MOBILE  (below md)
+          Fixed height ~85vh so it feels like
+          a compact banner, not full screen
+      ══════════════════════════════════════ */}
+      <section className="relative md:hidden w-full bg-[#0d0d0d] overflow-hidden" style={{ height: "85vw", maxHeight: "520px", minHeight: "610px" }}>
 
-        .split {
-          display: flex;
-          height: 100%;
-        }
+        {/* Full-bleed crossfade image */}
+        <CrossfadeImage src={mb.img} alt={mb.label} className="absolute inset-0 w-full h-full" />
 
-        .imgWrap {
-          width: 50%;
-          height: 100%;
-          overflow: hidden;
-          position: relative;
-        }
+        {/* Scrim */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/85 via-[#0d0d0d]/10 to-transparent pointer-events-none z-10" />
 
-        .img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
+        {/* Top progress bar */}
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-white/10 z-30">
+          <div className="h-full bg-white/60" style={{ width: `${progress}%`, transition: "width 0.1s linear" }} />
+        </div>
 
-        /* 🔥 LUXURY ANIMATIONS */
-        .zoomFade {
-          animation: zoomFade 8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
+        {/* Segmented progress pills — Instagram style */}
+        <div className="absolute top-3 left-4 right-4 z-30 flex gap-1">
+          {mobileBanners.map((_, i) => (
+            <div key={i} className="flex-1 h-[2px] bg-white/20 overflow-hidden rounded-full">
+              <div
+                className="h-full bg-white rounded-full"
+                style={{
+                  width: i < mobileIdx ? "100%" : i === mobileIdx ? `${progress}%` : "0%",
+                  transition: i === mobileIdx ? "width 0.1s linear" : "none",
+                }}
+              />
+            </div>
+          ))}
+        </div>
 
-        .zoomFadeSlow {
-          animation: zoomFade 10s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
+        {/* Tag — top left */}
+        <div className="absolute top-8 left-4 z-20 mt-2">
+          <span className="inline-block text-[7px] tracking-[0.25em] uppercase text-white/55 border border-white/20 px-2 py-1">
+            {mb.tag}
+          </span>
+        </div>
 
-        @keyframes zoomFade {
-          0% {
-            opacity: 0;
-            transform: scale(1.06);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
+        {/* Type label — top right */}
+        <div className="absolute top-8 right-4 z-20 mt-2">
+          <span className="text-[7px] tracking-[0.25em] uppercase text-white/30">
+            {mb.type === "product" ? "Look" : "Story"}
+          </span>
+        </div>
 
-        /* Divider */
-        .divider {
-          position: absolute;
-          left: 50%;
-          top: 0;
-          width: 1px;
-          height: 100%;
-          background: rgba(255, 255, 255, 0.3);
-          transform: translateX(-50%);
-        }
+        {/* Bottom text */}
+        <div key={mTextKey} className="absolute bottom-5 left-4 right-4 z-20 animate-[fadeUp_0.7s_ease-out_both]">
+          <p className="text-[7px] tracking-[0.28em] uppercase text-white/40 mb-1">{mb.subtitle}</p>
+          <h1 className="text-3xl font-light tracking-tight text-white leading-none mb-4">{mb.label}</h1>
+          <div className="flex items-center gap-4">
+            <button className="text-[8px] tracking-[0.22em] uppercase text-white font-medium pb-[2px] border-b border-white/50 active:opacity-60 transition-opacity">
+              Shop Men
+            </button>
+            <div className="w-px h-3 bg-white/25" />
+            <button className="text-[8px] tracking-[0.22em] uppercase text-white font-medium pb-[2px] border-b border-white/50 active:opacity-60 transition-opacity">
+              Shop Women
+            </button>
+            <span className="ml-auto text-base font-light italic text-white/60">{mb.price}</span>
+          </div>
+        </div>
 
-        /* TEXT */
-        .info {
-          position: absolute;
-          bottom: 60px;
-          left: 50px;
-          color: #faf8f4;
-          animation: textUp 1.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
+        {/* Tap zones for prev / next */}
+        <button
+          className="absolute left-0 top-0 w-1/3 h-full z-20 opacity-0"
+          onClick={() => goToMobile((mobileIdx - 1 + mobileBanners.length) % mobileBanners.length)}
+          aria-label="Previous"
+        />
+        <button
+          className="absolute right-0 top-0 w-1/3 h-full z-20 opacity-0"
+          onClick={() => goToMobile((mobileIdx + 1) % mobileBanners.length)}
+          aria-label="Next"
+        />
+      </section>
 
-        .tag {
-          font-size: 10px;
-          letter-spacing: 0.2em;
-          opacity: 0.6;
-          margin-bottom: 10px;
-        }
-
-        .title {
-        
-          font-size: clamp(42px, 5vw, 38px);
-          font-weight: 400;
-          margin-bottom: 10px;
-          color: #faf8f4;
-
-        }
-
-        .subtitle {
-          font-size: 12px;
-          letter-spacing: 0.15em;
-          margin-bottom: 25px;
-          opacity: 0.7;
-        }
-
-        .ctaRow {
-          display: flex;
-          gap: 20px;
-          align-items: center;
-        }
-
-        .btn {
-          background: #faf8f4;
-          color: #111;
-          border: none;
-          padding: 12px 26px;
-          font-size: 11px;
-          letter-spacing: 0.15em;
-          cursor: pointer;
-        }
-
-        .price {
-          font-size: 20px;
-          font-style: italic;
-        }
-
-        @keyframes textUp {
-          0% {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        /* INDICATORS */
-        .indicators {
-          position: absolute;
-          bottom: 70px;
-          right: 50px;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .indicator {
-          background: none;
-          border: none;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          cursor: pointer;
-          color: rgba(255, 255, 255, 0.4);
-        }
-
-        .activeText {
-          color: #fff;
-        }
-
-        .line {
-          width: 12px;
-          height: 1px;
-          background: rgba(255, 255, 255, 0.3);
-          transition: all 0.5s;
-        }
-
-        .line.active {
-          width: 30px;
-          background: #fff;
+      {/* Keyframe for text entrance */}
+      <style>{`
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
-    </section>
+    </>
   );
 }

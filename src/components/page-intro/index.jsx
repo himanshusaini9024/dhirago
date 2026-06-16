@@ -32,7 +32,7 @@ const PageIntro = () => {
     
 
       {/* BOTTOM CONTENT */}
-      <div className="absolute bottom-10 w-full flex justify-center z-10 text-center px-4">
+      <div className="absolute bottom-[4rem]  w-full flex justify-center z-10 text-center px-4">
         <div
           className={`transition-all duration-1000 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -40,18 +40,15 @@ const PageIntro = () => {
         >
           {/* Small subtitle */}
           <p className="text-xs tracking-widest uppercase mb-3 opacity-80">
-            Men’s Spring Summer 2026
+            Men’s Fashion 
           </p>
 
           {/* Main heading */}
-          <h2 className="text-2xl text-white md:text-4xl lg:text-5xl font-light tracking-wide mb-6">
+          <h2 className="text-2xl text-white md:text-4xl lg:text-5xl font-light tracking-wide ">
             Heritage Revisited
           </h2>
 
-          {/* Button */}
-          <button className="border border-white px-6 py-2 text-sm tracking-wide hover:bg-white hover:text-black transition duration-300">
-            Discover
-          </button>
+         
         </div>
       </div>
 

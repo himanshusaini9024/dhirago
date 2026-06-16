@@ -4,23 +4,18 @@ import { LayoutDashboard, ShoppingBag, User, Heart } from "lucide-react";
 import MyProfilePage from "./myprofile/page";
 import Dashboard from "./dashboard/page";
 import Orders from "./orders/page";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 export default function AccountPage() {
-
-   const router = useRouter();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("dashboard");
 
-  const isLoggedIn = useSelector(
-    (state) => state.auth.isLoggedIn
-  );
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  const userdata = useSelector(
-    (state) => state.auth.user
-  );
+  const userdata = useSelector((state) => state.auth.user);
 
   // Redirect if logged out
   useEffect(() => {
@@ -70,22 +65,10 @@ export default function AccountPage() {
 
       <div className="flex">
         {/* SIDEBAR (DESKTOP ONLY) */}
-       <aside className="hidden lg:flex flex-col w-[320px] min-h-screen bg-white border-r border-gray-200 sticky top-0">
+        <aside className="hidden lg:flex flex-col w-[320px] min-h-screen bg-white border-r border-gray-200 sticky top-0">
           {/* PROFILE CARD */}
           <div className="p-3 border-b">
-            <div className="flex items-center gap-4">
-           
-
-              <div>
-                <h2 className="font-semibold text-lg">
-                  {userdata?.name}
-                </h2>
-
-                <p className="text-sm text-gray-500">
-                  {userdata?.email}
-                </p>
-              </div>
-            </div>
+            <div className="flex items-center gap-4"></div>
           </div>
 
           {/* MENU */}
@@ -96,19 +79,27 @@ export default function AccountPage() {
 
             <ul className="space-y-3">
               {[
-              {
-                name: "Dashboard",
-                key: "dashboard",
-                icon: <LayoutDashboard size={18} />,
-              },
-              {
-                name: "Orders",
-                key: "orders",
-                icon: <ShoppingBag size={18} />,
-              },
-              { name: "My Profile", key: "profile", icon: <User size={18} /> },
-              { name: "Wishlist", key: "wishlist", icon: <Heart size={18} /> },
-            ].map((item) => (
+                {
+                  name: "Dashboard",
+                  key: "dashboard",
+                  icon: <LayoutDashboard size={18} />,
+                },
+                {
+                  name: "Orders",
+                  key: "orders",
+                  icon: <ShoppingBag size={18} />,
+                },
+                {
+                  name: "My Profile",
+                  key: "profile",
+                  icon: <User size={18} />,
+                },
+                {
+                  name: "Wishlist",
+                  key: "wishlist",
+                  icon: <Heart size={18} />,
+                },
+              ].map((item) => (
                 <li
                   key={item.key}
                   onClick={() => setActiveTab(item.key)}
@@ -123,26 +114,25 @@ export default function AccountPage() {
                 >
                   <span>{item.icon}</span>
 
-                  <span className="font-medium">
-                    {item.name}
-                  </span>
+                  <span className="font-medium">{item.name}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* FOOTER */}
-        
         </aside>
 
         {/* MAIN CONTENT */}
 
         <div className="flex-1 p-4 lg:p-10">
-          {activeTab === "dashboard" && <Dashboard setActiveTab={setActiveTab}/>}
+          {activeTab === "dashboard" && (
+            <Dashboard setActiveTab={setActiveTab} />
+          )}
 
           {activeTab === "profile" && <MyProfilePage />}
 
-          {activeTab === "orders" && <Orders/>}
+          {activeTab === "orders" && <Orders />}
 
           {activeTab === "wishlist" && <div>Wishlist Page (Coming Soon)</div>}
         </div>

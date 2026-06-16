@@ -29,7 +29,7 @@ export default function ShippingReturn() {
           </h3>
         </div>
       </div>
-      <div className="max-w-3xl mx-auto px-6 md:px-10 py-14">
+      <div className="max-w-4xl mx-auto px-6 md:px-10 py-14">
         <h1
           className={`text-[22px] font-semibold uppercase  underline text-center tracking-wide text-stone-900 mb-8`}
         >

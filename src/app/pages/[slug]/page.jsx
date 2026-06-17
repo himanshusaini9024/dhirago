@@ -117,8 +117,8 @@ const materials = [
     id: "european-linen",
     label: "EUROPEAN LINEN",
     image: "/images/european-linen.jpg",
-    description1: "Every piece begins with a simple belief – true quality comes from the material. We use 60 count European linen a finer, more refined yarn - this linen is cultivated from premium flax fibres grown in a naturally balanced environment. The crop relies solely on rain-fed irrigation, requiring no artificial watering and producing minimal waste, making it as responsible as it is refined.",
-    description2: "The quality of linen begins with the selection of fibre—European flax is known for its longer staple length, which directly enhances the durability, smoothness, it's soft on the skin, yet strong in its legacy. Often regarded as the fabric of royalty, linen carries a legacy of understated luxury. It is naturally cooling, antibacterial, and eco-conscious. This exceptional material is brought to life through Indian craftsmanship.",
+    description1: "Every piece begins with a simple belief – true quality comes from the material. We use 60 count European linen, a finer and more refined yarn— carefully sourced through trusted textile partners who share our commitment to exceptional quality. Crafted from premium European flax fibres, this linen is renowned for its natural breathability and refined texture. Grown primarily through rain-fed cultivation with minimal environmental impact, it is a material valued as much for its sustainability as for its timeless elegance.",
+    description2: "European flax is known for its longer staple length, which directly enhances the durability, smoothness, it’s soft on the skin, yet strong in its legacy. Often regarded as the fabric of royalty, linen carries a legacy of understated luxury. It is naturally cooling, antibacterial, and eco-conscious. This exceptional material is brought to life through Indian craftsmanship. From selecting the finest linen to the precision of the final stitch, attention to detail remains uncompromised.",
   },
 ];
 
@@ -155,12 +155,10 @@ export default function BetterMaterials() {
       {/* ══ 2. INTRO ═══════════════════════════════════════════ */}
       <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24 text-center max-w-[64rem] mx-auto">
         <h2 className="text-xl md:text-[31.75px] font-futura font-light text-stone-800 leading-snug mb-5">
-          Behind every great garment, is a carefully chosen material.
+          True craftsmanship starts with the material
         </h2>
         <p className="text-sm md:text-base text-stone-800 md:leading-9 leading-7 font-futura text-center">
-          Every piece of clothing we design has its own story. And the raw materials we choose are the words that
-          narrate it. We take our materials quite seriously and sweat over every little detail — where it&apos;s
-          made, how it&apos;s made, who makes it — so we know the final product is good for you as well as our planet.
+          Every garment begins with a story. The materials we choose become its foundation, shaping its character, comfort, and longevity. We are deliberate about every fabric—where it comes from, how it is produced, and the hands involved in its making—ensuring each piece is crafted with care for both the wearer and the world it belongs to.
         </p>
       </section>
 
@@ -289,7 +287,7 @@ export default function BetterMaterials() {
           </p>
           <p className="text-sm md:text-base font-futura text-justify text-stone-800 !leading-8">
             All the garments are made to maximise the wear, this is done by adding an extra layer of fabric to
-            placket, cuffs and collars to give them added layer of strength. This is called fusing. It enhances
+            placket, cuffs and collars to give them added layer of strength. It enhances
             durability while giving the garment a sharper, more refined finish.
           </p>
         </div>

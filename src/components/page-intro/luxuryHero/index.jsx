@@ -9,18 +9,68 @@ import LoginDrawer from "../../header/logindashboard";
 // ─── Ornamental SVG divider ───────────────────────────────────────────────────
 function OrnamentDivider() {
   return (
-    <svg width="220" height="20" viewBox="0 0 220 20" fill="none" style={{ display: "block", margin: "0 auto" }}>
+    <svg
+      width="220"
+      height="20"
+      viewBox="0 0 220 20"
+      fill="none"
+      style={{ display: "block", margin: "0 auto" }}
+    >
       {/* Left arm */}
       <line x1="0" y1="10" x2="80" y2="10" stroke="#C4A882" strokeWidth="0.6" />
       <line x1="72" y1="10" x2="80" y2="5" stroke="#C4A882" strokeWidth="0.6" />
-      <line x1="72" y1="10" x2="80" y2="15" stroke="#C4A882" strokeWidth="0.6" />
+      <line
+        x1="72"
+        y1="10"
+        x2="80"
+        y2="15"
+        stroke="#C4A882"
+        strokeWidth="0.6"
+      />
       {/* Centre diamond */}
-      <rect x="106" y="6" width="8" height="8" stroke="#C4A882" strokeWidth="0.8" transform="rotate(45 110 10)" fill="none" />
-      <rect x="108" y="8" width="4" height="4" fill="#C4A882" transform="rotate(45 110 10)" />
+      <rect
+        x="106"
+        y="6"
+        width="8"
+        height="8"
+        stroke="#C4A882"
+        strokeWidth="0.8"
+        transform="rotate(45 110 10)"
+        fill="none"
+      />
+      <rect
+        x="108"
+        y="8"
+        width="4"
+        height="4"
+        fill="#C4A882"
+        transform="rotate(45 110 10)"
+      />
       {/* Right arm */}
-      <line x1="140" y1="10" x2="220" y2="10" stroke="#C4A882" strokeWidth="0.6" />
-      <line x1="140" y1="5" x2="148" y2="10" stroke="#C4A882" strokeWidth="0.6" />
-      <line x1="140" y1="15" x2="148" y2="10" stroke="#C4A882" strokeWidth="0.6" />
+      <line
+        x1="140"
+        y1="10"
+        x2="220"
+        y2="10"
+        stroke="#C4A882"
+        strokeWidth="0.6"
+      />
+      <line
+        x1="140"
+        y1="5"
+        x2="148"
+        y2="10"
+        stroke="#C4A882"
+        strokeWidth="0.6"
+      />
+      <line
+        x1="140"
+        y1="15"
+        x2="148"
+        y2="10"
+        stroke="#C4A882"
+        strokeWidth="0.6"
+      />
     </svg>
   );
 }
@@ -29,11 +79,24 @@ function OrnamentDivider() {
 function CornerMark({ flip = false }) {
   return (
     <svg
-      width="48" height="48" viewBox="0 0 48 48" fill="none"
+      width="48"
+      height="48"
+      viewBox="0 0 48 48"
+      fill="none"
       style={{ transform: flip ? "rotate(180deg)" : "none", opacity: 0.35 }}
     >
-      <path d="M4 4 L4 20 M4 4 L20 4" stroke="#C4A882" strokeWidth="1" strokeLinecap="round" />
-      <path d="M8 8 L8 16 M8 8 L16 8" stroke="#C4A882" strokeWidth="0.5" strokeLinecap="round" />
+      <path
+        d="M4 4 L4 20 M4 4 L20 4"
+        stroke="#C4A882"
+        strokeWidth="1"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8 8 L8 16 M8 8 L16 8"
+        stroke="#C4A882"
+        strokeWidth="0.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -131,25 +194,59 @@ export default function LuxurySection() {
         }}
       >
         {/* ── Subtle radial glow from centre ── */}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(196,168,130,0.08) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }} />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(196,168,130,0.08) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
 
         {/* ── Faint geometric background lines ── */}
         <svg
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.04, pointerEvents: "none" }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0.04,
+            pointerEvents: "none",
+          }}
           preserveAspectRatio="xMidYMid slice"
           viewBox="0 0 800 500"
         >
           {/* Concentric oval rings */}
           {[60, 110, 160, 210, 260].map((r, i) => (
-            <ellipse key={i} cx="400" cy="250" rx={r * 2.2} ry={r} stroke="#C4A882" strokeWidth="0.5" fill="none" />
+            <ellipse
+              key={i}
+              cx="400"
+              cy="250"
+              rx={r * 2.2}
+              ry={r}
+              stroke="#C4A882"
+              strokeWidth="0.5"
+              fill="none"
+            />
           ))}
           {/* Crossed diagonals */}
-          <line x1="0" y1="0" x2="800" y2="500" stroke="#C4A882" strokeWidth="0.4" />
-          <line x1="800" y1="0" x2="0" y2="500" stroke="#C4A882" strokeWidth="0.4" />
+          <line
+            x1="0"
+            y1="0"
+            x2="800"
+            y2="500"
+            stroke="#C4A882"
+            strokeWidth="0.4"
+          />
+          <line
+            x1="800"
+            y1="0"
+            x2="0"
+            y2="500"
+            stroke="#C4A882"
+            strokeWidth="0.4"
+          />
         </svg>
 
         {/* ── Corner ornaments ── */}
@@ -161,18 +258,20 @@ export default function LuxurySection() {
         </div>
 
         {/* ── Main content ── */}
-        <div style={{
-          position: "relative", zIndex: 2,
-          maxWidth: 980,
-          margin: "0 auto",
-          padding: "clamp(1.5rem, 5vw, 3.5rem) clamp(1.1rem, 4vw, 2rem)",
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 0,
-        }}>
-
+        <div
+          style={{
+            position: "relative",
+            zIndex: 2,
+            maxWidth: 810,
+            margin: "0 auto",
+            padding: "clamp(1.5rem, 5vw, 7.3rem) clamp(1.1rem, 4vw, 2rem)",
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 0,
+          }}
+        >
           {/* ─── Logo ─── */}
           <motion.div
             initial={{ opacity: 0, y: 32, scale: 0.94 }}
@@ -180,21 +279,16 @@ export default function LuxurySection() {
             transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
             viewport={{ once: true }}
           >
-              <motion.img
-            src="/images/logo/3.svg"
-            alt="Logo"
-            className="w-[110px] md:w-[130px] opacity-90"
-          
-          />
+            <motion.img
+              src="/images/logo/3.svg"
+              alt="Logo"
+              className="w-[110px] md:w-[130px] opacity-90"
+            />
           </motion.div>
 
-       
-
           {/* ─── Headline ─── */}
-         
 
           {/* ─── Ornamental divider ─── */}
-        
 
           {/* ─── Body copy ─── */}
           <motion.div
@@ -204,44 +298,50 @@ export default function LuxurySection() {
             viewport={{ once: true }}
             style={{ marginBottom: "1.75rem" }}
           >
-            <p 
-            className="font-futura lg:font-medium font-normal"
-            
-            style={{
-          
-              fontSize: "clamp(0.725rem, 1.6vw, 1.4rem)",
-              lineHeight: 1.6,
-              color: "#111111",
-              letterSpacing: "0.02em",
-              marginBottom: "0.4rem",
-            }}>
-              Label woven in stillness, defined by craftsmanship
-
-            </p>
             <p
-            className="font-futura"
-            style={{
-              fontWeight: 300,
-              fontSize: "clamp(14px, 1.3vw, 1.1rem)",
-              lineHeight: 1.75,
-              color: "#8A7A6E",
-              letterSpacing: "0.03em",
-            }}>
-              An expression of calm, craftsmanship, and enduring design-where heritage techniques and thoughtful details come together with purpose and timeless character.
+              className="font-futura lg:font-light font-normal"
+              style={{
+                fontSize: "clamp(0.725rem, 1.6vw, 1.2rem)",
+                lineHeight: 1.6,
+                color: "#111111",
+                letterSpacing: "0.02em",
+                marginBottom: "0.4rem",
+              }}
+            >
+              Label woven in stillness, defined by craftsmanship
             </p>
+            <br /><br />
+            <p
+              className="font-futura"
+              style={{
+                fontWeight: 300,
+                fontSize: "clamp(14px, 1.3vw, 1.1rem)",
+                lineHeight: 1.75,
+                color: "#111111",
+                letterSpacing: "0.03em",
+              }}
+            >
+              There is a certain beauty in slowing down, in noticing the texture
+              of a fabric, the character of a handmade detail, the way something
+              well-made becomes part of your life.{" "}
+            </p>
+            <br />
+            {/* <p  className="font-futura"
+              style={{
+                fontWeight: 300,
+                fontSize: "clamp(14px, 1.3vw, 1.1rem)",
+                lineHeight: 1.75,
+                color: "#111111",
+                letterSpacing: "0.03em",
+              }}>DHIRAGO was born from this way of seeing the world. More than menswear, it is an invitation to embrace simplicity, value craftsmanship, and find meaning in the details.</p> */}
           </motion.div>
 
           {/* ─── CTA ─── */}
-        
 
           {/* ─── Bottom tag strip ─── */}
-       
-
         </div>
 
         {/* ── Bottom border rule with shimmer ── */}
-     
-
       </section>
 
       <LoginDrawer open={loginOpen} setOpen={setLoginOpen} />

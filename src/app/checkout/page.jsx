@@ -88,7 +88,7 @@ const CheckoutPage = () => {
       await API.post("/orders", orderData);
       localStorage.removeItem("cartItems");
       router.replace("/success");
-      setTimeout(() => { dispatch(clearCart()); localStorage.removeItem("cartItems"); }, 1000);
+      setTimeout(() => { dispatch(clearCart()); localStorage.removeItem("cartItems"); }, 100);
     } catch (err) {
       console.log(err.response?.data);
     }

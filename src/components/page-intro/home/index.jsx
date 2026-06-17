@@ -193,7 +193,7 @@ export default function Hero() {
         </div>
 
         {/* Text — bottom left */}
-        <div key={dTextKey} className="absolute bottom-14 left-10 z-20 max-w-xs animate-[fadeUp_0.8s_ease-out_both]">
+        {/* <div key={dTextKey} className="absolute bottom-14 left-10 z-20 max-w-xs animate-[fadeUp_0.8s_ease-out_both]">
           <p className="text-[9px] tracking-[0.3em] uppercase text-white/40 mb-3">{ds.subtitle}</p>
           <h1 className="text-5xl xl:text-6xl font-light tracking-tight text-white leading-none mb-5">{ds.label}</h1>
           <div className="flex items-center gap-5">
@@ -202,7 +202,7 @@ export default function Hero() {
             </button>
             <span className="text-2xl font-light italic text-white/80 tracking-wide">{ds.price}</span>
           </div>
-        </div>
+        </div> */}
 
         {/* Indicators — bottom right */}
         <div className="absolute bottom-14 right-10 z-20 flex flex-col gap-4">

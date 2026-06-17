@@ -31,7 +31,44 @@ const supportLinks = [
 export default function UltraPremiumFooter() {
   const [email, setEmail] = useState("");
   const [focused, setFocused] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
 
+  const handleSubscribe = async () => {
+    if (!email) return;
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/newsletter/subscribe`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ email }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(true);
+        setMessage("Thank you for subscribing.");
+        setEmail("");
+      } else {
+        alert(data.message || "Subscription failed");
+      }
+    } catch (error) {
+      setSuccess(false);
+      setMessage(data.message || "Subscription failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <footer className="w-full bg-white border-t border-stone-200">
       {/* ── MAIN 3-COLUMN GRID ─────────────────────────── */}
@@ -67,7 +104,7 @@ export default function UltraPremiumFooter() {
             className="font-futura text-[13px] md:text-[15px]   font-medium"
             style={{
               lineHeight: 1.85,
-              color: "#111111",              
+              color: "#111111",
               maxWidth: "100%",
               marginBottom: "2rem",
             }}
@@ -90,25 +127,26 @@ export default function UltraPremiumFooter() {
               onBlur={() => setFocused(false)}
               className="flex-1 min-w-0 bg-transparent px-4 py-3 text-[13px] font-light text-stone-900 placeholder:text-stone-400 outline-none"
             />
+           
             <button
+              type="button"
+              onClick={handleSubscribe}
+              disabled={loading}
               aria-label="Subscribe"
               className="border-l border-stone-300 px-4 flex items-center justify-center text-stone-900 hover:bg-stone-900 hover:text-white transition-colors duration-200 shrink-0"
             >
-              <svg
-                viewBox="0 0 14 14"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                className="w-3.5 h-3.5"
-              >
-                <path
-                  d="M1 7h12M8 2l5 5-5 5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <p>{loading ? "Please wait..." : "Subscribe"}</p>
             </button>
           </div>
+           {message && (
+              <p
+                className={`mt-2 text-xs ${
+                  success ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {message}
+              </p>
+            )}
         </motion.div>
 
         {/* COL 2 — Logo + Quote */}
@@ -122,9 +160,10 @@ export default function UltraPremiumFooter() {
           {/* Logo + wordmark */}
 
           <p className="text-[13px] md:text-[15px] font-medium leading-[2.1] text-stone-700  font-futura">
-            <em className={`text-[2xl] ${josefin.className}`}>““</em>Dhirago designs powerful clothing for those who refuse to blend in
-            — statement pieces, bold silhouettes, and styles that invite a
-            second glance.<em className={`text-[2xl] ${josefin.className}`}>““</em>
+            <em className={`text-[2xl] ${josefin.className}`}>““</em>Dhirago
+            designs powerful clothing for those who refuse to blend in —
+            statement pieces, bold silhouettes, and styles that invite a second
+            glance.<em className={`text-[2xl] ${josefin.className}`}>““</em>
           </p>
         </motion.div>
 
@@ -148,7 +187,7 @@ export default function UltraPremiumFooter() {
                 key={i}
                 href={link.href}
                 target={link.target}
-                style={{ color: "#111111"}}
+                style={{ color: "#111111" }}
                 className="text-[13px] md:text-[15px]   hover:text-stone-700 hover:underline underline-offset-2 transition-colors duration-200 leading-snug"
               >
                 {link.label}
@@ -159,13 +198,12 @@ export default function UltraPremiumFooter() {
       </div>
 
       {/* ── DIVIDER ────────────────────────────────────── */}
-         <div className="px-10 lg:px-[5rem]">
+      <div className="px-10 lg:px-[5rem]">
         <hr className="border-t border-stone-300" />
       </div>
       {/* ── BOTTOM BAR ─────────────────────────────────── */}
       <div className="w-full px-8 lg:px-20 lg:py-20  py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <p className="text-[12.5px] font-medium text-stone-400 tracking-wide">
-          
           © All Rights Reserved 2026 · Dhirago Fashion Pvt Ltd
         </p>
 

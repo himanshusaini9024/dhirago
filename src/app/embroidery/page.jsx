@@ -369,23 +369,23 @@ font-size: 13px; font-weight: 300;
             {[
               {
                 title: "PANEL MARKING",
-                desc: "Each piece begins in our studio, where garment panels are meticulously cut and marked in alignment with our design patterns—framing the path the handwork will trace.",
+                desc: "The journey of every garment begins from here- where fabric panels are carefully cut and marked according to the design blueprint, creating the foundation upon which the handwork unfolds.",
               },
               {
                 title: "KHAKHA PINNING",
-                desc: "The panels are then sent to our embroidery artisan, Ashraf, and his team. Here, the design is translated onto tracing paper and pin-pricked along its outlines to create a khakha—a perforated stencil. This becomes the guide by which the design is gently transferred onto the fabric, priming the surface for the handwork to begin.",
+                desc: "The journey continues with our embroidery artisan, Ahmed bhai and his team. Here, the design is carefully traced onto paper and perforated by hand to create a khakha—a traditional stencil used to transfer the artwork onto the fabric. Serving as the blueprint for the embroidery, it ensures every detail is placed with precision before the handwork begins.",
               },
               {
                 title: "CHAPPAI (MARKING THE EMBROIDERY)",
-                desc: "Using these hand-pricked stencils, the design is carefully impressed onto the fabric using choona (lime) for dark fabrics, or neel (indigo) for lighter ones. This step rests on studied care that holds every motif in balance—allowing the embroidery to unfold withaa symmetry and structure.",
+                desc: "Using the khakha as a guide, the design is delicately transferred onto the fabric using choona (lime) for darker fabrics and neel (indigo) for lighter ones. This meticulous process ensures every motif is positioned with precision, creating the foundation for embroidery that unfolds clarity.",
               },
               {
                 title: "SETTING THE ADDA",
-                desc: "The marked fabric is then mounted onto a traditional wooden adda, stretched to tension and anchored in place. It is here that the most time-intensive, meditative phase of the process begins.",
+                desc: "Once marked, fabric is then carefully mounted onto a traditional wooden adda, where it is stretched and secured in place. With the canvas prepared, the embroidery enters its most intricate and time-intensive stage, guided by patience, precision, and skilled craftsmanship.",
               },
               {
                 title: "HAND EMBROIDERY",
-                desc: "Thread by thread, the embroidery emerges—shaped slowly, with method and motion. Depending on the intricacy of the design, a single panel may take up to three days—or longer—to complete. Each stitch is placed deliberately, paced by a sense of rhythm and restraint.",
+                desc: "With patience and precision, the embroidery slowly takes shape. Depending on the intricacy of the design, a single panel may require several days of dedicated handwork. Every stitch is executed with care and precision.",
               },
             ].map((step) => (
               <div key={step.title} className="k-process-item">

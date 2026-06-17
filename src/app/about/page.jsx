@@ -64,7 +64,7 @@ function CraftCard({ num, name, desc, delay = 0 }) {
         <div className={`${josefin.className} uppercase `} style={{  fontSize: num === "02" ? "1rem" : "1.1rem", fontWeight: 400, color: "#1C1814", marginBottom: "1rem", letterSpacing: "0.12em" }}>
           {name}
         </div>
-        <p className="font-futura" style={{ fontSize: "13px", textAlign: "justify", fontWeight: 300, lineHeight: 1.8, color: "#6B5B4E", margin: 0 }}>
+        <p className="font-futura" style={{ fontSize: "clamp(13px,1.5vw,1.088rem)", textAlign: "justify", fontWeight: 300, lineHeight: 1.8, color: "#6B5B4E", margin: 0 }}>
           {desc}
         </p>
       </div>
@@ -78,7 +78,7 @@ const S = {
   eyebrow: { fontSize: "1.02rem", letterSpacing: "0.5em", textTransform: "uppercase", color: "#A8937E", marginBottom: "1.5rem" },
   eyebrowLight: { fontSize: "1.12rem", letterSpacing: "0.5em", textTransform: "uppercase", color: "#C4A882", marginBottom: "2rem" },
   rule: { width: 40, height: 1, background: "#C4A882", marginBottom: "2rem" },
-  bodyDark: { fontSize: "clamp(13px,1.5vw,15px)", fontWeight: 300, lineHeight: 1.95, color: "#3D3530", textAlign: "justify", marginBottom: "1.5rem" },
+  bodyDark: { fontSize: "clamp(13px,1.5vw,1.088rem)", fontWeight: 300, lineHeight: 1.95, color: "#3D3530", textAlign: "justify", marginBottom: "1.5rem" },
   bodyLight: { fontSize: "clamp(13px,1.5vw,15px)", fontWeight: 300, lineHeight: 2, color: "rgba(245,240,232,0.65)", marginBottom: "1.5rem" },
   twoCol: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,300px),1fr))", gap: "clamp(2.5rem,6vw,6rem)", alignItems: "center" },
 };
@@ -175,7 +175,7 @@ export default function AboutPage() {
           <div style={{ maxWidth: 980, margin: "0 auto", padding: "0 clamp(1.5rem,5vw,3rem)", textAlign: "center" }}>
 
             <Reveal>
-              <span className={`${josefin.className} uppercase`} style={{ display: "inline-flex", alignItems: "center", gap: "0.9rem", fontSize: "0.75rem", letterSpacing: "0.48em", textTransform: "uppercase", color: "#9A8C7E", marginBottom: "2.5rem" }}>
+              <span className={`${josefin.className} uppercase `} style={{ display: "inline-flex", alignItems: "center", gap: "0.9rem", fontSize: "0.95rem", letterSpacing: "0.48em", textTransform: "uppercase", color: "#9A8C7E", marginBottom: "2.5rem" }}>
                 <span style={{ width: 24, height: "1px", background: "#B8975A", display: "block" }} />
                 Our Story
                 <span style={{ width: 24, height: "1px", background: "#B8975A", display: "block" }} />
@@ -189,27 +189,32 @@ export default function AboutPage() {
               </h2>
             </Reveal>
 
-            <Reveal delay={180}>
-              <div style={{ width: 56, height: "1px", background: "linear-gradient(90deg,transparent,#B8975A,transparent)", margin: "0 auto 3rem" }} />
-            </Reveal>
 
-            <Reveal delay={260}>
-              <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.5rem" }}>
+        
+          </div>
+          <div style={{
+              maxWidth: "850px",
+              margin: "0 auto",
+              padding: "0 24px",
+            }}>
+
+              <Reveal delay={260}>
+              <p className="font-futura" style={{ fontWeight: 300,  fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.5rem" }}>
                 DHIRAGO originates from a narrative that simplicity holds depth and life is meant to be felt, not rushed. The name is inspired by <em style={{ fontStyle: "italic" }}>"Dheera"</em> a state of calmness that values clarity and thoughtful living. In a world that moves quickly, it offers a sense of ease—inviting you to slow down and experience beauty found in small details. DHIRAGO crafts menswear that celebrates simplicity, comfort, and the beauty of well-considered details.
               </p>
             </Reveal>
             <Reveal delay={340}>
-              <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.5rem" }}>
+              <p className="font-futura" style={{ fontWeight: 300,  fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.5rem" }}>
                As a conscious luxury label, DHIRAGO works with 60 count European linen and organically sourced fabric, valued for its breathability, texture, and the way it softens over time. Produced in small batches in close collaboration with artisans, where each item is hand-cut, sewn by a single tailor from beginning to end and carefully hand-finished.
               </p>
             </Reveal>
             <Reveal delay={420}>
-              <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: 0 }}>
-                Craftsmanship lies at the heart of DHIRAGO, our designs draw from heritage techniques and time honoured practices like block printing, natural dye and intricate detailing of miniature art alongside handwork traditions inspired from Sashiko, Kantha and Tangaliya weaving . We actively collaborate with karigars across India to create piece that celebrate traditional craftsmanship while remaining relevant to modern wardrobe.
+              <p className="font-futura" style={{ fontWeight: 300,  fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: 0 }}>
+                Craftsmanship lies at the heart of DHIRAGO, our designs draw from heritage techniques and time honoured practices like block printing, natural dye and intricate detailing of miniature art alongside handwork traditions inspired from sashiko, kantha and tangaliya weaving. We actively collaborate with karigars across India to create piece that celebrate traditional craftsmanship while remaining relevant to modern wardrobe.
               </p>
             </Reveal>
+            </div>
 
-          </div>
         </section>
 
         {/* ════════════════════════════════════════════════════════
@@ -233,7 +238,7 @@ export default function AboutPage() {
             <Reveal>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
                 <span style={{ display: "block", width: 32, height: "1px", background: "#B8975A", opacity: 0.7 }} />
-                <p className={`${josefin.className}`} style={{ fontSize: "clamp(0.6rem,1vw,0.75rem)", letterSpacing: "0.52em", textTransform: "uppercase", color: "#B8975A", margin: 0 }}>
+                <p className={`${josefin.className}`} style={{ fontSize: "clamp(0.6rem,1vw,0.95rem)", letterSpacing: "0.52em", textTransform: "uppercase", color: "#9A8C7E", margin: 0 }}>
                   Our Inspiration
                 </p>
               </div>
@@ -250,9 +255,7 @@ export default function AboutPage() {
             </Reveal> */}
 
             {/* Gold rule — both views */}
-            <Reveal delay={180}>
-              <div style={{ width: 48, height: "1px", background: "#B8975A", marginBottom: "clamp(2rem,4vw,3rem)", opacity: 0.7 }} />
-            </Reveal>
+      
 
             {/* ── DESKTOP: quote left | body right ── */}
             <div
@@ -285,20 +288,17 @@ export default function AboutPage() {
               <div>
                 <Reveal delay={320}>
                   <p className="font-futura" style={{ fontWeight: 300, fontSize: "clamp(13px,1.35vw,17px)", lineHeight: 2, color: "rgba(245,240,232,0.72)", marginBottom: "1.4rem" }}>
-                    A city built around water, where water reflection softens everything into calm and completeness. Here, water was held and preserved over the time, allowed to settle into its own stillness — where calm was not found, but it gently formed through intention.
+                    A city built around water, where water reflection softens everything into calm and completeness.
+                    <br /><br />The lakes do not rush — they hold the sky, the light, the moment. 
+                    <br /><br />Here, water was held and preserved over the time, allowed to settle into its own stillness — where calm was not found, but it gently formed through intention.
                   </p>
                 </Reveal>
                 <Reveal delay={400}>
                   <p className="font-futura" style={{ fontWeight: 300, fontSize: "clamp(13px,1.35vw,17px)", lineHeight: 2, color: "rgba(245,240,232,0.72)", marginBottom: "2rem" }}>
-                    Dhirago draws from this belief — that when something is held with care and intention it transforms into something lasting. Every piece we create carries this quiet inheritance from the still waters of Rajasthan.
+                    Dhirago draws from this belief — that when something is held with care and intention it transforms into something lasting.
                   </p>
                 </Reveal>
-                <Reveal delay={460}>
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: "0.75rem", fontFamily: "'Jost',sans-serif", fontSize: 9, letterSpacing: "0.45em", textTransform: "uppercase", color: "rgba(196,168,130,0.6)" }}>
-                    <span style={{ width: 22, height: "1px", background: "#B8975A", display: "block", opacity: 0.55 }} />
-                    Udaipur, Rajasthan
-                  </div>
-                </Reveal>
+            
               </div>
             </div>
 
@@ -316,12 +316,7 @@ export default function AboutPage() {
                   </p>
                 </Reveal>
               ))}
-              <Reveal delay={620}>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: "0.75rem", fontFamily: "'Jost',sans-serif", fontSize: 9, letterSpacing: "0.45em", textTransform: "uppercase", color: "rgba(196,168,130,0.6)", marginTop: "0.5rem" }}>
-                  <span style={{ width: 22, height: "1px", background: "#B8975A", display: "block", opacity: 0.55 }} />
-                  Udaipur, Rajasthan
-                </div>
-              </Reveal>
+            
             </div>
 
           </div>
@@ -335,7 +330,7 @@ export default function AboutPage() {
 
             <Reveal>
               <div style={{ textAlign: "center", marginBottom: "clamp(3rem,6vw,5rem)" }}>
-                <span className={`${josefin.className}`} style={{ display: "inline-flex", alignItems: "center", gap: "1rem", fontSize: "clamp(0.6rem,1vw,0.75rem)", letterSpacing: "0.5em", textTransform: "uppercase", color: "#A8937E" }}>
+                <span className={`${josefin.className}`} style={{ display: "inline-flex", alignItems: "center", gap: "1rem", fontSize: "clamp(0.6rem,1vw,0.95rem)", letterSpacing: "0.5em", textTransform: "uppercase", color: "#9A8C7E" }}>
                   <span style={{ width: 28, height: "1px", background: "#C4A882", display: "block" }} />
                   Our Symbol
                   <span style={{ width: 28, height: "1px", background: "#C4A882", display: "block" }} />
@@ -357,22 +352,7 @@ export default function AboutPage() {
                     />
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(240,237,230,0.35) 0%,transparent 40%)", pointerEvents: "none" }} />
                   </div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.9, delay: 0.4, ease: "easeOut" }}
-                    viewport={{ once: false, amount: 0.3 }}
-                    style={{ position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.55rem", background: "rgba(240,237,230,0.88)", backdropFilter: "blur(8px)", padding: "1rem 2rem" }}
-                  >
-                    <div style={{ width: 44, height: "1px", background: "linear-gradient(90deg,transparent,#C4A882,transparent)" }} />
-                    <span className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(1rem,2vw,1.3rem)", letterSpacing: "0.5em", paddingLeft: "0.5em", color: "#1A1714", lineHeight: 1 }}>
-                      Dhirago
-                    </span>
-                    <span className="font-futura" style={{ fontWeight: 300, fontSize: 8, letterSpacing: "0.38em", paddingLeft: "0.38em", textTransform: "uppercase", color: "#A8937E", lineHeight: 1 }}>
-                      Conscious Luxury · Est. 2026
-                    </span>
-                    <div style={{ width: 44, height: "1px", background: "linear-gradient(90deg,transparent,#C4A882,transparent)" }} />
-                  </motion.div>
+                 
                 </div>
               </Reveal>
 
@@ -390,22 +370,22 @@ export default function AboutPage() {
                   <div style={{ width: 36, height: "1px", background: "#C4A882", marginBottom: "2rem" }} />
                 </Reveal>
                 <Reveal delay={310}>
-                  <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.1vw,1.2rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.4rem" }}>
-                    The HERON forms the identity of Dhirago as a symbol of balance, patience, and quiet strength. Calm in its presence and deliberate in its movement, the bird reflects our approach to craftsmanship — thoughtful, refined, and intentional.
+                  <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.1vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.4rem" }}>
+                    The heron is DHIRAGO's mark - a symbol of balance, patience, and quiet strength. Calmness in its presence and deliberate in its movement, the bird reflects our approach to craftsmanship — thoughtful, refined, and intentional. Its connection to water and nature also represents the calm spirit of Udaipur, the city that inspires our brand. 
                   </p>
                 </Reveal>
-                <Reveal delay={390}>
+                {/* <Reveal delay={390}>
                   <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.1vw,1.2rem)", lineHeight: 2, color: "#4A4239", marginBottom: "2.5rem" }}>
                     Its connection to water and nature also represents the calm spirit of Udaipur, the city that inspires our brand. At Dhirago, the heron reflects a process rooted in patience, detail, and timeless design — where every piece is created to endure beyond seasons.
                   </p>
-                </Reveal>
-                <Reveal delay={460}>
+                </Reveal> */}
+                {/* <Reveal delay={460}>
                   <blockquote style={{ borderLeft: "2px solid #C4A882", paddingLeft: "1.5rem", margin: 0 }}>
                     <p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontWeight: 300, fontSize: "clamp(1.1rem,2vw,1.4rem)", color: "#6B5B4E", lineHeight: 1.65, margin: 0, letterSpacing: "0.02em" }}>
                       "It does not chase. It waits — and in waiting, it finds."
                     </p>
                   </blockquote>
-                </Reveal>
+                </Reveal> */}
               </div>
             </div>
 
@@ -425,9 +405,9 @@ export default function AboutPage() {
               </div>
             </Reveal>
             <div className="craft-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 1, background: "#E8E0D0", border: "1px solid #E8E0D0" }}>
-              <CraftCard num="01" name="Thoughtful Construction" desc="Attention to the finer details that shapes look and longevity of the garment. From the selection of Natural fabrics to the precision of stitching, finishing and structuring every element is carefully handled." delay={0} />
-              <CraftCard num="02" name="Hand Painting & Miniature Art" desc="Intricate detailing borrowed from the miniature art traditions of India — each motif rendered by hand, carrying the imprint of its maker and the memory of its heritage." delay={100} />
-              <CraftCard num="03" name="Sashiko & Kantha" desc="Ancient Japanese and Indian needlework, thoughtfully incorporated. Each stitch carries the weight of tradition, the warmth of care, and the quiet resilience of things made to last." delay={200} />
+              <CraftCard num="01" name="High quality" desc="Quality begins with the fabric itself. Carefully sourced from trusted partners, each material is chosen for its natural character, exceptional comfort, and lasting durability. Every garment undergoes multiple stages of inspection and refinement before it reaches you" delay={0} />
+              <CraftCard num="02" name="Artisan partnership" desc="Our biggest passion is working with rural artisans to sustain traditional craft techniques and textiles. We collaborate directly with them to design original textiles and handmade garments. Our aim is to bridge the gap between old craftsmanship and modern wardrobes." delay={100} />
+              <CraftCard num="03" name="Thoughtful construction" desc="Attention to the finer details that shapes look and longevity of the garment. From the selection of Natural fabrics to the precision of stitching, finishing and structuring every element is carefully handled." delay={200} />
             </div>
           </div>
         </section>
@@ -442,7 +422,8 @@ export default function AboutPage() {
 
           <div style={{ position: "relative", zIndex: 2, maxWidth: "900px", padding: "0 2rem", textAlign: "center" }}>
             <Reveal>
-              <p className={`${josefin.className} uppercase`} style={{ fontSize: "0.75rem", letterSpacing: "0.5em", color: "#C4A882", marginBottom: "2rem" }}>
+              
+              <p className={`${josefin.className} uppercase`} style={{ fontSize: "0.95rem", letterSpacing: "0.5em", color: "#9A8C7E", marginBottom: "2rem" }}>
                 Our Philosophy
               </p>
             </Reveal>
@@ -457,44 +438,7 @@ export default function AboutPage() {
         {/* ════════════════════════════════════════════════════════
             07. FABRICS — image left, text right
         ════════════════════════════════════════════════════════ */}
-        <section style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "#EDE6D9" }}>
-          <div style={S.inner}>
-            <div className="fab-grid" style={S.twoCol}>
-              <Reveal>
-                <div style={{ position: "relative", overflow: "hidden" }}>
-                  <Image
-                    src="/images/subscribe.jpg" alt="Premium Fabrics"
-                    width={600} height={420}
-                    style={{ width: "100%", height: "clamp(260px,40vw,420px)", objectFit: "cover", display: "block" }}
-                  />
-                  <div style={{ position: "absolute", bottom: "1.5rem", left: "1.5rem", background: "rgba(15,28,46,0.80)", padding: "0.6rem 1.2rem" }}>
-                    <p className="font-futura" style={{ fontSize: 9, letterSpacing: "0.4em", textTransform: "uppercase", color: "#C4A882", margin: 0 }}>
-                      60-count European Linen
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-              <div>
-                <Reveal>
-                  <h4 className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(1.6rem,3.5vw,2.8rem)", color: "#0F1C2E", lineHeight: 1.2, marginBottom: "1rem", letterSpacing: "0.06em" }}>
-                    Fabrics{" "}
-                    
-                    <em className={`${josefin.className}  `} style={{ fontSize:"clamp(1.6rem,3.5vw,1.1rem)" , color: "#6B5B4E", textTransform: "none" }}>that breathe and evolve</em>
-                  </h4>
-                </Reveal>
-                <Reveal delay={150}>
-                  <div style={S.rule} />
-                  <p className="font-futura" style={{ ...S.bodyDark }}>
-                    We work with 60 count European linen and organically sourced fibres, valued for their breathability, natural texture, and the way they soften and evolve over time — sourced from the coastal regions of France and Belgium, this linen is cultivated from premium flax fibres grown in a naturally balanced environment.
-                  </p>
-                  <p className="font-futura" style={{ ...S.bodyDark, marginBottom: 0 }}>
-                    Our designs are curated with the blend of exceptional material and traditional craftsmanship with a quiet contemporary sensibility that never shouts.
-                  </p>
-                </Reveal>
-              </div>
-            </div>
-          </div>
-        </section>
+     
 
         {/* ════════════════════════════════════════════════════════
             08. PALETTE / THE STORY — text left, image right
@@ -504,7 +448,7 @@ export default function AboutPage() {
             <div className="story-grid" style={S.twoCol}>
               <div>
                 <Reveal>
-                  <p className={`${josefin.className} uppercase`} style={{ fontSize: "0.7rem", letterSpacing: "0.5em", color: "#A8937E", marginBottom: "1.5rem" }}>
+                  <p className={`${josefin.className} uppercase`} style={{ fontSize: "0.95rem", letterSpacing: "0.5em", color: "#9A8C7E", marginBottom: "1.5rem" }}>
                     Our Story
                   </p>
                   <h2 className={`${josefin.className} uppercase`} style={{ fontWeight: 200, fontSize: "clamp(1.6rem,3.5vw,1.1rem)", color: "#0F1C2E", lineHeight: 1.2, marginBottom: "1rem", letterSpacing: "0.06em" }}>
@@ -518,7 +462,7 @@ export default function AboutPage() {
                     DHIRAGO finds inspiration in the landscapes and subtle textures found in natural surroundings. The colour palette is shaped by tones that feel familiar and enduring — warm beiges, earthy browns, ecru, soft sky blues, muted lavenders, gentle greens, and sun-washed mustards. Rather than following seasonal colour trends, the focus remains on shades that feel timeless, calm, and easy to live with.
                   </p>
                   <p className="font-futura" style={{ ...S.bodyDark, marginBottom: 0 }}>
-                    Designed with clean lines and relaxed silhouettes, the garments are created to become a natural part of everyday life. They are made to move effortlessly between moments — from workdays to slow weekends, casual gatherings to evening plans. At the heart of each piece is a belief that clothing should feel personal and comfortable, allowing individuality to come through naturally rather than demanding attention.
+                    Designed with clean lines and relaxed silhouettes, the garments are created to become a natural part of everyday life. They are made to move effortlessly between moments — from workdays to slow weekends, casual gatherings to evening plans. Each piece is a belief that clothing should feel personal and comfortable, allowing individuality to come  naturally rather than demanding attention.
                   </p>
                 </Reveal>
               </div>

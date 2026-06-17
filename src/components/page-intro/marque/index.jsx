@@ -61,7 +61,7 @@ export default function Marquee() {
   return (
   <section
           style={{
-            padding: "clamp(4rem, 8vw, 7rem) 0",
+            padding: "clamp(4rem, 14vw, 9rem) 0",
             background: "#ffffff",
             textAlign: "center",
           }}
@@ -70,7 +70,8 @@ export default function Marquee() {
             style={{
               maxWidth: 1090,
               margin: "0 auto",
-              padding: "0 clamp(1.5rem, 4vw, 3rem)",
+            padding: "clamp(1.5rem, 5vw, 3.5rem) clamp(1.1rem, 4vw, 2rem)",
+
             }}
           >
             <Reveal>
@@ -91,15 +92,6 @@ export default function Marquee() {
                 stitch."
               </p>
 
-              <div
-                style={{
-                  width: 1,
-                  height: 60,
-                  background:
-                    "linear-gradient(to bottom, #C4A882, transparent)",
-                  margin: "0 auto",
-                }}
-              />
             </Reveal>
           </div>
         </section>

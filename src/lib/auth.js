@@ -9,7 +9,6 @@ export const restoreAuth = async (
   
 
   try {
-    // Verify token with backend
     const res = await api.get("/user");
 
     dispatch(

@@ -1,101 +1,66 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 
-import Image from "next/image";
+function useReveal() {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return [ref, visible];
+}
 
-const Categorybaner = ({ catbanner, title = "", subtitle = "" }) => {
-  let banner = "";
-
-  try {
-    banner = catbanner || "";
-  } catch (e) {
-    console.error("Invalid banner JSON", e);
-  }
-
-  // fallback image
-  if (!banner) {
-    banner = "/images/fallback-banner.jpg";
-  }
-
+function Reveal({ children, delay = 0, className = "" }) {
+  const [ref, visible] = useReveal();
   return (
-    <section className="relative w-full overflow-hidden">
-      {/* Banner Height Responsive */}
-      <div className="relative h-[50px] sm:h-[240px] md:h-[320px] lg:h-[420px] xl:h-[150px]">
-        
-        {/* Background Image */}
-        <Image
-          src={banner}
-          alt="Category Banner"
-          fill
-          priority
-          className="object-cover object-center scale-[1.02]"
-        />
+    <div
+      ref={ref}
+      // `delay` is a per-instance runtime number, so it can't be baked into a static
+      // Tailwind class name — this is the one unavoidable inline style in this file.
+      style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all duration-1000 ease-out ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+      } ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
 
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-black/10" />
+const Categorybaner = ({ catbanner, slug }) => {
+  const banner = catbanner || "/images/fallback-banner.jpg";
+  console.log('banner',banner)
+  return (
+    <section className="relative flex min-h-[clamp(300px,50vw,100vh)] items-center overflow-hidden">
+      {/* Background image layer — the URL is data-driven (per category), so it can't
+          be expressed as a static Tailwind class; kept as the one unavoidable inline
+          style here. */}
+      <div
+        style={{ backgroundImage: `url(${banner})` }}
+        // style={{ backgroundImage: `url(https://11-11.in/cdn/shop/collections/SHIRT.webp?v=1770982613&width=2000)` }}    
+        className="absolute inset-0 bg-fixed bg-cover bg-center "
+      />
 
-        {/* Soft Bottom Fade */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      {/* Dark overlay for text legibility */}
+      <div className="absolute inset-0 bg-black/35" />
 
-        {/* Content */}
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
-            
-            <div className="max-w-[650px]">
-              
-              {/* Small Label */}
-              {subtitle && (
-                <p
-                  className="
-                    font-futura
-                    uppercase
-                    tracking-[0.35em]
-                    text-[9px]
-                    sm:text-[10px]
-                    md:text-[11px]
-                    text-[#D4B896]
-                    mb-3
-                    sm:mb-4
-                  "
-                >
-                  {subtitle}
-                </p>
-              )}
-
-              {/* Heading */}
-              {title && (
-                <h1
-                  className="
-                    font-josefin
-                    uppercase
-                    font-[300]
-                    leading-[1.05]
-                    tracking-[0.08em]
-                    text-white
-                    text-[1.8rem]
-                    sm:text-[2.4rem]
-                    md:text-[3.4rem]
-                    lg:text-[4.5rem]
-                    xl:text-[5.5rem]
-                  "
-                >
-                  {title}
-                </h1>
-              )}
-
-              {/* Decorative Line */}
-              <div className="w-[60px] sm:w-[80px] h-[1px] bg-[#D4B896] mt-5 sm:mt-7" />
-            </div>
-          </div>
-        </div>
-
-        {/* Luxury Grain Overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.05] mix-blend-soft-light pointer-events-none"
-          style={{
-            backgroundImage:
-              "url('https://www.transparenttextures.com/patterns/asfalt-dark.png')",
-          }}
-        />
+      {/* Content */}
+      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-[clamp(1.5rem,5vw,5rem)] ">
+        <Reveal className="flex flex-col items-center text-center">
+          <div className="mb-6 h-px w-12 bg-[var(--green-light)]" />
+          <h2 className="max-w-full text-[clamp(18px,2.8vw,32px)] font-normal  uppercase tracking-[0.33em] text-[#F0EBE0] [font-family:var(--font)] leading-[1.55]">
+            {slug?.replace(/-/g, " ")}
+          </h2>
+        </Reveal>
       </div>
     </section>
   );

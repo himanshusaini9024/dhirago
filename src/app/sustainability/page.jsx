@@ -127,7 +127,7 @@ export default function OurKissaPage() {
         .ks-page { background: var(--cream); min-height: 100vh; }
 
         /* ── SHARED ── */
-        .ks-center-col { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+        .ks-center-col { max-width: 880px; margin: 0 auto; padding: 0 24px; }
         .ks-wide-col   { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 5rem); }
 
         /* ── HERO HEADING ── */
@@ -143,7 +143,7 @@ export default function OurKissaPage() {
         /* ── HERO IMAGE ── */
         .ks-hero-image { padding: 0 0 56px; display: flex; justify-content: center; }
         .ks-hero-image img {
-          width: 100%; max-width: 600px; height: auto; display: block;
+          width: 100%; max-width: 880px; height: auto; display: block;
           aspect-ratio: 3/2; object-fit: cover;
         }
 

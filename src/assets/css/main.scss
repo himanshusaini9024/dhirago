@@ -2873,7 +2873,7 @@ h1,h2,h3,h4,h5 {
  
 .pdp-content-col {
   width: 100%;
-  padding: 20px 16px 48px 16px;
+  padding: 20px 16px 0px 16px;
   position: static;
   height: auto;
   overflow-y: visible;
@@ -2897,7 +2897,7 @@ h1,h2,h3,h4,h5 {
   .pdp-content-col {
     position: sticky;
     top: 64px;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 14px);
     min-height: unset;
     overflow-y: auto;
     padding: 22px 0px 60px 0px;

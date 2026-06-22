@@ -199,7 +199,7 @@ export default function UltraPremiumFooter() {
 
       {/* ── DIVIDER ────────────────────────────────────── */}
       <div className="px-10 lg:px-[5rem]">
-        <hr className="border-t border-stone-300" />
+        <hr className="border-t border-stone-800" />
       </div>
       {/* ── BOTTOM BAR ─────────────────────────────────── */}
       <div className="w-full px-8 lg:px-20 lg:py-20  py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">

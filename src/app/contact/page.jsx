@@ -96,7 +96,7 @@ export default function ContactPage() {
                   <AlertCircle size={13} className="text-stone-600" />
                 </div>
                 <p className="text-[12px] font-light text-stone-600">
-                  escalation@dhirago.com Typical response in 24 hours
+                  contact@dhirago.com Typical response in 24 hours
                 </p>
               </div>
             </div>
@@ -184,16 +184,18 @@ export default function ContactPage() {
               {status === "error" && (
                 <p className="text-[11px] tracking-wide text-red-500">✗ Something went wrong. Please try again.</p>
               )}
-            </div>
 
-            {/* Send button — full width, dark, pinned bottom */}
-            <button
+               <button
               onClick={handleSubmit}
               disabled={loading}
               className="w-full bg-stone-900 text-white py-4 text-[11px] font-normal tracking-[0.4em] uppercase hover:bg-stone-700 transition-colors duration-300 disabled:opacity-50"
             >
               {loading ? "SENDING…" : "SEND MESSAGE"}
             </button>
+            </div>
+
+            {/* Send button — full width, dark, pinned bottom */}
+           
           </motion.div>
 
         </div>

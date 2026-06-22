@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
 import { Montserrat } from "next/font/google";
-import API from "../../lib/api"; 
+import API from "../../lib/api";
 import { Josefin_Sans } from "next/font/google";
 
 const josefin = Josefin_Sans({
@@ -58,7 +58,7 @@ const Header = () => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  console.log('isLoggedIn',isLoggedIn)
+  console.log("isLoggedIn", isLoggedIn);
 
   // const handleLogout = () => {
   //   localStorage.removeItem("token");
@@ -72,21 +72,21 @@ const Header = () => {
   //   setMenuOpen(false);
   // };
 
- const handleLogout = async () => {
-  try {
-    await API.post("/logout");
-  } catch (err) {
-    console.error("Logout error:", err);
-  } finally {
-    // ✅ clear any frontend cookies too
-    Cookies.remove("token");
-    Cookies.remove("XSRF-TOKEN");
-    
-    dispatch(logout());
-    setMenuOpen(false);
-    router.replace("/");
-  }
-};
+  const handleLogout = async () => {
+    try {
+      await API.post("/logout");
+    } catch (err) {
+      console.error("Logout error:", err);
+    } finally {
+      // ✅ clear any frontend cookies too
+      Cookies.remove("token");
+      Cookies.remove("XSRF-TOKEN");
+
+      dispatch(logout());
+      setMenuOpen(false);
+      router.replace("/");
+    }
+  };
   const isHeroPage = TRANSPARENT_HERO_PAGES.includes(pathname);
 
   const handleMouseEnterMen = () => {
@@ -151,7 +151,10 @@ const Header = () => {
     {
       title: "Why Dhirago",
       children: [
-        { name: "The Essence of Fine Garment", href: "/pages/better-materials" },
+        {
+          name: "The Essence of Fine Garment",
+          href: "/pages/better-materials",
+        },
         { name: "A Touch of Embroidery", href: "/embroidery" },
         { name: "Sustainability Fashion", href: "/sustainability" },
       ],
@@ -195,6 +198,7 @@ const Header = () => {
             <div className="flex items-center gap-2 lg:gap-6">
               {/* HAMBURGER */}
               <button
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
                 className="lg:hidden flex flex-col justify-center items-center w-9 h-9 relative z-10"
                 onClick={() => setMenuOpen(!menuOpen)}
               >
@@ -252,8 +256,10 @@ const Header = () => {
                 ${isHeroPage ? (scrolled ? "text-black" : "text-white") : "text-black"}
               `}
             >
-              <Link className={`${pathname  == "/pages/better-materials" ? (scrolled ? "text-black block" : "hidden") :"block"} ${josefin.className}  `} href={"/"}>
-              
+              <Link
+                className={`${pathname == "/pages/better-materials" ? (scrolled ? "text-black block" : "hidden") : "block"} ${josefin.className}  `}
+                href={"/"}
+              >
                 Dhirago
               </Link>
             </div>
@@ -261,15 +267,26 @@ const Header = () => {
             {/* RIGHT */}
             <div className="flex items-center gap-4">
               {/* SEARCH */}
-              <button onClick={() => setSearchOpen(true)}>
+              <button
+                aria-label="Search products"
+                title="Search products"
+                onClick={() => setSearchOpen(true)}
+              >
                 <i
+                  aria-hidden="true"
                   className={`icon-search text-[18px] ${isHeroPage && !scrolled ? "text-white" : "text-black"}`}
                 />
               </button>
 
               {/* CART */}
-              <Link href="/cart" className="relative">
+              <Link
+                href="/cart"
+                className="relative"
+                aria-label={`Shopping cart (${cartItems.length} items)`}
+                title="Shopping Cart"
+              >
                 <i
+                  aria-hidden="true"
                   className={`icon-cart text-[18px] ${
                     isHeroPage && !scrolled ? "text-white" : "text-black"
                   }`}
@@ -284,12 +301,14 @@ const Header = () => {
               {/* USER */}
               {!isLoggedIn ? (
                 <button
+                  aria-label="Login"
+                  title="Login"
                   onClick={() => setLoginOpen(true)}
                   className={`text-[18px] ${
                     isHeroPage && !scrolled ? "text-white" : "text-black"
                   }`}
                 >
-                  <i className="icon-avatar"></i>
+                  <i aria-hidden="true" className="icon-avatar"></i>
                 </button>
               ) : (
                 <LoginDropdown user={user} handleLogout={handleLogout} />
@@ -313,15 +332,24 @@ const Header = () => {
                   </h3>
                   <ul className="text-gray-700 space-y-3 font-light text-[15px]">
                     {[
-                      { name: "Mens Fashion", href: "/collections/mens-fashion" },
+                      {
+                        name: "Mens Fashion",
+                        href: "/collections/mens-fashion",
+                      },
                       { name: "New Arrivals", href: "/shop/new-arrivals" },
                       { name: "Bestsellers", href: "/collections/bestsellers" },
                       { name: "Back in Stock", href: "/back-in-stock" },
-                      { name: "Foundational Prices", href: "/foundational-prices" },
+                      {
+                        name: "Foundational Prices",
+                        href: "/foundational-prices",
+                      },
                       { name: "Shop All", href: "/shop" },
                     ].map((item) => (
                       <li key={item.name} className="!py-1">
-                        <Link href={item.href} className="hover:text-yellow-500 hover:underline transition duration-200">
+                        <Link
+                          href={item.href}
+                          className="hover:text-yellow-500 hover:underline transition duration-200"
+                        >
                           {item.name}
                         </Link>
                       </li>
@@ -333,9 +361,20 @@ const Header = () => {
                     Categories
                   </h3>
                   <ul className="space-y-3 text-gray-700 font-light text-[15px]">
-                    {["Shirts", "Polos", "Tees", "Bottomwear", "Winterwear", "Ethnicwear", "Denims"].map((cat) => (
+                    {[
+                      "Shirts",
+                      "Polos",
+                      "Tees",
+                      "Bottomwear",
+                      "Winterwear",
+                      "Ethnicwear",
+                      "Denims",
+                    ].map((cat) => (
                       <li key={cat} className="!py-1">
-                        <Link href="#" className="hover:text-yellow-500 hover:underline transition duration-200">
+                        <Link
+                          href="#"
+                          className="hover:text-yellow-500 hover:underline transition duration-200"
+                        >
                           {cat}
                         </Link>
                       </li>
@@ -353,10 +392,15 @@ const Header = () => {
                       { name: "Shop all collection" },
                     ].map((col) => (
                       <li key={col.name} className="!py-1">
-                        <Link href="#" className="hover:text-yellow-500 hover:underline transition duration-200 flex items-center gap-1">
+                        <Link
+                          href="#"
+                          className="hover:text-yellow-500 hover:underline transition duration-200 flex items-center gap-1"
+                        >
                           {col.name}
                           {col.newTag && (
-                            <span className="ml-1 bg-black text-white text-[10px] px-1 py-0.5 rounded">NEW</span>
+                            <span className="ml-1 bg-black text-white text-[10px] px-1 py-0.5 rounded">
+                              NEW
+                            </span>
                           )}
                         </Link>
                       </li>
@@ -370,8 +414,14 @@ const Header = () => {
                   { src: "/images/featured-2.jpg", title: "New Hues" },
                 ].map((img) => (
                   <div key={img.title} className="w-1/2 cursor-pointer">
-                    <img src={img.src} alt={img.title} className="w-full h-[220px] object-cover rounded-lg transition-transform duration-300 hover:scale-105" />
-                    <p className="text-center mt-2 text-sm text-gray-700 font-medium">{img.title}</p>
+                    <img
+                      src={img.src}
+                      alt={img.title}
+                      className="w-full h-[220px] object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+                    />
+                    <p className="text-center mt-2 text-sm text-gray-700 font-medium">
+                      {img.title}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -396,11 +446,17 @@ const Header = () => {
                     {[
                       { name: "Our Story", href: "/about" },
                       { name: "Contact Us", href: "/contact" },
-                      { name: "Free Shipping & Return", href: "/shipping-and-return" },
+                      {
+                        name: "Free Shipping & Return",
+                        href: "/shipping-and-return",
+                      },
                       { name: "Shop All", href: "/" },
                     ].map((item) => (
                       <li key={item.name} className="py-2">
-                        <Link href={item.href} className="hover:text-yellow-500 hover:underline transition duration-200">
+                        <Link
+                          href={item.href}
+                          className="hover:text-yellow-500 hover:underline transition duration-200"
+                        >
                           {item.name}
                         </Link>
                       </li>
@@ -413,12 +469,18 @@ const Header = () => {
                   </h3>
                   <ul className="text-gray-700 text-[15px] font-light">
                     {[
-                      { name: "The Essence of Fine Garment", href: "/pages/better-materials" },
+                      {
+                        name: "The Essence of Fine Garment",
+                        href: "/pages/better-materials",
+                      },
                       { name: "A Touch of Embroidery", href: "/embroidery" },
                       { name: "Sustainable Fashion", href: "/sustainability" },
                     ].map((item) => (
                       <li key={item.name} className="py-3">
-                        <Link href={item.href} className="hover:text-yellow-500 hover:underline transition duration-200">
+                        <Link
+                          href={item.href}
+                          className="hover:text-yellow-500 hover:underline transition duration-200"
+                        >
                           {item.name}
                         </Link>
                       </li>
@@ -456,8 +518,17 @@ const Header = () => {
                 >
                   <Dialog.Title></Dialog.Title>
                   <div className="relative">
-                    <img src="/images/login/loginbanner.jpeg" alt="menu banner" className="w-full h-40 object-cover" />
-                    <button onClick={() => setMenuOpen(false)} className="absolute top-3 right-3 bg-white rounded-full p-1 shadow">
+                    <img
+                      src="/images/login/loginbanner.jpeg"
+                      alt="menu banner"
+                      className="w-full h-40 object-cover"
+                    />
+                    <button
+                      aria-label="Close menu"
+                      title="Close menu"
+                      onClick={() => setMenuOpen(false)}
+                      className="absolute top-3 right-3 bg-white rounded-full p-1 shadow"
+                    >
                       ✕
                     </button>
                   </div>
@@ -468,20 +539,31 @@ const Header = () => {
                     className="flex-1 overflow-y-auto px-4 py-4"
                   >
                     {mobileMenu.map((section, i) => (
-                      <AccordionItem key={i} item={section} setMenuOpen={setMenuOpen} />
+                      <AccordionItem
+                        key={i}
+                        item={section}
+                        setMenuOpen={setMenuOpen}
+                      />
                     ))}
-                    <Link href="/cart" className="block py-4 mt-4 border-t text-sm font-medium">
+                    <Link
+                      href="/cart"
+                      className="block py-4 mt-4 border-t text-sm font-medium"
+                    >
                       Cart ({cartItems.length})
                     </Link>
                     <div className="pt-3">
                       {!isLoggedIn ? (
-                        <button onClick={() => setLoginOpen(true)} className="flex items-center gap-2 text-sm">
+                        <button
+                          onClick={() => setLoginOpen(true)}
+                          className="flex items-center gap-2 text-sm"
+                        >
                           Login
                         </button>
                       ) : (
                         <div className="space-y-2 text-sm">
                           <Link href="/account">My Profile</Link>
-                          <br /><br />
+                          <br />
+                          <br />
                           <button onClick={handleLogout}>Logout</button>
                         </div>
                       )}
@@ -510,7 +592,9 @@ function AccordionItem({ item, setMenuOpen }) {
       >
         <span className="text-sm font-medium">{item.title || item.name}</span>
         {item.tag && (
-          <span className="text-[10px] bg-black text-white px-2 py-[2px] ml-2">{item.tag}</span>
+          <span className="text-[10px] bg-black text-white px-2 py-[2px] ml-2">
+            {item.tag}
+          </span>
         )}
       </Link>
     );
@@ -518,7 +602,12 @@ function AccordionItem({ item, setMenuOpen }) {
 
   return (
     <div className="border-b">
-      <button onClick={() => setOpen(!open)} className="w-full flex justify-between items-center py-3 text-left">
+      <button
+       aria-expanded={open}
+  aria-label={`${open ? "Collapse" : "Expand"} ${item.title || item.name}`}
+        onClick={() => setOpen(!open)}
+        className="w-full flex justify-between items-center py-3 text-left"
+      >
         <span className="text-sm font-medium">{item.title || item.name}</span>
         <span className="text-xs">{open ? "−" : "+"}</span>
       </button>

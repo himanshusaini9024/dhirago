@@ -2,6 +2,12 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "500", "600"],
+});
 /* ── Reveal helper ─────────────────────────────────────────── */
 function useReveal(threshold = 0.12) {
   const ref = useRef(null);
@@ -43,7 +49,7 @@ function Reveal({ children, delay = 0, from = "bottom" }) {
 /* ── Data ──────────────────────────────────────────────────── */
 const linenQualities = [
   { icon: "◈", title: "Longer Staple Length",    body: "European flax is known for its longer staple length, which directly enhances durability and smoothness — a fibre built with strength from within." },
-  { icon: "◎", title: "Rain-Fed Cultivation",    body: "Cultivated from premium flax grown in naturally balanced coastal environments of France and Belgium." },
+  
   { icon: "◇", title: "Naturally Antibacterial", body: "Linen is inherently antibacterial and cooling against the skin. A fibre that takes care of the wearer." },
   { icon: "○", title: "Fabric of Royalty",       body: "A timeless material refined through centuries of use and admired for understated luxury." },
   { icon: "△", title: "Eco-Conscious",           body: "Minimal chemical inputs during cultivation, biodegradable by nature and respectful to the earth." },
@@ -146,15 +152,15 @@ export default function BetterMaterials() {
         />
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 flex items-center justify-center z-10">
-          <h1 className="text-white font-futura text-2xl sm:text-4xl md:text-5xl font-light text-center drop-shadow-lg tracking-widest uppercase">
-            Better Materials
+          <h1 className={`text-white  text-xl sm:text-4xl md:text-4xl font-light text-center drop-shadow-lg tracking-widest uppercase ${josefin.className}`}>
+            Essence of fine garment
           </h1>
         </div>
       </section>
 
       {/* ══ 2. INTRO ═══════════════════════════════════════════ */}
       <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24 text-center max-w-[64rem] mx-auto">
-        <h2 className="text-xl md:text-[31.75px] font-futura font-light text-stone-800 leading-snug mb-5">
+        <h2 className={`text-xl md:text-[31.75px]  font-light text-stone-800 leading-snug mb-5 ${josefin.className} `}>
           True craftsmanship starts with the material
         </h2>
         <p className="text-sm md:text-base text-stone-800 md:leading-9 leading-7 font-futura text-center">
@@ -245,7 +251,7 @@ export default function BetterMaterials() {
                   <div className="text-3xl md:text-[2.2rem] text-[#C4A882] mb-5">
                     {linenQualities[activeQuality].icon}
                   </div>
-                  <h3 className="font-futura text-xl md:text-[clamp(0.589rem,2.5vw,0.992rem)] font-normal tracking-[0.06em] uppercase text-[#1C1814] mb-4 leading-[1.3]">
+                  <h3 className={` ${josefin.className}  text-xl md:text-[clamp(0.589rem,2.5vw,0.992rem)] font-normal tracking-[0.06em] uppercase text-[#1C1814] mb-4 leading-[1.3] `}>
                     {linenQualities[activeQuality].title}
                   </h3>
                   <p className="text-sm md:text-[clamp(13px,1.4vw,15px)] font-futura font-light leading-[1.9] text-[#4A4035] text-justify">
@@ -277,7 +283,7 @@ export default function BetterMaterials() {
 
         {/* Hallmarks copy */}
         <div className="max-w-[40rem] mx-auto mt-10 md:mt-16 text-center">
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-stone-900 mb-6">
+          <h3 className={`text-xl sm:text-2xl md:text-3xl font-medium text-stone-800 mb-6 ${josefin.className}`}>
             The Hallmarks of a great garment.
           </h3>
           <p className="text-sm md:text-base font-futura text-justify text-stone-800 !leading-8 mb-4">
@@ -295,13 +301,13 @@ export default function BetterMaterials() {
         {/* ── Five Elements of Craft ── */}
         <div className="mt-14 md:mt-20 py-12 md:py-16 px-4 sm:px-8 md:px-16 lg:px-20 bg-white border-y border-[#C4A882]/15">
           <div className="max-w-[1160px] mx-auto">
-            <span className="block text-center text-[9px] font-light tracking-[0.55em] uppercase text-[#A08870] mb-10 md:mb-12">
+            <span className="block text-center text-[15px]  tracking-[0.55em] uppercase font-medium text-stone-900 mb-10 md:mb-12">
               The Five Elements of Craft
-            </span>
-            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-12 items-start">
+            </span><br /><br />
+            <div className="grid  grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-2 items-start">
               {elements.map((el, i) => (
-                <div key={i} className="flex flex-col items-center gap-3 md:gap-4">
-                  <svg width="48" height="48" viewBox="0 0 64 64" fill="none" className="sm:w-14 sm:h-14">
+                <div key={i} className="flex flex-col items-center gap-3 md:gap-6">
+                  <svg width="48" height="48" viewBox="0 0 64 64" fill="none" className="sm:w-20 sm:h-20">
                     {el.path}
                   </svg>
                   <span className="text-[8px] sm:text-[9px] tracking-[0.4em] sm:tracking-[0.45em] uppercase text-[#1C1814] font-normal text-center">
@@ -317,7 +323,7 @@ export default function BetterMaterials() {
       {/* ══ 6. CONSTRUCTION DETAILS ════════════════════════════ */}
       <div className="pt-4 pb-14 md:pb-24 px-4 sm:px-8 md:px-16 lg:px-20 bg-[#ffffff]">
         <div className="max-w-[1160px] mx-auto">
-          <span className="block text-[9px] font-light tracking-[0.55em] uppercase text-[#A08870] mb-8 md:mb-10">
+          <span className="block text-[15px] font-normal tracking-[0.35em] uppercase text-stone-900 mb-8 md:mb-10">
             Construction Details
           </span>
 
@@ -337,7 +343,7 @@ export default function BetterMaterials() {
                 <span className="font-futura text-sm md:text-[clamp(0.9rem,1.5vw,0.879rem)] font-normal tracking-[0.04em] uppercase text-[#1C1814] leading-snug">
                   {d.label}
                 </span>
-                <p className="col-span-2 text-justify md:col-span-1 md:col-start-3 text-sm md:text-[clamp(13px,1.4vw,15px)] font-light leading-[1.85] text-[#6B5B4E] text-justify m-0 pl-[47px] md:pl-0 mt-1 md:mt-0">
+                <p className="text-sm md:text-base font-futura text-justify text-stone-800 !leading-8 mb-4">
                   {d.desc}
                 </p>
               </div>

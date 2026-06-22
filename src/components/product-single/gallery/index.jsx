@@ -315,7 +315,7 @@ export default function Gallery({ images }) {
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: "2px",
+            gap: "51px",
           }}
         >
           {images.map((img, i) => (
@@ -324,7 +324,7 @@ export default function Gallery({ images }) {
               onClick={() => openLightbox(i)}
               style={{
                 position: "relative", flexShrink: 0,
-                width: "88%", aspectRatio: "4/5",
+                width: "92%",height:"100vh", aspectRatio: "4/5",
                 background: "#edeae3", cursor: "zoom-in", overflow: "hidden",
               }}
             >

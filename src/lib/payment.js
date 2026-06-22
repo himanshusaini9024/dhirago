@@ -29,7 +29,6 @@ export const handleOnlinePayment = async ({
     order_id: data.id,
 
     handler: async function (response) {
-      console.log(response);
       const verify = await API.post("/razorpay/verify", response);
 
       if (verify.data.status) {

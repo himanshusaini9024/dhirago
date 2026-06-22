@@ -133,7 +133,7 @@ export default function SearchDrawer({ open, onClose }) {
           {/* Categories */}
           {categories.length > 0 && (
             <div>
-              <h3 className="text-xs text-gray-400 uppercase mb-3">
+              <h3 className="text-xs text-gray-400 font-futura uppercase mb-3">
                 Categories
               </h3>
 
@@ -145,20 +145,7 @@ export default function SearchDrawer({ open, onClose }) {
                     onClick={onClose}
                     className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded transition"
                   >
-                    {cat.photo ? (
-                      <Image
-                        src={cat.photo}
-                        alt={cat.name || "Product"}
-                        width={15}
-                        height={15}
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-100 text-xs text-gray-400">
-                        No Image
-                      </div>
-                    )}
-                    <span className="text-sm">{cat.name}</span>
+                    <span className="text-sm font-futura">{cat.name}</span>
                   </Link>
                 ))}
               </div>
@@ -168,7 +155,7 @@ export default function SearchDrawer({ open, onClose }) {
           {/* Products */}
           {products.length > 0 && (
             <div>
-              <h3 className="text-xs text-gray-400 uppercase mb-3">Products</h3>
+              <h3 className="text-xs text-gray-400 uppercase font-futura mb-3">Products</h3>
 
               <div className="space-y-2">
                 {products.map((prod) => (
@@ -182,7 +169,7 @@ export default function SearchDrawer({ open, onClose }) {
                       <img
                         src={getImage(prod.photo)}
                         alt={prod.name || "Product"}
-                        className="w-14 h-14 object-cover rounded"
+                        className="w-[12em] h-[20em] object-cover rounded"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-100 text-xs text-gray-400">
@@ -190,7 +177,7 @@ export default function SearchDrawer({ open, onClose }) {
                       </div>
                     )}
 
-                    <span className="text-sm">{prod.name}</span>
+                    <span className="text-sm font-futura">{prod.name}</span>
                   </Link>
                 ))}
               </div>

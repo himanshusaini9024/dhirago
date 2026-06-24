@@ -14,11 +14,12 @@ const addToRecentlyViewed = (product) => {
   const minimalProduct = {
     id: product.id,
     name: product.name,
-    image: product.images?.[0]?.url
-      ? `https://res.cloudinary.com/ds48lk80f/${product.images[0].url}`
-      : "",
+    images:
+      product.images?.slice(0, 2).map((img) => ({
+        url: img.url,
+      })) || [],
     slug: product.slug,
-    color:product.colors,
+    color: product.colors,
     currentPrice: product.price,
   };
 

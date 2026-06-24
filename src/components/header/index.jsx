@@ -135,7 +135,7 @@ const Header = () => {
       children: [
         {
           name: "Shirts",
-          href: "/collections/mens-fashion",
+          href: "/collections/shirts",
         },
       ],
     },
@@ -229,7 +229,7 @@ const Header = () => {
                 className={`${josefin.className} uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-sm tracking-wider text-sm uppercase`}
               >
                 <div>
-                  <Link href={"/collections/mens-fashion"}>
+                  <Link href={"/collections/shirts"}>
                     <button className="hover:text-yellow-400 transition duration-300">
                       Shop
                     </button>

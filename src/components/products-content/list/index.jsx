@@ -393,6 +393,7 @@ export default function ProductList({ initialProducts, slug }) {
             justifyContent: "center",
             padding: "1rem 2rem",
             borderBottom: "1px solid rgba(196,168,130,0.35)",
+            borderTop: "1px solid rgba(196,168,130,0.35)",
           }}
         >
           <div

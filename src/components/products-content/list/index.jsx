@@ -478,7 +478,7 @@ export default function ProductList({ initialProducts, slug }) {
 
         {/* ── PRODUCT GRID ───────────────────────────────────── */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-14 gap-6 md:px-12 px-2 py-6">
-          {Array.from({ length: 20 }).map((_, i) => {
+          {/* {Array.from({ length: 20 }).map((_, i) => {
             const item = filteredProducts[i % filteredProducts.length];
 
             return (
@@ -493,11 +493,11 @@ export default function ProductList({ initialProducts, slug }) {
                 images={item.image}
               />
             );
-          })}
+          })} */}
 
-               {/* {filteredProducts.map((item) => (
+               {filteredProducts.map((item) => (
             <ProductItem key={item.id} id={item.id} sku={item.sku} slug={item.slug} color={item.color} name={item.name} currentPrice={item.currentPrice} images={item.image} />
-          ))} */}
+          ))}
         </div>
 
         {/* ── FLOAT BUTTON ───────────────────────────────────── */}

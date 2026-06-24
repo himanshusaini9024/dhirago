@@ -45,8 +45,6 @@ const canReturnOrder = (order) => {
   const diffDays = Math.floor(
     (today - deliveryDate) / (1000 * 60 * 60 * 24)
   );
-  console.log('diffdays',diffDays)
-  console.log('deliveryDate',deliveryDate)
   return diffDays <= 7;
 };
 

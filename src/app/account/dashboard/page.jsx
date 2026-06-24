@@ -17,7 +17,6 @@ export default function Dashboard({ setActiveTab }) {
   const { cartItems } = useSelector((state) => state.cart);
   // const userdata = JSON.parse(localStorage.getItem("user") || "{}");
   const userdata = useSelector((state) => state.auth.user);
-  console.log('userdata',userdata);
   const customer_id = userdata?.customer_id;
 
   const user = {

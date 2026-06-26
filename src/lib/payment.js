@@ -23,7 +23,7 @@ export const handleOnlinePayment = async ({
     });
 
   const options = {
-    key: "rzp_test_Ss17h9Jo21ufHR",
+    key: "rzp_test_T5rZahgoKKZKZy",
     amount: data.amount,
     currency: "INR",
     order_id: data.id,
@@ -32,7 +32,7 @@ export const handleOnlinePayment = async ({
       const verify = await API.post("/razorpay/verify", response);
 
       if (verify.data.status) {
-        await createOrder("paid", response.razorpay_payment_id);
+        await createOrder("paid", response.razorpay_payment_id,response.razorpay_order_id);
       } else {
         alert("Payment verification failed");
       }

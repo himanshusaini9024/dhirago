@@ -337,7 +337,7 @@ export default function OrdersPage() {
                                         Reverse pickup scheduled
                                       </p>
                                       <p className="text-xs text-emerald-600 mt-1">
-                                        Our courier will pick up shortly.
+                                        Our courier partner will pick up shortly.
                                       </p>
                                     </div>
                                   )}

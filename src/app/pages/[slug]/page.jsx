@@ -299,11 +299,11 @@ export default function BetterMaterials() {
         </div>
 
         {/* ── Five Elements of Craft ── */}
-        <div className="mt-14 md:mt-20 py-12 md:py-16 px-4 sm:px-8 md:px-16 lg:px-20 bg-white border-y border-[#C4A882]/15">
+        <div className="mt-14 md:mt-20 py-4 md:py-16 px-4 sm:px-8 md:px-16 lg:px-20 bg-white border-y border-[#C4A882]/15">
           <div className="max-w-[1160px] mx-auto">
-            <span className="block text-center text-[15px]  tracking-[0.55em] uppercase font-medium text-stone-900 mb-10 md:mb-12">
+            <span className="block text-center md:text-[15px] text-[12px]  md:tracking-[0.45em] tracking-[0.35em] uppercase font-medium text-stone-900 mb-4 md:mb-12">
               The Five Elements of Craft
-            </span><br /><br />
+            </span><br />
             <div className="grid  grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-2 items-start">
               {elements.map((el, i) => (
                 <div key={i} className="flex flex-col items-center gap-3 md:gap-6">
@@ -336,7 +336,7 @@ export default function BetterMaterials() {
                 Mobile:  number + label on one row, desc full-width below
                 Desktop: number | label | desc in 3 columns
               */}
-              <div className="grid grid-cols-[44px_1fr] md:grid-cols-[72px_1fr_2fr] gap-3 md:gap-6 items-start">
+              <div className="grid  md:grid-cols-[72px_1fr_2fr] gap-3 md:gap-6 items-start">
                 <span className="font-futura text-base md:text-[1.1rem] text-[#C4A882]/50 font-extralight leading-tight">
                   {d.num}
                 </span>

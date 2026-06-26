@@ -63,7 +63,7 @@ const CheckoutPage = () => {
   const customer_id = userdata?.customer_id;
 
   // ── create order ───────────────────────────
-  const createOrder = async (payment_status, payment_id) => {
+  const createOrder = async (payment_status, payment_id,razorpay_order_id) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!validateEmail()) return;
     const orderData = {
@@ -74,6 +74,7 @@ const CheckoutPage = () => {
       payment_method: payment_status === "paid" ? "online" : "cod",
       payment_status,
       payment_id,
+      razorpay_order_id,
       name: selectedAddress.name,
       email,
       phone: selectedAddress.phone,

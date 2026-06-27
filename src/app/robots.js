@@ -1,14 +1,31 @@
 export default function robots() {
-  const isIndexingEnabled = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+  const isIndexingEnabled =
+    process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+
+  if (!isIndexingEnabled) {
+    return {
+      rules: {
+        userAgent: "*",
+        disallow: "/",
+      },
+    };
+  }
 
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: isIndexingEnabled ? ["/cart", "/account", "/checkout"] : "/",
+      disallow: [
+        "/cart",
+        "/checkout",
+        "/account",
+        "/login",
+        "/register",
+        "/wishlist",
+        "/search",
+        "/api",
+      ],
     },
-    sitemap: isIndexingEnabled
-      ? `${process.env.NEXT_PUBLIC_SITE_URL}/sitemap.xml`
-      : "",
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL}/sitemap.xml`,
   };
 }

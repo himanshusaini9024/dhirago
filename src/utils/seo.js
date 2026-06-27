@@ -9,6 +9,8 @@ export function generateSEO({
   noIndex = false,
 }) {
   return {
+        metadataBase: new URL(SITE_URL),
+
     title,
     description,
 

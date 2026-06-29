@@ -12,6 +12,7 @@ const PageIntro = () => {
   }, []);
 
   return (
+    <>
     <section className="relative w-full h-screen overflow-hidden text-white">
 
       {/* VIDEO BACKGROUND */}
@@ -42,7 +43,9 @@ const PageIntro = () => {
           <p className="text-xs tracking-widest uppercase mb-3 opacity-80">
             Men’s Fashion 
           </p>
-
+<h1 className="hidden">
+Premium Men's Shirts Online in India
+</h1>
           {/* Main heading */}
           <h2 className="text-2xl text-white md:text-4xl lg:text-5xl font-light tracking-wide ">
             Heritage Revisited
@@ -53,6 +56,36 @@ const PageIntro = () => {
       </div>
 
     </section>
+
+<section className="hidden max-w-5xl mx-auto py-20">
+
+<h2>Premium Shirts Designed for Modern Men</h2>
+
+<p>
+
+Dhirago is an Indian premium menswear brand creating timeless shirts,
+crafted from breathable cotton fabrics with modern tailoring.
+
+Our collections include
+
+Casual Shirts
+
+Formal Shirts
+
+Oversized Shirts
+
+Premium Cotton Shirts
+
+Summer Shirts
+
+Office Wear
+
+Luxury Essentials
+
+</p>
+
+</section>
+    </>
   );
 };
 

@@ -2,7 +2,7 @@
 
 import { Josefin_Sans } from "next/font/google";
 // const IMAGES = ["/images/bg2.avif", "/images/bg3.avif"];
-
+import Image from "next/image";
 import { motion } from "framer-motion";
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -12,12 +12,13 @@ export default function RunwayHero() {
   return (
     <section className="runway">
       {/* Single Background Image */}
-      <div
+      {/* <div
         className="bg"
         style={{
           backgroundImage: `url("/images/bg2.avif")`,
         }}
-      />
+      /> */}
+      <Image src={"/images/bg2.avif"} fill priority alt="Premium Shirt" className="bg" />
 
       {/* Soft overlay */}
       <div className="overlay" />

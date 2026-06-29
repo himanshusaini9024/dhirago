@@ -17,9 +17,9 @@ export const metadata = generateSEO({
   //   "Shop latest fashion products online at best price in India. Explore premium clothing, trending styles & fast delivery.",
   // path: "/",
 
-  title: "Dhirago - Premium Menswear",
+  title: "Buy Premium Men's Shirts Online in India | Dhirago",
   description:
-    "Shop premium menswear including shirts, t-shirts, polos, trousers & more. High quality products with fast delivery.",
+    "Shop premium men's shirts online in India. Explore cotton, oversized, formal and casual shirts crafted with premium fabrics. Free shipping & easy returns..",
   path: "/",
 });
 

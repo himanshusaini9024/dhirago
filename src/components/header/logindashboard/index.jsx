@@ -255,8 +255,9 @@ const handleLogin = async (e) => {
                               ) : (
                                 <input
                                   type="text"
-                                  placeholder="Enter OTP"
+                                  placeholder="please enter your 6 digit otp"
                                   value={otp}
+                                  maxLength={6}
                                   onChange={(e) => setOtp(e.target.value)}
                                   className="w-full border rounded-lg px-4 py-2"
                                   required

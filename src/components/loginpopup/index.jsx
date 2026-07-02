@@ -231,9 +231,11 @@ const getXsrfToken = () => {
             <input
               type="text"
               value={otp}
+              placeholder="please enter your 6 digit otp"
               maxLength={6}
               onChange={(e) => setOtp(e.target.value)}
               className="w-full border p-3 rounded mt-1 mb-4"
+              required
             />
 
             <button

@@ -17,6 +17,12 @@ const josefin = Josefin_Sans({
 
 const IMGURL = "https://res.cloudinary.com/ds48lk80f/";
 
+// Statuses that come *after* delivery but should still render the timeline
+// as fully complete (otherwise findIndex returns -1 and every step shows
+// as incomplete even though the order was delivered before being exchanged
+// or refunded).
+const TERMINAL_AFTER_DELIVERY = ["exchanged", "refunded", "delivered"];
+
 const getSteps = (status) => {
   const steps = [
     { key: "new", label: "Order Placed" },
@@ -25,27 +31,37 @@ const getSteps = (status) => {
     { key: "out_for_delivery", label: "Out for Delivery" },
     { key: "delivered", label: "Delivered" },
   ];
-  const currentIndex = steps.findIndex((s) => s.key === status);
+
+  const effectiveStatus = TERMINAL_AFTER_DELIVERY.includes(status)
+    ? "delivered"
+    : status;
+
+  const currentIndex = steps.findIndex((s) => s.key === effectiveStatus);
+
   return steps.map((step, index) => ({
     ...step,
     completed: index <= currentIndex,
   }));
 };
 
+// Eligibility is based on the ACTUAL delivery date (delivered_at) whenever
+// the backend has recorded one. expected_delivery_date is only an estimate
+// and is used as a fallback for older orders that predate this field.
 const canReturnOrder = (order) => {
   if (order.status !== "delivered") return false;
   if (order.return_request) return false;
 
-  const deliveryDate = new Date(
-   order.expected_delivery_date
-  );
+  const deliveredDateRaw = order.delivered_at || order.expected_delivery_date;
+  if (!deliveredDateRaw) return false;
 
+  const deliveredDate = new Date(deliveredDateRaw);
   const today = new Date();
 
   const diffDays = Math.floor(
-    (today - deliveryDate) / (1000 * 60 * 60 * 24)
+    (today - deliveredDate) / (1000 * 60 * 60 * 24),
   );
-  return diffDays <= 7;
+
+  return diffDays >= 0 && diffDays <= 7;
 };
 
 export default function OrdersPage() {
@@ -53,20 +69,28 @@ export default function OrdersPage() {
   const [openId, setOpenId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  // const userdata = JSON.parse(localStorage.getItem("user") || "{}");
   const userdata = useSelector((state) => state.auth.user);
 
   const customer_id = userdata?.customer_id;
   const router = useRouter();
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    if (customer_id) {
+      fetchOrders();
+    }
+  }, [customer_id]);
 
   const fetchOrders = async () => {
+    if (!customer_id) return;
+
     try {
-      const res = await API.get("/orders", { params: { customer_id } });
+      setLoading(true);
+      // customer_id is derived server-side from the authenticated session —
+      // it no longer needs to (and shouldn't) be sent as a query param.
+      const res = await API.get("/orders");
       setOrders(res.data);
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -79,6 +103,12 @@ export default function OrdersPage() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const goToReturnFlow = (order, item, type) => {
+    router.push(
+      `/return/${order.order_number}?type=${type}&item=${item.id}`,
+    );
   };
 
   return (
@@ -121,6 +151,15 @@ export default function OrdersPage() {
             orders.map((order, i) => {
               const steps = getSteps(order.status);
               const isOpen = openId === order.id;
+              const requestType =
+                order.return_request?.type === "exchange"
+                  ? "Exchange"
+                  : "Return";
+              const deliveredLabel = order.delivered_at
+                ? new Date(order.delivered_at)
+                : order.expected_delivery_date
+                  ? new Date(order.expected_delivery_date)
+                  : null;
 
               return (
                 <motion.div
@@ -138,7 +177,6 @@ export default function OrdersPage() {
                       onClick={() => setOpenId(isOpen ? null : order.id)}
                       className="cursor-pointer p-5 md:p-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 sm:justify-between hover:bg-gray-50"
                     >
-                      {/* Order ID + Total row on mobile */}
                       <div className="flex justify-between sm:block">
                         <div>
                           <p className="text-xs text-gray-400">ORDER-ID</p>
@@ -146,7 +184,6 @@ export default function OrdersPage() {
                             #{order.order_number}
                           </p>
                         </div>
-                        {/* Total — shown inline on mobile next to ID */}
                         <div className="sm:hidden text-right">
                           <p className="text-xs text-gray-400">TOTAL</p>
                           <p className="text-lg font-semibold">
@@ -155,7 +192,6 @@ export default function OrdersPage() {
                         </div>
                       </div>
 
-                      {/* Total — desktop only */}
                       <div className="hidden sm:block">
                         <p className="text-xs text-gray-400">TOTAL</p>
                         <p className="text-xl font-medium">
@@ -165,7 +201,7 @@ export default function OrdersPage() {
 
                       {/* Status Badge */}
                       <div>
-                        {order.status === "delivered" ? (
+                        {order.status === "delivered" && deliveredLabel ? (
                           <div className="inline-flex items-center gap-2 md:gap-3 rounded-2xl border border-green-200 bg-green-50 px-3 md:px-4 py-2 md:py-3">
                             <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-green-100 shrink-0">
                               <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
@@ -177,9 +213,7 @@ export default function OrdersPage() {
                               <p className="text-xs text-green-600">
                                 Delivered on{" "}
                                 <span className="font-medium">
-                                  {new Date(
-                                    order.expected_delivery_date,
-                                  ).toLocaleDateString("en-IN", {
+                                  {deliveredLabel.toLocaleDateString("en-IN", {
                                     day: "numeric",
                                     month: "long",
                                     year: "numeric",
@@ -187,6 +221,13 @@ export default function OrdersPage() {
                                 </span>
                               </p>
                             </div>
+                          </div>
+                        ) : order.status === "delivered" ? (
+                          <div className="inline-flex items-center gap-2 md:gap-3 rounded-2xl border border-green-200 bg-green-50 px-3 md:px-4 py-2 md:py-3">
+                            <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+                            <p className="text-xs font-semibold text-green-700 uppercase tracking-wide">
+                              Order Delivered
+                            </p>
                           </div>
                         ) : (
                           <div className="inline-flex items-center gap-2 md:gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-3 md:px-4 py-2 md:py-3">
@@ -237,7 +278,6 @@ export default function OrdersPage() {
                       >
                         <ChevronDown />
                       </motion.div>
-                      {/* Chevron on mobile — shown at end of status row */}
                       <motion.div
                         animate={{ rotate: isOpen ? 180 : 0 }}
                         className="sm:hidden self-end"
@@ -274,32 +314,71 @@ export default function OrdersPage() {
                             ))}
                           </div>
 
-                          {/* Items */}
+                          {/* Items — each item gets its own return/exchange
+                              action since a return request applies to a
+                              single line item, not the whole order. */}
                           <div className="px-4 md:px-8 pb-6 md:pb-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                            {order.items.map((item) => (
-                              <motion.div
-                                key={item.id}
-                                whileHover={{ scale: 1.02 }}
-                                className="flex gap-3 md:gap-4 bg-white border rounded-2xl p-3 md:p-4 shadow-sm"
-                              >
-                                <img
-                                  src={`${IMGURL}${item.image}`}
-                                  className="w-20 h-24 md:w-24 md:h-28 object-cover rounded-xl shrink-0"
-                                  alt={`Product ${item.product_id}`}
-                                />
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-medium truncate">
-                                    Product #{item.product_id}
-                                  </p>
-                                  <p className="text-xs text-gray-500 mt-1">
-                                    Qty: {item.quantity}
-                                  </p>
-                                </div>
-                                <p className="font-medium text-sm shrink-0">
-                                  ₹{item.price}
-                                </p>
-                              </motion.div>
-                            ))}
+                            {order.items?.map((item) => {
+                              const itemHasReturn =
+                                order.return_request?.order_item_id ===
+                                item.id;
+
+                              return (
+                                <motion.div
+                                  key={item.id}
+                                  whileHover={{ scale: 1.02 }}
+                                  className="flex flex-col gap-3 bg-white border rounded-2xl p-3 md:p-4 shadow-sm"
+                                >
+                                  <div className="flex gap-3 md:gap-4">
+                                    <img
+                                      src={
+                                        item.image
+                                          ? `${IMGURL}${item.image}`
+                                          : "/images/placeholder.png"
+                                      }
+                                      className="w-20 h-24 md:w-24 md:h-28 object-cover rounded-xl shrink-0"
+                                      alt={`Product ${item.product_id}`}
+                                    />
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-sm font-medium truncate">
+                                        Product #{item.product_id}
+                                      </p>
+                                      <p className="text-xs text-gray-500 mt-1">
+                                        Qty: {item.quantity}
+                                      </p>
+                                    </div>
+                                    <p className="font-medium text-sm shrink-0">
+                                      ₹{item.price}
+                                    </p>
+                                  </div>
+
+                                  {canReturnOrder(order) && !itemHasReturn && (
+                                    <div className="flex gap-2">
+                                      <button
+                                        onClick={() =>
+                                          goToReturnFlow(order, item, "return")
+                                        }
+                                        className="flex-1 h-9 rounded-full border border-black uppercase tracking-[1.5px] text-[10px] hover:bg-black hover:text-white transition-all duration-300"
+                                      >
+                                        Return
+                                      </button>
+                                      <button
+                                        onClick={() =>
+                                          goToReturnFlow(
+                                            order,
+                                            item,
+                                            "exchange",
+                                          )
+                                        }
+                                        className="flex-1 h-9 rounded-full border border-black uppercase tracking-[1.5px] text-[10px] hover:bg-yellow-500 hover:text-white transition-all duration-300"
+                                      >
+                                        Exchange
+                                      </button>
+                                    </div>
+                                  )}
+                                </motion.div>
+                              );
+                            })}
                           </div>
 
                           {/* Footer */}
@@ -309,7 +388,6 @@ export default function OrdersPage() {
                             </p>
 
                             <div className="flex flex-wrap items-center gap-3">
-                              {/* Return request statuses */}
                               {order.return_request && (
                                 <>
                                   {order.return_request.status ===
@@ -317,7 +395,7 @@ export default function OrdersPage() {
                                     <div className="px-4 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
                                       <span className="text-xs uppercase tracking-[2px] text-amber-700 font-medium">
-                                        Return Request Sent
+                                        {requestType} Request Sent
                                       </span>
                                     </div>
                                   )}
@@ -326,18 +404,19 @@ export default function OrdersPage() {
                                     <div className="px-4 h-10 rounded-full bg-sky-50 border border-sky-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
                                       <span className="text-xs uppercase tracking-[2px] text-sky-700 font-medium">
-                                        Return Approved
+                                        {requestType} Approved
                                       </span>
                                     </div>
                                   )}
-                                  {order.return_request?.status ===
+                                  {order.return_request.status ===
                                     "pickup_scheduled" && (
                                     <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
                                       <p className="text-emerald-700 font-medium text-sm">
                                         Reverse pickup scheduled
                                       </p>
                                       <p className="text-xs text-emerald-600 mt-1">
-                                        Our courier partner will pick up shortly.
+                                        Our courier partner will pick up
+                                        shortly.
                                       </p>
                                     </div>
                                   )}
@@ -346,7 +425,7 @@ export default function OrdersPage() {
                                     <div className="px-4 h-10 rounded-full bg-purple-50 border border-purple-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-purple-500" />
                                       <span className="text-xs uppercase tracking-[2px] text-purple-700 font-medium">
-                                        Return Picked Up
+                                        {requestType} Picked Up
                                       </span>
                                     </div>
                                   )}
@@ -355,7 +434,16 @@ export default function OrdersPage() {
                                     <div className="px-4 h-10 rounded-full bg-indigo-50 border border-indigo-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-indigo-500" />
                                       <span className="text-xs uppercase tracking-[2px] text-indigo-700 font-medium">
-                                        Return Delivered
+                                        {requestType} Received by Warehouse
+                                      </span>
+                                    </div>
+                                  )}
+                                  {order.return_request.status ===
+                                    "replacement_created" && (
+                                    <div className="px-4 h-10 rounded-full bg-teal-50 border border-teal-200 flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-teal-500" />
+                                      <span className="text-xs uppercase tracking-[2px] text-teal-700 font-medium">
+                                        Replacement Order Created
                                       </span>
                                     </div>
                                   )}
@@ -373,22 +461,20 @@ export default function OrdersPage() {
                                     <div className="px-4 h-10 rounded-full bg-red-50 border border-red-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-red-500" />
                                       <span className="text-xs uppercase tracking-[2px] text-red-700 font-medium">
-                                        Return Rejected
+                                        {requestType} Rejected
+                                      </span>
+                                    </div>
+                                  )}
+                                  {order.return_request.status ===
+                                    "pickup_failed" && (
+                                    <div className="px-4 h-10 rounded-full bg-red-50 border border-red-200 flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-red-500" />
+                                      <span className="text-xs uppercase tracking-[2px] text-red-700 font-medium">
+                                        {requestType} Failed
                                       </span>
                                     </div>
                                   )}
                                 </>
-                              )}
-
-                              {canReturnOrder(order) && (
-                                <button
-                                  onClick={() =>
-                                    router.push(`/return/${order.order_number}`)
-                                  }
-                                  className="h-10 md:h-12 px-5 md:px-7 rounded-full border border-black uppercase tracking-[2px] md:tracking-[3px] text-xs hover:bg-black hover:text-white transition-all duration-300"
-                                >
-                                  Return Order
-                                </button>
                               )}
 
                               <button

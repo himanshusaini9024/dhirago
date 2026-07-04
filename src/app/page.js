@@ -30,8 +30,9 @@ export default function Home() {
       <LuxuryHero />
       <Homecontent />
       <Marquee/>
-      {/* <Bestsellers /> */}
-      <EditorialGrid />
+      <Bestsellers />
+      <ProductsFeatured/>
+      {/* <EditorialGrid /> */}
 
       {/* <ProductsFeatured /> */}
 

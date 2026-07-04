@@ -466,7 +466,7 @@ export default function Content({ product }) {
         <br />
 
         {/* MEET THE MAKERS */}
-        <button
+        {/* <button
           style={{
             width: "100%",
             height: isMobile ? "46px" : "42px",
@@ -487,10 +487,9 @@ export default function Content({ product }) {
           onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#d5d0c8")}
         >
           Meet the Makers
-        </button>
+        </button> */}
 
-        {/* ARTISAN CALLOUT */}
-        <div style={{ textAlign: "center", marginBottom: "18px" }}>
+        {/* <div style={{ textAlign: "center", marginBottom: "18px" }}>
           <p
             style={{
               fontSize: "17.5px",
@@ -513,7 +512,7 @@ export default function Content({ product }) {
           >
             Know More About Them On The Link Above
           </p>
-        </div>
+        </div> */}
 
         {/* ACCORDIONS — single open at a time */}
         <AccordionRow
@@ -533,7 +532,7 @@ export default function Content({ product }) {
               __html: product?.description || "No description available.",
             }}
           />
-          {measurements && (
+          {/* {measurements && (
             <table
               style={{
                 width: "100%",
@@ -570,7 +569,7 @@ export default function Content({ product }) {
                 ))}
               </tbody>
             </table>
-          )}
+          )} */}
         </AccordionRow>
 
         <AccordionRow

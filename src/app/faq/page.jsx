@@ -10,25 +10,25 @@ const faqData = {
   "SHIPPING & DELIVERY": [
     {
       q: "How long does it take to deliver my order?",
-      a: "Most orders arrive within 5–10 days of order being confirmed. An order confirmation SMS/Email will be sent to you, post which an SMS/Email notification will be sent once your order is shipped.",
+      a: "Most orders arrive within 5–8 days of order being confirmed. An order confirmation SMS/Email will be sent to you, post which an SMS/Email notification will be sent once your order is shipped.",
     },
     {
       q: "What are the delivery charges?",
-      a: "A delivery charge of ₹99 will be levied on orders worth ₹2,499 and below. Delivery charges are not refundable in case of such orders.",
+      a: "Shipping is Free for any number of product.",
     },
     {
       q: "Do you deliver outside India?",
-      a: "We only ship within India but accept most international credit cards.",
+      a: "We only ship within India .",
     },
     {
       q: "What happens when no one is available to accept the shipment?",
-      a: "If you are not available, the courier service will notify you and make one additional delivery attempt. After that, your package will be returned to our fulfilment centre. For prepaid orders, a refund will be generated as credits into your website account.",
+      a: "If you are not available, the courier service will notify you and make one additional delivery attempt. After that, your package will be returned to our fulfilment centre. For prepaid orders, a refund will be generated as credits  your payment source.",
     },
   ],
   "ORDERS & TRACKING": [
     {
       q: "How do I track my order?",
-      a: "You can check the status of your order via the tracking link shared with you via SMS, or by clicking on 'Track' on the top right corner of the homepage. You will be asked to provide your Order No. or AWB No. The tracking link is activated 24 hours after the order is received.",
+      a: "You can check the status of your order via the tracking link shared with you via SMS, or by clicking on 'Track' on the top right corner of the orderpage. You will be asked to provide your  AWB No. The tracking link is activated 24 hours after the order is received.",
     },
     {
       q: "Do you split shipments?",
@@ -41,11 +41,7 @@ const faqData = {
     {
       q: "Can Dhirago cancel my order?",
       a: "Occasionally we may have to cancel an order if the product is out of stock, discontinued, or damaged in transit. For prepaid orders, the amount will be refunded to your payment source.",
-    },
-    {
-      q: "Can I return damaged items?",
-      a: "If your order is tampered, opened, or visibly damaged on delivery, please return the order on arrival and notify our team by emailing contact@dhirago.com.",
-    },
+    }
   ],
   "PAYMENTS": [
     {
@@ -60,29 +56,25 @@ const faqData = {
   "RETURNS & CANCELLATIONS": [
     {
       q: "How do I cancel my order?",
-      a: "Only orders that haven't left the fulfilment centre can be cancelled. Go to My Account → Orders → Select Product → Cancel. If the order has already shipped, you can refuse delivery and send it back. A refund will be generated once the product is received at our fulfilment centre.",
+      a: "If the order has already shipped, you can refuse delivery and send it back. A refund will be generated once the product is received at our fulfilment centre.",
     },
     {
       q: "How do I return my order?",
-      a: "A return request can only be raised 24 hours after receipt of the product and must be submitted within 15 days of delivery. Go to My Account → Orders → Select Product → Return. Once processed, the return will be picked up from your address. You will receive a confirmation via SMS and email.",
+      a: "A return request can only be raised after receipt of the product and must be submitted within 7 days of delivery. Go to My Account → Orders → Select Product → Return. Once processed, the return will be picked up from your address. You will receive a confirmation via SMS and email.",
     },
     {
       q: "What is your return policy?",
-      a: "Most items are eligible for returns except personal use items such as masks, swimwear, innerwear, sunglasses, fragrances, socks, and jewellery. All returned items must be unused, intact, and in their original packaging. Refunds are processed after quality inspection, which may take 5–7 working days after receipt at our fulfilment centre.",
-    },
-    {
-      q: "Can I return sale items?",
-      a: "If you used a promo code or discount, you will be credited only for the final amount paid. Products purchased using a Non-Returnable coupon code are final sale and cannot be returned or exchanged.",
-    },
+      a: "Most items are eligible for returns . All returned items must be unused, intact, and in their original packaging. Refunds are processed after quality inspection, which may take 5–7 working days after receipt at our fulfilment centre.",
+    }
   ],
   "REFUNDS": [
     {
       q: "How are Cash on Delivery purchases refunded?",
-      a: "You can receive your refund as Dhirago Credits in your website account, or as an account refund via a link sent to your registered email and mobile. Go to My Account → Orders → Select Product → Cancel or Return to choose your preferred method. Note: Refunds are not processed on bank holidays, Sundays, or non-working Saturdays.",
+      a: "You can receive your refund after quality inspection our team will contact you for refund process. Note: Refunds are not processed on bank holidays, Sundays, or non-working Saturdays.",
     },
     {
       q: "How are prepaid orders refunded?",
-      a: "You can choose to receive the refund back to your original payment source, or as credits in your website account. Go to My Account → Orders → Select Product → Cancel or Return to select your preferred refund method. Back-to-source refunds may take up to 5 days to reflect.",
+      a: "You will recived your refund in your payment source.Note: Refunds are processed after quality inspection",
     },
   ],
   "FAIR USAGE POLICY": [

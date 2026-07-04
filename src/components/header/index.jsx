@@ -237,10 +237,14 @@ const Header = () => {
                 </div>
 
                 <div
-                  onMouseEnter={handleMouseEnterHome}
-                  onMouseLeave={handleMouseLeaveHome}
+                  // onMouseEnter={handleMouseEnterHome}
+                  // onMouseLeave={handleMouseLeaveHome}
                 >
+                  <Link href={"/about"}>
+
                   <button className="hover:text-yellow-400">About</button>
+                  </Link>
+
                 </div>
               </nav>
             </div>
@@ -260,6 +264,7 @@ const Header = () => {
                 className={`${pathname == "/pages/better-materials" ? (scrolled ? "text-black block" : "hidden") : "block"} ${josefin.className}  `}
                 href={"/"}
               >
+                
                 Dhirago
               </Link>
             </div>

@@ -1,32 +1,89 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-  MessageCircle,
-} from "lucide-react";
-import Image from "next/image";
+import { Instagram, Mail } from "lucide-react";
 import Link from "next/link";
-import { Josefin_Sans } from "next/font/google";
+import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import { useState } from "react";
 
-const josefin = Josefin_Sans({
+
+import { Josefin_Sans } from "next/font/google";
+
+const display = Josefin_Sans({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
+  weight: ["300", "300", "300"],
+});
+const body = EB_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
-const supportLinks = [
-  { label: "Contact Us", href: "/contact" },
-  { label: "Shipping and Returns", href: "/shipping-and-return" },
-  { label: "Frequently Asked Questions", href: "/faq" },
-  { label: "Track order", href: "/return/track-order" },
-  { label: "Product Care", href: "/product-care" },
-  { label: "Size Guide", href: "/size-guide.pdf", target: "_blank" },
-  { label: "Privacy Policy", href: "/privacy" },
+const storyLinks = [
+  { label: "Our Story", href: "/about" },
+  { label: "The First Story", href: "/our-story" },
+  // { label: "The Beauty of Time", href: "/our-story/philosophy" },
+  // { label: "Journal", href: "/journal" },
 ];
+
+const makingLinks = [
+  { label: "Craft Traditions", href: "/pages/better-materials" },
+  { label: "Handcrafted Details", href: "/embroidery" },
+  { label: "Made to Endure", href: "/sustainability" },
+];
+
+const houseLinks = [
+  { label: "Shop All", href: "/collections/shirts" },
+  { label: "Care Guide", href: "/product-care" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Track order", href: "/return/track-order" },
+  { label: "Contact Us", href: "/contact" },
+];
+
+/* Minimal line-art flower mark, echoes the botanical branch below */
+function FlowerMark({ className = "" }) {
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <g stroke="#8a7f6d" strokeWidth="0.9">
+        {[0, 60, 120, 180, 240, 300].map((deg) => (
+          <ellipse
+            key={deg}
+            cx="20"
+            cy="12"
+            rx="3.4"
+            ry="7"
+            transform={`rotate(${deg} 20 20)`}
+          />
+        ))}
+        <circle cx="20" cy="20" r="2.1" fill="#8a7f6d" stroke="none" />
+      </g>
+    </svg>
+  );
+}
+
+function PinterestIcon({ size = 16 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
+      <circle cx="12" cy="12" r="9.5" />
+      <path
+        d="M9.5 18c.6-2.4 1.2-4.9 1.9-7.6M12 12c0-1.4 1.1-3 3.1-3 2.2 0 3.4 1.6 3.4 3.6 0 2.6-1.3 4.9-3.5 4.9-1 0-1.9-.6-2.2-1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 export default function UltraPremiumFooter() {
   const [email, setEmail] = useState("");
@@ -60,171 +117,250 @@ export default function UltraPremiumFooter() {
         setMessage("Thank you for subscribing.");
         setEmail("");
       } else {
-        alert(data.message || "Subscription failed");
+        setSuccess(false);
+        setMessage(data.message || "Subscription failed.");
       }
     } catch (error) {
       setSuccess(false);
-      setMessage(data.message || "Subscription failed.");
+      setMessage("Subscription failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
   return (
-    <footer className="w-full bg-white border-t border-stone-200">
-      {/* ── MAIN 3-COLUMN GRID ─────────────────────────── */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-stone-100">
-        {/* COL 1 — Newsletter */}
+    <footer
+      className={`${body.className} w-full`}
+      style={{ background: "#F6F2EA" }}
+    >
+      <div className="max-w-[1280px] mx-auto px-8 md:px-14 pt-14 pb-10">
+        {/* Flower mark */}
+        {/* <FlowerMark className="w-8 h-8 mb-10" /> */}
         <motion.div
-          className="px-8 lg:py-14 py-5 lg:px-20"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <div style={{ marginBottom: "0.271rem" }}>
-            <img
+            initial={{ opacity: 0, y: 32, scale: 0.94 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true }}
+          >
+            <motion.img
               src="/images/logo/3.svg"
-              alt="Dhirago"
-              style={{ width: 80, marginLeft: -8, opacity: 0.85 }}
+              alt="Logo"
+              className="relative right-[54px] bottom-[10px]  w-[120px] md:w-[110px] opacity-90"
             />
+          </motion.div>
+
+        {/* ── 4-COLUMN GRID ─────────────────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-12">
+          {/* COL 1 — The Story */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
             <p
-              className="font-futura"
-              style={{
-                fontSize: 12,
-                letterSpacing: "0.55em",
-                textTransform: "uppercase",
-                color: "#111111",
-              }}
+              className={`font-futura text-[12px] font-medium tracking-[0.25em] uppercase text-[#2b2620]`}
             >
-              Dhirago
+              The Story
             </p>
-          </div>
+            <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
 
-          <p
-            className="font-futura text-[13px] md:text-[15px]   font-medium"
-            style={{
-              lineHeight: 1.85,
-              color: "#111111",
-              maxWidth: "100%",
-              marginBottom: "2rem",
-            }}
-          >
-            Built for dominance in fashion. Designed to stand above the noise.
-          </p>
+            <nav className="flex flex-col gap-6">
+              {storyLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${display.className} text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+                
+            {/* <BranchSprig className="w-24 h-28 mt-8 hidden sm:block" /> */}
+          </motion.div>
 
-          {/* Email input row */}
-          <div
-            className={`flex items-stretch border border-solid border-black transition-colors duration-200 ${
-              focused ? "border-stone-900" : "border-stone-300"
-            }`}
+          {/* COL 2 — The Making */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            viewport={{ once: true }}
           >
-            <input
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-              className="flex-1 min-w-0 bg-transparent px-4 py-3 text-[13px] font-light text-stone-900 placeholder:text-stone-400 outline-none"
-            />
-           
-            <button
-              type="button"
-              onClick={handleSubscribe}
-              disabled={loading}
-              aria-label="Subscribe"
-              className="border-l border-stone-300 px-4 flex items-center justify-center text-stone-900 hover:bg-stone-900 hover:text-white transition-colors duration-200 shrink-0"
+            <p
+              className={`font-futura text-[12px]  tracking-[0.25em] uppercase text-[#2b2620]`}
             >
-              <p>{loading ? "Please wait..." : "Subscribe"}</p>
-            </button>
-          </div>
-           {message && (
+              The Making
+            </p>
+            <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
+
+            <nav className="flex flex-col gap-6">
+              {makingLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${display.className} text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </motion.div>
+
+          {/* COL 3 — The House */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <p
+              className={`font-futura text-[12px] tracking-[0.25em] uppercase text-[#2b2620]`}
+            >
+              The House
+            </p>
+            <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
+
+            <nav className="flex flex-col gap-6">
+              {houseLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${display.className} text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </motion.div>
+
+          {/* COL 4 — Stay Connected */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            viewport={{ once: true }}
+          >
+            <p
+              className={`font-futura text-[12px] tracking-[0.25em] uppercase text-[#2b2620]`}
+            >
+              Stay Connected
+            </p>
+            <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
+
+            <p
+              className={`${display.className} text-[16px] leading-[1.6] text-[#111111] mb-5`}
+            >
+              Thoughts on craft, material, and the beauty of time.
+            </p>
+
+            <div
+              className={`flex items-stretch border border-solid  transition-colors duration-200 ${
+                focused ? "border-[#2b2620]" : "border-[#c9c0af]"
+              }`}
+              style={{ background: "#F6F2EA" }}
+            >
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                className={`${display.className} flex-1 min-w-0 bg-transparent px-4 py-3 text-[15px] text-[#2b2620] placeholder:text-[#8a7f6d] `}
+              />
+              <button
+                type="button"
+                onClick={handleSubscribe}
+                disabled={loading}
+                aria-label="Subscribe"
+                className="px-4 flex items-center justify-center text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200 shrink-0"
+              >
+                {loading ? (
+                  <span className={`${display.className} text-[13px]`}>
+                    ···
+                  </span>
+                ) : (
+                  <span aria-hidden="true">&#8594;</span>
+                )}
+              </button>
+            </div>
+
+            {message && (
               <p
                 className={`mt-2 text-xs ${
-                  success ? "text-green-600" : "text-red-600"
+                  success ? "text-green-700" : "text-red-700"
                 }`}
               >
                 {message}
               </p>
             )}
-        </motion.div>
 
-        {/* COL 2 — Logo + Quote */}
-        <motion.div
-          className="px-8 lg:py-14 lg:px-12 md:order-first lg:order-none"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          viewport={{ once: true }}
-        >
-          {/* Logo + wordmark */}
-
-          <p className="text-[13px] md:text-[15px] font-medium leading-[2.1] text-stone-700  font-futura">
-            <em className={`text-[2xl] ${josefin.className}`}>““</em>Dhirago
-            designs powerful clothing for those who refuse to blend in —
-            statement pieces, bold silhouettes, and styles that invite a second
-            glance.<em className={`text-[2xl] ${josefin.className}`}>““</em>
-          </p>
-        </motion.div>
-
-        {/* COL 3 — Support links */}
-        <motion.div
-          className="px-8 lg:py-14 py-5 lg:px-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          <p
-            className={`${josefin.className} text-[11px] font-normal tracking-[0.28em] uppercase text-stone-500 lg:text-stone-900 mb-6`}
-          >
-            Support
-          </p>
-
-          <nav aria-label="Support links" className="flex flex-col gap-3">
-            {supportLinks.map((link, i) => (
-              <Link
-                key={i}
-                href={link.href}
-                target={link.target}
-                style={{ color: "#111111" }}
-                className="text-[13px] md:text-[15px]   hover:text-stone-700 hover:underline underline-offset-2 transition-colors duration-200 leading-snug"
+            <div className="flex items-center gap-4 mt-6">
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"
               >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        </motion.div>
+                <Instagram size={17} strokeWidth={1.4} />
+              </a>
+              <a
+                href="#"
+                aria-label="Pinterest"
+                className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"
+              >
+                <PinterestIcon size={17} />
+              </a>
+              <a
+                href="mailto:hello@dhirago.com"
+                aria-label="Email"
+                className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"
+              >
+                <Mail size={17} strokeWidth={1.4} />
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       {/* ── DIVIDER ────────────────────────────────────── */}
-      <div className="px-10 lg:px-[5rem]">
-        <hr className="border-t border-stone-800" />
+      <div className="max-w-[1280px] mt-14 mx-auto px-8 md:px-14">
+        <hr className="border-t border-[#dcd5c6]" />
       </div>
-      {/* ── BOTTOM BAR ─────────────────────────────────── */}
-      <div className="w-full px-8 lg:px-20 lg:py-20  py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <p className="text-[12.5px] font-medium text-stone-400 tracking-wide">
-          © All Rights Reserved 2026 · Dhirago Fashion Pvt Ltd
-        </p>
 
-        <div className="flex items-center gap-4 relative left-[70%] lg:left-[0%]">
-          {[
-            { Icon: Facebook, href: "#", label: "Facebook" },
-            { Icon: Twitter, href: "#", label: "Twitter" },
-            { Icon: Instagram, href: "#", label: "Instagram" },
-          ].map(({ Icon, href, label }, i) => (
-            <motion.a
-              key={i}
-              href={href}
-              aria-label={label}
-              className="text-stone-800 hover:text-stone-900 transition-colors duration-200"
-              whileHover={{ y: -2 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Icon size={16} />
-            </motion.a>
-          ))}
+      {/* ── BOTTOM BAR ─────────────────────────────────── */}
+      <div className="max-w-[1280px] mx-auto px-8 md:px-14 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <p 
+           style={{ fontFamily: "'Josefin Sans, Josefin Sans Fallback" }}
+            className={`text-[18px] tracking-[0.3em] text-[#111111]`}
+          >
+            DHIRAGO
+          </p>
+          <p className={`${display.className} text-[15px] mt-3 text-[#111111]`}>
+            The beauty of time, thoughtfully made.
+          </p>
         </div>
+
+        <div
+          className={`${display.className} flex items-center gap-3 text-[13px] text-[#111111] order-3 md:order-2`}
+        >
+          <Link href="/privacy" className="tracking-[0.08em] uppercase hover:text-[#2b2620]">
+            Privacy Policy
+          </Link>
+          <span className="text-[#111111]">|</span>
+          <Link href="/shipping-and-return" className="tracking-[0.08em] uppercase hover:text-[#2b2620]">
+            Shipping &amp; Returns
+
+          </Link>
+        </div>
+
+        <p
+          className={`${display.className} text-[13px] text-[#2b2620] order-2 md:order-3`}
+        >
+          © {new Date().getFullYear()} DHIRAGO. All rights reserved.
+        </p>
       </div>
     </footer>
   );

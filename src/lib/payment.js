@@ -14,6 +14,7 @@ export const handleOnlinePayment = async ({
   const { data } = await API.post("/razorpay/create-order", {
     amount: priceTotal,
   });
+  const rzpkey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
 
    event({
       action: "checkout",
@@ -23,7 +24,7 @@ export const handleOnlinePayment = async ({
     });
 
   const options = {
-    key: "rzp_test_T5rZahgoKKZKZy",
+    key: rzpkey,
     amount: data.amount,
     currency: "INR",
     order_id: data.id,

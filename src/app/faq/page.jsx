@@ -147,7 +147,7 @@ export default function FAQPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-16 py-12 md:py-20 flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6">
           <div>
            
-            <h1 className="text-[0.88rem] text-center sm:text-3xl  md:text-2xl font-medium leading-tight text-stone-900 uppercase">
+            <h1 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
               Frequently Asked 
               Questions
             </h1>
@@ -250,7 +250,7 @@ export default function FAQPage() {
           >
             {/* Category heading */}
             <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
-              <h2 className="text-base md:text-xl font-medium text-stone-700 leading-none shrink-0">
+              <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
                 {category.charAt(0) + category.slice(1).toLowerCase()}
               </h2>
               <div className="flex-1 h-px bg-stone-200" />
@@ -274,7 +274,7 @@ export default function FAQPage() {
                         <span className="text-[11px] text-stone-300 mt-0.5 shrink-0 tabular-nums hidden sm:block">
                           {(i + 1).toString().padStart(2, "0")}
                         </span>
-                        <span className="text-sm md:text-[17px] font-normal text-stone-800 group-hover:text-stone-900 transition-colors duration-200 leading-snug">
+                        <span className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                           {item.q}
                         </span>
                       </div>
@@ -297,7 +297,7 @@ export default function FAQPage() {
                           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
-                          <div className="pl-0 sm:pl-9 pb-5 md:pb-6 pr-4 md:pr-10 text-sm md:text-[15px] font-medium text-stone-600 leading-[1.9]">
+                          <div className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                             {item.a}
                           </div>
                         </motion.div>
@@ -318,7 +318,7 @@ export default function FAQPage() {
             <p className="text-[10px] tracking-[0.45em] uppercase text-stone-400 mb-2">
               Still need help?
             </p>
-            <p className="text-xl md:text-[26px] font-light text-stone-900">
+            <p className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
               We're here to assist you
             </p>
           </div>

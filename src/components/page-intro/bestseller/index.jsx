@@ -26,22 +26,22 @@ export default function Hero() {
      
 
         {/* Copy */}
-        <div className="flex items-center px-6 py-14 md:px-16 lg:px-28 text-[#14171A]">
+        <div className="flex items-center px-6 py-14 md:px-16 lg:px-28 ">
           <div className="max-w-md">
-            <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.2em] text-[#14171A]">
+            <p className={`${josefin.className} mb-6  `}
+              style={{
+                fontSize: "clamp(0.725rem, 1.6vw, 1.112rem)",
+                color: "#333333",
+                letterSpacing: "0.02em",
+              }}>
               The Mul Story: Woven Like Air
             </p>
 
-            <p className="font-futura text-[17px] leading-[1.85] text-[#14171A]/85">
-              Before the rise of industrial yarns and calibrated counts,
-              there existed a cloth so fine it moved like air itself. Woven
-              along the riverbanks of Bengal, shaped by humidity, patience,
-              and hand memory, muslin was never merely a textile. It was an
-              atmosphere of dialogue between cotton, climate, and human
-              touch.
+            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]" >
+              The First Story introduces our collection of menswear, beginning in Udaipur—a city where craftsmanship is not preserved as history, but lived as tradition. Among its tranquil lakes, weathered stone, quiet courtyards, and enduring craft, we found a way of seeing that continues to shape Dhirago.
             </p>
 
-            <p className="font-futura mt-5 text-[17px] leading-[1.85] text-[#14171A]/85">
+            <p className="font-futura mt-5 font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
               At Dhirago  our 200-count{" "}
               <a href="#" className="underline decoration-[#9C8055] underline-offset-4">
                 handspun
@@ -49,7 +49,7 @@ export default function Hero() {
               mul begins with this memory.
             </p>
 
-            <p className="font-futura mt-6 text-[16px] italic text-[#14171A]">
+            <p className="font-futura mt-6 font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
               Not as nostalgia, but as continuation.
             </p>
 

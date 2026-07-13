@@ -61,10 +61,10 @@ function CraftCard({ num, name, desc, delay = 0 }) {
         <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "3.5rem", fontWeight: 300, color: "#E8E0D0", lineHeight: 1, marginBottom: "1.5rem", letterSpacing: "-0.02em" }}>
           {num}
         </div>
-        <div className={`${josefin.className} uppercase `} style={{  fontSize: num === "02" ? "1rem" : "1.1rem", fontWeight: 400, color: "#1C1814", marginBottom: "1rem", letterSpacing: "0.12em" }}>
+        <div className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}>
           {name}
         </div>
-        <p className="font-futura" style={{ fontSize: "clamp(13px,1.5vw,1.088rem)", textAlign: "justify", fontWeight: 300, lineHeight: 1.8, color: "#6B5B4E", margin: 0 }}>
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]" >
           {desc}
         </p>
       </div>
@@ -174,18 +174,11 @@ export default function AboutPage() {
         <section style={{ padding: "clamp(5rem,11vw,9rem) 0", background: "#FAFAF7" }}>
           <div style={{ maxWidth: 980, margin: "0 auto", padding: "0 clamp(1.5rem,5vw,3rem)", textAlign: "center" }}>
 
-            <Reveal>
-              <span className={`${josefin.className} uppercase `} style={{ display: "inline-flex", alignItems: "center", gap: "0.9rem", fontSize: "0.95rem", letterSpacing: "0.48em", textTransform: "uppercase", color: "#9A8C7E", marginBottom: "2.5rem" }}>
-                <span style={{ width: 24, height: "1px", background: "#B8975A", display: "block" }} />
-                Our Story
-                <span style={{ width: 24, height: "1px", background: "#B8975A", display: "block" }} />
-              </span>
-            </Reveal>
+           
 
             <Reveal delay={100}>
-              <h2 className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(1.1rem,2.2vw,1.5rem)", lineHeight: 1.2, letterSpacing: "0.1em", color: "#1A1714", marginBottom: "3rem" }}>
-                A Label woven in stillness,{" "}
-                <em style={{ fontStyle: "italic", color: "#B8975A" }}>defined by craftsmanship</em>
+              <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.03em] mb-6`} >
+                A Label woven in stillness,defined by craftsmanship
               </h2>
             </Reveal>
 
@@ -199,17 +192,17 @@ export default function AboutPage() {
             }}>
 
               <Reveal delay={260}>
-              <p className="font-futura" style={{ fontWeight: 300,  fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.5rem" }}>
+              <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                 DHIRAGO originates from a narrative that simplicity holds depth and life is meant to be felt, not rushed. The name is inspired by <em style={{ fontStyle: "italic" }}>"Dheera"</em> a state of calmness that values clarity and thoughtful living. In a world that moves quickly, it offers a sense of ease—inviting you to slow down and experience beauty found in small details. DHIRAGO crafts menswear that celebrates simplicity, comfort, and the beauty of well-considered details.
               </p>
             </Reveal>
             <Reveal delay={340}>
-              <p className="font-futura" style={{ fontWeight: 300,  fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.5rem" }}>
+              <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3" >
                As a conscious luxury label, DHIRAGO works with 60 count European linen and organically sourced fabric, valued for its breathability, texture, and the way it softens over time. Produced in small batches in close collaboration with artisans, where each item is hand-cut, sewn by a single tailor from beginning to end and carefully hand-finished.
               </p>
             </Reveal>
             <Reveal delay={420}>
-              <p className="font-futura" style={{ fontWeight: 300,  fontSize: "clamp(0.88rem,1.2vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: 0 }}>
+              <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3" >
                 Craftsmanship lies at the heart of DHIRAGO, our designs draw from heritage techniques and time honoured practices like block printing, natural dye and intricate detailing of miniature art alongside handwork traditions inspired from sashiko, kantha and tangaliya weaving. We actively collaborate with karigars across India to create piece that celebrate traditional craftsmanship while remaining relevant to modern wardrobe.
               </p>
             </Reveal>
@@ -222,105 +215,92 @@ export default function AboutPage() {
             Desktop: big italic quote LEFT | body paras RIGHT
             Mobile:  heading → 4 stacked bordered paragraphs
         ════════════════════════════════════════════════════════ */}
-        <section style={{ position: "relative", overflow: "hidden", minHeight: "100vh", display: "flex", alignItems: "center" }}>
+     <section
+  aria-label="Udaipur — the city of lakes"
+  style={{ position: "relative", overflow: "hidden", minHeight: "100vh", display: "flex", alignItems: "center" }}
+>
+  <video
+    ref={udaipurVideoRef}
+    src="/videos/udaipur1.mp4"
+    autoPlay loop muted playsInline
+    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+  />
+  <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to right, rgba(10,16,24,0.85) 0%, rgba(10,16,24,0.6) 50%, rgba(10,16,24,0.28) 100%)" }} />
 
-          <video
-            ref={udaipurVideoRef}
-            src="/videos/udaipur1.mp4"
-            autoPlay loop muted playsInline
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-          />
-          <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to right,rgba(10,16,24,0.82) 0%,rgba(10,16,24,0.55) 55%,rgba(10,16,24,0.25) 100%)" }} />
+ 
 
-          <div style={{ ...S.inner, position: "relative", zIndex: 2, padding: "clamp(5rem,12vw,10rem) clamp(1.25rem,4vw,3rem)" }}>
+  <div style={{ ...S.inner, position: "relative", zIndex: 2, padding: "clamp(5rem,12vw,10rem) clamp(1.25rem,4vw,3rem)" }}>
 
-            {/* Eyebrow — both views */}
-            <Reveal>
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
-                <span style={{ display: "block", width: 32, height: "1px", background: "#B8975A", opacity: 0.7 }} />
-                <p className={`${josefin.className}`} style={{ fontSize: "clamp(0.6rem,1vw,0.95rem)", letterSpacing: "0.52em", textTransform: "uppercase", color: "#9A8C7E", margin: 0 }}>
-                  Our Inspiration
-                </p>
-              </div>
-            </Reveal>
+    <Reveal>
+      <p className={josefin.className} style={{ fontSize: "clamp(0.6rem,1vw,1.01rem)", letterSpacing: "0.12em", textTransform: "uppercase", color: "#9A8C7E", margin: "0 0 1.5rem" }}>
+        Udaipur — the city of lakes
+      </p>
+    </Reveal>
 
-            {/* Heading — both views */}
-            {/* <Reveal delay={100}>
-              <h2 className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(1.5rem,4.5vw,3.2rem)", color: "#F5F0E8", lineHeight: 1.08, marginBottom: "clamp(2rem,5vw,3.5rem)", maxWidth: 720 }}>
-                Udaipur —{" "}
-                <em style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontWeight: 300, color: "#C4A882", textTransform: "none" }}>
-                  the city of lake
-                </em>
-              </h2>
-            </Reveal> */}
+    <div className="udaipur-grid" style={{ display: "flex", gap: "clamp(1.5rem,4vw,3rem)", maxWidth: 780, alignItems: "stretch" }}>
 
-            {/* Gold rule — both views */}
+      {/* Water-level rail: fills upward on reveal — the section's one signature move */}
+      <div aria-hidden="true" className="udaipur-rail" style={{ position: "relative", width: 2, flexShrink: 0, background: "rgba(196,168,130,0.18)", overflow: "hidden" }}>
+        <div className="udaipur-rail-fill" style={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "100%", background: "linear-gradient(to top, #C4A882, rgba(196,168,130,0.3))" }} />
+      </div>
+
+      <div>
       
 
-            {/* ── DESKTOP: quote left | body right ── */}
-            <div
-              className="udaipur-desktop"
-              style={{
-                gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,360px),1fr))",
-                gap: "clamp(2.5rem,6vw,5rem)",
-                alignItems: "center",
-                maxWidth: 900,
-              }}
+        {[
+          "A city built around water, where reflection softens everything into calm and completeness.",
+          "The lakes do not rush — they hold the sky, the light, the moment.",
+          "Here, water is held and preserved through time, allowed to settle into its own stillness — calm not found, but gently formed through intention.",
+          "Dhirago draws from this belief: held with care and intention, a thing transforms into something lasting.",
+        ].map((text, i) => (
+          <Reveal key={i} delay={220 + i * 90}>
+            <p
+              className="font-futura font-light"
+              style={{ lineHeight: 1.9, fontSize: "clamp(14px,1.3vw,1.01rem)", color: "#ffffff", letterSpacing: "0.03em", marginBottom: "1.4rem", maxWidth: 560 }}
             >
-              {/* Left — big italic quote */}
-              {/* <Reveal delay={240}>
-                <div style={{ borderLeft: "1px solid rgba(196,168,130,0.4)", paddingLeft: "1.75rem" }}>
-                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontWeight: 300, fontSize: "clamp(1.3rem,2.8vw,2rem)", color: "#F5F0E8", lineHeight: 1.6, letterSpacing: "0.02em", margin: 0 }}>
-                    "The lakes do not rush — they hold the sky, the light, the moment."
-                  </p>
-                </div>
-              </Reveal> */}
+              {text}
+            </p>
+          </Reveal>
+        ))}
 
-               <Reveal delay={100}>
-              <h2 className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(1.5rem,4.5vw,2.6rem)", color: "#F5F0E8", lineHeight: 1.08, marginBottom: "clamp(2rem,5vw,3.5rem)", maxWidth: 720 }}>
-                <em style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontWeight: 300, color: "#C4A882", textTransform: "none" }}>
-                  Udaipur — The city of lake
-                </em>
-              </h2>
-            </Reveal>
+        {/* Pull quote — the brand thesis, set apart from the description above */}
+        <Reveal delay={500}>
+          <blockquote
+            style={{
+              marginTop: "2rem",
+              padding: "1.25rem 1.5rem",
+              borderLeft: "2px solid #C4A882",
+              background: "rgba(196,168,130,0.08)",
+              backdropFilter: "blur(6px)",
+              maxWidth: 520,
+            }}
+          >
+            <p className="font-futura font-light" style={{ fontStyle: "italic", fontSize: "clamp(14px,1.4vw,1.08rem)", color: "#F5F0E8", lineHeight: 1.7, letterSpacing: "0.02em", margin: 0 }}>
+              Dhirago draws from this belief: held with care and intention, a thing transforms into something lasting.
+            </p>
+          </blockquote>
+        </Reveal>
+      </div>
+    </div>
+  </div>
 
-              {/* Right — body + location */}
-              <div>
-                <Reveal delay={320}>
-                  <p className="font-futura" style={{ fontWeight: 300, fontSize: "clamp(13px,1.35vw,17px)", lineHeight: 2, color: "rgba(245,240,232,0.72)", marginBottom: "1.4rem" }}>
-                    A city built around water, where water reflection softens everything into calm and completeness.
-                    <br /><br />The lakes do not rush — they hold the sky, the light, the moment. 
-                    <br /><br />Here, water was held and preserved over the time, allowed to settle into its own stillness — where calm was not found, but it gently formed through intention.
-                  </p>
-                </Reveal>
-                <Reveal delay={400}>
-                  <p className="font-futura" style={{ fontWeight: 300, fontSize: "clamp(13px,1.35vw,17px)", lineHeight: 2, color: "rgba(245,240,232,0.72)", marginBottom: "2rem" }}>
-                    Dhirago draws from this belief — that when something is held with care and intention it transforms into something lasting.
-                  </p>
-                </Reveal>
-            
-              </div>
-            </div>
-
-            {/* ── MOBILE: 4 stacked paragraphs with left gold border ── */}
-            <div className="udaipur-mobile " style={{ borderLeft: "1px solid rgba(196,168,130,0.4)"}}>
-              {[
-                "A city built around water, where water reflection softens everything into calm and completeness.",
-                "The lakes do not rush — they hold the sky, the light, the moment.",
-                "Here, Water was held and preserved over the time, allowed to settle into its own stillness — where calm was not found, but it gently formed through intention.",
-                "Dhirago draws from this belief — that when something is held with care and intention it transforms into something lasting.",
-              ].map((text, i) => (
-                <Reveal key={i} delay={240 + i * 80}>
-                  <p className="font-futura" style={{ fontWeight: 100, fontSize: "clamp(0.88rem,2.6vw,1.45rem)", color: "rgba(245,240,232,0.72)", lineHeight: 1.6, letterSpacing: "0.02em", margin: 0,  paddingLeft: "1.5rem", marginBottom: "1.5rem", textAlign: "justify" }}>
-                    {text}
-                  </p>
-                </Reveal>
-              ))}
-            
-            </div>
-
-          </div>
-        </section>
+  <style jsx>{`
+    .udaipur-rail-fill {
+      transform: translateY(100%);
+      animation: udaipurFill 1.6s ease-out 0.3s forwards;
+    }
+    @keyframes udaipurFill {
+      to { transform: translateY(0%); }
+    }
+    @media (max-width: 640px) {
+      .udaipur-coords { display: none; }
+      .udaipur-grid { gap: 1.25rem !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .udaipur-rail-fill { animation: none; transform: translateY(0%); }
+    }
+  `}</style>
+</section>
 
         {/* ════════════════════════════════════════════════════════
             04. OUR SYMBOL — heron photo left, text right
@@ -328,15 +308,7 @@ export default function AboutPage() {
         <section style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "#F0EDE6" }}>
           <div style={S.inner}>
 
-            <Reveal>
-              <div style={{ textAlign: "center", marginBottom: "clamp(3rem,6vw,5rem)" }}>
-                <span className={`${josefin.className}`} style={{ display: "inline-flex", alignItems: "center", gap: "1rem", fontSize: "clamp(0.6rem,1vw,0.95rem)", letterSpacing: "0.5em", textTransform: "uppercase", color: "#9A8C7E" }}>
-                  <span style={{ width: 28, height: "1px", background: "#C4A882", display: "block" }} />
-                  Our Symbol
-                  <span style={{ width: 28, height: "1px", background: "#C4A882", display: "block" }} />
-                </span>
-              </div>
-            </Reveal>
+           
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,300px),1fr))", gap: "clamp(3rem,7vw,7rem)", alignItems: "center" }}>
 
@@ -359,18 +331,15 @@ export default function AboutPage() {
               {/* RIGHT — text */}
               <div>
                 <Reveal delay={150}>
-                  <h3 className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(1.5rem,3.5vw,2.5rem)", color: "#1A1714", lineHeight: 1.2, marginBottom: "0.5rem", letterSpacing: "0.06em" }}>
-                    The <em style={{ color: "#7A6448" }}>Heron</em>
+                  <h3 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}>
+                    The Heron a reflection of Dhirago
                   </h3>
-                  <h3 className={`${josefin.className} uppercase`} style={{ fontWeight: 300, fontSize: "clamp(0.85rem,1.8vw,1.1rem)", color: "#6B5B4E", lineHeight: 1.3, marginBottom: "2.5rem", letterSpacing: "0.08em" }}>
-                    a reflection of Dhirago
-                  </h3>
+                 
                 </Reveal>
-                <Reveal delay={230}>
-                  <div style={{ width: 36, height: "1px", background: "#C4A882", marginBottom: "2rem" }} />
-                </Reveal>
+                
+               
                 <Reveal delay={310}>
-                  <p className="font-futura" style={{ fontWeight: 300, textAlign: "justify", fontSize: "clamp(0.88rem,1.1vw,1.088rem)", lineHeight: 2, color: "#4A4239", marginBottom: "1.4rem" }}>
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3" >
                     The heron is DHIRAGO's mark - a symbol of balance, patience, and quiet strength. Calmness in its presence and deliberate in its movement, the bird reflects our approach to craftsmanship — thoughtful, refined, and intentional. Its connection to water and nature also represents the calm spirit of Udaipur, the city that inspires our brand. 
                   </p>
                 </Reveal>
@@ -398,8 +367,8 @@ export default function AboutPage() {
         <section style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "#F5F0E8" }}>
           <div style={S.inner}>
             <Reveal>
-              <div style={{ display: "flex", alignItems: "baseline", gap: "2rem", marginBottom: "clamp(3rem,6vw,5rem)", flexWrap: "wrap" }}>
-                <h2 className={`${josefin.className} uppercase`} style={{ fontWeight: 200, fontSize: "clamp(2.2rem,5vw,1.8rem)", color: "#0F1C2E", letterSpacing: "0.08em" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "2rem", marginBottom: "clamp(1rem,1vw,1rem)", flexWrap: "wrap" }}>
+                <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}>
                   Craftsmanship
                 </h2>
               </div>
@@ -412,56 +381,23 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════
-            06. PHILOSOPHY — heron bg image, centred quote
-        ════════════════════════════════════════════════════════ */}
-        <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/images/heron.jpeg')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat", transform: "scale(1.03)" }} />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom,rgba(8,12,18,0.45),rgba(8,12,18,0.6))" }} />
-          <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "radial-gradient(circle,rgba(255,255,255,0.7) 1px,transparent 1px)", backgroundSize: "42px 42px", pointerEvents: "none" }} />
 
-          <div style={{ position: "relative", zIndex: 2, maxWidth: "900px", padding: "0 2rem", textAlign: "center" }}>
-            <Reveal>
-              
-              <p className={`${josefin.className} uppercase`} style={{ fontSize: "0.95rem", letterSpacing: "0.5em", color: "#9A8C7E", marginBottom: "2rem" }}>
-                Our Philosophy
-              </p>
-            </Reveal>
-            <Reveal delay={120}>
-              <blockquote className={`${josefin.className} uppercase`} style={{   fontWeight: 300, fontSize: "clamp(1rem,4vw,1.7rem)", lineHeight: 1.45, color: "#F5F0E8", letterSpacing: "0.02em"}}>
-                When something is held with care and intention,<br />it transforms into something lasting.
-              </blockquote>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ════════════════════════════════════════════════════════
-            07. FABRICS — image left, text right
-        ════════════════════════════════════════════════════════ */}
-     
-
-        {/* ════════════════════════════════════════════════════════
-            08. PALETTE / THE STORY — text left, image right
-        ════════════════════════════════════════════════════════ */}
-        <section style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "#F5F0E8" }}>
+         <section style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "#F5F0E8" }}>
           <div style={S.inner}>
             <div className="story-grid" style={S.twoCol}>
               <div>
                 <Reveal>
-                  <p className={`${josefin.className} uppercase`} style={{ fontSize: "0.95rem", letterSpacing: "0.5em", color: "#9A8C7E", marginBottom: "1.5rem" }}>
-                    Our Story
-                  </p>
-                  <h2 className={`${josefin.className} uppercase`} style={{ fontWeight: 200, fontSize: "clamp(1.6rem,3.5vw,1.1rem)", color: "#0F1C2E", lineHeight: 1.2, marginBottom: "1rem", letterSpacing: "0.06em" }}>
-                    The Palette of{" "}
-                    <em style={{ fontSize:"clamp(1.6rem,3.5vw,2.5rem)",fontWeight:300, color: "#6B5B4E", textTransform: "none" }}>DHIRAGO</em>
+                
+                  <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}>
+                    The Palette of DHIRAGO
+                   
                   </h2>
                 </Reveal>
                 <Reveal delay={150}>
-                  <div style={S.rule} />
-                  <p className="font-futura" style={{ ...S.bodyDark }}>
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3" >
                     DHIRAGO finds inspiration in the landscapes and subtle textures found in natural surroundings. The colour palette is shaped by tones that feel familiar and enduring — warm beiges, earthy browns, ecru, soft sky blues, muted lavenders, gentle greens, and sun-washed mustards. Rather than following seasonal colour trends, the focus remains on shades that feel timeless, calm, and easy to live with.
                   </p>
-                  <p className="font-futura" style={{ ...S.bodyDark, marginBottom: 0 }}>
+                  <p className=" font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] ">
                     Designed with clean lines and relaxed silhouettes, the garments are created to become a natural part of everyday life. They are made to move effortlessly between moments — from workdays to slow weekends, casual gatherings to evening plans. Each piece is a belief that clothing should feel personal and comfortable, allowing individuality to come  naturally rather than demanding attention.
                   </p>
                 </Reveal>
@@ -480,27 +416,37 @@ export default function AboutPage() {
         </section>
 
         {/* ════════════════════════════════════════════════════════
-            09. CLOSING — dark, shimmer rule, large quote
+            06. PHILOSOPHY — heron bg image, centred quote
         ════════════════════════════════════════════════════════ */}
-        <section className="noise-overlay" style={{ position: "relative", padding: "clamp(5rem,12vw,11rem) 0", textAlign: "center", background: "linear-gradient(180deg,#0D1B2E 0%,#08121F 100%)", overflow: "hidden" }}>
-          <div style={{ position: "absolute", bottom: "-20%", left: "50%", transform: "translateX(-50%)", width: "80%", height: "60%", background: "radial-gradient(ellipse,rgba(196,168,130,0.07) 0%,transparent 65%)", pointerEvents: "none" }} />
-          <div style={{ ...S.inner, position: "relative", zIndex: 2 }}>
-            <Reveal>
-              <div className="gold-rule-animate" style={{ width: 1, height: 80, margin: "0 auto 3.5rem" }} />
-            </Reveal>
-            <Reveal delay={100}>
-              <p className="font-futura" style={{   fontWeight: 200, fontSize: "clamp(1.8rem,4.5vw,2.1rem)", color: "#F5F0E8", lineHeight: 1.3, maxWidth: 760, margin: "0 auto 3rem", letterSpacing: "0.02em" }}>
-                In a world that moves quickly we choose to be still.
-              </p>
-            </Reveal>
-            <Reveal delay={200}>
-              <p className="font-futura" style={{ fontSize: 10, letterSpacing: "0.45em", textTransform: "uppercase", color: "#C4A882", opacity: 0.7 }}>
-                Dhirago · Conscious Luxury
-              </p>
+        <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+          <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/images/heron.jpeg')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat", transform: "scale(1.03)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom,rgba(8,12,18,0.45),rgba(8,12,18,0.6))" }} />
+          <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "radial-gradient(circle,rgba(255,255,255,0.7) 1px,transparent 1px)", backgroundSize: "42px 42px", pointerEvents: "none" }} />
+
+          <div style={{ position: "relative", zIndex: 2, maxWidth: "900px", padding: "0 2rem", textAlign: "center" }}>
+           
+            <Reveal delay={120}>
+              <blockquote className={`${josefin.className} uppercase font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#ffffff] tracking-[0.23em]`} >
+                When something is held with care and intention,<br />it transforms into something lasting.
+              </blockquote>
             </Reveal>
           </div>
         </section>
 
+        {/* ════════════════════════════════════════════════════════
+            07. FABRICS — image left, text right
+        ════════════════════════════════════════════════════════ */}
+     
+
+        {/* ════════════════════════════════════════════════════════
+            08. PALETTE / THE STORY — text left, image right
+        ════════════════════════════════════════════════════════ */}
+     
+
+        {/* ════════════════════════════════════════════════════════
+            09. CLOSING — dark, shimmer rule, large quote
+        ════════════════════════════════════════════════════════ */}
+    
       </div>
     </>
   );

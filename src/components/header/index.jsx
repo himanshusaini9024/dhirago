@@ -226,7 +226,7 @@ const Header = () => {
               </button>
 
               <nav
-                className={`${josefin.className} uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-sm tracking-wider text-sm uppercase`}
+                className={`${josefin.className} uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-[1.172rem] tracking-wider text-sm uppercase`}
               >
                 <div>
                   <Link href={"/collections/shirts"}>
@@ -259,6 +259,7 @@ const Header = () => {
              
                 ${isHeroPage ? (scrolled ? "text-black" : "text-white") : "text-black"}
               `}
+              
             >
               <Link
                 className={`${pathname == "/pages/better-materials" ? (scrolled ? "text-black block" : "hidden") : "block"} ${josefin.className}  `}

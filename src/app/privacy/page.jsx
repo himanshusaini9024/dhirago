@@ -30,11 +30,12 @@ export default function PrivacyPolicyPage() {
       <div className="max-w-5xl mx-auto px-6 md:px-10 py-14">
         
 
-        <h1 className={`lg:text-[22px] font-semibold uppercase tracking-wide text-stone-900 mb-8 }`}>
+        <h1 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+>
           What is your Privacy Policy?
         </h1>
 
-        <div className="lg:text-[17px] text-[14px] text-align  font-medium leading-[1.9] text-stone-700 space-y-4">
+        <div   className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <p>
             This Website with the URL <a href="https://www.dhirago.com" className="underline text-stone-900">www.dhirago.com</a> ("Website/Site") is operated by Dhirago Fashion Private Limited ("We/Our/Us"). We are committed to protecting and respecting your privacy. We collect your personal information and process your personal data in accordance with applicable law in India relating to the processing of personal data. Please read the following carefully to understand how we use your personal data.
           </p>
@@ -77,10 +78,10 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Section: How We Collect */}
-        <h2 className="lg:text-[18px] font-semibold uppercase tracking-wide text-stone-900 mt-12 mb-5">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           How We Collect the Information
         </h2>
-        <ul className="list-disc pl-5 space-y-2 lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700">
+        <ul className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <li>From you directly and through this site: We may collect information through the Website when you visit. The data we collect depends on the context of your interaction with the Website.</li>
           <li>Through business interaction: We may collect information through business interaction with you or your employees.</li>
           <li>From other sources: We may receive information from other sources, such as public databases; joint marketing partners; social media platforms; or other third parties such as updated delivery and address information from our carriers, which we use to correct our records and deliver your next purchase of communication more easily.</li>
@@ -88,13 +89,13 @@ export default function PrivacyPolicyPage() {
         </ul>
 
         {/* Section: Information We Collect */}
-        <h2 className="text-[18px] font-semibold uppercase tracking-wide text-stone-900 mt-12 mb-5">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           Information We Collect
         </h2>
-        <p className="lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700 mb-4">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We collect information primarily to provide better services to all of our customers.
         </p>
-        <ul className="list-disc pl-5 space-y-2 lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700">
+        <ul className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <li>When you visit our site, some information is automatically collected. This may include information such as the Operating System (OS) running on your device, Internet Protocol (IP) address, access times, browser type, and language, and the website you visited before our site. We also collect information about how you use Our products or services.</li>
           <li>We automatically collect purchase or content use history, which we sometimes aggregate with similar information from other customers to create features such as Best Seller, Top Rate, etc.</li>
           <li>The full Uniform Resource Locators (URL) clickstream to, through and from our website (including date and time; cookie number; products and/or content you viewed or searched for; page response times; download errors; length of visits to certain pages; page interaction information (such as scrolling, clicks, and mouse-overs).</li>
@@ -102,50 +103,50 @@ export default function PrivacyPolicyPage() {
         </ul>
 
         {/* Section: Cookies */}
-        <h2 className="text-[18px] font-semibold uppercase tracking-wide text-stone-900 mt-12 mb-5">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           Cookies
         </h2>
-        <p className="lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We use cookies and similar tracking technologies to track activity on our Website and hold certain information. Cookies are files with a small amount of data which may include an anonymous unique identifier. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Website.
         </p>
 
         {/* Section: Data Sharing */}
-        <h2 className="text-[18px] font-semibold uppercase tracking-wide text-stone-900 mt-12 mb-5">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           Data Sharing
         </h2>
-        <p className="lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We do not sell, trade, or rent your personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates and advertisers for the purposes outlined above.
         </p>
 
         {/* Section: Security */}
-        <h2 className="text-[18px] font-semibold uppercase tracking-wide text-stone-900 mt-12 mb-5">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           Security
         </h2>
-        <p className="lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We adopt appropriate data collection, storage, and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal information, username, password, transaction information and data stored on our Website.
         </p>
 
         {/* Section: Your Rights */}
-        <h2 className="text-[18px] font-semibold uppercase tracking-wide text-stone-900 mt-12 mb-5">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           Your Rights
         </h2>
-        <p className="lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           You have the right to access, update or delete the information we have on you. Whenever made possible, you can access, update or request deletion of your personal information directly within your account settings section. If you are unable to perform these actions yourself, please contact us to assist you. You also have the right to withdraw consent at any time where we relied on your consent to process your personal information.
         </p>
 
         {/* Section: Policy Updates */}
-        <h2 className="text-[18px] font-semibold uppercase tracking-wide text-stone-900 mt-12 mb-5">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           Policy Updates
         </h2>
-        <p className="lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We may update this privacy policy periodically. We will notify you of any changes by posting the new privacy policy on this page and updating the "Last Updated" date. You are advised to review this Privacy Policy periodically for any changes.
         </p>
 
         {/* Section: Contact */}
-        <h2 className="text-[18px] font-semibold uppercase tracking-wide text-stone-900 mt-12 mb-5">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           Contact
         </h2>
-        <p className="lg:text-[17px] text-[14px] font-medium leading-[1.9] text-stone-700">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           If you have any questions about this Privacy Policy, please contact us at <a href="mailto:contact@dhirago.com" className="underline text-stone-900">contact@dhirago.com</a> or call us at +91-8905524932.
         </p>
 

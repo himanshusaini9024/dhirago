@@ -160,19 +160,19 @@ export default function BetterMaterials() {
 
       {/* ══ 2. INTRO ═══════════════════════════════════════════ */}
       <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24 text-center max-w-[64rem] mx-auto">
-        <h2 className={`text-xl md:text-[31.75px]  font-light text-stone-800 leading-snug mb-5 ${josefin.className} `}>
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           True craftsmanship starts with the material
         </h2>
-        <p className="text-sm md:text-base text-stone-800 md:leading-9 leading-7 font-futura text-center">
+        <p className="font-futura font-light leading-[1.75] text-[clamp(14px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] tracking-[0.03em]">
           Every garment begins with a story. The materials we choose become its foundation, shaping its character, comfort, and longevity. We are deliberate about every fabric—where it comes from, how it is produced, and the hands involved in its making—ensuring each piece is crafted with care for both the wearer and the world it belongs to.
         </p>
       </section>
 
       {/* ══ 3. MATERIALS — stacked ═════════════════════════════ */}
-      {materials.map((mat, index) => (
+      {/* {materials.map((mat, index) => (
         <section key={mat.id} className="px-4 sm:px-8 md:px-16 lg:px-24 mb-20">
 
-          {/* Full-width image */}
+        
           <div className="relative w-full h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden rounded-sm">
             <Image
               src={mat.image}
@@ -192,12 +192,11 @@ export default function BetterMaterials() {
             </div>
           </div>
 
-          {/* Description */}
           <div className="max-w-[60rem] mx-auto mt-10 md:mt-16">
-            <p className="text-sm md:text-base font-futura text-justify text-stone-800 !leading-8 mb-4">
+            <p className="font-futura font-light leading-[1.75] text-[clamp(14px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] tracking-[0.03em] mb-3">
               {mat.description1}
             </p>
-            <p className="text-sm md:text-base font-futura text-justify text-stone-800 !leading-8">
+            <p className="font-futura font-light leading-[1.75] text-[clamp(14px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] tracking-[0.03em]">
               {mat.description2}
             </p>
           </div>
@@ -208,69 +207,65 @@ export default function BetterMaterials() {
             </div>
           )}
         </section>
-      ))}
+      ))} */}
 
-      {/* ══ 4. MATERIAL QUALITIES ══════════════════════════════ */}
-      <div className="py-14 md:py-24 px-4 sm:px-8 md:px-16 lg:px-20 bg-[#F7F3EE]">
-        <div className="max-w-[1160px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+         <section className="pt-16 lg:pt-20">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
+          <h2
+            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 text-center`}
+          >
+          European linen
+          </h2>
+         
+        </div>
+      </section>
 
-            {/* LEFT — clickable quality list */}
-            <Reveal from="left">
-              <span className="block text-[9px] font-light tracking-[0.55em] uppercase text-[#A08870] mb-6">
-                Material Qualities
-              </span>
-
-              {linenQualities.map((q, i) => (
-                <div
-                  key={i}
-                  onClick={() => setActiveQuality(i)}
-                  className={`
-                    py-4 md:py-5 border-b border-black/10 cursor-pointer
-                    transition-all duration-300 ease-in-out
-                    first:border-t first:border-black/10
-                    ${activeQuality === i ? "pl-3" : "pl-0 hover:pl-3"}
-                  `}
-                >
-                  <div className="flex items-center gap-4 md:gap-5">
-                    <span className={`text-base w-5 text-center transition-opacity duration-300 text-[#C4A882] ${activeQuality === i ? "opacity-100" : "opacity-30"}`}>
-                      {q.icon}
-                    </span>
-                    <span className={`font-futura text-sm md:text-base font-normal tracking-[0.07em] uppercase transition-colors duration-300 ${activeQuality === i ? "text-[#1C1814]" : "text-[#1C1814]/30"}`}>
-                      {q.title}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </Reveal>
-
-            {/* RIGHT — sticky detail card */}
-            <div className="lg:sticky lg:top-20 mt-8 lg:mt-0">
-              <Reveal>
-                <div className="bg-[#C4A882]/[0.07] border border-[#C4A882]/25 px-6 sm:px-8 lg:px-10 py-8 md:py-10">
-                  <div className="text-3xl md:text-[2.2rem] text-[#C4A882] mb-5">
-                    {linenQualities[activeQuality].icon}
-                  </div>
-                  <h3 className={` ${josefin.className}  text-xl md:text-[clamp(0.589rem,2.5vw,0.992rem)] font-normal tracking-[0.06em] uppercase text-[#1C1814] mb-4 leading-[1.3] `}>
-                    {linenQualities[activeQuality].title}
-                  </h3>
-                  <p className="text-sm md:text-[clamp(13px,1.4vw,15px)] font-futura font-light leading-[1.9] text-[#4A4035] text-justify">
-                    {linenQualities[activeQuality].body}
-                  </p>
-                  <div className="w-12 h-px bg-[#C4A882] mt-7" />
-                </div>
-              </Reveal>
+      <section className="pt-10 lg:pt-12 pb-16 lg:pb-20">
+        <div className="mx-auto px-5 sm:px-8 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-12 lg:gap-16 items-start">
+            <div>
+              <img
+                src="https://ekdulari.com/cdn/shop/files/Screenshot_2026-07-04_at_4.45.48_PM.png?v=1783163816"
+                alt="Mohammad Ashraf"
+                loading="lazy"
+                className="w-full block"
+              />
             </div>
-
+            <div className="max-w-[1080px] ">
+              <p
+                className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
+              >
+                Every piece begins with a simple belief – true quality comes from the material. We use 60 count European linen, a finer and more refined yarn— carefully sourced through trusted textile partners who share our commitment to exceptional quality. Crafted from premium European flax fibres, this linen is renowned for its natural breathability and refined texture. Grown primarily through rain-fed cultivation with minimal environmental impact, it is a material valued as much for its sustainability as for its timeless elegance.
+              </p>
+              <p
+                className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]"
+              >
+                European flax is known for its longer staple length, which directly enhances the durability, smoothness, it’s soft on the skin, yet strong in its legacy. Often regarded as the fabric of royalty, linen carries a legacy of understated luxury. It is naturally cooling, antibacterial, and eco-conscious. This exceptional material is brought to life through Indian craftsmanship. From selecting the finest linen to the precision of the final stitch, attention to detail remains uncompromised.
+              </p>
+         
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ══ 4. MATERIAL QUALITIES ══════════════════════════════ */}
+     <section className="lg:w-1/2 relative lg:left-[30rem]" style={{ overflow: "hidden", minHeight: "57vh", display: "flex", alignItems: "center" }}>
+
+          <video
+            src="/videos/udaipur1.mp4"
+            autoPlay loop muted playsInline
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+          />
+          <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to right,rgba(10,16,24,0.82) 0%,rgba(10,16,24,0.55) 55%,rgba(10,16,24,0.25) 100%)" }} />
+
+          
+        </section>
 
       {/* ══ 5. HALLMARKS SECTION ═══════════════════════════════ */}
       <section className="py-14 md:py-20 px-4 sm:px-8 md:px-16 lg:px-24">
 
         {/* Full-width image */}
-        <div className="relative w-full h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden rounded-sm">
+        {/* <div className="relative w-full h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden rounded-sm">
           <Image
             src="/images/european-linen.jpg"
             alt="European Linen"
@@ -279,19 +274,19 @@ export default function BetterMaterials() {
             onError={(e) => { e.target.style.display = "none"; }}
           />
           <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-200 via-sky-100 to-blue-300" />
-        </div>
+        </div> */}
 
         {/* Hallmarks copy */}
-        <div className="max-w-[40rem] mx-auto mt-10 md:mt-16 text-center">
-          <h3 className={`text-xl sm:text-2xl md:text-3xl font-medium text-stone-800 mb-6 ${josefin.className}`}>
+        <div className="max-w-[51rem] mx-auto mt-10 md:mt-16 text-center">
+          <h3 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
             The Hallmarks of a great garment.
           </h3>
-          <p className="text-sm md:text-base font-futura text-justify text-stone-800 !leading-8 mb-4">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
             Every inch of a Dhirago piece reflects an approach of craftsmanship – where precision and attention
             to details are never compromised. It's evident in how our fabrics feels on your skin, to how the
             collar sits and the neatness of every stitch, everything is thoughtfully done.
           </p>
-          <p className="text-sm md:text-base font-futura text-justify text-stone-800 !leading-8">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
             All the garments are made to maximise the wear, this is done by adding an extra layer of fabric to
             placket, cuffs and collars to give them added layer of strength. It enhances
             durability while giving the garment a sharper, more refined finish.
@@ -301,8 +296,9 @@ export default function BetterMaterials() {
         {/* ── Five Elements of Craft ── */}
         <div className="mt-14 md:mt-20 py-4 md:py-16 px-4 sm:px-8 md:px-16 lg:px-20 bg-white border-y border-[#C4A882]/15">
           <div className="max-w-[1160px] mx-auto">
-            <span className="block text-center md:text-[15px] text-[12px]  md:tracking-[0.45em] tracking-[0.35em] uppercase font-medium text-stone-900 mb-4 md:mb-12">
+            <span  className={`block text-center uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 font-medium text-stone-900 mb-4 md:mb-12 ${josefin.className}`}>
               The Five Elements of Craft
+              
             </span><br />
             <div className="grid  grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-2 items-start">
               {elements.map((el, i) => (
@@ -310,7 +306,7 @@ export default function BetterMaterials() {
                   <svg width="48" height="48" viewBox="0 0 64 64" fill="none" className="sm:w-20 sm:h-20">
                     {el.path}
                   </svg>
-                  <span className="text-[8px] sm:text-[9px] tracking-[0.4em] sm:tracking-[0.45em] uppercase text-[#1C1814] font-normal text-center">
+                  <span className="text-[clamp(14px,1.3vw,1.01rem)]  tracking-[0.4em] sm:tracking-[0.45em] uppercase text-[#1C1814] font-normal text-center">
                     {el.label}
                   </span>
                 </div>
@@ -323,7 +319,7 @@ export default function BetterMaterials() {
       {/* ══ 6. CONSTRUCTION DETAILS ════════════════════════════ */}
       <div className="pt-4 pb-14 md:pb-24 px-4 sm:px-8 md:px-16 lg:px-20 bg-[#ffffff]">
         <div className="max-w-[1160px] mx-auto">
-          <span className="block text-[15px] font-normal tracking-[0.35em] uppercase text-stone-900 mb-8 md:mb-10">
+          <span  className={`block leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] font-normal tracking-[0.03em] uppercase text-[#333333] mb-8 md:mb-10 ${josefin.className}`}>
             Construction Details
           </span>
 
@@ -340,10 +336,10 @@ export default function BetterMaterials() {
                 <span className="font-futura text-base md:text-[1.1rem] text-[#C4A882]/50 font-extralight leading-tight">
                   {d.num}
                 </span>
-                <span className="font-futura text-sm md:text-[clamp(0.9rem,1.5vw,0.879rem)] font-normal tracking-[0.04em] uppercase text-[#1C1814] leading-snug">
+                <span className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
                   {d.label}
                 </span>
-                <p className="text-sm md:text-base font-futura text-justify text-stone-800 !leading-8 mb-4">
+                <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
                   {d.desc}
                 </p>
               </div>
@@ -354,7 +350,7 @@ export default function BetterMaterials() {
 
       {/* ══ 7. QUOTE BLOCK ═════════════════════════════════════ */}
       <div className="py-12 md:py-20 px-4 sm:px-8 md:px-16 lg:px-20 bg-[#F7F3EE] border-t border-[#C4A882]/20 text-center">
-        <p className="font-futura font-light text-[#1C1814] leading-[1.6] text-[clamp(1rem,2.5vw,1.3rem)] max-w-[780px] mx-auto mb-8">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
           &ldquo;Everything is thoughtfully done — from how the fabric feels on your skin, to how the collar sits,
           to the neatness of every stitch.&rdquo;
         </p>

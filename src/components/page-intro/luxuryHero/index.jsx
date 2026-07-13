@@ -5,6 +5,12 @@ import { useSelector } from "react-redux";
 import { useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import LoginDrawer from "../../header/logindashboard";
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "500", "600"],
+});
 
 // ─── Ornamental SVG divider ───────────────────────────────────────────────────
 function OrnamentDivider() {
@@ -299,31 +305,28 @@ export default function LuxurySection() {
             style={{ marginBottom: "1.75rem" }}
           >
             <p
-              className="font-futura lg:font-light font-normal"
+              className={`${josefin.className} `}
               style={{
-                fontSize: "clamp(0.725rem, 1.6vw, 1.2rem)",
-                lineHeight: 1.6,
-                color: "#111111",
+                fontSize: "clamp(0.725rem, 1.6vw, 1.112rem)",
+                color: "#333333",
                 letterSpacing: "0.02em",
-                marginBottom: "0.4rem",
+                marginBottom: "0.2rem",
               }}
             >
-              Label woven in stillness, defined by craftsmanship
+              Immerse yourself in the slow way of life with Dhirago
             </p>
             <br /><br />
             <p
-              className="font-futura"
+              className="font-futura leading-[1.90]"
               style={{
                 fontWeight: 300,
-                fontSize: "clamp(14px, 1.3vw, 1.1rem)",
+                fontSize: "clamp(14px, 1.3vw, 1.01rem)",
                 lineHeight: 1.75,
-                color: "#111111",
+                color: "#444444",
                 letterSpacing: "0.03em",
               }}
             >
-              There is a certain beauty in slowing down, in noticing the texture
-              of a fabric, the character of a handmade detail, the way something
-              well-made becomes part of your life.{" "}
+              From carefully chosen natural fabrics rooted in India’s  craft tradition, to delicate hand embroidered details and block prints, each garment is a treasure to cherish forever — DHIRAGO crafts menswear that celebrates comfort, and  the beauty in the details..{" "}
             </p>
             <br />
             {/* <p  className="font-futura"

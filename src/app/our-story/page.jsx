@@ -90,7 +90,7 @@ const storyBlocks = [
         "and stories passed down through hands.",
       ],
     ],
-    image: "/images/european-linen.jpg",
+    image: "/images/first-story/2.jpeg",
     alt: "A carved stone window in Udaipur lit by afternoon shadow",
     imageFirst: false,
 
@@ -105,7 +105,7 @@ const storyBlocks = [
         "notice the beautiful.",
       ],
     ],
-    image: "/images/european-linen.jpg",
+    image: "/images/first-story/fabric.webp",
     alt: "Carved stone pillars overlooking Lake Pichola",
     imageFirst: true,
 
@@ -117,13 +117,13 @@ const craftItems = [
   {
     title: "Hand Block Printing",
     desc: "Carved by hand. Printed with intention. Each piece, one impression at a time.",
-    image: "/images/european-linen.jpg",
+    image: "/images/first-story/craft1.jpg",
     alt: "Artisan hand block printing on fabric",
   },
   {
     title: "Screen Printing",
     desc: "Where detail meets clarity. Bringing intricate drawings to life on fabric with precision and care.",
-    image: "/images/european-linen.jpg",
+    image: "/images/first-story/craft2.jpg",
     alt: "Screen printing frame and ink tray",
   },
 ];
@@ -136,9 +136,9 @@ export default function OurStory() {
     <div className="min-h-screen bg-white font-sans overflow-x-hidden">
 
       {/* ══ 1. HERO ══════════════════════════════════════════════ */}
-      <section className="relative w-full h-[68vh] sm:h-[78vh] md:h-[48vh] overflow-hidden bg-gradient-to-br from-amber-200 via-orange-100 to-stone-300">
+      <section className="relative w-full h-[68vh] sm:h-[78vh] md:h-[68vh] overflow-hidden bg-gradient-to-br from-amber-200 via-orange-100 to-stone-300">
         <Image
-          src="/images/european-linen.jpg"
+          src="/images/first-story/first.jpg"
           alt="Lakeside view of Udaipur at golden hour"
           fill
           priority
@@ -186,6 +186,7 @@ export default function OurStory() {
         `}</style>
       </section>
 
+<br />
       {/* ══ 2. TEXT + IMAGE ROWS (with panorama break in between) ═ */}
       <section className="relative">
         {storyBlocks.map((block, i) => (
@@ -222,7 +223,7 @@ export default function OurStory() {
               {/* IMAGE PANEL */}
               <Reveal
                 from="right"
-                className="relative w-full lg:w-7/12 h-[260px] sm:h-[340px] md:h-[420px] lg:h-auto overflow-hidden bg-gradient-to-br from-stone-200 via-amber-100 to-stone-300"
+                className="relative w-full lg:w-6/12 h-[260px] sm:h-[340px] md:h-[620px]  overflow-hidden bg-gradient-to-br from-stone-200 via-amber-100 to-stone-300"
               >
                 <Image
                   src={block.image}
@@ -236,24 +237,29 @@ export default function OurStory() {
 
             {/* Full-bleed panorama break — sits between The Beginning and Udaipur */}
             {i === 0 && (
-              <div className="relative w-full h-[220px] sm:h-[300px] md:h-[420px] overflow-hidden bg-gradient-to-br from-sky-100 via-amber-50 to-stone-200">
+              <>
+              <br />
+              <div className="relative w-full h-[220px] sm:h-[300px] md:h-[620px] overflow-hidden bg-gradient-to-br from-sky-100 via-amber-50 to-stone-200">
                 <Image
-                  src="/images/european-linen.jpg"
+                  src="/images/first-story/mid.webp"
                   alt="Panoramic view of Udaipur's lakeside city"
                   fill
                   className="object-cover"
                   onError={(e) => { e.target.style.display = "none"; }}
                 />
               </div>
+              </>
             )}
+            <br />
           </div>
         ))}
       </section>
+<br />
 
       {/* ══ 4. THE BEAUTY OF TIME — overlay section ═════════════ */}
-      <section className="relative w-full h-[420px] sm:h-[460px] md:h-[520px] overflow-hidden bg-gradient-to-br from-stone-300 via-stone-200 to-amber-100">
+      <section className="relative w-full h-[420px] sm:h-[460px] md:h-[620px] overflow-hidden bg-gradient-to-br from-stone-300 via-stone-200 to-amber-100">
         <Image
-          src="/images/european-linen.jpg"
+          src="/images/first-story/udp.jpg"
           alt="Weathered stone texture in Udaipur"
           fill
           className="object-cover"
@@ -315,9 +321,9 @@ export default function OurStory() {
       </section>
 
 
- <section className="relative w-full h-[420px] sm:h-[460px] md:h-[520px] overflow-hidden bg-gradient-to-br from-stone-300 via-stone-200 to-amber-100">
+ <section className="relative w-full h-[420px] sm:h-[460px] md:h-[620px] overflow-hidden bg-gradient-to-br from-stone-300 via-stone-200 to-amber-100">
         <Image
-          src="/images/european-linen.jpg"
+          src="/images/first-story/collection.png"
           alt="Weathered stone texture in Udaipur"
           fill
           className="object-cover"
@@ -346,10 +352,11 @@ export default function OurStory() {
         </div>
       </section>
 
+              <br />
 
-          <section className="relative w-full h-[46vh] sm:h-[52vh] md:h-[60vh] overflow-hidden">
+          <section className="relative w-full h-[46vh] sm:h-[52vh] md:h-[70vh] overflow-hidden">
         <Image
-          src="/images/european-linen.jpg"
+          src="/images/first-story/udp.jpg"
           alt="Detail of Dhirago linen fabric"
           fill
           className="object-cover"

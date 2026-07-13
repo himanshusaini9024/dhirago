@@ -19,7 +19,7 @@ const body = EB_Garamond({
 });
 
 const storyLinks = [
-  { label: "Our Story", href: "/about" },
+  { label: "About-us", href: "/about" },
   { label: "The First Story", href: "/our-story" },
   // { label: "The Beauty of Time", href: "/our-story/philosophy" },
   // { label: "Journal", href: "/journal" },
@@ -133,10 +133,10 @@ export default function UltraPremiumFooter() {
       className={`${body.className} w-full`}
       style={{ background: "#F6F2EA" }}
     >
-      <div className="max-w-[1280px] mx-auto px-8 md:px-14 pt-14 pb-10">
+      <div className="max-w-[1280px] mx-auto px-8 md:px-14 pt-[8rem] pb-10">
         {/* Flower mark */}
         {/* <FlowerMark className="w-8 h-8 mb-10" /> */}
-        <motion.div
+        {/* <motion.div
             initial={{ opacity: 0, y: 32, scale: 0.94 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
@@ -147,7 +147,7 @@ export default function UltraPremiumFooter() {
               alt="Logo"
               className="relative right-[54px] bottom-[10px]  w-[120px] md:w-[110px] opacity-90"
             />
-          </motion.div>
+          </motion.div> */}
 
         {/* ── 4-COLUMN GRID ─────────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-12">
@@ -330,11 +330,11 @@ export default function UltraPremiumFooter() {
       </div>
 
       {/* ── BOTTOM BAR ─────────────────────────────────── */}
-      <div className="max-w-[1280px] mx-auto px-8 md:px-14 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="max-w-[1280px] mx-auto px-8 md:px-14 pt-6 pb-[6rem]  flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <p 
            style={{ fontFamily: "'Josefin Sans, Josefin Sans Fallback" }}
-            className={`text-[18px] tracking-[0.3em] text-[#111111]`}
+            className={`text-[21px] tracking-[0.3em] text-[#111111]`}
           >
             DHIRAGO
           </p>

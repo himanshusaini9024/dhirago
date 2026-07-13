@@ -3,6 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
+// Fixed set of delay classes — kept as literal strings so Tailwind's
+// static scanner can find them (dynamic template strings won't work).
+const DELAY_CLASSES = {
+  0: "",
+  100: "delay-[100ms]",
+  200: "delay-[200ms]",
+};
+
+import { Josefin_Sans, Cormorant_Garamond } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "500", "600"],
+});
+
+
 function useReveal() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -10,7 +26,9 @@ function useReveal() {
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
       { threshold: 0.1 }
     );
     observer.observe(el);
@@ -19,15 +37,16 @@ function useReveal() {
   return [ref, visible];
 }
 
-function Reveal({ children, delay = 0, style = {} }) {
+function Reveal({ children, delay = 0, className = "" }) {
   const [ref, visible] = useReveal();
+  const delayClass = DELAY_CLASSES[delay] || "";
   return (
-    <div ref={ref} style={{
-      opacity: visible ? 1 : 0,
-      transform: visible ? "translateY(0)" : "translateY(26px)",
-      transition: `opacity 1s ease ${delay}ms, transform 1s ease ${delay}ms`,
-      ...style
-    }}>
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 ease-out ${delayClass} ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[26px]"
+      } ${className}`}
+    >
       {children}
     </div>
   );
@@ -68,7 +87,7 @@ const pillars = [
       </svg>
     ),
     title: "Zero-Waste Approach",
-    body: "Recycled and leftover materials are incorporated wherever possible within the production cycle, reducing the need for new raw resources. Packaging is selected with consideration for reduced environmental impact.",
+    body: "Recycled and leftover materials are incorporated wherever possible within the production cycle, reducing the need for new raw resources. Packaging is selected with consideration  environmental impact.",
   },
 ];
 
@@ -91,411 +110,163 @@ function LeafDeco({ size = 200, opacity = 0.07 }) {
   );
 }
 
+// Shared font stack applied via Tailwind arbitrary property (no <style> tag, no CSS vars).
+const FONT = josefin;
+
 export default function OurKissaPage() {
-  const observerRef = useRef(null);
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
-      { threshold: 0.1 }
-    );
-    document.querySelectorAll(".fade-up").forEach(el => observerRef.current.observe(el));
-    return () => observerRef.current?.disconnect();
-  }, []);
-
   return (
-    <>
-      <style>{`
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <div className={`bg-[#faf8f5] min-h-screen text-[#2a2a2a] ${FONT}`}>
 
-        :root {
-          --cream: #faf8f5;
-          --white: #ffffff;
-          --black: #111111;
-          --text: #2a2a2a;
-          --muted: #666;
-          --light-border: #e8e4de;
-          --green-dark: #162518;
-          --green-mid: #4A7248;
-          --green-light: #8DB88A;
-          --sand: #EDE7D9;
-          --font: "Century Gothic", Futura, "Trebuchet MS", sans-serif;
-        }
-
-        body { background: var(--cream); color: var(--text); font-family: var(--font); }
-
-        /* ── PAGE WRAP ── */
-        .ks-page { background: var(--cream); min-height: 100vh; }
-
-        /* ── SHARED ── */
-        .ks-center-col { max-width: 880px; margin: 0 auto; padding: 0 24px; }
-        .ks-wide-col   { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 5rem); }
-
-        /* ── HERO HEADING ── */
-        .ks-hero-heading { padding: 64px 0 40px; }
-        .ks-hero-heading h1 {
-          font-family: var(--font);
-          font-size: clamp(32px, 5vw, 52px);
-          font-weight: 300;
-          color: var(--black);
-          line-height: 1.1;
-        }
-
-        /* ── HERO IMAGE ── */
-        .ks-hero-image { padding: 0 0 56px; display: flex; justify-content: center; }
-        .ks-hero-image img {
-          width: 100%; max-width: 880px; height: auto; display: block;
-          aspect-ratio: 3/2; object-fit: cover;
-        }
-
-        /* ── INTRO TEXT ── */
-        .ks-intro-text { padding: 0 0 48px; }
-        .ks-intro-text p {
-          font-family: var(--font); font-size: clamp(13px, 1.5vw, 16px);
-          font-weight: 300; line-height: 1.75; color: var(--muted);
-          letter-spacing: 0.01em; margin-bottom: 18px;
-        }
-        .ks-intro-text p:last-of-type { margin-bottom: 0; }
-
-        /* ── MEET LINK ── */
-        .ks-meet-link-wrap { padding: 4px 0 80px; }
-        .ks-meet-link {
-          font-family: var(--font); font-size: 12px; font-weight: 400;
-          letter-spacing: 0.03em; color: var(--text);
-          text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s;
-        }
-        .ks-meet-link:hover { color: var(--black); }
-
-        /* ── DIVIDER ── */
-        .ks-divider { border: none; border-top: 1px solid var(--light-border); margin: 0; }
-
-        /* ── KOSHISH SECTION ── */
-        .ks-koshish { padding: clamp(48px, 8vw, 80px) 0; }
-        .ks-koshish-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: clamp(32px, 5vw, 80px);
-          align-items: center;
-        }
-        .ks-koshish-text h2 {
-          font-family: var(--font); font-size: clamp(14px, 1.8vw, 17px);
-          font-weight: 500; letter-spacing: 0.04em;
-          color: var(--black); margin-bottom: 20px; line-height: 1.5;
-        }
-        .ks-koshish-text p {
-          font-family: var(--font); font-size: clamp(13px, 1.4vw, 15px);
-          font-weight: 300; line-height: 1.95; color: var(--muted);
-          margin-bottom: 14px; letter-spacing: 0.01em;
-        }
-        .ks-inline-link { color: var(--text); text-decoration: underline; text-underline-offset: 2px; font-weight: 400; }
-        .ks-koshish-btn {
-          display: inline-block; margin-top: 24px; padding: 10px 22px;
-          background: var(--black); color: var(--white);
-          font-family: var(--font); font-size: 11px; font-weight: 400;
-          letter-spacing: 0.12em; text-transform: uppercase;
-          text-decoration: none; border: none; cursor: pointer;
-          transition: background 0.2s;
-        }
-        .ks-koshish-btn:hover { background: #333; }
-        .ks-koshish-image img {
-          width: 100%; height: auto; display: block;
-          aspect-ratio: 4/3; object-fit: cover;
-        }
-
-        /* ── PILLAR CARDS ── */
-        .pillars-section {
-          padding: clamp(48px, 8vw, 80px) 0;
-          background: var(--sand);
-          position: relative; overflow: hidden;
-        }
-        .pillars-label {
-          display: inline-block;
-          border: 1px solid rgba(141,184,138,0.35);
-          padding: 0.3rem 0.9rem;
-          font-size: 9px; letter-spacing: 0.4em;
-          text-transform: uppercase; color: var(--green-mid);
-          margin-bottom: 1.5rem;
-        }
-        .pillars-heading {
-          font-family: var(--font); font-weight: 100;
-          font-size: clamp(18px, 2.5vw, 26px);
-          letter-spacing: 0.05em; text-transform: uppercase;
-          color: var(--green-dark);
-          margin-bottom: clamp(2rem, 5vw, 4rem);
-        }
-        .pillars-heading em { font-style: italic; color: var(--green-mid); font-weight: 100; }
-        .pillars-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.2rem;
-        }
-        .pillar-card {
-          padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.2rem, 2.5vw, 2rem);
-          border: 1px solid rgba(141,184,138,0.2);
-          background: rgba(255,255,255,0.55);
-          transition: border-color 0.4s, background 0.4s, transform 0.4s;
-          position: relative; overflow: hidden;
-        }
-        .pillar-card::before {
-          content: ''; position: absolute;
-          top: 0; left: 0; width: 3px; height: 0;
-          background: linear-gradient(to bottom, #8DB88A, #C4A882);
-          transition: height 0.5s;
-        }
-        .pillar-card:hover { border-color: rgba(141,184,138,0.4); background: rgba(141,184,138,0.06); transform: translateY(-4px); }
-        .pillar-card:hover::before { height: 100%; }
-        .pillar-num { font-size: 0.8rem; color: rgba(74,114,72,0.45); font-weight: 100; }
-        .pillar-title {
-          font-family: var(--font); font-size: clamp(11px, 1.2vw, 13px);
-          font-weight: 400; letter-spacing: 0.08em;
-          text-transform: uppercase; color: var(--green-dark);
-        }
-        .pillar-body {
-          font-family: var(--font); font-size: clamp(12px, 1.2vw, 13px);
-          font-weight: 100; line-height: 1.85; color: #4A4035;
-        }
-
-        /* ── SUSTAINABILITY BG IMAGE SECTION ── */
-        .sustain-section {
-          position: relative;
-          overflow: hidden;
-          min-height: clamp(300px, 50vw, 520px);
-          display: flex; align-items: center;
-        }
-        .sustain-bg {
-          position: absolute; inset: 0;
-          background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80');
-          background-size: cover;
-          background-position: center;
-          background-attachment: fixed;
-        }
-        .sustain-overlay {
-          position: absolute; inset: 0;
-          background: linear-gradient(
-            135deg,
-            rgba(22,37,24,0.92) 0%,
-            rgba(22,37,24,0.75) 40%,
-            rgba(22,37,24,0.55) 70%,
-            rgba(22,37,24,0.8) 100%
-          );
-        }
-        .sustain-content {
-          position: relative; z-index: 2;
-          max-width: 1200px; margin: 0 auto;
-          padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 5rem);
-          width: 100%;
-        }
-        .sustain-quote {
-          font-family: var(--font);
-          font-style: italic; font-weight: 200;
-          font-size: clamp(18px, 2.8vw, 32px);
-          letter-spacing: 0.03em;
-          color: #F0EBE0;
-          line-height: 1.55;
-          max-width: 100%;
-          margin-bottom: 2rem;
-        }
-        .sustain-rule {
-          width: 48px; height: 1px;
-          background: var(--green-light);
-          margin-bottom: 1.5rem;
-        }
-        .sustain-tag {
-          font-family: var(--font); font-size: 9px;
-          letter-spacing: 0.45em; text-transform: uppercase;
-          color: var(--green-light);
-        }
-        .sustain-deco {
-          position: absolute; right: clamp(2rem, 8vw, 6rem);
-          top: 50%; transform: translateY(-50%);
-          opacity: 0.12; pointer-events: none;
-        }
-
-        /* ── CLOSING STRIP ── */
-        .closing-strip {
-          padding: clamp(4rem, 8vw, 7rem) 0;
-          text-align: center;
-          background: linear-gradient(180deg, #1C2E1E 0%, #162518 100%);
-          position: relative; overflow: hidden;
-        }
-        .closing-line {
-          width: 1px; height: 70px;
-          background: linear-gradient(to bottom, transparent, var(--green-light), transparent);
-          margin: 0 auto 3rem;
-        }
-        .closing-brand {
-          font-family: var(--font); font-weight: 400;
-          font-size: 9px; letter-spacing: 0.55em;
-          text-transform: uppercase; color: var(--green-light);
-          margin-bottom: 1rem;
-        }
-        .closing-sub {
-          font-family: var(--font); font-style: italic;
-          font-weight: 200; font-size: clamp(14px, 2vw, 20px);
-          letter-spacing: 0.04em; color: rgba(240,235,224,0.35);
-          margin-top: 0.5rem;
-        }
-
-        /* ── FADE-UP ── */
-        .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
-        .fd2 { transition-delay: 0.12s; }
-        .fd3 { transition-delay: 0.22s; }
-
-        /* ══════════════════════════════════════
-           RESPONSIVE — MOBILE FIRST
-           ══════════════════════════════════════ */
-
-        /* Tablet */
-        @media (max-width: 900px) {
-          .ks-koshish-grid {
-            grid-template-columns: 1fr;
-            gap: 32px;
-          }
-          .ks-koshish-image { order: -1; }
-          .ks-koshish-image img { aspect-ratio: 16/9; max-height: 300px; width: 100%; object-fit: cover; }
-
-          .pillars-grid { grid-template-columns: 1fr 1fr; }
-
-          .sustain-bg { background-attachment: scroll; }
-          .sustain-deco { display: none; }
-        }
-
-        /* Mobile */
-        @media (max-width: 600px) {
-          .ks-center-col { padding: 0 20px; }
-          .ks-wide-col   { padding: 0 20px; }
-
-          .ks-hero-heading { padding: 40px 0 28px; }
-          .ks-hero-image   { padding: 0 0 36px; }
-          .ks-hero-image img { max-width: 100%; aspect-ratio: 4/3; }
-
-          .ks-intro-text { padding: 0 0 32px; }
-          .ks-meet-link-wrap { padding: 4px 0 48px; }
-
-          .ks-koshish { padding: 40px 0; }
-          .ks-koshish-grid { grid-template-columns: 1fr; gap: 24px; }
-          .ks-koshish-image img { aspect-ratio: 16/9; max-height: 220px; }
-
-          .pillars-section { padding: 40px 0; }
-          .pillars-grid { grid-template-columns: 1fr; gap: 1rem; }
-          .pillar-card { padding: 1.4rem 1.2rem; }
-
-          .sustain-section { min-height: 280px; }
-          .sustain-quote { font-size: 18px; }
-          .sustain-content { padding: 3rem 1.5rem; }
-
-          .closing-strip { padding: 3rem 1.5rem; }
-        }
-      `}</style>
-
-      <div className="ks-page">
-
-        {/* ── OUR KISSA HEADING ── */}
-        <div className="ks-hero-heading fade-up">
-          <div className="ks-center-col">
-            <h1>our Kissa</h1>
+      {/* ── OUR KISSA HEADING ── */}
+      <Reveal>
+        <div className="pt-10 pb-7 min-[600px]:pt-16 min-[600px]:pb-10">
+          <div className="max-w-[880px] mx-auto px-5 min-[600px]:px-6">
+            <h1 className={`text-[clamp(32px,5vw,52px)] font-light text-[#111111] leading-[1.1] ${FONT}`}>
+              our Kissa
+            </h1>
           </div>
         </div>
+      </Reveal>
 
-        {/* ── HERO IMAGE ── */}
-        <div className="ks-hero-image fade-up fd2">
-          <div className="ks-center-col" style={{ width: "100%" }}>
+      {/* ── HERO IMAGE ── */}
+      <Reveal delay={100}>
+        <div className="pb-9 min-[600px]:pb-14 flex justify-center">
+          <div className="w-full max-w-[880px] mx-auto px-5 min-[600px]:px-6">
             <img
               src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=80"
               alt="Kissa-goi products"
+              className="w-full max-w-full h-auto block aspect-[4/3] min-[600px]:aspect-[3/2] object-cover"
             />
           </div>
         </div>
+      </Reveal>
 
-        {/* ── INTRO TEXT ── */}
-        <div className="ks-intro-text fade-up">
-          <div className="ks-center-col">
-            <p>Material choice, controlled production, and long-term wearability define sustainability at Dhirago.</p>
-            <p>The brand works with natural fibres such as linen and organic cotton, selected for their biodegradability and lower environmental impact compared to synthetic alternatives. Linen, in particular, is a low-resource fibre, requiring minimal irrigation and fewer chemical inputs during cultivation.</p>
-            <p>Production follows a small-batch model, allowing better control over quantities and reducing excess inventory. Fabric utilisation is carefully managed by minimising cutting waste, with pattern planning and efficient material use.</p>
-            <p>Operations are kept low-impact, with limited reliance on heavy industrial methods and a preference for controlled, resource-efficient techniques.</p>
-            <p>Recycled and leftover materials are incorporated wherever possible within the production cycle, reducing the need for new raw resources and limiting material waste. Packaging and auxiliary components are also selected with consideration for reduced environmental impact.</p>
+      {/* ── INTRO TEXT ── */}
+      <Reveal>
+        <div className="pb-8 min-[600px]:pb-12">
+          <div className="max-w-[880px] mx-auto px-5 min-[600px]:px-6">
+            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              Material choice, controlled production, and long-term wearability define sustainability at Dhirago.
+            </p>
+            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              The brand works with natural fibres such as linen and organic cotton, selected for their biodegradability and lower environmental impact compared to synthetic alternatives. Linen, in particular, is a low-resource fibre, requiring minimal irrigation and fewer chemical inputs during cultivation.
+            </p>
+            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              Production follows a small-batch model, allowing better control over quantities and reducing excess inventory. Fabric utilisation is carefully managed by minimising cutting waste, with pattern planning and efficient material use.
+            </p>
+            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              Operations are kept low-impact, with limited reliance on heavy industrial methods and a preference for controlled, resource-efficient techniques.
+            </p>
+            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+              Recycled and leftover materials are incorporated wherever possible within the production cycle, reducing the need for new raw resources and limiting material waste. Packaging and auxiliary components are also selected with consideration for reduced environmental impact.
+            </p>
           </div>
         </div>
+      </Reveal>
 
-        <hr className="ks-divider" />
+      <hr className="border-0 border-t border-[#e8e4de] m-0" />
 
-        {/* ── KOSHISH SECTION ── */}
-        <section className="ks-koshish fade-up">
-          <div className="ks-wide-col">
-            <div className="ks-koshish-grid">
-              <div className="ks-koshish-text">
-                <h2>Koshish, our zero waste initiative</h2>
-                <p>We are dedicated to becoming a zero-waste company. To that end, we create one-of-a-kind products out of all the accumulated scraps through our <a href="#" className="ks-inline-link">Koshish edit</a>.</p>
-                <p>To know more about Koshish, <a href="#" className="ks-inline-link">click here</a>.</p>
-                <a href="#" className="ks-koshish-btn">Shop Koshish</a>
+      {/* ── KOSHISH SECTION ── */}
+      <Reveal className="py-10 min-[600px]:py-[clamp(48px,8vw,80px)]">
+        <section>
+          <div className="max-w-[1200px] mx-auto px-5 min-[600px]:px-[clamp(1.5rem,5vw,5rem)]">
+            <div className="grid grid-cols-1 gap-6 items-center min-[600px]:gap-8 min-[900px]:grid-cols-2 min-[900px]:gap-[clamp(32px,5vw,80px)]">
+              <div>
+                <h2            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+>
+                  Koshish, our zero waste initiative
+                </h2>
+                <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+                  We are dedicated to becoming a zero-waste company. To that end, we create one-of-a-kind products out of all the accumulated scraps through our{" "}
+                  <a href="#" className="text-[#2a2a2a] underline underline-offset-2 font-normal">
+                    Koshish edit
+                  </a>
+                  .
+                </p>
+                <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+                  To know more about Koshish,{" "}
+                  <a href="#" className="text-[#2a2a2a] underline underline-offset-2 font-normal">
+                    click here
+                  </a>
+                  .
+                </p>
+                <a
+                  href="#"
+                  className={`inline-block mt-6 px-[22px] py-[10px] bg-[#111111] text-white text-[11px] font-normal tracking-[0.12em] uppercase no-underline border-none cursor-pointer transition-colors duration-200 hover:bg-[#333333] ${FONT}`}
+                >
+                  Shop Koshish
+                </a>
               </div>
-              <div className="ks-koshish-image fd2">
+              <div className="order-first min-[900px]:order-none">
                 <img
                   src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&q=80"
                   alt="Koshish zero waste"
+                  className="w-full h-auto block aspect-[16/9] max-h-[220px] min-[600px]:max-h-[300px] min-[900px]:aspect-[4/3] min-[900px]:max-h-none object-cover"
                 />
               </div>
             </div>
           </div>
         </section>
+      </Reveal>
 
-        <hr className="ks-divider" />
+      <hr className="border-0 border-t border-[#e8e4de] m-0" />
 
-        {/* ── FOUR PILLARS ── */}
-        <section className="pillars-section">
-          <div className="ks-wide-col">
-            <Reveal>
-              <span className="pillars-label">Core Principles</span>
-              <h2 className="pillars-heading">
-                Four Pillars of <em>Responsibility</em>
-              </h2>
-            </Reveal>
-            <div className="pillars-grid">
-              {pillars.map((p, i) => (
-                <Reveal key={i} delay={i * 100}>
-                  <div className="pillar-card">
-                    <div style={{ marginBottom: "1.5rem" }}>{p.icon}</div>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: "0.75rem", marginBottom: "1rem" }}>
-                      <span className="pillar-num">{p.num}</span>
-                      <h3 className="pillar-title">{p.title}</h3>
-                    </div>
-                    <p className="pillar-body">{p.body}</p>
+      {/* ── FOUR PILLARS ── */}
+      <section className="relative overflow-hidden bg-[#EDE7D9] py-10 min-[600px]:py-[clamp(48px,8vw,80px)]">
+        <div className="max-w-[1200px] mx-auto px-5 min-[600px]:px-[clamp(1.5rem,5vw,5rem)]">
+          <Reveal>
+          
+            <h2            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+>
+              Three Pillars of Responsibility
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 gap-4 min-[600px]:grid-cols-2 min-[600px]:gap-[1.2rem] min-[900px]:grid-cols-3">
+            {pillars.map((p, i) => (
+              <Reveal key={i} delay={i * 100}>
+                <div className="group relative overflow-hidden border border-[rgba(141,184,138,0.2)] bg-[rgba(255,255,255,0.55)] px-[1.2rem] py-[1.4rem] min-[600px]:px-[clamp(1.2rem,2.5vw,2rem)] min-[600px]:py-[clamp(1.5rem,3vw,2.5rem)] transition-[border-color,background-color,transform] duration-[400ms] hover:border-[rgba(141,184,138,0.4)] hover:bg-[rgba(141,184,138,0.06)] hover:-translate-y-1">
+                  <div className="absolute top-0 left-0 w-[3px] h-0 bg-gradient-to-b from-[#8DB88A] to-[#C4A882] transition-[height] duration-500 group-hover:h-full" />
+                  <div className="flex items-baseline gap-3 mb-4">
+                    <span className="text-[0.8rem] text-[rgba(74,114,72,0.45)] font-thin">{p.num}</span>
+                    <h3 className={`text-[clamp(11px,1.2vw,13px)] font-normal tracking-[0.08em] uppercase text-[#162518] ${FONT}`}>
+                      {p.title}
+                    </h3>
                   </div>
-                </Reveal>
-              ))}
-            </div>
+                  <p   className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] ">
+                    {p.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ══════════════════════════════════════════
-            SUSTAINABILITY — REAL BACKGROUND IMAGE
-            ══════════════════════════════════════════ */}
-        <section className="sustain-section">
-          {/* Background image layer */}
-          <div className="sustain-bg" />
-          {/* Dark overlay */}
-          <div className="sustain-overlay" />
-          {/* Leaf deco top-right */}
-          <div className="sustain-deco">
-            <LeafDeco size={340} opacity={1} />
-          </div>
-          {/* Content */}
-          <div className="sustain-content">
-            <Reveal>
-              <div className="sustain-rule" />
-              <p className="sustain-tag">Dhirago · Philosophy</p>
-              <p className="sustain-quote" style={{ marginTop: "1.5rem" }}>
-                "Sustainability is not a feature — it is the quiet discipline behind every decision we make."
-              </p>
-            </Reveal>
-          </div>
-        </section>
+      {/* ══════════════════════════════════════════
+          SUSTAINABILITY — REAL BACKGROUND IMAGE
+          ══════════════════════════════════════════ */}
+      <section className="relative overflow-hidden flex items-center min-h-[280px] min-[600px]:min-h-[clamp(300px,50vw,520px)]">
+        {/* Background image layer */}
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80')] bg-cover bg-center bg-scroll min-[900px]:bg-fixed" />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 [background:linear-gradient(135deg,rgba(22,37,24,0.92)_0%,rgba(22,37,24,0.75)_40%,rgba(22,37,24,0.55)_70%,rgba(22,37,24,0.8)_100%)]" />
+        {/* Leaf deco top-right */}
+        <div className="hidden min-[900px]:block absolute right-[clamp(2rem,8vw,6rem)] top-1/2 -translate-y-1/2 opacity-[0.12] pointer-events-none">
+          <LeafDeco size={340} opacity={1} />
+        </div>
+        {/* Content */}
+        <div className="relative z-[2] max-w-[1200px] mx-auto w-full px-6 py-12 min-[600px]:px-[clamp(1.5rem,5vw,5rem)] min-[600px]:py-[clamp(3rem,6vw,5rem)]">
+          <Reveal>
+           
+            <p   className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#ffffff] tracking-[0.03em] max-w-full text-center">
+              "Sustainability is not a feature — it is the quiet discipline behind every decision we make."
+            </p>
+          </Reveal>
+        </div>
+      </section>
 
-        {/* ── CLOSING STRIP ── */}
-     
+      {/* ── CLOSING STRIP ── */}
 
-      </div>
-    </>
+    </div>
   );
 }

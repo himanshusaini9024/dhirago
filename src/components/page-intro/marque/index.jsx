@@ -68,14 +68,14 @@ export default function Marquee() {
       >
         <Reveal>
           <p
-            className="font-futura lg:text-justify"
+            className="font-futura lg:text-justify leading-[1.90]"
             style={{
-              fontSize: "clamp(15px, 1.3vw, 19px)",
+              fontSize: "clamp(15px, 1.3vw, 1.01rem)",
 
-              fontWeight: 100,
+              fontWeight: 300,
+                letterSpacing: "0.03em",
 
-              color: "#111111",
-              lineHeight: 1.5,
+              color: "#444444",
               marginBottom: "1rem",
             }}
           >

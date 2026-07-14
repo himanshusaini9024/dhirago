@@ -1,7 +1,7 @@
 "use client";
 
 import { Josefin_Sans, Cormorant_Garamond } from "next/font/google";
-
+import Image from "next/image";
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["300", "500", "600"],
@@ -68,26 +68,10 @@ export default function HandEmbroideryPage() {
               <p
                 className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
               >
-                DHIRAGO works with indigenous textile techniques and natural
-                fabrics, integrating time-honoured weaving practices such as,
-                Sashiko hand stitching, and Kantha embroidery into its garments.
-                Each technique is applied through controlled, manual
-                execution—Sashiko through repetitive reinforcement stitching,
-                and Kantha through layered running stitches—ensuring precision
-                and consistency across construction. We also drew from the
-                tradition of miniature art where every motif is created by hand.
-                It is here that exquisite craftsmanship meets material
-                excellence—where detail is not an addition, but a signature of
-                the piece.
+                DHIRAGO works with indigenous textile techniques and natural fabrics, thoughtfully integrating time-honoured crafts such as, Sashiko hand stitching, and Kantha embroidery and Tangaliya inspired weaving into its garments. Each technique is applied through controlled, manual execution—Sashiko through repetitive reinforcement stitching, Kantha through layered running stitches and tangaliya through its distinctive pattern language. Meticulously hand embroidered, each piece reflects our devotion to slow, thoughtful designs.
               </p>
               <p  className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
-                These practices are deeply rooted in India&rsquo;s cultural
-                heritage and are incorporated with finesse, creating garments
-                that remain connected to tradition while expressed with a
-                modern sensibility. By continuing these techniques, DHIRAGO
-                upholds its commitment to preserving age-old craftsmanship and
-                celebrating India&rsquo;s rich textile legacy, presenting
-                ethical and heritage-driven making as a form of true luxury
+                These practices are deeply rooted in India’s cultural heritage and are incorporated with finesse, creating garments that remain connected to tradition while expressed with a modern sensibility. By continuing these techniques, DHIRAGO upholds its commitment to preserving age-old craftsmanship and celebrating India’s rich textile legacy, presenting ethical and heritage-driven making as a form of true luxury. 
               </p>
             </div>
             <div>
@@ -151,13 +135,13 @@ export default function HandEmbroideryPage() {
       </div>
 
       {/* MEET THE ARTIST */}
-      <section className="pt-16 lg:pt-20">
+      <section className="pt-16 lg:pt-28">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
           <h2
                       className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] `}
 
           >
-            MEET THE ARTIST: MOHAMMAD ASHRAF
+            At DHIRAGO, every print begins with a story
           </h2>
          
         </div>
@@ -166,43 +150,87 @@ export default function HandEmbroideryPage() {
       <section className="pt-10 lg:pt-12 pb-16 lg:pb-20">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-12 lg:gap-16 items-start">
+           <div
+                            style={{
+                              position: "relative",
+                              width: "100%",
+                              height: "clamp(320px, 46vw, 560px)",
+                            }}
+                          >
+                            {/* Back image - offset up and to the right */}
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                width: "62%",
+                                height: "78%",
+                                overflow: "hidden",
+                                zIndex: 1,
+                              }}
+                            >
+                              <Image
+                                src="/images/heron.jpeg"
+                                alt="Our Heritage"
+                                width={600}
+                                height={500}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "cover",
+                                  display: "block",
+                                }}
+                              />
+                            </div>
+          
+                            {/* Front image - offset down and to the left, sits on top */}
+                            <div
+                              style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                width: "62%",
+                                height: "78%",
+                                overflow: "hidden",
+                                zIndex: 2,
+                                boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+                              }}
+                            >
+                              <Image
+                                src="/images/hero-mul-story.jpeg"
+                                alt="Our Heritage"
+                                width={600}
+                                height={500}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "cover",
+                                  display: "block",
+                                }}
+                              />
+                            </div>
+                          </div>
             <div>
-              <img
-                src="https://kardo.co/wp-content/uploads/2025/06/DSC00742-1-844x1024.jpg"
-                alt="Mohammad Ashraf"
-                loading="lazy"
-                className="w-full block"
-              />
-            </div>
-            <div>
+              
               <p
                   className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
               >
-                Ashraf began his journey with embroidery in the workshops of
-                Bombay&apos;s City Centre, where he learned the foundational
-                grammar of the needle and frame. He moved to Delhi over two
-                decades ago with a friend, both seeking new possibilities. That
-                journey led him to jewelry designer Olivia Dar, the wife of our
-                founder, Rikki Kher—a meeting that shaped the course of his
-                craft. He has worked with her since, and in 2020, joined Kardo.
+                Hand block printing preserves the rhythm of traditional craftsmanship, where each carved wooden block is pressed by hand, creating subtle variations that make every piece unique.
+              </p>
+              <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-4">
+                Screen printing complements this process by bringing fine details and expressive artwork to fabric with precision.
               </p>
               <p
-                 className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]"
+                 className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-4"
               >
-                There&rsquo;s a quiet, deliberate gesture to his way of
-                working—each movement unhurried, each decision exacting. The
-                needle answers a calm held in his fingers, his attention
-                attuned to the subtle pull of the thread. What is drawn forth
-                is never rushed, never overstated—only composed, thoughtful,
-                and complete in its stillness.
+               Together, these techniques celebrate the dialogue between heritage and contemporary design, allowing every garment to carry both the touch of the artisan and the spirit of thoughtful making.
+               
+                 
               </p>
-              <p
-                 className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
-              >
-                More than an artisan at our studio, Ashraf is a custodian of a
-                tradition—continuing its evolution, thread by thread, in the
-                present.
-              </p>
+             
+             <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+               It is here that exquisite craftsmanship meets material excellence—where detail is not an addition, but becomes a signature of the piece.
+             </p>
             </div>
           </div>
         </div>

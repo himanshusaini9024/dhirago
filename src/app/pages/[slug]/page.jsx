@@ -128,6 +128,12 @@ const materials = [
   },
 ];
 
+const photos = [
+  "https://ekdulari.com/cdn/shop/files/about-page-img-3_2048x.jpg?v=1772560626g",
+  "https://kardo.co/wp-content/uploads/2025/06/DSC00757-1024x1024.jpg",
+];
+
+
 /* ══════════════════════════════════════════════════════════════
    PAGE
    ══════════════════════════════════════════════════════════════ */
@@ -169,82 +175,36 @@ export default function BetterMaterials() {
       </section>
 
       {/* ══ 3. MATERIALS — stacked ═════════════════════════════ */}
-      {/* {materials.map((mat, index) => (
-        <section key={mat.id} className="px-4 sm:px-8 md:px-16 lg:px-24 mb-20">
+    
 
-        
-          <div className="relative w-full h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden rounded-sm">
-            <Image
-              src={mat.image}
-              alt={mat.label}
-              fill
-              className="w-full h-full object-cover"
-              onError={(e) => { e.target.style.display = "none"; }}
+         <section className="pt-16 lg:pt-10">
+         <div className="grid grid-cols-2 gap-5 max-w-[1200px] mx-auto px-5 lg:px-[60px]">
+        {photos.map((src, i) => (
+          <div key={i} className="group aspect-[3.5/4] overflow-hidden leading-none">
+            <img
+              src={src}
+              alt={`Process ${i + 1}`}
+              loading="lazy"
+              className="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.04]"
             />
-            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-200 via-sky-100 to-blue-300" />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-              <h3
-                className="text-white text-xl sm:text-2xl md:text-3xl font-light tracking-[0.2em] drop-shadow-xl"
-                style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
-              >
-                {mat.label.charAt(0) + mat.label.slice(1).toLowerCase()}.
-              </h3>
-            </div>
           </div>
-
-          <div className="max-w-[60rem] mx-auto mt-10 md:mt-16">
-            <p className="font-futura font-light leading-[1.75] text-[clamp(14px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] tracking-[0.03em] mb-3">
-              {mat.description1}
-            </p>
-            <p className="font-futura font-light leading-[1.75] text-[clamp(14px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] tracking-[0.03em]">
-              {mat.description2}
-            </p>
-          </div>
-
-          {index < materials.length - 1 && (
-            <div className="max-w-5xl mx-auto mt-16">
-              <div className="h-px bg-stone-100" />
-            </div>
-          )}
-        </section>
-      ))} */}
-
-         <section className="pt-16 lg:pt-20">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
-          <h2
-            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 text-center`}
-          >
-          European linen
-          </h2>
-         
-        </div>
+        ))}
+      </div>
       </section>
 
       <section className="pt-10 lg:pt-12 pb-16 lg:pb-20">
-        <div className="mx-auto px-5 sm:px-8 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-12 lg:gap-16 items-start">
-            <div>
-              <img
-                src="https://ekdulari.com/cdn/shop/files/Screenshot_2026-07-04_at_4.45.48_PM.png?v=1783163816"
-                alt="Mohammad Ashraf"
-                loading="lazy"
-                className="w-full block"
-              />
-            </div>
-            <div className="max-w-[1080px] ">
-              <p
-                className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
-              >
-                Every piece begins with a simple belief – true quality comes from the material. We use 60 count European linen, a finer and more refined yarn— carefully sourced through trusted textile partners who share our commitment to exceptional quality. Crafted from premium European flax fibres, this linen is renowned for its natural breathability and refined texture. Grown primarily through rain-fed cultivation with minimal environmental impact, it is a material valued as much for its sustainability as for its timeless elegance.
-              </p>
-              <p
-                className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]"
-              >
-                European flax is known for its longer staple length, which directly enhances the durability, smoothness, it’s soft on the skin, yet strong in its legacy. Often regarded as the fabric of royalty, linen carries a legacy of understated luxury. It is naturally cooling, antibacterial, and eco-conscious. This exceptional material is brought to life through Indian craftsmanship. From selecting the finest linen to the precision of the final stitch, attention to detail remains uncompromised.
-              </p>
-         
-            </div>
-          </div>
+      
+         <div className="max-w-[68rem]  mx-auto mt-1 md:mt-4 text-align">
+        
+          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+            Every piece begins with a simple belief—true quality begins with the material. At DHIRAGO, we work with thoughtfully sourced natural fabrics, chosen not only for how they look, but for how they feel, and endure over time.
+          </p>
+          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+            From premium European linen to finely woven cottons and other natural fibres, each textile is selected through trusted partners who share our commitment to exceptional quality, responsible sourcing, and lasting craftsmanship. Every fabric is chosen for its breathability, comfort and refined texture.
+          </p>
+          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+            These fibres are cultivated with respect for the environment, relying on responsible farming practices and minimal resources. Their lasting quality reflects a quieter approach to making—one that values longevity over excess.
+          </p>
         </div>
       </section>
 
@@ -317,39 +277,10 @@ export default function BetterMaterials() {
       </section>
 
       {/* ══ 6. CONSTRUCTION DETAILS ════════════════════════════ */}
-      <div className="pt-4 pb-14 md:pb-24 px-4 sm:px-8 md:px-16 lg:px-20 bg-[#ffffff]">
-        <div className="max-w-[1160px] mx-auto">
-          <span  className={`block leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] font-normal tracking-[0.03em] uppercase text-[#333333] mb-8 md:mb-10 ${josefin.className}`}>
-            Construction Details
-          </span>
-
-          {constructionDetails.map((d, i) => (
-            <div
-              key={i}
-              className={`py-5 md:py-6 border-t border-[#C4A882]/25 ${i === constructionDetails.length - 1 ? "border-b border-[#C4A882]/25" : ""}`}
-            >
-              {/* 
-                Mobile:  number + label on one row, desc full-width below
-                Desktop: number | label | desc in 3 columns
-              */}
-              <div className="grid  md:grid-cols-[72px_1fr_2fr] gap-3 md:gap-6 items-start">
-                <span className="font-futura text-base md:text-[1.1rem] text-[#C4A882]/50 font-extralight leading-tight">
-                  {d.num}
-                </span>
-                <span className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
-                  {d.label}
-                </span>
-                <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
-                  {d.desc}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+    
 
       {/* ══ 7. QUOTE BLOCK ═════════════════════════════════════ */}
-      <div className="py-12 md:py-20 px-4 sm:px-8 md:px-16 lg:px-20 bg-[#F7F3EE] border-t border-[#C4A882]/20 text-center">
+      <div className="py-12 md:py-20 px-4 sm:px-8 md:px-16 lg:px-20 border-t border-[#C4A882]/20 text-center">
         <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
           &ldquo;Everything is thoughtfully done — from how the fabric feels on your skin, to how the collar sits,
           to the neatness of every stitch.&rdquo;

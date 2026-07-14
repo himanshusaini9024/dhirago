@@ -20,7 +20,8 @@ const body = EB_Garamond({
 
 const storyLinks = [
   { label: "About-us", href: "/about" },
-  { label: "The First Story", href: "/our-story" },
+  { label: "Contact Us", href: "/contact" },
+
   // { label: "The Beauty of Time", href: "/our-story/philosophy" },
   // { label: "Journal", href: "/journal" },
 ];
@@ -34,10 +35,12 @@ const makingLinks = [
 const houseLinks = [
   { label: "Shop All", href: "/collections/shirts" },
   { label: "Care Guide", href: "/product-care" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Shipping & Returns", href: "/shipping-and-return" },
   { label: "FAQ", href: "/faq" },
   { label: "Track order", href: "/return/track-order" },
-  { label: "Contact Us", href: "/contact" },
 ];
+
 
 /* Minimal line-art flower mark, echoes the botanical branch below */
 function FlowerMark({ className = "" }) {
@@ -162,7 +165,7 @@ export default function UltraPremiumFooter() {
             <p
               className={`font-futura text-[12px] font-medium tracking-[0.25em] uppercase text-[#2b2620]`}
             >
-              The Story
+              The House
             </p>
             <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
 
@@ -218,7 +221,7 @@ export default function UltraPremiumFooter() {
             <p
               className={`font-futura text-[12px] tracking-[0.25em] uppercase text-[#2b2620]`}
             >
-              The House
+              Important Linkss
             </p>
             <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
 
@@ -343,18 +346,7 @@ export default function UltraPremiumFooter() {
           </p>
         </div>
 
-        <div
-          className={`${display.className} flex items-center gap-3 text-[13px] text-[#111111] order-3 md:order-2`}
-        >
-          <Link href="/privacy" className="tracking-[0.08em] uppercase hover:text-[#2b2620]">
-            Privacy Policy
-          </Link>
-          <span className="text-[#111111]">|</span>
-          <Link href="/shipping-and-return" className="tracking-[0.08em] uppercase hover:text-[#2b2620]">
-            Shipping &amp; Returns
-
-          </Link>
-        </div>
+       
 
         <p
           className={`${display.className} text-[13px] text-[#2b2620] order-2 md:order-3`}

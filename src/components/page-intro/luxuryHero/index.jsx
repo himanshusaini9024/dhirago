@@ -326,7 +326,7 @@ export default function LuxurySection() {
                 letterSpacing: "0.03em",
               }}
             >
-              From carefully chosen natural fabrics rooted in India’s  craft tradition, to delicate hand embroidered details and block prints, each garment is a treasure to cherish forever — DHIRAGO crafts menswear that celebrates comfort, and  the beauty in the details..{" "}
+              DHIRAGO is a luxury Indian menswear label rooted in traditional textiles and enduring craft. Shaped through natural fabrics, distinctive embroidery and block print technique. Each garment is made with patience, refined through many hands and celebrated for comfort and thoughtful details...{" "}
             </p>
             <br />
             {/* <p  className="font-futura"

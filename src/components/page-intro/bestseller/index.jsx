@@ -28,46 +28,36 @@ export default function Hero() {
         {/* Copy */}
         <div className="flex items-center px-6 py-14 md:px-16 lg:px-28 ">
           <div className="max-w-md">
-            <p className={`${josefin.className} mb-6  `}
+            <p className={`${josefin.className} mb-6  uppercase `}
               style={{
                 fontSize: "clamp(0.725rem, 1.6vw, 1.112rem)",
                 color: "#333333",
                 letterSpacing: "0.02em",
               }}>
-              The Mul Story: Woven Like Air
+              The first story; woven with patience
             </p>
 
             <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]" >
-              The First Story introduces our collection of menswear, beginning in Udaipur—a city where craftsmanship is not preserved as history, but lived as tradition. Among its tranquil lakes, weathered stone, quiet courtyards, and enduring craft, we found a way of seeing that continues to shape Dhirago.
+              DHIRAGO’s debut collection explores the richness of traditional textiles, beginning with indigo hues and unfolding into a palette of mustard, green, and shadowed neutrals. Natural fabrics like linen, woven cottons, and cotton denim are thoughtfully paired with Kantha embroidery, hand block printing, and Tangaliya-inspired craftsmanship.
+
             </p>
 
             <p className="font-futura mt-5 font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
-              At Dhirago  our 200-count{" "}
-              <a href="#" className="underline decoration-[#9C8055] underline-offset-4">
-                handspun
-              </a>{" "}
-              mul begins with this memory.
+              The name DHIRAGO draws from Dheera—a state of calmness. Created in limited numbers, each garment is conceived as a collectible object, designed to endure through time. Each piece quietly gathers character, reflecting the beauty of time.
+              
             </p>
 
-            <p className="font-futura mt-6 font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
-              Not as nostalgia, but as continuation.
-            </p>
 
             <div className="mt-9 flex gap-3">
               {/* Filled primary button */}
               <a
                 href="/collections/shirts"
-                className="border border-[#14171A]/30 px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#14171A] transition-colors hover:border-[#14171A]"
+                className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#14171A] transition-colors hover:border-[#14171A]"
               >
-                Shop Now
+                View Our Collection
               </a>
               {/* Outlined secondary button */}
-              <a
-                href="/our-story"
-                className="border border-[#14171A]/30 px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#14171A] transition-colors hover:border-[#14171A]"
-              >
-                Read More
-              </a>
+            
             </div>
           </div>
         </div>

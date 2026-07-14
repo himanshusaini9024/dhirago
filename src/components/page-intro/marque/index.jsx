@@ -79,10 +79,7 @@ export default function Marquee() {
               marginBottom: "1rem",
             }}
           >
-            "Every Dhirago shirt is designed using premium cotton fabrics,
-            precise tailoring and modern fits. From casual shirts to formal
-            office wear, our collections are made for comfort, durability and
-            timeless style."
+            "The offering begins with a simple instinct—to make something worth remembering. Each piece is conceived as an object to collect and keep, quietly becoming part of a life."
           </p>
         </Reveal>
       </div>

@@ -2,6 +2,7 @@
 
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
@@ -39,12 +40,7 @@ export default function PrivacyPolicyPage() {
         <div className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <p>
             This Website with the URL{" "}
-            <a
-              href="https://www.dhirago.com"
-              className="underline text-stone-900"
-            >
-              www.dhirago.com
-            </a>{" "}
+           <Link href="https://www.dhirago.com" target="_blank" className="underline text-stone-900">www.dhirago.com</Link>{" "}
             ("Website/Site") is operated by Dhirago Fashion Private Limited
             ("We/Our/Us"). We are committed to protecting and respecting your
             privacy. We collect your personal information and process your

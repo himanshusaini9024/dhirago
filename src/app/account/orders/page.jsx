@@ -453,7 +453,7 @@ export default function OrdersPage() {
                                     <div className="px-4 h-10 rounded-full bg-emerald-50 border border-emerald-200 flex items-center gap-2">
                                       <div className="w-2 h-2 rounded-full bg-emerald-500" />
                                       <span className="text-xs uppercase tracking-[2px] text-emerald-700 font-medium">
-                                        Refund Completed
+                                        Refund Processed
                                       </span>
                                     </div>
                                   )}

@@ -48,6 +48,7 @@ const getSteps = (status) => {
 // the backend has recorded one. expected_delivery_date is only an estimate
 // and is used as a fallback for older orders that predate this field.
 const canReturnOrder = (order) => {
+  return true
   if (order.status !== "delivered") return false;
   if (order.return_request) return false;
 

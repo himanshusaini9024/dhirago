@@ -164,13 +164,7 @@ function Section({ title, link, children }) {
     <div className="bg-white/60 backdrop-blur border rounded-2xl p-6">
       <div className="flex justify-between mb-4">
         <h3 className="text-xs tracking-[0.25em] text-gray-600">{title}</h3>
-        {link && (
-          <Link href={link}>
-            <span className="text-xs hover:underline cursor-pointer">
-              VIEW ALL
-            </span>
-          </Link>
-        )}
+          
       </div>
       {children}
     </div>

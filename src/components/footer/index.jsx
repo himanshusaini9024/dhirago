@@ -169,7 +169,7 @@ export default function UltraPremiumFooter() {
             </p>
             <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
 
-            <nav className="flex flex-col gap-6">
+            <nav className="flex flex-col gap-4">
               {storyLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -198,7 +198,7 @@ export default function UltraPremiumFooter() {
             </p>
             <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
 
-            <nav className="flex flex-col gap-6">
+            <nav className="flex flex-col gap-4">
               {makingLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -221,11 +221,11 @@ export default function UltraPremiumFooter() {
             <p
               className={`font-futura text-[12px] tracking-[0.25em] uppercase text-[#2b2620]`}
             >
-              Important Linkss
+              Important Links
             </p>
             <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
 
-            <nav className="flex flex-col gap-6">
+            <nav className="flex flex-col gap-4">
               {houseLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -253,7 +253,7 @@ export default function UltraPremiumFooter() {
             <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
 
             <p
-              className={`${display.className} text-[16px] leading-[1.6] text-[#111111] mb-5`}
+              className={`${display.className} text-[16px] leading-[1.6] text-[#111111] mb-3`}
             >
               Thoughts on craft, material, and the beauty of time.
             </p>

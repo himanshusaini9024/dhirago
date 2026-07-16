@@ -326,13 +326,8 @@ export default function AboutPage() {
         ════════════════════════════════════════════════════════ */}
         <section
           aria-label="Udaipur — the city of lakes"
-          style={{
-            position: "relative",
-            overflow: "hidden",
-            minHeight: "100vh",
-            display: "flex",
-            alignItems: "center",
-          }}
+          className="relative overflow-hidden flex min-h-screen items-center"
+        
         >
           <video
             ref={udaipurVideoRef}
@@ -341,14 +336,8 @@ export default function AboutPage() {
             loop
             muted
             playsInline
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              zIndex: 0,
-            }}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+
           />
           <div
             style={{
@@ -375,7 +364,7 @@ export default function AboutPage() {
                   fontSize: "clamp(0.6rem,1vw,1.01rem)",
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "#9A8C7E",
+                  color: "#ffffff",
                   margin: "0 0 1.5rem",
                 }}
               >

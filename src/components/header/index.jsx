@@ -12,19 +12,15 @@ import LoginDrawer from "./logindashboard";
 import { usePathname } from "next/navigation";
 import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
-import { Montserrat } from "next/font/google";
 import API from "../../lib/api";
 import { Josefin_Sans } from "next/font/google";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
-  weight: ["300", "500", "600"],
+  weight: ["300", "400", "500"],
 });
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
+
 
 import { Playfair_Display } from "next/font/google";
 
@@ -252,6 +248,7 @@ const Header = () => {
             {/* LOGO CENTER */}
             <div
               className={`
+                ${josefin.className}
                 absolute left-1/2 transform -translate-x-[74%] sm:-translate-x-1/2
                 text-[1.6rem] sm:text-[2rem] lg:text-[3rem]
                 tracking-[0.17em] uppercase z-10
@@ -262,7 +259,7 @@ const Header = () => {
               
             >
               <Link
-                className={`${pathname == "/pages/better-materials" ? (scrolled ? "text-black block" : "hidden") : "block"} ${josefin.className}  `}
+                className={`${pathname == "/pages/better-materials" ? (scrolled ? "text-black block" : "hidden") : "block"}  font-nomral `}
                 href={"/"}
               >
                 

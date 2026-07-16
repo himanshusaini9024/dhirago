@@ -288,7 +288,7 @@ export default function LuxurySection() {
             <motion.img
               src="/images/logo/3.svg"
               alt="Logo"
-              className="w-[110px] md:w-[130px] opacity-90"
+              className="w-[110px] md:w-[130px] opacity-90 "
             />
           </motion.div>
 
@@ -305,7 +305,7 @@ export default function LuxurySection() {
             style={{ marginBottom: "1.75rem" }}
           >
             <p
-              className={`${josefin.className} `}
+              className={`${josefin.className} mt-1 `}
               style={{
                 fontSize: "clamp(0.725rem, 1.6vw, 1.112rem)",
                 color: "#333333",
@@ -313,11 +313,11 @@ export default function LuxurySection() {
                 marginBottom: "0.2rem",
               }}
             >
-              Immerse yourself in the slow way of life with Dhirago
+              Immerse yourself in the slow way of life with Dhirago 
             </p>
-            <br /><br />
+            
             <p
-              className="font-futura leading-[1.90]"
+              className="font-futura leading-[1.90] mt-4 text-justify"
               style={{
                 fontWeight: 300,
                 fontSize: "clamp(14px, 1.3vw, 1.01rem)",

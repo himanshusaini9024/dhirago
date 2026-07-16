@@ -237,9 +237,9 @@ export default function BetterMaterials() {
         </div> */}
 
         {/* Hallmarks copy */}
-        <div className="max-w-[51rem] mx-auto mt-10 md:mt-16 text-center">
-          <h3 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
-            The Hallmarks of a great garment.
+        <div className="max-w-[51rem] mx-auto mt-10 md:mt-16 ">
+          <h3 className={`${josefin.className} text-center uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
+            The Hallmarks of a great garment
           </h3>
           <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
             Every inch of a Dhirago piece reflects an approach of craftsmanship – where precision and attention

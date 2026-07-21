@@ -20,7 +20,7 @@ const body = EB_Garamond({
 
 const storyLinks = [
   { label: "About-us", href: "/about" },
-  { label: "Contact Us", href: "/contact" },
+  { label: "Collections", href: "/collections/shirts" },
 
   // { label: "The Beauty of Time", href: "/our-story/philosophy" },
   // { label: "Journal", href: "/journal" },
@@ -33,7 +33,7 @@ const makingLinks = [
 ];
 
 const houseLinks = [
-  { label: "Shop All", href: "/collections/shirts" },
+  { label: "Contact Us", href: "/contact" },
   { label: "Care Guide", href: "/product-care" },
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Shipping & Returns", href: "/shipping-and-return" },

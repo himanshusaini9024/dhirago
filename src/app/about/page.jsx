@@ -384,7 +384,7 @@ export default function AboutPage() {
               {/* Water-level rail: fills upward on reveal — the section's one signature move */}
               <div
                 aria-hidden="true"
-                className="udaipur-rail"
+                className="udaipur-rail hidden"
                 style={{
                   position: "relative",
                   width: 2,
@@ -394,7 +394,7 @@ export default function AboutPage() {
                 }}
               >
                 <div
-                  className="udaipur-rail-fill"
+                  className=" udaipur-rail-fill"
                   style={{
                     position: "absolute",
                     bottom: 0,
@@ -412,7 +412,7 @@ export default function AboutPage() {
                   "A city built around water, where reflection softens everything into calm and completeness.",
                   "The lakes do not rush — they hold the sky, the light, the moment.",
                   "Here, water is held and preserved through time, allowed to settle into its own stillness — calm not found, but gently formed through intention.",
-                  "Dhirago draws from this belief: held with care and intention, a thing transforms into something lasting.",
+                  "DHIRAGO draws from this belief —  that when something is held with care and intention it transforms into something lasting.",
                 ].map((text, i) => (
                   <Reveal key={i} delay={220 + i * 90}>
                     <p
@@ -431,34 +431,7 @@ export default function AboutPage() {
                   </Reveal>
                 ))}
 
-                {/* Pull quote — the brand thesis, set apart from the description above */}
-                <Reveal delay={500}>
-                  <blockquote
-                    style={{
-                      marginTop: "2rem",
-                      padding: "1.25rem 1.5rem",
-                      borderLeft: "2px solid #C4A882",
-                      background: "rgba(196,168,130,0.08)",
-                      backdropFilter: "blur(6px)",
-                      maxWidth: 520,
-                    }}
-                  >
-                    <p
-                      className="font-futura font-light"
-                      style={{
-                        fontStyle: "italic",
-                        fontSize: "clamp(14px,1.4vw,1.08rem)",
-                        color: "#F5F0E8",
-                        lineHeight: 1.7,
-                        letterSpacing: "0.02em",
-                        margin: 0,
-                      }}
-                    >
-                      Dhirago draws from this belief: held with care and
-                      intention, a thing transforms into something lasting.
-                    </p>
-                  </blockquote>
-                </Reveal>
+            
               </div>
             </div>
           </div>

@@ -13,6 +13,11 @@ const display = Josefin_Sans({
   subsets: ["latin"],
   weight: ["300", "300", "300"],
 });
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
 const body = EB_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
@@ -336,8 +341,8 @@ export default function UltraPremiumFooter() {
       <div className="max-w-[1280px] mx-auto px-8 md:px-14 pt-6 pb-[6rem]  flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <p 
-           style={{ fontFamily: "'Josefin Sans, Josefin Sans Fallback" }}
-            className={`text-[21px] tracking-[0.3em] text-[#111111]`}
+          
+            className={`${josefin.className} text-[21px] tracking-[0.2em] text-[#111111]`}
           >
             DHIRAGO
           </p>

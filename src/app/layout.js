@@ -102,13 +102,14 @@ export default function RootLayout({ children }) {
             window.chatwootSettings = {
             position: "right",
             type: "standard",
-            launcherTitle: "Powered by Dhirago"
+            locale: "en",
+            launcherTitle: "Need help with your order?"
             };
 
 
             (function(d,t) {
-            // var BASE_URL= "${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"}";
-            var BASE_URL= "http://192.168.137.10:3001";
+            var BASE_URL= "${process.env.NEXT_PUBLIC_CHAT_URL || "https://chat.dhirago.com"}";
+            // var BASE_URL= "http://192.168.137.10:3001";
 
             var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src=BASE_URL+"/packs/js/sdk.js";
@@ -117,7 +118,7 @@ export default function RootLayout({ children }) {
             s.parentNode.insertBefore(g,s);
             g.onload=function(){
             window.chatwootSDK.run({
-            websiteToken: 'XNEUiTEmEKsrCtkCaYAGp9Ed',
+            websiteToken: 'EcbAMZ2Bq2GruG3YTmz33PRP',
             baseUrl: BASE_URL
             })
             }

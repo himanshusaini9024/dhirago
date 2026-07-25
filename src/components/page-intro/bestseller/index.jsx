@@ -37,12 +37,12 @@ export default function Hero() {
               The first story; woven with patience
             </p>
 
-            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]" >
+            <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]" >
               <em className={` ${josefin.className} text-[#111111] font-medium`}> DHIRAGO’s </em> debut collection explores the richness of traditional textiles, beginning with indigo hues and unfolding into a palette of mustard, green, and shadowed neutrals. Natural fabrics like linen, woven cottons, and cotton denim are thoughtfully paired with Kantha embroidery, hand block printing, and Tangaliya-inspired craftsmanship.
 
             </p>
 
-            <p className="font-futura mt-5 font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+            <p className="font-futura mt-5 font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
               The name DHIRAGO draws from Dheera—a state of calmness. Created in limited numbers, each garment is conceived as a collectible object, designed to endure through time. Each piece quietly gathers character, reflecting the beauty of time.
               
             </p>
@@ -52,7 +52,7 @@ export default function Hero() {
               {/* Filled primary button */}
               <a
                 href="/collections/shirts"
-                className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#14171A] transition-colors hover:border-[#14171A]"
+                className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A]"
               >
                 View Our Collection
               </a>

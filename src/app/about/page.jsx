@@ -52,7 +52,7 @@ function CraftCard({ num, name, desc, delay = 0 }) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
-          background: hovered ? "#EDE6D9" : "#F5F0E8",
+          background: hovered ? "#EDE6D9" : "rgba(255,255,255,8.1)",
           padding: "clamp(1.5rem,4vw,3rem) clamp(1.25rem,3vw,2.5rem)",
           transition: "background 0.4s",
           height: "100%",
@@ -61,7 +61,7 @@ function CraftCard({ num, name, desc, delay = 0 }) {
         <div
           style={{
             fontFamily: "'Cormorant Garamond',serif",
-            fontSize: "3.5rem",
+            fontSize: "2.5rem",
             fontWeight: 300,
             color: "#E8E0D0",
             lineHeight: 1,
@@ -76,7 +76,7 @@ function CraftCard({ num, name, desc, delay = 0 }) {
         >
           {name}
         </div>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
           {desc}
         </p>
       </div>
@@ -270,7 +270,7 @@ export default function AboutPage() {
           >
             <Reveal delay={100}>
               <h2
-                className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.03em] mb-6`}
+                className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}
               >
                 A Label woven in stillness,defined by craftsmanship
               </h2>
@@ -284,7 +284,7 @@ export default function AboutPage() {
             }}
           >
             <Reveal delay={260}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                 DHIRAGO originates from a narrative that simplicity holds depth
                 and life is meant to be felt, not rushed. The name is inspired
                 by <em style={{ fontStyle: "italic" }}>"Dheera"</em> a state of
@@ -296,7 +296,7 @@ export default function AboutPage() {
               </p>
             </Reveal>
             <Reveal delay={340}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                 As a conscious luxury label, DHIRAGO works with 60 count
                 European linen and organically sourced fabric, valued for its
                 breathability, texture, and the way it softens over time.
@@ -306,7 +306,7 @@ export default function AboutPage() {
               </p>
             </Reveal>
             <Reveal delay={420}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                 Craftsmanship lies at the heart of DHIRAGO, our designs draw
                 from heritage techniques and time honoured practices like block
                 printing, natural dye and intricate detailing of miniature art
@@ -419,7 +419,7 @@ export default function AboutPage() {
                       className="font-futura font-light"
                       style={{
                         lineHeight: 1.9,
-                        fontSize: "clamp(14px,1.3vw,1.01rem)",
+                        fontSize: "clamp(12px,1.3vw,1.01rem)",
                         color: "#ffffff",
                         letterSpacing: "0.03em",
                         marginBottom: "1.4rem",
@@ -467,7 +467,7 @@ export default function AboutPage() {
             04. OUR SYMBOL — heron photo left, text right
         ════════════════════════════════════════════════════════ */}
         <section
-          style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "#F0EDE6" }}
+          style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "rgba(255,255,255,1.0)" }}
         >
           <div style={S.inner}>
             <div
@@ -520,7 +520,7 @@ export default function AboutPage() {
                 </Reveal>
 
                 <Reveal delay={310}>
-                  <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                     The heron is DHIRAGO's mark - a symbol of balance, patience,
                     and quiet strength. Calmness in its presence and deliberate
                     in its movement, the bird reflects our approach to
@@ -550,7 +550,7 @@ export default function AboutPage() {
             05. CRAFTSMANSHIP — 3 hover cards
         ════════════════════════════════════════════════════════ */}
         <section
-          style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "#F5F0E8" }}
+          style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "rgba(255,255,255,1.0)" }}
         >
           <div style={S.inner}>
             <Reveal>
@@ -604,20 +604,20 @@ export default function AboutPage() {
         </section>
 
         <section
-          style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "#F5F0E8" }}
+          style={{ padding: "clamp(1rem,10vw,9rem) 0", background: "rgba(255,255,255,1.0)" }}
         >
           <div style={S.inner}>
             <div className="story-grid" style={S.twoCol}>
               <div>
                 <Reveal>
                   <h2
-                    className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}
+                    className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
                   >
                     The Palette of DHIRAGO
                   </h2>
                 </Reveal>
                 <Reveal delay={150}>
-                  <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                     DHIRAGO finds inspiration in the landscapes and subtle
                     textures found in natural surroundings. The colour palette
                     is shaped by tones that feel familiar and enduring — warm
@@ -626,7 +626,7 @@ export default function AboutPage() {
                     than following seasonal colour trends, the focus remains on
                     shades that feel timeless, calm, and easy to live with.
                   </p>
-                  <p className=" font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] ">
+                  <p className=" font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] ">
                     Designed with clean lines and relaxed silhouettes, the
                     garments are created to become a natural part of everyday
                     life. They are made to move effortlessly between moments —
@@ -758,10 +758,10 @@ export default function AboutPage() {
           >
             <Reveal delay={120}>
               <blockquote
-                className={`${josefin.className} uppercase font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#ffffff] tracking-[0.23em]`}
+                className={`${josefin.className} uppercase font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#ffffff] tracking-[0.23em]`}
               >
                 When something is held with care and intention,
-                <br />
+                
                 it transforms into something lasting.
               </blockquote>
             </Reveal>

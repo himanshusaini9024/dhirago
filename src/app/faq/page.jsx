@@ -140,19 +140,19 @@ export default function FAQPage() {
   };
 
   return (
-    <div className={`min-h-screen bg-[#faf9f7] ${josefin.className}`}>
+    <div className={`min-h-screen bg-[rgba(255,255,255,1.0)] ${josefin.className}`}>
 
       {/* ── HERO ── */}
       <div className="w-full border-b border-stone-200 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-16 py-12 md:py-20 flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6">
           <div>
            
-            <h1 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
+            <h1 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
               Frequently Asked 
               Questions
             </h1>
           </div>
-          <p className="text-[13px] font-light text-stone-400 leading-relaxed md:max-w-xs md:text-right">
+          <p className="text-[12px] font-light text-stone-400 leading-relaxed md:max-w-xs md:text-right">
             Can't find what you're looking for?{" "}
             <a
               href="/contact"
@@ -250,7 +250,7 @@ export default function FAQPage() {
           >
             {/* Category heading */}
             <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
-              <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
+              <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
                 {category.charAt(0) + category.slice(1).toLowerCase()}
               </h2>
               <div className="flex-1 h-px bg-stone-200" />
@@ -274,7 +274,7 @@ export default function FAQPage() {
                         <span className="text-[11px] text-stone-300 mt-0.5 shrink-0 tabular-nums hidden sm:block">
                           {(i + 1).toString().padStart(2, "0")}
                         </span>
-                        <span className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+                        <span className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                           {item.q}
                         </span>
                       </div>
@@ -297,7 +297,7 @@ export default function FAQPage() {
                           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
-                          <div className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+                          <div className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                             {item.a}
                           </div>
                         </motion.div>
@@ -315,10 +315,10 @@ export default function FAQPage() {
       <div className="w-full border-t border-stone-200 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-16 py-10 md:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 md:gap-6">
           <div>
-            <p className="text-[10px] tracking-[0.45em] uppercase text-stone-400 mb-2">
+            <p className="text-[10px] tracking-[0.1em] uppercase text-stone-400 mb-2">
               Still need help?
             </p>
-            <p className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
+            <p className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.01em] mb-4`}>
               We're here to assist you
             </p>
           </div>

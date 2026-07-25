@@ -70,7 +70,7 @@ export default function Marquee() {
           <p
             className="font-futura lg:text-justify leading-[1.90]"
             style={{
-              fontSize: "clamp(15px, 1.3vw, 1.01rem)",
+              fontSize: "clamp(12px, 1.3vw, 1.01rem)",
 
               fontWeight: 300,
                 letterSpacing: "0.03em",

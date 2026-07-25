@@ -50,7 +50,7 @@ export default function ShoppingCart() {
           {/* ITEMS */}
           <div className="mt-4">
             {cartItems.length === 0 ? (
-              <p className="text-gray-500 text-center text-[2rem]">
+              <p className="text-gray-500 text-center text-[1rem] md:text-[2rem]">
                 Your cart is empty
               </p>
             ) : (

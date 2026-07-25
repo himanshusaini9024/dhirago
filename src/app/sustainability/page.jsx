@@ -115,13 +115,13 @@ const FONT = josefin;
 
 export default function OurKissaPage() {
   return (
-    <div className={`bg-[#faf8f5] min-h-screen text-[#2a2a2a] ${FONT}`}>
+    <div className={`bg-[rgba(255,255,255,1.0)] min-h-screen text-[#2a2a2a] ${FONT}`}>
 
       {/* ── OUR KISSA HEADING ── */}
       <Reveal>
         <div className="pt-10 pb-7 min-[600px]:pt-16 min-[600px]:pb-10">
           <div className="max-w-[880px] mx-auto px-5 min-[600px]:px-6">
-            <h1 className={`text-[clamp(32px,5vw,52px)] font-light text-[#111111] leading-[1.1] ${FONT}`}>
+            <h1 className={`text-[clamp(28px,5vw,52px)] font-light text-[#111111] leading-[1.1] ${FONT}`}>
               our Kissa
             </h1>
           </div>
@@ -145,19 +145,19 @@ export default function OurKissaPage() {
       <Reveal>
         <div className="pb-8 min-[600px]:pb-12">
           <div className="max-w-[880px] mx-auto px-5 min-[600px]:px-6">
-            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+            <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
               Material choice, controlled production, and long-term wearability define sustainability at Dhirago.
             </p>
-            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+            <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
               The brand works with natural fibres such as linen and organic cotton, selected for their biodegradability and lower environmental impact compared to synthetic alternatives. Linen, in particular, is a low-resource fibre, requiring minimal irrigation and fewer chemical inputs during cultivation.
             </p>
-            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+            <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
               Production follows a small-batch model, allowing better control over quantities and reducing excess inventory. Fabric utilisation is carefully managed by minimising cutting waste, with pattern planning and efficient material use.
             </p>
-            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+            <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
               Operations are kept low-impact, with limited reliance on heavy industrial methods and a preference for controlled, resource-efficient techniques.
             </p>
-            <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+            <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
               Recycled and leftover materials are incorporated wherever possible within the production cycle, reducing the need for new raw resources and limiting material waste. Packaging and auxiliary components are also selected with consideration for reduced environmental impact.
             </p>
           </div>
@@ -172,18 +172,18 @@ export default function OurKissaPage() {
           <div className="max-w-[1200px] mx-auto px-5 min-[600px]:px-[clamp(1.5rem,5vw,5rem)]">
             <div className="grid grid-cols-1 gap-6 items-center min-[600px]:gap-8 min-[900px]:grid-cols-2 min-[900px]:gap-[clamp(32px,5vw,80px)]">
               <div>
-                <h2            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+                <h2            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
 >
                   Koshish, our zero waste initiative
                 </h2>
-                <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+                <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
                   We are dedicated to becoming a zero-waste company. To that end, we create one-of-a-kind products out of all the accumulated scraps through our{" "}
                   <a href="#" className="text-[#2a2a2a] underline underline-offset-2 font-normal">
                     Koshish edit
                   </a>
                   .
                 </p>
-                <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+                <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
                   To know more about Koshish,{" "}
                   <a href="#" className="text-[#2a2a2a] underline underline-offset-2 font-normal">
                     click here
@@ -212,7 +212,7 @@ export default function OurKissaPage() {
       <hr className="border-0 border-t border-[#e8e4de] m-0" />
 
       {/* ── FOUR PILLARS ── */}
-      <section className="relative overflow-hidden bg-[#EDE7D9] py-10 min-[600px]:py-[clamp(48px,8vw,80px)]">
+      <section className="relative overflow-hidden bg-[rgba(255,255,255,1.0)] py-10 min-[600px]:py-[clamp(48px,8vw,80px)]">
         <div className="max-w-[1200px] mx-auto px-5 min-[600px]:px-[clamp(1.5rem,5vw,5rem)]">
           <Reveal>
           
@@ -228,11 +228,11 @@ export default function OurKissaPage() {
                   <div className="absolute top-0 left-0 w-[3px] h-0 bg-gradient-to-b from-[#8DB88A] to-[#C4A882] transition-[height] duration-500 group-hover:h-full" />
                   <div className="flex items-baseline gap-3 mb-4">
                     <span className="text-[0.8rem] text-[rgba(74,114,72,0.45)] font-thin">{p.num}</span>
-                    <h3 className={`text-[clamp(11px,1.2vw,13px)] font-normal tracking-[0.08em] uppercase text-[#162518] ${FONT}`}>
+                    <h3 className={`text-[clamp(12px,1.2vw,13px)] font-normal tracking-[0.08em] uppercase text-[#162518] ${FONT}`}>
                       {p.title}
                     </h3>
                   </div>
-                  <p   className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] ">
+                  <p   className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] ">
                     {p.body}
                   </p>
                 </div>

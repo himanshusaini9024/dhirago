@@ -136,10 +136,10 @@ function MobileFabricCard({ fabric, isOpen, onToggle }) {
       <button
         onClick={onToggle}
         className={`w-full flex items-center justify-between px-5 py-4 transition-colors duration-200 ${
-          isOpen ? "bg-[#ece7dc]" : "bg-[#f5f1eb] hover:bg-[#f0ece4]"
+          isOpen ? "bg-[#ece7dc]" : "bg-[rgba(255,255,255,1.0)] hover:bg-[#f0ece4]"
         }`}
       >
-        <span className={`${josefin.className} text-sm font-semibold tracking-[0.15em] text-[#6b5d4a] uppercase`}>
+        <span className={`${josefin.className} text-xs font-semibold tracking-[0.15em] text-[#6b5d4a] uppercase`}>
           {fabric.name}
         </span>
         <ChevronIcon open={isOpen} />
@@ -228,7 +228,7 @@ export default function ProductCarePage() {
       </div>
 
       {/* ── MOBILE: Accordion Layout (hidden on md+) ── */}
-      <div className="md:hidden px-4 pb-10 space-y-2">
+      <div className="md:hidden px-4 pb-10 pt-5 space-y-2">
         {fabricData.map((fabric, idx) => (
           <MobileFabricCard
             key={fabric.name}
@@ -304,14 +304,14 @@ export default function ProductCarePage() {
 
       {/* ── General Caution ── */}
       <div className="max-w-6xl mx-auto px-4 mb-10">
-        <div className="border border-[#d6cfc3] bg-[#f9f7f3] px-5 md:px-8 py-5">
-          <p className={`${josefin.className} text-xs tracking-[0.25em] text-[#8b7355] uppercase mb-4 font-medium`}>
+        <div className="border border-[#d6cfc3] bg-[rgba(255,255,255,1.0)] px-5 md:px-8 py-5">
+          <p className={`${josefin.className} text-xs tracking-[0.25em] text-[#111111] uppercase mb-4 font-medium`}>
             General Caution
           </p>
           <div className="flex flex-col md:flex-row md:flex-wrap gap-y-3 md:gap-x-10 md:gap-y-3">
             {generalCautions.map((caution) => (
               <span key={caution} className={`${josefin.className} flex items-center gap-2 text-sm text-[#3a3028]`}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#a89070] shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#777777] shrink-0" />
                 {caution}
               </span>
             ))}

@@ -139,9 +139,9 @@ export default function UltraPremiumFooter() {
   return (
     <footer
       className={`${body.className} w-full`}
-      style={{ background: "#F6F2EA" }}
+      style={{ background: "rgba(255,255,255,1.0)" }}
     >
-      <div className="max-w-[1280px] mx-auto px-8 md:px-14 pt-[8rem] pb-10">
+      <div className="max-w-[1280px] mx-auto px-8 md:px-14 md:pt-[8rem] pt-20 pb-10">
         {/* Flower mark */}
         {/* <FlowerMark className="w-8 h-8 mb-10" /> */}
         {/* <motion.div
@@ -168,7 +168,7 @@ export default function UltraPremiumFooter() {
             className="relative"
           >
             <p
-              className={`font-futura text-[12px] font-medium tracking-[0.25em] uppercase text-[#2b2620]`}
+              className={`font-futura text-[12px] md:text-[12px] font-medium tracking-[0.25em] uppercase text-[#2b2620]`}
             >
               The House
             </p>
@@ -179,7 +179,7 @@ export default function UltraPremiumFooter() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`${display.className} text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
+                  className={`${display.className} text-[14px] md:text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
                 >
                   {link.label}
                 </Link>
@@ -208,7 +208,7 @@ export default function UltraPremiumFooter() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`${display.className} text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
+                  className={`${display.className} text-[14px] md:text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
                 >
                   {link.label}
                 </Link>
@@ -235,7 +235,7 @@ export default function UltraPremiumFooter() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`${display.className} text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
+                  className={`${display.className} text-[14px] md:text-[16px] text-[#111111] hover:text-[#8a7f6d] transition-colors duration-200`}
                 >
                   {link.label}
                 </Link>
@@ -258,7 +258,7 @@ export default function UltraPremiumFooter() {
             <div className="w-6 h-px bg-[#2b2620] mt-3 mb-6" />
 
             <p
-              className={`${display.className} text-[16px] leading-[1.6] text-[#111111] mb-3`}
+              className={`${display.className} text-[14px] md:text-[16px] leading-[1.6] text-[#111111] mb-3`}
             >
               Thoughts on craft, material, and the beauty of time.
             </p>
@@ -267,7 +267,6 @@ export default function UltraPremiumFooter() {
               className={`flex items-stretch border border-solid  transition-colors duration-200 ${
                 focused ? "border-[#2b2620]" : "border-[#c9c0af]"
               }`}
-              style={{ background: "#F6F2EA" }}
             >
               <input
                 type="email"
@@ -333,7 +332,7 @@ export default function UltraPremiumFooter() {
       </div>
 
       {/* ── DIVIDER ────────────────────────────────────── */}
-      <div className="max-w-[1280px] mt-14 mx-auto px-8 md:px-14">
+      <div className="max-w-[1280px] mt-1 mx-auto px-8 md:px-14">
         <hr className="border-t border-[#dcd5c6]" />
       </div>
 
@@ -342,11 +341,11 @@ export default function UltraPremiumFooter() {
         <div>
           <p 
           
-            className={`${josefin.className} text-[21px] tracking-[0.2em] text-[#111111]`}
+            className={`${josefin.className}  text-[14px] md:text-[21px] tracking-[0.2em] text-[#111111]`}
           >
             DHIRAGO
           </p>
-          <p className={`${display.className} text-[15px] mt-3 text-[#111111]`}>
+          <p className={`${display.className} text-[14px] md:text-[15px] mt-3 text-[#111111]`}>
             The beauty of time, thoughtfully made.
           </p>
         </div>

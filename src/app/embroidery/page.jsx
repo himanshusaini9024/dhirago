@@ -61,16 +61,16 @@ export default function HandEmbroideryPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
               <h2
-                className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+                className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
               >
                 A Touch of Embroidery, a Shade of Elegance
               </h2>
               <p
-                className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
+                className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
               >
                 DHIRAGO works with indigenous textile techniques and natural fabrics, thoughtfully integrating time-honoured crafts such as, Sashiko hand stitching, and Kantha embroidery and Tangaliya inspired weaving into its garments. Each technique is applied through controlled, manual execution—Sashiko through repetitive reinforcement stitching, Kantha through layered running stitches and tangaliya through its distinctive pattern language. Meticulously hand embroidered, each piece reflects our devotion to slow, thoughtful designs.
               </p>
-              <p  className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+              <p  className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
                 These practices are deeply rooted in India’s cultural heritage and are incorporated with finesse, creating garments that remain connected to tradition while expressed with a modern sensibility. By continuing these techniques, DHIRAGO upholds its commitment to preserving age-old craftsmanship and celebrating India’s rich textile legacy, presenting ethical and heritage-driven making as a form of true luxury. 
               </p>
             </div>
@@ -91,10 +91,10 @@ export default function HandEmbroideryPage() {
       </section>
 
       {/* PROCESS */}
-      <section className="pt-16 lg:pt-20 pb-20 lg:pb-[100px]">
+      <section className="pt-4 lg:pt-20 pb-10 lg:pb-[100px]">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
           <h2
-           className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 text-center`}
+           className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 text-center`}
           >
             PROCESS
           </h2>
@@ -105,12 +105,12 @@ export default function HandEmbroideryPage() {
                 className={`mb-11 ${i === processSteps.length - 1 ? "mb-0" : ""}`}
               >
                 <span
-                    className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
+                    className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
                 >
                   {step.title}
                 </span>
                 <span
-                   className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] block"
+                   className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] block"
                 >
                   {step.desc}
                 </span>
@@ -138,7 +138,7 @@ export default function HandEmbroideryPage() {
       <section className="pt-16 lg:pt-28">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
           <h2
-                      className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] `}
+                      className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] `}
 
           >
             At DHIRAGO, every print begins with a story
@@ -213,22 +213,22 @@ export default function HandEmbroideryPage() {
             <div>
               
               <p
-                  className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
+                  className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
               >
                 Hand block printing preserves the rhythm of traditional craftsmanship, where each carved wooden block is pressed by hand, creating subtle variations that make every piece unique.
               </p>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-4">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-4">
                 Screen printing complements this process by bringing fine details and expressive artwork to fabric with precision.
               </p>
               <p
-                 className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-4"
+                 className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-4"
               >
                Together, these techniques celebrate the dialogue between heritage and contemporary design, allowing every garment to carry both the touch of the artisan and the spirit of thoughtful making.
                
                  
               </p>
              
-             <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+             <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
                It is here that exquisite craftsmanship meets material excellence—where detail is not an addition, but becomes a signature of the piece.
              </p>
             </div>
@@ -240,7 +240,7 @@ export default function HandEmbroideryPage() {
       <section className="py-14 lg:py-16 border-t border-b border-[#e0e0e0] text-center">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
           <p
-             className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
+             className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
           >
             &quot;An exceptionally skilled artisan, with the most brilliant
             <br />

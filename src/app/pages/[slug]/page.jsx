@@ -165,11 +165,11 @@ export default function BetterMaterials() {
       </section>
 
       {/* ══ 2. INTRO ═══════════════════════════════════════════ */}
-      <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24 text-center max-w-[64rem] mx-auto">
-        <h2 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
+      <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24  max-w-[64rem] mx-auto">
+        <h2 className={`${josefin.className} uppercase leading-[1.90] text-center text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           True craftsmanship starts with the material
         </h2>
-        <p className="font-futura font-light leading-[1.75] text-[clamp(14px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] tracking-[0.03em]">
+        <p className="font-futura font-light leading-[1.75] text-[clamp(12px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] tracking-[0.03em]">
           Every garment begins with a story. The materials we choose become its foundation, shaping its character, comfort, and longevity. We are deliberate about every fabric—where it comes from, how it is produced, and the hands involved in its making—ensuring each piece is crafted with care for both the wearer and the world it belongs to.
         </p>
       </section>
@@ -177,7 +177,7 @@ export default function BetterMaterials() {
       {/* ══ 3. MATERIALS — stacked ═════════════════════════════ */}
     
 
-         <section className="pt-16 lg:pt-10">
+         <section className="pt-6 lg:pt-10">
          <div className="grid grid-cols-2 gap-5 max-w-[1200px] mx-auto px-5 lg:px-[60px]">
         {photos.map((src, i) => (
           <div key={i} className="group aspect-[3.5/4] overflow-hidden leading-none">
@@ -192,17 +192,17 @@ export default function BetterMaterials() {
       </div>
       </section>
 
-      <section className="pt-10 lg:pt-12 pb-16 lg:pb-20">
+      <section className="pt-10 lg:pt-12 pb-16 lg:pb-20 px-5">
       
          <div className="max-w-[68rem]  mx-auto mt-1 md:mt-4 text-align">
         
-          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
             Every piece begins with a simple belief—true quality begins with the material. At DHIRAGO, we work with thoughtfully sourced natural fabrics, chosen not only for how they look, but for how they feel, and endure over time.
           </p>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
             From premium European linen to finely woven cottons and other natural fibres, each textile is selected through trusted partners who share our commitment to exceptional quality, responsible sourcing, and lasting craftsmanship. Every fabric is chosen for its breathability, comfort and refined texture.
           </p>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
             These fibres are cultivated with respect for the environment, relying on responsible farming practices and minimal resources. Their lasting quality reflects a quieter approach to making—one that values longevity over excess.
           </p>
         </div>
@@ -237,16 +237,16 @@ export default function BetterMaterials() {
         </div> */}
 
         {/* Hallmarks copy */}
-        <div className="max-w-[51rem] mx-auto mt-10 md:mt-16 ">
-          <h3 className={`${josefin.className} text-center uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
+        <div className="max-w-[51rem] mx-auto mt-5 md:mt-16 ">
+          <h3 className={`${josefin.className} text-center uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
             The Hallmarks of a great garment
           </h3>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
             Every inch of a Dhirago piece reflects an approach of craftsmanship – where precision and attention
             to details are never compromised. It's evident in how our fabrics feels on your skin, to how the
             collar sits and the neatness of every stitch, everything is thoughtfully done.
           </p>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
             All the garments are made to maximise the wear, this is done by adding an extra layer of fabric to
             placket, cuffs and collars to give them added layer of strength. It enhances
             durability while giving the garment a sharper, more refined finish.
@@ -256,7 +256,7 @@ export default function BetterMaterials() {
         {/* ── Five Elements of Craft ── */}
         <div className="mt-14 md:mt-20 py-4 md:py-16 px-4 sm:px-8 md:px-16 lg:px-20 bg-white border-y border-[#C4A882]/15">
           <div className="max-w-[1160px] mx-auto">
-            <span  className={`block text-center uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 font-medium text-stone-900 mb-4 md:mb-12 ${josefin.className}`}>
+            <span  className={`block text-center uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 font-medium text-stone-900 mb-4 md:mb-12 ${josefin.className}`}>
               The Five Elements of Craft
               
             </span><br />
@@ -266,7 +266,7 @@ export default function BetterMaterials() {
                   <svg width="48" height="48" viewBox="0 0 64 64" fill="none" className="sm:w-20 sm:h-20">
                     {el.path}
                   </svg>
-                  <span className="text-[clamp(14px,1.3vw,1.01rem)]  tracking-[0.4em] sm:tracking-[0.45em] uppercase text-[#1C1814] font-normal text-center">
+                  <span className="text-[clamp(12px,1.3vw,1.01rem)]  tracking-[0.1em] sm:tracking-[0.45em] uppercase text-[#1C1814] font-normal text-center">
                     {el.label}
                   </span>
                 </div>
@@ -280,8 +280,8 @@ export default function BetterMaterials() {
     
 
       {/* ══ 7. QUOTE BLOCK ═════════════════════════════════════ */}
-      <div className="py-12 md:py-20 px-4 sm:px-8 md:px-16 lg:px-20 border-t border-[#C4A882]/20 text-center">
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+      <div style={{background: "rgba(255,255,255,0.18)"}} className="py-12 md:py-20 px-4 sm:px-8 md:px-16 lg:px-20  border-t border-[#C4A882]/20 text-center">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
           &ldquo;Everything is thoughtfully done — from how the fabric feels on your skin, to how the collar sits,
           to the neatness of every stitch.&rdquo;
         </p>

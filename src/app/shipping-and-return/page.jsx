@@ -31,12 +31,12 @@ export default function ShippingReturn() {
       </div>
       <div className="max-w-4xl mx-auto px-6 md:px-10 py-14">
         <h1
-          className={`${josefin.className} text-center uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} text-center uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           Shipping
         </h1>
 
-        <div className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+        <div className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
           <ul style={{ listStyle: "disc" }}>
             <li>Usually delivery within 5-8 business days.</li>
             <li>Shipping is Free for any number of product.</li>
@@ -45,7 +45,7 @@ export default function ShippingReturn() {
 
         {/* Shipping Within India */}
 
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           Actual delivery timelines could vary, usually based on the delivery
           address and during peak shipping periods. In case your pincode is not
           accepted at Checkout, please contact us, we will do our best to
@@ -62,7 +62,7 @@ export default function ShippingReturn() {
         <h2 className="text-[13px] font-medium uppercase tracking-wide text-stone-400 mt-12 mb-5">
           Order Communication
         </h2>
-        <div className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <div className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <p>You will receive order related emails in two stages.</p>
           <ul className="list-disc pl-5 space-y-2">
             <li>An order confirmation email once you place the order.</li>
@@ -84,11 +84,11 @@ export default function ShippingReturn() {
 
         {/* Returns */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-3`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-3`}
         >
           Returns
         </h2>
-        <div className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <div className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <p>
             We accept returns and exchange within 5 days from the date of
             delivery as long as it meet the eligibility conditions below -
@@ -114,11 +114,11 @@ export default function ShippingReturn() {
         </div>
 
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           RETURN PROCESS
         </h2>
-        <div className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <div className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <p>Request. Confirm. Handover. </p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
@@ -139,11 +139,11 @@ export default function ShippingReturn() {
 
           <div>
           <h2
-            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
           >
             CUSTOMER CARE
           </h2>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
             Mobile - (+91 8905524932). <br />
             Email - contact@dhirago.com <br />
             Business Hours <br />

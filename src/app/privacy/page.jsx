@@ -32,12 +32,12 @@ export default function PrivacyPolicyPage() {
       </div>
       <div className="max-w-5xl mx-auto px-6 md:px-10 py-14">
         <h1
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           What is your Privacy Policy?
         </h1>
 
-        <div className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <div className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <p>
             This Website with the URL{" "}
            <Link href="https://www.dhirago.com" target="_blank" className="underline text-stone-900">www.dhirago.com</Link>{" "}
@@ -159,11 +159,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Section: How We Collect */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           How We Collect the Information
         </h2>
-        <ul className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <ul className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <li>
             From you directly and through this site: We may collect information
             through the Website when you visit. The data we collect depends on
@@ -188,15 +188,15 @@ export default function PrivacyPolicyPage() {
 
         {/* Section: Information We Collect */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           Information We Collect
         </h2>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We collect information primarily to provide better services to all of
           our customers.
         </p>
-        <ul className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <ul className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <li>
             When you visit our site, some information is automatically
             collected. This may include information such as the Operating System
@@ -228,11 +228,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Section: Cookies */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           Cookies
         </h2>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We use cookies and similar tracking technologies to track activity on
           our Website and hold certain information. Cookies are files with a
           small amount of data which may include an anonymous unique identifier.
@@ -243,11 +243,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Section: Data Sharing */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           Data Sharing
         </h2>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We do not sell, trade, or rent your personal identification
           information to others. We may share generic aggregated demographic
           information not linked to any personal identification information
@@ -257,11 +257,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Section: Security */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           Security
         </h2>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We adopt appropriate data collection, storage, and processing
           practices and security measures to protect against unauthorized
           access, alteration, disclosure or destruction of your personal
@@ -271,11 +271,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Section: Your Rights */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           Your Rights
         </h2>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           You have the right to access, update or delete the information we have
           on you. Whenever made possible, you can access, update or request
           deletion of your personal information directly within your account
@@ -287,11 +287,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Section: Policy Updates */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           Policy Updates
         </h2>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           We may update this privacy policy periodically. We will notify you of
           any changes by posting the new privacy policy on this page and
           updating the "Last Updated" date. You are advised to review this
@@ -300,11 +300,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Section: Contact */}
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           Contact
         </h2>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           If you have any questions about this Privacy Policy, please contact us
           at{" "}
           <a

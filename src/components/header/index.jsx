@@ -550,6 +550,8 @@ const Header = () => {
                     ))}
                     <Link
                       href="/cart"
+                      onClick={() => setMenuOpen(false)}
+
                       className="block py-4 mt-4 border-t text-sm font-medium"
                     >
                       Cart ({cartItems.length})
@@ -557,14 +559,17 @@ const Header = () => {
                     <div className="pt-3">
                       {!isLoggedIn ? (
                         <button
-                          onClick={() => setLoginOpen(true)}
+                          onClick={() => [setLoginOpen(true),setMenuOpen(false)]}
                           className="flex items-center gap-2 text-sm"
                         >
                           Login
                         </button>
                       ) : (
                         <div className="space-y-2 text-sm">
-                          <Link href="/account">My Profile</Link>
+                          <Link
+                      onClick={() => setMenuOpen(false)}
+                          
+                          href="/account">My Profile</Link>
                           <br />
                           <br />
                           <button onClick={handleLogout}>Logout</button>

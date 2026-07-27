@@ -18,6 +18,7 @@ import Script from "next/script";
 import PopupProvider from "../components/loginpopup/PopupProvider";
 import LayoutWrapper from "../components/LayoutWrapper";
 import AuthLoader from "../components/AuthLoader";
+import ChatwootSync from "../components/ChatwootSync";
 import Footer from "../components/footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
@@ -72,6 +73,7 @@ export default function RootLayout({ children }) {
 
               <LayoutWrapper>
                 <CartSync />
+                <ChatwootSync />
                 <PageTracker />
                 {children}
                 <GoogleAnalytics />
@@ -118,7 +120,7 @@ export default function RootLayout({ children }) {
             s.parentNode.insertBefore(g,s);
             g.onload=function(){
             window.chatwootSDK.run({
-            websiteToken: 'EcbAMZ2Bq2GruG3YTmz33PRP',
+            websiteToken: '${process.env.NEXT_PUBLIC_CHAT_TOKEN}',
             baseUrl: BASE_URL
             })
             }

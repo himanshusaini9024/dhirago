@@ -86,61 +86,12 @@ export default function OurKissaPage() {
           Max-width keeps desktop proportions close
           to the mobile editorial reference (tall right).
           ══════════════════════════════════════════ */}
-      <section className="w-full px-3 sm:px-4 md:px-6 py-10 md:py-16">
-        <div className="mx-auto max-w-[42rem] md:max-w-[52rem] flex items-stretch gap-1.5 sm:gap-2 md:gap-3">
-          {/* LEFT — 2 squares + caption */}
-          <div className="w-[55%] min-w-0 flex flex-col gap-1.5 sm:gap-2 md:gap-3">
-            <div className="grid grid-cols-2 gap-1.5 sm:gap-2 md:gap-3">
-              <Reveal className="min-w-0">
-                <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src="/images/european-linen.jpg"
-                    alt="Natural wood grain texture"
-                    fill
-                    sizes="(max-width: 768px) 30vw, 18vw"
-                    className="object-cover"
-                  />
-                </div>
-              </Reveal>
-              <Reveal delay={100} className="min-w-0">
-                <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src="/images/european-linen.jpg"
-                    alt="White flower growing through a crack in stone"
-                    fill
-                    sizes="(max-width: 768px) 30vw, 18vw"
-                    className="object-cover"
-                  />
-                </div>
-              </Reveal>
-            </div>
-
-            <Reveal delay={100} className="min-w-0">
-              <p
-                className={`${cormorant.className} italic font-normal leading-[1.4] text-[clamp(12px,2.6vw,1.125rem)] text-[#333333] tracking-[0.01em]`}
-              >
-                We were drawn not to what demanded attention, but to what stayed
-                with us. Shapes without labels. Colours without hierarchy.
-                Details hidden in plain sight.
-              </p>
-            </Reveal>
-          </div>
-
-          {/* RIGHT — stretched to left height */}
-          <div className="w-[45%] min-w-0 flex flex-col">
-            <div className="relative flex-1 basis-0 min-h-0 overflow-hidden">
-              <Reveal delay={200} className="absolute inset-0">
-                <Image
-                  src="/images/european-linen.jpg"
-                  alt="Hands holding red berry branches"
-                  fill
-                  sizes="(max-width: 768px) 42vw, 28vw"
-                  className="object-cover"
-                />
-              </Reveal>
-            </div>
-          </div>
-        </div>
+    <section className="w-full leading-none">
+        <img
+          src="/images/za-blog-image.jpg"
+          alt="Hand Embroidery"
+          className="w-full h-auto block max-h-screen object-cover"
+        />
       </section>
       {/* ══════════════════════════════════════════
           cropsection — end

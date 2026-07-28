@@ -65,13 +65,9 @@ export default function OurKissaPage() {
     <div
       className={`bg-[rgba(255,255,255,1.0)] min-h-screen text-[#2a2a2a] ${FONT}`}
     >
-      <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24  max-w-[64rem] mx-auto">
-        <h2
-          className={`${josefin.className} uppercase leading-[1.90]  text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
-        >
-          Made to Endure
-        </h2>
-        <p className="font-futura font-light text-center leading-[1.75] text-[clamp(12px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] ">
+      <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24  max-w-[75rem] mx-auto">
+     
+        <p className="font-futura font-light  leading-[1.75] text-[clamp(12px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] ">
           We believe the finest garments are those that become more themselves
           with time. The moment you put on a garment, there is a shift from
           being an individual to becoming an interconnected member of society -
@@ -86,13 +82,73 @@ export default function OurKissaPage() {
           Max-width keeps desktop proportions close
           to the mobile editorial reference (tall right).
           ══════════════════════════════════════════ */}
-    <section className="w-full leading-none">
-        <img
-          src="/images/za-blog-image.jpg"
-          alt="Hand Embroidery"
-          className="w-full h-auto block max-h-screen object-cover"
-        />
-      </section>
+  <section className="px-5 sm:px-8 md:px-16 lg:px-24 py-14 md:py-20 max-w-[72rem] mx-auto">
+      <div
+        className="
+          flex flex-col gap-3
+          md:grid md:gap-4 md:grid-cols-[1fr_1fr_1.5fr] md:grid-rows-[1fr_auto]
+        "
+      >
+        {/* Row: two small squares side by side, even on mobile */}
+        <div className="flex gap-3 md:contents">
+          {/* Image 1 — small square */}
+          <Reveal className="w-1/2 md:w-auto md:col-start-1 md:row-start-1">
+            <div className="relative aspect-square overflow-hidden">
+              <Image
+                src="/images/european-linen.jpg"
+                alt="Natural wood grain texture"
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+ 
+          {/* Image 2 — small square */}
+          <Reveal delay={100} className="w-1/2 md:w-auto md:col-start-2 md:row-start-1">
+            <div className="relative aspect-square overflow-hidden">
+              <Image
+                src="/images/european-linen.jpg"
+                alt="White flower growing through a crack in stone"
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+        </div>
+ 
+        {/* Image 3 — tall feature image, full width on mobile, spans both rows on desktop */}
+        <Reveal
+          delay={200}
+          className="w-full md:col-start-3 md:row-start-1 md:row-span-2"
+        >
+          <div className="relative aspect-[4/3] md:aspect-auto md:h-full min-h-[240px] overflow-hidden">
+            <Image
+              src="/images/european-linen.jpg"
+              alt="Hands holding red berry branches"
+              fill
+              sizes="(max-width: 768px) 100vw, 45vw"
+              className="object-cover"
+            />
+          </div>
+        </Reveal>
+ 
+        {/* Caption — sits under the two small squares on desktop, below everything on mobile */}
+        <Reveal
+          delay={100}
+          className="md:col-start-1 md:col-span-2 md:row-start-2 flex items-end pt-2 md:pt-6"
+        >
+          <p
+            className={`${josefin.className} italic leading-[1.6] text-[clamp(15px,1.7vw,1.35rem)] text-[#333333] tracking-[0.01em]`}
+          >
+            We wandered to choose what is traditionally beautiful, but to
+            notice what lingered. Forms without names. Colours without
+            hierarchy.
+          </p>
+        </Reveal>
+      </div>
+    </section>
       {/* ══════════════════════════════════════════
           cropsection — end
           ══════════════════════════════════════════ */}

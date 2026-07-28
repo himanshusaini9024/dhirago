@@ -305,7 +305,7 @@ export default function LuxurySection() {
             style={{ marginBottom: "1.75rem" }}
           >
             <p
-              className={`${josefin.className} mt-1 `}
+              className={`${josefin.className} mt-1 uppercase`}
               style={{
                 fontSize: "clamp(0.825rem, 1.6vw, 1.112rem)",
                 color: "#333333",

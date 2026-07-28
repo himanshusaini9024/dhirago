@@ -149,7 +149,7 @@ function Card({ title, value, dark }) {
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      className={`p-6 rounded-2xl border ${
+      className={`p-6 rounded-xs border ${
         dark ? "bg-[#a97c3d] text-white" : "bg-white text-black"
       }`}
     >
@@ -161,7 +161,7 @@ function Card({ title, value, dark }) {
 
 function Section({ title, link, children }) {
   return (
-    <div className="bg-white/60 backdrop-blur border rounded-2xl p-6">
+    <div className="bg-white/60 backdrop-blur border rounded-xs p-6">
       <div className="flex justify-between mb-4">
         <h3 className="text-xs tracking-[0.25em] text-gray-600">{title}</h3>
           

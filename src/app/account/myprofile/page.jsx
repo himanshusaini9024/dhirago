@@ -264,7 +264,7 @@ export default function MyProfilePage() {
 
             <button
               onClick={saveProfile}
-              className="mt-4 px-10 py-3 text-xs tracking-[2px] border rounded-full hover:bg-black hover:text-white transition"
+              className="mt-4 px-10 py-3 text-xs tracking-[2px] border rounded-xs hover:bg-black hover:text-white transition"
             >
               {loading ? "Saving..." : "SAVE CHANGES"}
             </button>
@@ -298,7 +298,7 @@ export default function MyProfilePage() {
 
             <button
               onClick={updatePassword}
-              className="mt-4 px-10 py-3 text-xs tracking-[2px] border rounded-full hover:bg-black hover:text-white transition"
+              className="mt-4 px-10 py-3 text-xs tracking-[2px] border rounded-xs hover:bg-black hover:text-white transition"
             >
               {loading ? "Updating..." : "UPDATE PASSWORD"}
             </button>
@@ -354,7 +354,7 @@ export default function MyProfilePage() {
 
           <button
             onClick={saveAddress}
-            className="px-6 py-2 text-xs border rounded-full hover:bg-black hover:text-white transition"
+            className="px-6 py-2 text-xs border rounded-xs hover:bg-black hover:text-white transition"
           >
             {loading ? "Saving..." : "SAVE"}
           </button>

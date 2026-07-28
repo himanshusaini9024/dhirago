@@ -171,7 +171,7 @@ export default function OrdersPage() {
                 >
                   <motion.div
                     whileHover={{ y: -4 }}
-                    className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-sm hover:shadow-2xl overflow-hidden"
+                    className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-xs shadow-sm hover:shadow-2xl overflow-hidden"
                   >
                     {/* Header */}
                     <div
@@ -480,7 +480,7 @@ export default function OrdersPage() {
 
                               <button
                                 onClick={() => setSelectedOrder(order)}
-                                className="h-10 md:h-12 px-5 md:px-7 rounded-full bg-black text-white uppercase tracking-[2px] md:tracking-[3px] text-xs"
+                                className="h-10 md:h-12 px-5 md:px-7 rounded-xs bg-black text-white uppercase tracking-[2px] md:tracking-[3px] text-xs"
                               >
                                 Details
                               </button>

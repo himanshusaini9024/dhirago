@@ -103,7 +103,7 @@ export default function AccountPage() {
                 <li
                   key={item.key}
                   onClick={() => setActiveTab(item.key)}
-                  className={` group cursor-pointer flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300
+                  className={` group cursor-pointer flex items-center gap-4 px-5 py-4 rounded-sm transition-all duration-300
                   
                   ${
                     activeTab === item.key

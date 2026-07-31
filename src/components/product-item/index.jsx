@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import QuickAddModal from "./qucikview";
 import productsSizes from "../../utils/data/products-sizes";
 
-const ProductItem = ({ images, id, name, sku, slug, color, currentPrice }) => {
+const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, category }) => {
   const dispatch = useDispatch();
   const favProducts = useSelector((state) => state.user?.favProducts || []);
   const isFavourite = some(favProducts, (productId) => productId === id);
@@ -18,7 +18,7 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice }) => {
   };
   const [openModal, setOpenModal] = useState(false);
   const imageList = images || [];
-  const baseURL = "https://res.cloudinary.com/ds48lk80f/";
+  const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
   const [hovered, setHovered] = useState(false);
 
@@ -104,6 +104,7 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice }) => {
           images,
           color,
           currentPrice,
+          category,
           sizes: productsSizes, // ⚠️ pass real sizes if available
         }}
         isOpen={openModal}

@@ -1,7 +1,7 @@
 "use client";
 import { CheckCircle, Circle } from "lucide-react";
 
-const IMGURL = "https://res.cloudinary.com/ds48lk80f/";
+const IMGURL = process.env.NEXT_PUBLIC_IMG_URL;
 
 const getDeliveryDate = (createdAt) => {
   const date = new Date(createdAt);

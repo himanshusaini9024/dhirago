@@ -22,7 +22,7 @@ const PageIntro = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/videos/banner1.mp4" type="video/mp4" />
+          <source src="https://dhirago-images-761186487122-eu-north-1-an.s3.eu-north-1.amazonaws.com/ecommerce/Home/banner1.mp4" type="video/mp4" />
         </video>
 
         {/* DARK OVERLAY */}

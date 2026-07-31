@@ -15,7 +15,7 @@ const josefin = Josefin_Sans({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const IMGURL = "https://res.cloudinary.com/ds48lk80f/";
+const IMGURL = process.env.NEXT_PUBLIC_IMG_URL;
 
 // Statuses that come *after* delivery but should still render the timeline
 // as fully complete (otherwise findIndex returns -1 and every step shows

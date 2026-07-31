@@ -1,7 +1,7 @@
 "use client";
 import { useSelector } from "react-redux";
 
-const IMGURL = "https://res.cloudinary.com/ds48lk80f/";
+const IMGURL = process.env.NEXT_PUBLIC_IMG_URL;
 
 const CheckoutItems = () => {
   const { cartItems } = useSelector((state) => state.cart);

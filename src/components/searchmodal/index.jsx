@@ -53,7 +53,7 @@ export default function SearchDrawer({ open, onClose }) {
       const images = typeof photo === "string" ? JSON.parse(photo) : photo;
 
       return images?.[0]?.url
-        ? `https://res.cloudinary.com/ds48lk80f/${images[0].url}`
+        ? process.env.NEXT_PUBLIC_IMG_URL`${images[0].url}`
         : "/placeholder.png";
     } catch {
       return "/placeholder.png";

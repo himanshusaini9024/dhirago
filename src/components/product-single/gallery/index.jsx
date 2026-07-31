@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const BASE = "https://res.cloudinary.com/ds48lk80f/";
+const BASE = process.env.NEXT_PUBLIC_IMG_URL;
 
 function injectCSS() {
   const CSS_ID = "dhg-v8";

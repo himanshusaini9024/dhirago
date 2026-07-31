@@ -239,6 +239,7 @@ export default function ProductList({ initialProducts, slug }) {
             name={item.name}
             currentPrice={item.currentPrice}
             images={item.image}
+            category={item.category || slug}
           />
         ))}
       </div>

@@ -7,6 +7,7 @@ import Item from "./item";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoginPopup from "../../components/loginpopup/index";
+import RelatedProduct from "./relatedproduct";
 
 export default function ShoppingCart() {
   const router = useRouter();
@@ -146,6 +147,8 @@ export default function ShoppingCart() {
       {showLogin && (
         <LoginPopup isOpen={showLogin} onClose={() => setShowLogin(false)} />
       )}
+
+      {cartItems.length > 0 && <RelatedProduct />}
     </section>
   );
 }

@@ -8,7 +8,7 @@ import { addProduct } from "../../../store/reducers/cart";
 
 const QuickAddModal = ({ product, isOpen, onClose }) => {
   const dispatch = useDispatch();
-  const baseURL = "https://res.cloudinary.com/ds48lk80f/";
+  const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
   const [imgIndex, setImgIndex] = useState(0);
   useEffect(() => {
     if (!product?.images?.length) return;
@@ -47,8 +47,9 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
           slug: product.slug,
           thumb: product.images?.[0] || "",
           price: product.currentPrice,
+          category: product.category || null,
           size: size.toLowerCase(),
-          color: product.color
+          color: product.color,
         },
       }),
     );

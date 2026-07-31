@@ -129,7 +129,7 @@ const materials = [
 ];
 
 const photos = [
-  "https://res.cloudinary.com/ds48lk80f/image/upload/v1784805497/ekdulari_nvxyjr.jpg",
+  "https://dhirago-images-761186487122-eu-north-1-an.s3.eu-north-1.amazonaws.com/ecommerce/better-materials/ekdulari_nvxyjr.jpg",
   "https://kardo.co/wp-content/uploads/2025/06/DSC00757-1024x1024.jpg",
 ];
 

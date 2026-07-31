@@ -250,7 +250,7 @@ const Header = () => {
               className={`
                 ${josefin.className}
                 absolute left-1/2 transform -translate-x-[74%] sm:-translate-x-1/2
-                text-[1.6rem] sm:text-[2rem] lg:text-[3rem]
+                text-[1.6rem] sm:text-[2rem] lg:text-[2.7rem]
                 tracking-[0.17em] uppercase z-10
                 transition-all duration-500
              

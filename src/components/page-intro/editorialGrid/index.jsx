@@ -1,200 +1,145 @@
 "use client";
 
-import { Josefin_Sans } from "next/font/google";
-// const IMAGES = ["/images/bg2.avif", "/images/bg3.avif"];
-import Image from "next/image";
-import { motion } from "framer-motion";
-const josefin = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-export default function RunwayHero() {
+import { useEffect, useRef, useState } from "react";
+
+// ── Config ──────────────────────────────────────────────────────────
+// Swap this for your own YouTube video ID (the part after "v=" or
+// after youtu.be/). Everything else is derived from it.
+const YOUTUBE_VIDEO_ID = "VlahKQLp_Q0";
+
+// Aspect ratio of the source video. This is what controls the black
+// pillar bars: if the video is narrower than the screen (e.g. a
+// vertical/portrait clip at 9/16), black bars fill the remaining
+// left/right space automatically.
+const VIDEO_ASPECT_RATIO = "16 / 8";
+
+export default function ProductsFeatured() {
+  const iframeRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const buildSrc = (muted) => {
+    const params = new URLSearchParams({
+      autoplay: "1",
+      mute: muted ? "1" : "0",
+      loop: "1",
+      playlist: YOUTUBE_VIDEO_ID, // required for loop to work on YouTube
+      controls: "0",
+      modestbranding: "1",
+      rel: "0",
+      playsinline: "1",
+      enablejsapi: "1",
+    });
+    return `https://www.youtube-nocookie.com/embed/${YOUTUBE_VIDEO_ID}?${params.toString()}`;
+  };
+
+  const [src, setSrc] = useState(() => buildSrc(true));
+
+  const toggleMute = () => {
+    const iframe = iframeRef.current;
+    if (!iframe?.contentWindow) return;
+
+    const nextMuted = !isMuted;
+    const command = nextMuted ? "mute" : "unMute";
+
+    iframe.contentWindow.postMessage(
+      JSON.stringify({ event: "command", func: command, args: [] }),
+      "*"
+    );
+    setIsMuted(nextMuted);
+  };
+
+  useEffect(() => {
+    setSrc(buildSrc(true));
+  }, []);
+
+  // All layout-critical styling is inline on purpose — this guarantees
+  // full-height, full-width, centered rendering with black pillar bars
+  // no matter how the host project's Tailwind (or other CSS) is
+  // configured, since inline styles can't be dropped by a purge step.
   return (
-    <section className="runway">
-      {/* Single Background Image */}
-      {/* <div
-        className="bg"
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100vh",
+        backgroundColor: "#000",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
         style={{
-          backgroundImage: `url("/images/bg2.avif")`,
+          position: "relative",
+          height: "100%",
+          maxWidth: "100%",
+          aspectRatio: VIDEO_ASPECT_RATIO,
         }}
-      /> */}
-      <Image src={"/images/bg2.avif"} fill priority alt="Premium Shirt" className="bg" />
+      >
+        <iframe
+          ref={iframeRef}
+          src={src}
+          title="Promotional video"
+          frameBorder={0}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowFullScreen
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            border: "none",
+            display: "block",
+          }}
+        />
+      </div>
 
-      {/* Soft overlay */}
-      <div className="overlay" />
-
-      {/* Content */}
-  
-      <style jsx>{`
-        .runway {
-          position: relative;
-          width: 100%;
-          min-height: 100vh;
-          overflow: hidden;
-          background: #ede7df;
-        }
-
-        /* Background */
-        .bg {
-          position: absolute;
-          inset: 0;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
-
-        /* Simple luxury overlay */
-        .overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(245, 240, 233, 0.444);
-        }
-
-        /* Content wrapper */
-        .contentWrap {
-          position: relative;
-          z-index: 2;
-          width: 100%;
-          min-height: 100vh;
-
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-
-          padding: 6vw;
-        }
-
-        /* Content */
-        .content {
-          width: 100%;
-          max-width: 620px;
-        }
-
-        /* Small label */
-        .eyebrow {
-          display: inline-block;
-          margin-bottom: 22px;
-
-          font-size: 11px;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
-
-          color: #5e564e;
-        }
-
-        /* Heading */
-        .title {
-          margin: 0;
-
-          font-size: clamp(1rem, 7vw, 2rem);
-          line-height: 0.92;
-          font-weight: 100;
-          letter-spacing: -0.06em;
-
-          color: #15120f;
-        }
-
-        /* Divider */
-        .line {
-          width: 90px;
-          height: 1px;
-
-          background: rgba(0, 0, 0, 0.22);
-
-          margin: 34px 0;
-        }
-
-        /* Description */
-        .desc {
-          max-width: 560px;
-
-          font-size: clamp(0.95rem, 1.1vw, 1.08rem);
-          line-height: 2;
-          letter-spacing: 0.01em;
-
-          color: #2d2823;
-        }
-
-        .desc strong {
-          font-weight: 500;
-        }
-
-        /* Tablet */
-        @media (max-width: 1024px) {
-          .contentWrap {
-            justify-content: center;
-            padding: 80px 40px;
-          }
-
-          .content {
-            max-width: 100%;
-          }
-
-          .title {
-            font-size: clamp(3rem, 10vw, 5rem);
-          }
-        }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-          .runway {
-            min-height: 100svh;
-          }
-
-          .contentWrap {
-            align-items: flex-end;
-            justify-content: center;
-
-            padding: 100px 22px 50px;
-          }
-
-          .content {
-            background: rgba(248, 244, 239, 0.58);
-            backdrop-filter: blur(10px);
-
-            border-radius: 28px;
-            padding: 28px;
-          }
-
-          .eyebrow {
-            font-size: 10px;
-            letter-spacing: 0.22em;
-            margin-bottom: 18px;
-          }
-
-          .title {
-            font-size: clamp(2.6rem, 14vw, 4rem);
-            line-height: 0.95;
-          }
-
-          .line {
-            width: 70px;
-            margin: 24px 0;
-          }
-
-          .desc {
-            font-size: 0.92rem;
-            line-height: 1.9;
-          }
-        }
-
-        /* Small Mobile */
-        @media (max-width: 480px) {
-          .content {
-            padding: 24px 20px;
-            border-radius: 24px;
-          }
-
-          .title {
-            font-size: 2.4rem;
-          }
-
-          .desc {
-            font-size: 0.88rem;
-            line-height: 1.8;
-          }
-        }
-      `}</style>
-    </section>
+      {/* Mute / unmute control */}
+      <button
+        onClick={toggleMute}
+        aria-label={isMuted ? "Unmute video" : "Mute video"}
+        style={{
+          position: "absolute",
+          bottom: "24px",
+          right: "24px",
+          zIndex: 10,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "44px",
+          height: "44px",
+          borderRadius: "9999px",
+          background: "rgba(255,255,255,0.1)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(255,255,255,0.2)",
+          color: "#fff",
+          cursor: "pointer",
+        }}
+      >
+        {isMuted ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            width="20"
+            height="20"
+          >
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.94 8.94 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z" />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            width="20"
+            height="20"
+          >
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+          </svg>
+        )}
+      </button>
+    </div>
   );
 }

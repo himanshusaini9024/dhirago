@@ -328,14 +328,14 @@ const handleLogin = async (e) => {
                       </form>
 
                       {/* FOOTER */}
-                      <div className="border-t mt-6 pt-4 text-center text-sm text-gray-500">
+                      {/* <div className="border-t mt-6 pt-4 text-center text-sm text-gray-500">
                         Don’t have an account?{" "}
                         <Link href="/signup">
                           <span className="text-black font-medium cursor-pointer hover:underline">
                             Sign up
                           </span>
                         </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </motion.div>
                 </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { removeProduct, setCount } from "../../../store/reducers/cart";
 
-const baseURL = "https://res.cloudinary.com/ds48lk80f/";
+const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
 export default function Item({
   thumb,

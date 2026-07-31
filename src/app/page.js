@@ -1,7 +1,6 @@
 import Image from "next/image";
 import PageIntro from "../components/page-intro";
 import Homecontent from "../components/page-intro/home";
-import ProductsFeatured from "../components/products-featured";
 import ProductTabs from "../components/page-intro/producttab";
 import Bestsellers from "../components/page-intro/bestseller";
 import Luxurypage from "../components/page-intro/luxury";
@@ -31,8 +30,8 @@ export default function Home() {
       <Homecontent />
       <Marquee/>
       <Bestsellers />
-      <ProductsFeatured/>
-      {/* <EditorialGrid /> */}
+      {/* <ProductsFeatured/> */}
+      <EditorialGrid />
 
       {/* <ProductsFeatured /> */}
 

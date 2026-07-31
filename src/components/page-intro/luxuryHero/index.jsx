@@ -307,7 +307,7 @@ export default function LuxurySection() {
             <p
               className={`${josefin.className} mt-1 uppercase`}
               style={{
-                fontSize: "clamp(0.825rem, 1.6vw, 1.112rem)",
+                fontSize: "clamp(0.825rem, 1.6vw, 15px)",
                 color: "#333333",
                 letterSpacing: "0.02em",
                 marginBottom: "0.2rem",
@@ -317,7 +317,7 @@ export default function LuxurySection() {
             </p>
             
             <p
-              className="font-futura  mt-4 text-justify"
+              className="font-futura  mt-4 text-center"
               style={{
                 fontWeight: 300,
                 fontSize: "clamp(12px, 1.3vw, 1.01rem)",
@@ -326,7 +326,7 @@ export default function LuxurySection() {
                 letterSpacing: "0.01em",
               }}
             >
-              DHIRAGO is a luxury Indian menswear label rooted in traditional textiles and enduring craft. Shaped through natural fabrics, distinctive embroidery and block print technique. Each garment is made with patience, refined through many hands and celebrated for comfort and thoughtful details...{" "}
+              DHIRAGO is a luxury Indian menswear label rooted in traditional textiles and enduring craft. Shaped through natural fabrics, distinctive embroidery and block print technique. Each garment is made with patience, refined through many hands and celebrated for comfort and thoughtful details.{" "}
             </p>
             <br />
             {/* <p  className="font-futura"

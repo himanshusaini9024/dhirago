@@ -34,8 +34,9 @@ export async function generateMetadata({ params }) {
       noIndex: true,
     });
   const product = await res.json();
+  const s3url = process.env.NEXT_PUBLIC_IMG_URL;
   const imageUrl = product.images[0]?.url
-    ? `https://res.cloudinary.com/ds48lk80f/${product.images[0].url}`
+    ? `${s3url}${product.images[0].url}`
     : "/og-image.jpg";
   return generateSEO({
     title: `Buy ${product.name} Online | Best Price in India`,

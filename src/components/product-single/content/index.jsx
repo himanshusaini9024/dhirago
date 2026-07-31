@@ -13,7 +13,7 @@ import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
 
 const F = "'Josefin Sans', sans-serif";
-const BASE = "https://res.cloudinary.com/ds48lk80f/";
+const BASE = process.env.NEXT_PUBLIC_IMG_URL;
 
 function useIsMobile() {
   const [m, setM] = useState(false);
@@ -173,6 +173,7 @@ export default function Content({ product }) {
           thumb: product.images?.[0] || "",
           price: product.price,
           slug: product.slug,
+          category: product.category || null,
           color: color.toLowerCase(),
           size: itemSize.toLowerCase(),
         },

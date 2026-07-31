@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 
-const BASE = "https://res.cloudinary.com/ds48lk80f/";
+const BASE = process.env.NEXT_PUBLIC_IMG_URL;
 
 export default function FinalBossUI({ product, show }) {
   if (!show) return null;

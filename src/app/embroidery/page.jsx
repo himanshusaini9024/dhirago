@@ -37,7 +37,7 @@ const processSteps = [
 ];
 
 const photos = [
-  "https://kardo.co/wp-content/uploads/2025/06/DSC00774-1024x1024.jpg",
+  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/european-linen.jpg",
   "https://kardo.co/wp-content/uploads/2025/06/DSC00825-2-1024x1024.jpg",
   "https://kardo.co/wp-content/uploads/2025/06/DSC00856-1024x1024.jpg",
   "https://kardo.co/wp-content/uploads/2025/06/DSC00757-1024x1024.jpg",

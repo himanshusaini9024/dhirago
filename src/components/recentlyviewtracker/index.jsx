@@ -19,6 +19,7 @@ const addToRecentlyViewed = (product) => {
         url: img.url,
       })) || [],
     slug: product.slug,
+    sku: product.sku,
     color: product.colors,
     currentPrice: product.price,
   };

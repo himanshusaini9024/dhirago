@@ -3,6 +3,7 @@
 import Breadcrumb from "../../../components/breadcrumb";
 import Categorybaner from "../../../components/categorybanner";
 import ProductsContent from "../../../components/products-content";
+import { notFound } from "next/navigation";
 
 // async function getProducts(slug) {
 //   console.log('slug',slug)
@@ -71,6 +72,9 @@ export default async function ProductsPage({ params }) {
 
   const products = await getProducts(slug);
   console.log('catproducts',products);
+    if (!products?.category || products.category.length === 0) {
+    notFound();
+  }
   const name = slug.replace(/-/g, " ");
   return (
     <>

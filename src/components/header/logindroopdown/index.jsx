@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, ShoppingBag, User, Heart } from "lucide-react";
 
-const TRANSPARENT_HERO_PAGES = ["/", "/pages/better-materials"];
+const TRANSPARENT_HERO_PAGES = ["/", "/pages/better-materials","/embroidery",
+  "/sustainability"];
 const LoginDropdown = ({ user, handleLogout }) => {
   const [open, setOpen] = useState(false);
 const [scrolled, setScrolled] = useState(false);

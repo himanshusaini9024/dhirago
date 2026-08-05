@@ -129,8 +129,8 @@ const materials = [
 ];
 
 const photos = [
-  "https://dhirago-images-761186487122-eu-north-1-an.s3.eu-north-1.amazonaws.com/ecommerce/better-materials/ekdulari_nvxyjr.jpg",
-  "https://kardo.co/wp-content/uploads/2025/06/DSC00757-1024x1024.jpg",
+  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/better-materail/dsc03796.jpg",
+  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/better-materail/dsc06268.jpg",
 ];
 
 
@@ -149,19 +149,19 @@ export default function BetterMaterials() {
     <div className="min-h-screen bg-white font-sans">
 
       {/* ══ 1. HERO VIDEO ══════════════════════════════════════ */}
-      <section className="relative w-full h-[42vh] overflow-hidden">
-        <video
+      <section className="relative w-full lg:h-[100vh] overflow-hidden">
+        {/* <video
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover"
           src="https://cdn.shopify.com/videos/c/o/v/644f293d948d41519141b0df449f8ab7.mp4"
           autoPlay loop muted playsInline
+        /> */}
+   <img
+          src="/images/DSC06401.jpg"
+          alt="Hand Embroidery"
+          className="w-full h-auto block max-h-screen object-cover"
         />
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute inset-0 flex items-center justify-center z-10">
-          <h1 className={`text-white  text-xl sm:text-4xl md:text-4xl font-light text-center drop-shadow-lg tracking-widest uppercase ${josefin.className}`}>
-            Essence of fine garment
-          </h1>
-        </div>
+       
       </section>
 
       {/* ══ 2. INTRO ═══════════════════════════════════════════ */}
@@ -169,7 +169,7 @@ export default function BetterMaterials() {
         <h2 className={`${josefin.className} uppercase leading-[1.90] text-center text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           True craftsmanship starts with the material
         </h2>
-        <p className="font-futura font-light leading-[1.75] text-[clamp(12px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] tracking-[0.03em]">
+        <p className="font-futura text-center font-light leading-[1.75] text-[clamp(12px,1.3vw,1.131rem)] leading-[1.85] text-[#444444] tracking-[0.03em]">
           Every garment begins with a story. The materials we choose become its foundation, shaping its character, comfort, and longevity. We are deliberate about every fabric—where it comes from, how it is produced, and the hands involved in its making—ensuring each piece is crafted with care for both the wearer and the world it belongs to.
         </p>
       </section>
@@ -194,22 +194,22 @@ export default function BetterMaterials() {
 
       <section className="pt-10 lg:pt-12 pb-16 lg:pb-20 px-5">
       
-         <div className="max-w-[68rem]  mx-auto mt-1 md:mt-4 text-align">
+         <div className="max-w-[79rem]  mx-auto mt-1 md:mt-4 text-center">
         
-          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.131rem)]  text-[#444444] tracking-[0.03em] mb-3">
             Every piece begins with a simple belief—true quality begins with the material. At DHIRAGO, we work with thoughtfully sourced natural fabrics, chosen not only for how they look, but for how they feel, and endure over time.
           </p>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.131rem)]  text-[#444444] tracking-[0.03em] mb-3">
             From premium European linen to finely woven cottons and other natural fibres, each textile is selected through trusted partners who share our commitment to exceptional quality, responsible sourcing, and lasting craftsmanship. Every fabric is chosen for its breathability, comfort and refined texture.
           </p>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.131rem)]  text-[#444444] tracking-[0.03em]">
             These fibres are cultivated with respect for the environment, relying on responsible farming practices and minimal resources. Their lasting quality reflects a quieter approach to making—one that values longevity over excess.
           </p>
         </div>
       </section>
 
       {/* ══ 4. MATERIAL QUALITIES ══════════════════════════════ */}
-     <section className="lg:w-1/2 relative lg:left-[30rem]" style={{ overflow: "hidden", minHeight: "57vh", display: "flex", alignItems: "center" }}>
+     <section className="lg:w-1/2 relative lg:left-[29rem]" style={{ overflow: "hidden", minHeight: "57vh", display: "flex", alignItems: "center" }}>
 
           <video
             src="/videos/udaipur1.mp4"

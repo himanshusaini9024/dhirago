@@ -1,173 +1,203 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Josefin_Sans } from "next/font/google";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["300", "500", "600"],
 });
-export default function MensSizeChart() {
+
+const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL"];
+
+function normalizeSizeGuide(raw) {
+  if (!raw) return null;
+
+  let data = raw;
+  if (typeof raw === "string") {
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  if (!data || typeof data !== "object") return null;
+
+  if (data.type === "size_guide" && Array.isArray(data.dimensions)) {
+    const dimensions = data.dimensions.filter(
+      (d) => d && (d.name || "").trim() !== "",
+    );
+    return dimensions.length ? { type: "size_guide", dimensions } : null;
+  }
+
+  if (Array.isArray(data.dimensions)) {
+    const dimensions = data.dimensions.filter(
+      (d) => d && (d.name || "").trim() !== "",
+    );
+    return dimensions.length ? { type: "size_guide", dimensions } : null;
+  }
+
+  return null;
+}
+
+function collectSizeLabels(dimensions = [], productSizes = "") {
+  const found = new Set();
+  dimensions.forEach((dim) => {
+    Object.keys(dim.sizes || {}).forEach((sz) => found.add(String(sz).toUpperCase()));
+  });
+  if (typeof productSizes === "string" && productSizes.trim()) {
+    productSizes
+      .split(",")
+      .map((s) => s.trim().toUpperCase())
+      .filter(Boolean)
+      .forEach((sz) => found.add(sz));
+  }
+
+  const ordered = SIZE_ORDER.filter((sz) => found.has(sz));
+  const extras = [...found]
+    .filter((sz) => !SIZE_ORDER.includes(sz))
+    .sort();
+  return [...ordered, ...extras];
+}
+
+function cellValue(dim, sizeLabel, unit) {
+  const sizes = dim.sizes || {};
+  const key =
+    Object.keys(sizes).find((k) => k.toUpperCase() === sizeLabel) || sizeLabel;
+  const cell = sizes[key];
+  if (!cell || typeof cell !== "object") {
+    return cell != null && cell !== "" ? String(cell) : "—";
+  }
+
+  const inchRaw = cell.inch ?? cell.in ?? cell.IN ?? cell.INCH;
+  const cmRaw = cell.cm ?? cell.CM;
+
+  const inchNum = Number(inchRaw);
+  const cmNum = Number(cmRaw);
+  const hasInchNum = Number.isFinite(inchNum);
+  const hasCmNum = Number.isFinite(cmNum);
+
+  // Prefer authored value, otherwise derive the other unit.
+  let val;
+  if (unit === "cm") {
+    if (cmRaw !== undefined && cmRaw !== null && cmRaw !== "") {
+      val = cmRaw;
+    } else if (hasInchNum) {
+      val = (inchNum * 2.54).toFixed(1);
+    }
+  } else {
+    if (inchRaw !== undefined && inchRaw !== null && inchRaw !== "") {
+      val = inchRaw;
+    } else if (hasCmNum) {
+      val = (cmNum / 2.54).toFixed(1);
+    }
+  }
+
+  if (val === null || val === undefined || val === "") return "—";
+  return String(val);
+}
+
+export default function MensSizeChart({ sizeGuide, productName, productSizes }) {
   const [unit, setUnit] = useState("in");
 
-  const sizes = [
-    {
-      label: "FITS BODY CHEST",
-      XS: { in: "36", cm: "91" },
-      S: { in: "38", cm: "97" },
-      M: { in: "40", cm: "102" },
-      L: { in: "42", cm: "107" },
-      XL: { in: "44", cm: "112" },
-    },
-    {
-      label: "GARMENT CHEST",
-      XS: { in: "48.5", cm: "123" },
-      S: { in: "50.5", cm: "128" },
-      M: { in: "52.5", cm: "133" },
-      L: { in: "54.5", cm: "138" },
-      XL: { in: "56.5", cm: "143" },
-    },
-    {
-      label: "SHOULDER",
-      XS: { in: "17.75", cm: "45" },
-      S: { in: "18.25", cm: "46" },
-      M: { in: "18.75", cm: "48" },
-      L: { in: "19.25", cm: "49" },
-      XL: { in: "19.75", cm: "50" },
-    },
-    {
-      label: "LENGTH",
-      XS: { in: "27.75", cm: "70" },
-      S: { in: "28.25", cm: "72" },
-      M: { in: "28.75", cm: "73" },
-      L: { in: "29.25", cm: "74" },
-      XL: { in: "29.75", cm: "76" },
-    },
-    {
-      label: "SLEEVE LENGTH",
-      XS: { in: "24.25", cm: "62" },
-      S: { in: "24.75", cm: "63" },
-      M: { in: "25.25", cm: "64" },
-      L: { in: "25.75", cm: "65" },
-      XL: { in: "26.25", cm: "67" },
-    },
-    {
-      label: "FIT INTENT",
-      XS: { in: "Oversized", cm: "Oversized" },
-      S: { in: "Oversized", cm: "Oversized" },
-      M: { in: "Oversized", cm: "Oversized" },
-      L: { in: "Oversized", cm: "Oversized" },
-      XL: { in: "Oversized", cm: "Oversized" },
-    },
-  ];
+  const guide = useMemo(() => normalizeSizeGuide(sizeGuide), [sizeGuide]);
+  const dimensions = guide?.dimensions || [];
+  const sizeLabels = useMemo(
+    () => collectSizeLabels(dimensions, productSizes),
+    [dimensions, productSizes],
+  );
+
+  if (!dimensions.length) {
+    return (
+      <div className="bg-white">
+        <h3 className="text-[14px] md:text-[0.85rem] py-3 px-4 font-medium font-futura bg-gray-100">
+          Size Guide
+        </h3>
+        <p
+          className={`p-6 text-sm text-gray-500 ${josefin.className}`}
+        >
+          Size guide is not available for this product yet.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white">
-      <h3 className="text-[14px] md:text-[0.85rem] py-3 px-4 font-medium font-futura bg-gray-100">
+      <h3 className="text-[14px] md:text-[0.85rem] py-3 px-4 font-medium font-futura bg-gray-100 pr-12">
         Size Guide
+        {productName ? (
+          <span className="block mt-1 text-[11px] font-normal text-gray-500 tracking-normal normal-case">
+            {productName}
+          </span>
+        ) : null}
       </h3>
 
-      {/* Tabs */}
-      <div className="border-b flex bg-gray-100 border-t-2 border-solid border-[#e3e3e3] ">
+      <div className="flex bg-gray-100 border-t-2 border-b border-solid border-[#e3e3e3]">
         <button
+          type="button"
           onClick={() => setUnit("in")}
-          className={`px-5 py-3 text-sm ${
+          className={`relative px-5 py-3 text-sm transition-colors ${
             unit === "in"
-              ? "border-b-2 border-black font-medium"
-              : "text-gray-500"
+              ? "text-black font-medium"
+              : "text-gray-500 hover:text-gray-700"
           }`}
         >
           Inches
+          <span
+            className={`absolute left-0 right-0 bottom-0 h-[2px] bg-black transition-opacity ${
+              unit === "in" ? "opacity-100" : "opacity-0"
+            }`}
+          />
         </button>
-
         <button
+          type="button"
           onClick={() => setUnit("cm")}
-          className={`px-5 py-3 text-sm ${
+          className={`relative px-5 py-3 text-sm transition-colors ${
             unit === "cm"
-              ? "border-b-2 border-black font-medium"
-              : "text-gray-500"
+              ? "text-black font-medium"
+              : "text-gray-500 hover:text-gray-700"
           }`}
         >
           Cm
+          <span
+            className={`absolute left-0 right-0 bottom-0 h-[2px] bg-black transition-opacity ${
+              unit === "cm" ? "opacity-100" : "opacity-0"
+            }`}
+          />
         </button>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto mt-4">
-        <div className="min-w-[600px]">
+      <div className="overflow-x-auto mt-4 px-3 md:px-4">
+        <div className="min-w-[520px]">
           <table className="w-full border border-solid border-gray-300 text-[11px] md:text-sm">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border px-2 md:px-4 py-2 md:py-3 text-left min-w-[120px] md:min-w-[180px]"></th>
-                <th className="border px-4 py-3">XS</th>
-                <th className="border px-4 py-3">S</th>
-                <th className="border px-4 py-3">M</th>
-                <th className="border px-4 py-3">L</th>
-                <th className="border px-4 py-3">XL</th>
+                <th className="border px-2 md:px-4 py-2 md:py-3 text-left min-w-[120px] md:min-w-[160px]" />
+                {sizeLabels.map((sz) => (
+                  <th key={sz} className="border px-3 md:px-4 py-2 md:py-3">
+                    {sz}
+                  </th>
+                ))}
               </tr>
             </thead>
-
             <tbody>
-              {sizes.map((row) => (
-                <tr className={`${josefin.className} `} key={row.label}>
+              {dimensions.map((row) => (
+                <tr className={josefin.className} key={row.name}>
                   <td
-                    className={`  border border-solid border-gray-300
-            px-2 md:px-4
-            py-2 md:py-3
-            font-medium
-            text-gray-700
-            text-[10px]
-            md:text-sm
-            whitespace-nowra ${josefin.className} `}
+                    className={`border border-solid border-gray-300 px-2 md:px-4 py-2 md:py-3 font-medium text-gray-700 text-[10px] md:text-sm whitespace-nowrap ${josefin.className}`}
                   >
-                    {row.label}
+                    {row.name}
                   </td>
-
-                  <td
-                    className="border border-solid border-gray-300 px-2 md:px-4
-        py-2 md:py-3
-        text-[10px]
-        md:text-sm
-        whitespace-nowrap"
-                  >
-                    {row.XS[unit]}
-                  </td>
-                  <td
-                    className="border border-solid border-gray-300 px-2 md:px-4
-          py-2 md:py-3
-          text-[10px]
-          md:text-sm
-          whitespace-nowrap"
-                  >
-                    {row.S[unit]}
-                  </td>
-                  <td
-                    className="border border-solid border-gray-300 px-2 md:px-4
-          py-2 md:py-3
-          text-[10px]
-          md:text-sm
-          whitespace-nowrap"
-                  >
-                    {row.M[unit]}
-                  </td>
-                  <td
-                    className="border border-solid border-gray-300 px-2 md:px-4
-          py-2 md:py-3
-          text-[10px]
-          md:text-sm
-          whitespace-nowrap"
-                  >
-                    {row.L[unit]}
-                  </td>
-                  <td
-                    className="border border-solid border-gray-300 px-2 md:px-4
-          py-2 md:py-3
-          text-[10px]
-          md:text-sm
-          whitespace-nowrap"
-                  >
-                    {row.XL[unit]}
-                  </td>
+                  {sizeLabels.map((sz) => (
+                    <td
+                      key={`${row.name}-${sz}`}
+                      className="border border-solid border-gray-300 px-2 md:px-4 py-2 md:py-3 text-[10px] md:text-sm whitespace-nowrap text-center"
+                    >
+                      {cellValue(row, sz, unit)}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
@@ -175,14 +205,13 @@ export default function MensSizeChart() {
         </div>
       </div>
 
-      {/* Note */}
       <div
-        className={`mt-4 border rounded bg-gray-100 p-3 md:p-4 text-[11px] md:text-sm text-gray-600 ${josefin.className}`}
+        className={`mt-4 mx-3 md:mx-4 mb-4 border rounded bg-gray-100 p-3 md:p-4 text-[11px] md:text-sm text-gray-600 ${josefin.className}`}
       >
         <p>
           <strong>Note:</strong> If you prefer a neater look → size down.
         </p>
-        <p className="mt-2 ml-10">
+        <p className="mt-2 ml-0 md:ml-10">
           If you prefer the intended volume → take your regular size.
         </p>
       </div>

@@ -23,24 +23,13 @@ import Footer from "../components/footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import CartSync from "../components/shopping-cart/cartsync";
+import MetaPixel from "../components/MetaPixel";
+import MetaPageTracker from "../components/MetaPageTracker";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weights: ["400", "500", "600"], // specify the weights you need
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   metadataBase: new URL(
@@ -66,6 +55,8 @@ export default function RootLayout({ children }) {
         />
 
         <div className="app-main">
+           <MetaPixel />
+
           <ReduxProvider>
             <AuthLoader />
             <PopupProvider>
@@ -75,6 +66,8 @@ export default function RootLayout({ children }) {
                 <CartSync />
                 <ChatwootSync />
                 <PageTracker />
+                        <MetaPageTracker />
+
                 {children}
                 <GoogleAnalytics />
                 <Analytics />
@@ -99,7 +92,7 @@ export default function RootLayout({ children }) {
                 }}
               /> */}
 
-              <Script id="chatwoot" strategy="afterInteractive">
+              {/* <Script id="chatwoot" strategy="afterInteractive">
                 {`
             window.chatwootSettings = {
             position: "right",
@@ -127,7 +120,7 @@ export default function RootLayout({ children }) {
             })(document,"script");
 
             `}
-              </Script>
+              </Script> */}
 
               <Footer />
             </PopupProvider>

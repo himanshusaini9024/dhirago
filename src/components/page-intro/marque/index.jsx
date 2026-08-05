@@ -68,16 +68,9 @@ export default function Marquee() {
       >
         <Reveal>
           <p
-            className="font-futura lg:text-justify leading-[1.90]"
-            style={{
-              fontSize: "clamp(12px, 1.3vw, 1.01rem)",
-
-              fontWeight: 300,
-                letterSpacing: "0.03em",
-
-              color: "#444444",
-              marginBottom: "1rem",
-            }}
+            className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[1.90] ${josefin.className}`}
+          
+            style={{ color: "#555555" }}
           >
             "The offering begins with a simple instinct—to make something worth remembering. Each piece is conceived as an object to collect and keep, quietly becoming part of a life."
           </p>

@@ -228,7 +228,7 @@ export default function ProductList({ initialProducts, slug }) {
       </div>
 
       {/* ── PRODUCT GRID ───────────────────────────────────── */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-14 gap-6 md:px-12 px-2 py-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-14 gap-3 md:px-12 px-4 md:py-6 py-0">
         {filteredProducts.map((item) => (
           <ProductItem
             key={item.id}
@@ -243,6 +243,26 @@ export default function ProductList({ initialProducts, slug }) {
           />
         ))}
       </div>
+
+        {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-14 gap-3 md:px-12 px-4 md:py-6 py-2">
+  {Array.from({ length: 11 }, (_, index) => {
+    const item = filteredProducts[index % filteredProducts.length];
+
+    return (
+      <ProductItem
+        key={`${item.id}-${index}`}
+        id={item.id}
+        sku={item.sku}
+        slug={item.slug}
+        color={item.color}
+        name={item.name}
+        currentPrice={item.currentPrice}
+        images={item.image}
+        category={item.category || slug}
+      />
+    );
+  })}
+</div> */}
 
       {/* ── FLOAT BUTTON ───────────────────────────────────── */}
       <div id="filterBtn" className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">

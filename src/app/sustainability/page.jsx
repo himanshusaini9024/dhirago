@@ -65,9 +65,25 @@ export default function OurKissaPage() {
     <div
       className={`bg-[rgba(255,255,255,1.0)] min-h-screen text-[#2a2a2a] ${FONT}`}
     >
+       <section className="relative w-full lg:h-[100vh] overflow-hidden">
+        {/* <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover"
+          src="https://cdn.shopify.com/videos/c/o/v/644f293d948d41519141b0df449f8ab7.mp4"
+          autoPlay loop muted playsInline
+        /> */}
+   <img
+          src="/images/DSC06358.jpg"
+          alt="Hand Embroidery"
+          className="w-full h-auto block max-h-screen object-cover"
+        />
+       
+      </section>
+
+
       <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24  max-w-[75rem] mx-auto">
      
-        <p className="font-futura font-light  leading-[1.75] text-[clamp(12px,1.3vw,1.01rem)] leading-[1.85] text-[#444444] ">
+        <p className="font-futura font-light text-center  leading-[1.75] text-[clamp(12px,1.3vw,1.131rem)] leading-[1.85] text-[#444444] ">
           We believe the finest garments are those that become more themselves
           with time. The moment you put on a garment, there is a shift from
           being an individual to becoming an interconnected member of society -
@@ -86,7 +102,7 @@ export default function OurKissaPage() {
       <div
         className="
           flex flex-col gap-3
-          md:grid md:gap-4 md:grid-cols-[1fr_1fr_1.5fr] md:grid-rows-[1fr_auto]
+          md:grid md:gap-4 md:grid-cols-[1.9fr_1.9fr_1.9fr] md:grid-rows-[1fr_auto]
         "
       >
         {/* Row: two small squares side by side, even on mobile */}
@@ -95,7 +111,7 @@ export default function OurKissaPage() {
           <Reveal className="w-1/2 md:w-auto md:col-start-1 md:row-start-1">
             <div className="relative aspect-square overflow-hidden">
               <Image
-                src="/images/european-linen.jpg"
+                src="/images/DSC06355.jpg"
                 alt="Natural wood grain texture"
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
@@ -108,7 +124,7 @@ export default function OurKissaPage() {
           <Reveal delay={100} className="w-1/2 md:w-auto md:col-start-2 md:row-start-1">
             <div className="relative aspect-square overflow-hidden">
               <Image
-                src="/images/european-linen.jpg"
+                src="/images/DSC06360.jpg"
                 alt="White flower growing through a crack in stone"
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
@@ -125,7 +141,7 @@ export default function OurKissaPage() {
         >
           <div className="relative aspect-[4/3] md:aspect-auto md:h-full min-h-[240px] overflow-hidden">
             <Image
-              src="/images/european-linen.jpg"
+              src="/images/DSC06296.jpg"
               alt="Hands holding red berry branches"
               fill
               sizes="(max-width: 768px) 100vw, 45vw"

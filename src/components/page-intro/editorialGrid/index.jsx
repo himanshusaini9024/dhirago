@@ -58,6 +58,7 @@ export default function ProductsFeatured() {
   // configured, since inline styles can't be dropped by a purge step.
   return (
     <div
+    className="mt-10"
       style={{
         position: "relative",
         width: "100%",

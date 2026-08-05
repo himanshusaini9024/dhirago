@@ -74,7 +74,7 @@ export default async function ProductsPage({ params }) {
   const name = slug.replace(/-/g, " ");
   return (
     <>
-      <Categorybaner catbanner={products?.catbanner} slug={slug} />
+      <Categorybaner catbanner={products?.catbanner} catbannerMobile={products?.catbanner_mobile} slug={slug} />
       {/* <Breadcrumb /> */}
       <section>
         <ProductsContent products={products?.category || []} slug={slug} />

@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 const TRANSPARENT_HERO_PAGES = [
   "/",
   "/pages/better-materials",
+  "/embroidery",
+  "/sustainability"
   // Add more hero pages here as needed, e.g.:
   // "/pages/why-dhirago",
   // "/about",

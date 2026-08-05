@@ -4,16 +4,15 @@ import { some } from "lodash";
 import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { addProduct } from "../../../store/reducers/cart";
 import { toggleFavProduct } from "../../../store/reducers/user";
 import { event } from "../../../lib/gtag";
 import productsColors from "../../../utils/data/products-colors";
 import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
+import { fbEvent } from "../../../lib/facebookPixel";
 
 const F = "'Josefin Sans', sans-serif";
-const BASE = process.env.NEXT_PUBLIC_IMG_URL;
 
 function useIsMobile() {
   const [m, setM] = useState(false);
@@ -105,6 +104,17 @@ function AccordionRow({ title, children, isOpen, onToggle }) {
 }
 
 export default function Content({ product }) {
+
+  useEffect(() => {
+    fbEvent("ViewContent", {
+        content_ids: [product.id],
+        content_name: product.name,
+        content_type: "product",
+        value: product.currentPrice,
+        currency: "INR",
+    });
+}, []);
+
   const dispatch = useDispatch();
   const isMobile = useIsMobile();
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -151,11 +161,26 @@ export default function Content({ product }) {
     }
   }, [product]);
 
+  const sizeGuide = useMemo(() => {
+    return product?.size_guide || measurements || null;
+  }, [product, measurements]);
+
+  const hasSizeGuide = useMemo(() => {
+    const dims = sizeGuide?.dimensions;
+    return Array.isArray(dims) && dims.some((d) => (d?.name || "").trim());
+  }, [sizeGuide]);
+
   const addToCart = () => {
     if (!itemSize) {
       setSizeError("Please select your size");
       return;
     }
+    fbEvent("AddToCart", {
+    content_ids: [product.id],
+    content_name: product.name,
+    value: product.currentPrice,
+    currency: "INR",
+});
     setSizeError("");
     event({
       action: "add_to_cart",
@@ -197,16 +222,34 @@ export default function Content({ product }) {
       </p>
       {[
         {
-          icon: "/image/upload/v1777724031/no-bleach_nksy8e.png",
           label: "Do not bleach",
+          icon: (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M8 4h8l-1.5 4H9.5L8 4z" stroke="#555" strokeWidth="1.4" strokeLinejoin="round" />
+              <path d="M7 9h10l-1.2 9.2a2 2 0 0 1-2 1.8h-3.6a2 2 0 0 1-2-1.8L7 9z" stroke="#555" strokeWidth="1.4" strokeLinejoin="round" />
+              <path d="M5 5l14 14" stroke="#555" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          ),
         },
         {
-          icon: "/image/upload/v1777724031/iron-steam_qixmn4.png",
           label: "Iron or steam with warm heat",
+          icon: (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M4 14h13a4 4 0 0 0 0-8H9" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
+              <path d="M4 14v2a2 2 0 0 0 2 2h10" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
+              <path d="M8 18v2M12 18v2M16 18v2" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+          ),
         },
         {
-          icon: "/image/upload/v1777724031/hand-wash_ptmbbz.png",
           label: "Separately hand wash",
+          icon: (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M8 11c0-2 1.5-3.5 3.5-3.5S15 9 15 11v1" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
+              <path d="M7 12h9.5a2.5 2.5 0 0 1 0 5H9a3 3 0 0 1-3-3v-1.2A1.8 1.8 0 0 1 7.8 11" stroke="#555" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M9 7.5V5.8M12 7V5M15 7.5V6" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+          ),
         },
       ].map((item, i) => (
         <div
@@ -225,13 +268,7 @@ export default function Content({ product }) {
               justifyContent: "center",
             }}
           >
-            <Image
-              src={`${BASE}${item.icon}`}
-              width={15}
-              height={15}
-              alt=""
-              style={{ objectFit: "contain" }}
-            />
+            {item.icon}
           </div>
           <span style={prose}>{item.label}</span>
         </div>
@@ -358,22 +395,24 @@ export default function Content({ product }) {
             }}
           >
             <SectionLabel>Size:</SectionLabel>
-            <button
-              onClick={() => setOpenSizeChart(true)}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-                fontSize: "13.5px",
-                color: "#666",
-                textDecoration: "underline",
-                textUnderlineOffset: "3px",
-                fontFamily: F,
-              }}
-            >
-              View Size Guide
-            </button>
+            {hasSizeGuide && (
+              <button
+                onClick={() => setOpenSizeChart(true)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  fontSize: "13.5px",
+                  color: "#666",
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                  fontFamily: F,
+                }}
+              >
+                View Size Guide
+              </button>
+            )}
           </div>
 
           <div style={{ position: "relative" }}>
@@ -524,8 +563,8 @@ export default function Content({ product }) {
           <div
             style={{
               fontSize: "14px",
-              lineHeight: "1.7",
-              color: "#555",
+              lineHeight: "2.4",
+              color: "#555555",
               fontWeight: 400,
               fontFamily: F,
             }}
@@ -675,7 +714,7 @@ md:rounded-none
             >
               <button
                 onClick={() => setOpenSizeChart(false)}
-                className="px-1 py-1 absolute top-[44px] right-[10px] md:right-[6px]"
+                className="px-1 py-1 absolute top-[12px] right-[10px] md:right-[6px]"
                 style={{
 
                   background: "black",
@@ -687,7 +726,11 @@ md:rounded-none
               >
                 ✕
               </button>
-              <MensSizeChart />
+              <MensSizeChart
+                sizeGuide={sizeGuide}
+                productName={product?.name}
+                productSizes={product?.sizes}
+              />
             </motion.div>
           </motion.div>
         )}

@@ -33,6 +33,8 @@ const playfair = Playfair_Display({
 const TRANSPARENT_HERO_PAGES = [
   "/",
   "/pages/better-materials",
+  "/embroidery",
+  "/sustainability"
   // Add more hero pages here as needed, e.g.:
   // "/pages/better-materials",
   // "/about",
@@ -259,7 +261,7 @@ const Header = () => {
               
             >
               <Link
-                className={`${pathname == "/pages/better-materials" ? (scrolled ? "text-black block" : "hidden") : "block"}  font-nomral `}
+                className={`${(pathname == "/pages/better-materials" || pathname == "embroidery" || pathname == "sustainability")  ? (scrolled ? "text-black block" : "hidden") : "block"}  font-nomral `}
                 href={"/"}
               >
                 

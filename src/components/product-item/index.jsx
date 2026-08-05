@@ -36,15 +36,17 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
   
 
   return (
-    <div className="group cursor-pointer">
+    <div className="group cursor-pointer mt-6 md:mt-0">
       {/* IMAGE */}
 
       <div
         className="relative w-full h-[300px] md:h-[600px] overflow-hidden bg-[#f5f5f5]"
         onMouseEnter={() => setHovered(true)}
+        onTouchStart={()=>setHovered(true)}
         onMouseLeave={() => {
           setHovered(false);
         }}
+        onTouchEnd={() => setHovered(false)}
       >
         <Link href={`/product/${slug}`}>
           <div className="relative w-full h-full overflow-hidden">
@@ -85,10 +87,10 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
         </button> */}
 
         {/* ADD TO CART */}
-        <div className="absolute bottom-1 left-[21rem]  w-[12%] translate-y-full group-hover:translate-y-0 transition duration-500">
+        <div className="absolute bottom-1 md:left-[21rem] right-[0.333rem]  w-[12%] translate-y-full group-hover:translate-y-0 transition duration-500">
           <button
             onClick={() => setOpenModal(true)}
-            className="w-full bg-white text-black text-xl py-3"
+            className="w-full bg-white text-black text-[0.676rem] md:text-xl py-3"
           >
             +
           </button>
@@ -113,7 +115,7 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
 
       {/* DETAILS */}
       <div className="mt-[1.1rem] ">
-        <h6 className="text-sm uppercase text-black text-center">{name}</h6>
+        <h6 className="text-xs md:text-sm uppercase text-black text-center">{name}</h6>
         <p className="mt-2 text-[0.911rem] text-gray-500 mt-1 text-center">
           Rs.{currentPrice}
         </p>

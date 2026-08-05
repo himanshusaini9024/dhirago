@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import API from "../../lib/api";
 import { handleOnlinePayment, handleCOD } from "../../lib/payment";
 import CheckoutItems from "../../components/checkout/items";
@@ -9,21 +9,23 @@ import { clearCart } from "../../store/reducers/cart";
 import { useRouter } from "next/navigation";
 // import "@/assets/css/checkout.scss";
 import "../../assets/css/checkout.scss";
-
+import AddressAutocomplete from "../../components/AddressAutocomplete";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
    ───────────────────────────────────────────── */
-const FloatInput = ({ label, value, onChange, error, type = "text", maxLength }) => (
+const FloatInput = ({ label, value, onChange, error, type = "text", maxLength, inputRef, id }) => (
   <div>
     <div className="fi-wrap">
       <input
+        id={id}
+        ref={inputRef}
         type={type}
         value={value}
         onChange={onChange}
         maxLength={maxLength}
         className={value ? "fi-has-val" : ""}
       />
-      <label>{label}</label>
+      <label htmlFor={id}>{label}</label>
     </div>
     {error && <p className="fi-error">{error}</p>}
   </div>
@@ -102,11 +104,26 @@ const CheckoutPage = () => {
   const [addressError, setAddressError] = useState("");
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
 
-  const fetchAddresses = async () => {
+  const fetchAddresses = async (preferId) => {
     const res = await API.get("/addresses");
-    setAddresses(res.data);
-    if (res.data.length > 0) setSelectedAddress(res.data[0]);
+    const list = res.data || [];
+    setAddresses(list);
+
+    if (preferId) {
+      const found = list.find((a) => a.id === preferId);
+      setSelectedAddress(found || list[0] || null);
+      return;
+    }
+
+    setSelectedAddress((prev) => {
+      if (prev?.id) {
+        const found = list.find((a) => a.id === prev.id);
+        if (found) return found;
+      }
+      return list[0] || null;
+    });
   };
 
   useEffect(() => {
@@ -114,10 +131,49 @@ const CheckoutPage = () => {
   }, []);
 
   // ── address form ──────────────────────────
-  const emptyForm = { name: "", phone: "", address1: "", address2: "", city: "", state: "", pincode: "", type: "home", is_default: false };
+  const emptyForm = {
+    name: "",
+    phone: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    country: "India",
+    pincode: "",
+    type: "home",
+    is_default: false,
+  };
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const openAddAddress = () => {
+    setEditingAddress(null);
+    setForm(emptyForm);
+    setErrors({});
+    setAddressError("");
+    setShowAddressModal(false);
+    setShowAddModal(true);
+  };
+
+  const openEditAddress = (addr) => {
+    setEditingAddress(addr);
+    setForm({
+      name: addr.name || "",
+      phone: addr.phone || "",
+      address1: addr.address1 || "",
+      address2: addr.address2 || "",
+      city: addr.city || "",
+      state: addr.state || "",
+      country: addr.country || "India",
+      pincode: addr.pincode || "",
+      type: addr.type || "home",
+      is_default: Boolean(addr.is_default),
+    });
+    setErrors({});
+    setShowAddressModal(false);
+    setShowAddModal(true);
+  };
 
   const validateForm = () => {
     const e = {};
@@ -137,14 +193,39 @@ const CheckoutPage = () => {
     if (!validateForm()) return;
     setLoading(true);
     try {
-      const res = await API.post("/addresses", form);
-      await fetchAddresses();
-      setSelectedAddress(res.data);
+      let saved;
+      if (editingAddress?.id) {
+        const res = await API.put(`/addresses/${editingAddress.id}`, form);
+        saved = res.data;
+      } else {
+        const res = await API.post("/addresses", form);
+        saved = res.data;
+      }
+      await fetchAddresses(saved?.id || editingAddress?.id);
+      setSelectedAddress(saved);
       setShowAddModal(false);
+      setEditingAddress(null);
       setForm(emptyForm);
       setErrors({});
     } catch (e) {
       console.log(e.response?.data);
+      // Fallback if API only supports POST update
+      if (editingAddress?.id && e.response?.status === 405) {
+        try {
+          const res = await API.post(`/addresses/${editingAddress.id}`, {
+            ...form,
+            _method: "PUT",
+          });
+          await fetchAddresses(res.data?.id || editingAddress.id);
+          setSelectedAddress(res.data);
+          setShowAddModal(false);
+          setEditingAddress(null);
+          setForm(emptyForm);
+          setErrors({});
+        } catch (err2) {
+          console.log(err2.response?.data);
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -159,6 +240,45 @@ const CheckoutPage = () => {
 
   const [processing, setProcessing] = useState(false);
 
+  // ── scroll-to-error (esp. mobile) ─────────
+  const addressSectionRef = useRef(null);
+  const emailSectionRef = useRef(null);
+  const emailInputRef = useRef(null);
+
+  const scrollToField = (el, focusEl) => {
+    if (!el) return;
+    // Wait a tick so error text is painted before scrolling
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (focusEl?.focus) {
+        setTimeout(() => focusEl.focus({ preventScroll: true }), 320);
+      }
+    });
+  };
+
+  const validateBeforePay = () => {
+    // Address first (top of form)
+    if (!selectedAddress) {
+      setAddressError("Please add a delivery address to continue");
+      scrollToField(addressSectionRef.current);
+      return false;
+    }
+    setAddressError("");
+
+    // Then email
+    if (!email) {
+      setEmailError("Email is required");
+      scrollToField(emailSectionRef.current, emailInputRef.current);
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Enter a valid email address");
+      scrollToField(emailSectionRef.current, emailInputRef.current);
+      return false;
+    }
+    setEmailError("");
+    return true;
+  };
 
   // ── helpers ───────────────────────────────
   const RadioDot = ({ active }) => (
@@ -189,7 +309,7 @@ const CheckoutPage = () => {
           <div>
 
             {/* 1 — SHIPPING */}
-            <div className="co-section">
+            <div className="co-section" ref={addressSectionRef} id="checkout-address">
               <div className="co-section-label">
                 <span className="co-section-num">1</span>
                 Delivery Address
@@ -205,15 +325,28 @@ const CheckoutPage = () => {
                   <p className="addr-display-line" style={{ marginTop: 6 }}>
                     📞 {selectedAddress.phone}
                   </p>
-                  <button className="addr-change-btn" onClick={() => setShowAddressModal(true)}>
-                    Change
-                  </button>
+                  <div className="addr-card-actions">
+                    <button
+                      type="button"
+                      className="addr-action-btn"
+                      onClick={() => openEditAddress(selectedAddress)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      className="addr-action-btn addr-action-btn--primary"
+                      onClick={() => setShowAddressModal(true)}
+                    >
+                      Change
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <>
                   <button
-                    className="add-addr-btn"
-                    onClick={() => { setShowAddModal(true); setAddressError(""); }}
+                    className={`add-addr-btn${addressError ? " has-error" : ""}`}
+                    onClick={openAddAddress}
                   >
                     + Add Delivery Address
                   </button>
@@ -223,12 +356,14 @@ const CheckoutPage = () => {
             </div>
 
             {/* 2 — CONTACT */}
-            <div className="co-section">
+            <div className="co-section" ref={emailSectionRef} id="checkout-email">
               <div className="co-section-label">
                 <span className="co-section-num">2</span>
                 Contact Information
               </div>
               <FloatInput
+                id="checkout-email-input"
+                inputRef={emailInputRef}
                 label="Email Address"
                 type="email"
                 value={email}
@@ -318,10 +453,9 @@ const CheckoutPage = () => {
               {paymentMethod === "online" ? (
                 <button
                   className="btn-primary"
-                  disabled={processing || !selectedAddress}
+                  disabled={processing}
                   onClick={async () => {
-                    if (!selectedAddress) { setAddressError("Please add a delivery address to continue"); return; }
-                    if (!validateEmail()) return;
+                    if (!validateBeforePay()) return;
                     if (processing) return;
                     setProcessing(true);
                     await handleOnlinePayment({ priceTotal, selectedAddress, cartItems, createOrder, email });
@@ -338,14 +472,13 @@ const CheckoutPage = () => {
               ) : (
                 <button
                   className="btn-primary"
-                  disabled={processing || !selectedAddress}
+                  disabled={processing}
                   onClick={async () => {
-                    if (!selectedAddress) { setAddressError("Please add a delivery address to continue"); return; }
-                    if (!validateEmail()) return;
+                    if (!validateBeforePay()) return;
                     if (processing) return;
                     setProcessing(true);
                     await new Promise((r) => setTimeout(r, 1200));
-                    await handleCOD({ createOrder,email ,priceTotal});
+                    await handleCOD({ createOrder, email, priceTotal });
                     setProcessing(false);
                   }}
                 >
@@ -394,18 +527,33 @@ const CheckoutPage = () => {
                 <div
                   key={addr.id}
                   className={`addr-option${selectedAddress?.id === addr.id ? " selected" : ""}`}
-                  onClick={() => { setSelectedAddress(addr); setShowAddressModal(false); }}
                 >
-                  <p className="addr-option-name">{addr.name}</p>
-                  <p className="addr-option-line">{addr.address1}, {addr.city} – {addr.pincode}</p>
-                  <p className="addr-option-line" style={{ marginTop: 4 }}>📞 {addr.phone}</p>
+                  <button
+                    type="button"
+                    className="addr-option-main"
+                    onClick={() => { setSelectedAddress(addr); setShowAddressModal(false); }}
+                  >
+                    <p className="addr-option-name">{addr.name}</p>
+                    <p className="addr-option-line">{addr.address1}, {addr.city} – {addr.pincode}</p>
+                    <p className="addr-option-line" style={{ marginTop: 4 }}>📞 {addr.phone}</p>
+                  </button>
+                  <button
+                    type="button"
+                    className="addr-option-edit"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openEditAddress(addr);
+                    }}
+                  >
+                    Edit
+                  </button>
                 </div>
               ))}
             </div>
 
             <button
               className="add-addr-btn"
-              onClick={() => { setShowAddressModal(false); setShowAddModal(true); }}
+              onClick={openAddAddress}
             >
               + Add New Address
             </button>
@@ -413,23 +561,51 @@ const CheckoutPage = () => {
         </div>
       )}
 
-      {/* ── ADD ADDRESS MODAL ── */}
+      {/* ── ADD / EDIT ADDRESS MODAL ── */}
       {showAddModal && (
         <div
           className="co-overlay"
-          onClick={(e) => { if (e.target === e.currentTarget) setShowAddModal(false); }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowAddModal(false);
+              setEditingAddress(null);
+            }
+          }}
         >
           <div className="co-modal">
             <div className="co-modal-head">
-              <h2 className="co-modal-title">New Address</h2>
-              <button className="co-close-btn" onClick={() => setShowAddModal(false)}>✕</button>
+              <h2 className="co-modal-title">
+                {editingAddress ? "Edit Address" : "New Address"}
+              </h2>
+              <button
+                className="co-close-btn"
+                onClick={() => {
+                  setShowAddModal(false);
+                  setEditingAddress(null);
+                }}
+              >
+                ✕
+              </button>
             </div>
 
             <div className="co-form-grid">
               <FloatInput label="Full Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} error={errors.name} />
               <FloatInput label="Phone Number" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} error={errors.phone} maxLength={10} />
-              <FloatInput label="House / Flat / Building" value={form.address1} onChange={(e) => setForm({ ...form, address1: e.target.value })} error={errors.address1} />
-              <FloatInput label="Street / Landmark (optional)" value={form.address2} onChange={(e) => setForm({ ...form, address2: e.target.value })} />
+
+              <FloatInput
+                label="House / Flat / Building"
+                value={form.address1}
+                onChange={(e) => setForm({ ...form, address1: e.target.value })}
+                error={errors.address1}
+              />
+
+              <AddressAutocomplete
+                key={editingAddress?.id || "new"}
+                label="Street / Landmark"
+                value={form.address2}
+                onChange={(val) => setForm((prev) => ({ ...prev, address2: val }))}
+                setForm={setForm}
+              />
 
               <div className="co-form-row">
                 <FloatInput label="City" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} error={errors.city} />
@@ -444,6 +620,7 @@ const CheckoutPage = () => {
                   {["home", "office"].map((t) => (
                     <button
                       key={t}
+                      type="button"
                       className={`co-type-btn${form.type === t ? " active" : ""}`}
                       onClick={() => setForm({ ...form, type: t })}
                     >
@@ -463,7 +640,11 @@ const CheckoutPage = () => {
               </label>
 
               <button className="co-save-btn" disabled={loading} onClick={handleSaveAddress}>
-                {loading ? "Saving…" : "Save Address"}
+                {loading
+                  ? "Saving…"
+                  : editingAddress
+                    ? "Update Address"
+                    : "Save Address"}
               </button>
             </div>
           </div>

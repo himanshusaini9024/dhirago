@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 // ── Config ──────────────────────────────────────────────────────────
-// Swap this for your own YouTube video ID (the part after "v=" or
-// after youtu.be/). Everything else is derived from it.
-const YOUTUBE_VIDEO_ID = "VlahKQLp_Q0";
+const VIDEO_URL =
+  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/homefooter.mp4";
 
 // Aspect ratio of the source video. This is what controls the black
 // pillar bars: if the video is narrower than the screen (e.g. a
@@ -14,43 +13,17 @@ const YOUTUBE_VIDEO_ID = "VlahKQLp_Q0";
 const VIDEO_ASPECT_RATIO = "16 / 8";
 
 export default function ProductsFeatured() {
-  const iframeRef = useRef(null);
+  const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
 
-  const buildSrc = (muted) => {
-    const params = new URLSearchParams({
-      autoplay: "1",
-      mute: muted ? "1" : "0",
-      loop: "1",
-      playlist: YOUTUBE_VIDEO_ID, // required for loop to work on YouTube
-      controls: "0",
-      modestbranding: "1",
-      rel: "0",
-      playsinline: "1",
-      enablejsapi: "1",
-    });
-    return `https://www.youtube-nocookie.com/embed/${YOUTUBE_VIDEO_ID}?${params.toString()}`;
-  };
-
-  const [src, setSrc] = useState(() => buildSrc(true));
-
   const toggleMute = () => {
-    const iframe = iframeRef.current;
-    if (!iframe?.contentWindow) return;
+    const video = videoRef.current;
+    if (!video) return;
 
     const nextMuted = !isMuted;
-    const command = nextMuted ? "mute" : "unMute";
-
-    iframe.contentWindow.postMessage(
-      JSON.stringify({ event: "command", func: command, args: [] }),
-      "*"
-    );
+    video.muted = nextMuted;
     setIsMuted(nextMuted);
   };
-
-  useEffect(() => {
-    setSrc(buildSrc(true));
-  }, []);
 
   // All layout-critical styling is inline on purpose — this guarantees
   // full-height, full-width, centered rendering with black pillar bars
@@ -58,7 +31,7 @@ export default function ProductsFeatured() {
   // configured, since inline styles can't be dropped by a purge step.
   return (
     <div
-    className="mt-10"
+      className="mt-0"
       style={{
         position: "relative",
         width: "100%",
@@ -78,19 +51,21 @@ export default function ProductsFeatured() {
           aspectRatio: VIDEO_ASPECT_RATIO,
         }}
       >
-        <iframe
-          ref={iframeRef}
-          src={src}
-          title="Promotional video"
-          frameBorder={0}
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen
+        <video
+          ref={videoRef}
+          src={VIDEO_URL}
+          autoPlay
+          muted={isMuted}
+          loop
+          playsInline
+          controls={false}
           style={{
             position: "absolute",
             top: 0,
             left: 0,
             width: "100%",
             height: "100%",
+            objectFit: "contain",
             border: "none",
             display: "block",
           }}

@@ -7,12 +7,14 @@ export const pageview = (url) => {
   });
 };
 
-export const event = ({
-  action,
-  category,
-  label,
-  value,
-}) => {
+export const event = ({ action, category, label, value }) => {
+  if (typeof window === "undefined") return;
+
+  if (typeof window.gtag !== "function") {
+    console.warn("Google Analytics not loaded");
+    return;
+  }
+
   window.gtag("event", action, {
     event_category: category,
     event_label: label,

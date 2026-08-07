@@ -65,7 +65,7 @@ function InputField({ label, name, value, onChange, type = "text" }) {
       <input
         type={type}
         name={name}
-        value={value}
+        value={value ?? ""}
         onChange={onChange}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}

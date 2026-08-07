@@ -1,60 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import { Josefin_Sans } from "next/font/google";
-
+import Image from "next/image";
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["300", "500", "600"],
 });
-/* ── Reveal helper ─────────────────────────────────────────── */
-function useReveal(threshold = 0.12) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return [ref, visible];
-}
-
-function Reveal({ children, delay = 0, from = "bottom" }) {
-  const [ref, visible] = useReveal();
-  const transforms = {
-    bottom: visible ? "translateY(0)" : "translateY(28px)",
-    left:   visible ? "translateX(0)" : "translateX(-36px)",
-    right:  visible ? "translateX(0)" : "translateX(36px)",
-  };
-  return (
-    <div
-      ref={ref}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: transforms[from],
-        transition: `opacity 0.9s ease ${delay}ms, transform 0.9s ease ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-/* ── Data ──────────────────────────────────────────────────── */
-const linenQualities = [
-  { icon: "◈", title: "Longer Staple Length",    body: "European flax is known for its longer staple length, which directly enhances durability and smoothness — a fibre built with strength from within." },
-  
-  { icon: "◇", title: "Naturally Antibacterial", body: "Linen is inherently antibacterial and cooling against the skin. A fibre that takes care of the wearer." },
-  { icon: "○", title: "Fabric of Royalty",       body: "A timeless material refined through centuries of use and admired for understated luxury." },
-  { icon: "△", title: "Eco-Conscious",           body: "Minimal chemical inputs during cultivation, biodegradable by nature and respectful to the earth." },
-  { icon: "□", title: "Softens Over Time",       body: "The more it is worn and washed, the softer and richer it becomes." },
-];
 
 const elements = [
   {
@@ -111,61 +62,34 @@ const elements = [
   },
 ];
 
-const constructionDetails = [
-  { num: "01", label: "Collar Precision",  desc: "Every collar is cut, interfaced, and pressed to a standard that holds its shape through years of wear — clean, sharp, and quietly authoritative." },
-  { num: "02", label: "Placket Fusing",    desc: "An extra layer of fabric fused to plackets, cuffs, and collars adds structural strength without adding stiffness — a hidden architecture of durability." },
-  { num: "03", label: "Stitch Neatness",   desc: "Every seam is sewn with consistency in tension, spacing, and direction. The inside of a Dhirago garment is as considered as the outside." },
-  { num: "04", label: "Cuff Construction", desc: "Fused cuffs resist fraying and deformation over time, ensuring the garment maintains its refined appearance with each wear and wash." },
-];
-
-const materials = [
-  {
-    id: "european-linen",
-    label: "EUROPEAN LINEN",
-    image: "/images/european-linen.jpg",
-    description1: "Every piece begins with a simple belief – true quality comes from the material. We use 60 count European linen, a finer and more refined yarn— carefully sourced through trusted textile partners who share our commitment to exceptional quality. Crafted from premium European flax fibres, this linen is renowned for its natural breathability and refined texture. Grown primarily through rain-fed cultivation with minimal environmental impact, it is a material valued as much for its sustainability as for its timeless elegance.",
-    description2: "European flax is known for its longer staple length, which directly enhances the durability, smoothness, it’s soft on the skin, yet strong in its legacy. Often regarded as the fabric of royalty, linen carries a legacy of understated luxury. It is naturally cooling, antibacterial, and eco-conscious. This exceptional material is brought to life through Indian craftsmanship. From selecting the finest linen to the precision of the final stitch, attention to detail remains uncompromised.",
-  },
-];
-
 const photos = [
   "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/better-materail/dsc03796.jpg",
   "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/better-materail/dsc06268.jpg",
 ];
 
+/* Shared layout tokens — same padding / type on every breakpoint */
+const pad = "px-5 sm:px-8 lg:px-16";
+const wide = `w-full max-w-[1200px] mx-auto ${pad}`;
+const copy = `w-full max-w-[720px] mx-auto ${pad}`;
+const sectionY = "py-12 sm:py-16 lg:py-20";
+const heading = `${josefin.className} uppercase text-center text-[13px] sm:text-[14px] lg:text-[15px] text-[#333] tracking-[0.08em] leading-[1.7]`;
+const body =
+  "font-futura font-light text-center text-[13px] sm:text-[14px] lg:text-[15px] leading-[1.9] text-[#444] tracking-[0.03em]";
 
-/* ══════════════════════════════════════════════════════════════
-   PAGE
-   ══════════════════════════════════════════════════════════════ */
 export default function BetterMaterials() {
-  const videoRef = useRef(null);
-  const [activeQuality, setActiveQuality] = useState(0);
-
-  useEffect(() => {
-    if (videoRef.current) videoRef.current.play().catch(() => {});
-  }, []);
-
   return (
-    <div className="min-h-screen bg-white font-sans">
-
-      {/* ══ 1. HERO VIDEO ══════════════════════════════════════ */}
-      <section className="relative w-full lg:h-[100vh] overflow-hidden">
-        {/* <video
-          ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover"
-          src="https://cdn.shopify.com/videos/c/o/v/644f293d948d41519141b0df449f8ab7.mp4"
-          autoPlay loop muted playsInline
-        /> */}
-   <img
-          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06401.jpg"
-          alt="Hand Embroidery"
-          className="w-full h-auto block max-h-screen object-cover"
+    <div className="bg-white text-[#2a2a2a] overflow-x-hidden">
+      {/* HERO — zoomed crop hides model face  scale-[1.35] object-[center_70%]*/}
+      <section className="relative w-full h-[50vh] min-h-[320px] max-h-[920px] sm:h-[65vh] lg:h-screen overflow-hidden bg-[#1a1a1a]">
+        <img
+          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06401.jpg?v=1"
+          alt="Better Materials"
+          className="absolute inset-0 w-full h-full object-cover "
         />
-       
       </section>
 
-      {/* ══ 2. INTRO ═══════════════════════════════════════════ */}
-      <section className="py-14 md:py-20 px-5 sm:px-8 md:px-16 lg:px-24  max-w-[64rem] mx-auto">
+      {/* INTRO */}
+      <section className="py-14 md:py-28 px-5 sm:px-8 md:px-16 lg:px-24  max-w-[64rem] mx-auto">
         <h2 className={`${josefin.className} uppercase leading-[1.90] text-center text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}>
           True craftsmanship starts with the material
         </h2>
@@ -174,25 +98,31 @@ export default function BetterMaterials() {
         </p>
       </section>
 
-      {/* ══ 3. MATERIALS — stacked ═════════════════════════════ */}
-    
-
-         <section className="pt-6 lg:pt-10">
-         <div className="grid grid-cols-2 gap-5 max-w-[1200px] mx-auto px-5 lg:px-[60px]">
-        {photos.map((src, i) => (
-          <div key={i} className="group aspect-[3.5/4] overflow-hidden leading-none">
-            <img
-              src={src}
-              alt={`Process ${i + 1}`}
-              loading="lazy"
-              className="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-            />
+      {/* PHOTO PAIR */}
+      <section className="pb-4 sm:pb-6">
+        <div className={wide}>
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
+           {photos.map((src, i) => (
+  <div
+    key={i}
+    className="group relative aspect-[3.5/4] overflow-hidden rounded-sm"
+  >
+    <Image
+      src={src}
+      alt={`Material detail ${i + 1}`}
+      fill
+      className="object-cover"
+      sizes="(max-width: 640px) 50vw, 25vw"
+      unoptimized
+    />
+  </div>
+))}
           </div>
-        ))}
-      </div>
+        </div>
       </section>
 
-      <section className="pt-10 lg:pt-12 pb-16 lg:pb-20 px-5">
+      {/* MATERIAL STORY */}
+      <section className="pt-10 lg:pt-20 pb-16 lg:pb-24 px-5">
       
          <div className="max-w-[79rem]  mx-auto mt-1 md:mt-4 text-center">
         
@@ -208,21 +138,23 @@ export default function BetterMaterials() {
         </div>
       </section>
 
-      {/* ══ 4. MATERIAL QUALITIES ══════════════════════════════ */}
-     <section className="lg:w-full lg:max-w-[67rem] relative lg:left-[24rem]" style={{ overflow: "hidden", minHeight: "57vh", display: "flex", alignItems: "center" }}>
-
+      {/* CENTERED VIDEO — not full width */}
+      <section className={pad}>
+        <div className="relative mx-auto w-full max-w-[980px] aspect-video overflow-hidden bg-[#111]">
           <video
             src="/videos/udaipur1.mp4"
-            autoPlay loop muted playsInline
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover object-center"
           />
-          <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to right,rgba(10,16,24,0.82) 0%,rgba(10,16,24,0.55) 55%,rgba(10,16,24,0.25) 100%)" }} />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/25 to-transparent pointer-events-none" />
+        </div>
+      </section>
 
-          
-        </section>
-
-      {/* ══ 5. HALLMARKS SECTION ═══════════════════════════════ */}
-      <section className="py-14 md:py-20 px-4 sm:px-8 md:px-16 lg:px-24">
+      {/* HALLMARKS */}
+       <section className="py-14 md:py-20 px-4 sm:px-8 md:px-16 lg:px-24">
 
         {/* Full-width image */}
         {/* <div className="relative w-full h-[240px] sm:h-[320px] md:h-[400px] overflow-hidden rounded-sm">
@@ -276,18 +208,16 @@ export default function BetterMaterials() {
         </div>
       </section>
 
-      {/* ══ 6. CONSTRUCTION DETAILS ════════════════════════════ */}
-    
-
-      {/* ══ 7. QUOTE BLOCK ═════════════════════════════════════ */}
-      <div style={{background: "rgba(255,255,255,0.18)"}} className="py-12 md:py-20 px-4 sm:px-8 md:px-16 lg:px-20  border-t border-[#C4A882]/20 text-center">
-        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
-          &ldquo;Everything is thoughtfully done — from how the fabric feels on your skin, to how the collar sits,
-          to the neatness of every stitch.&rdquo;
-        </p>
-        <div className="w-px h-[60px] bg-gradient-to-b from-[#C4A882] to-transparent mx-auto" />
-      </div>
-
+      {/* QUOTE */}
+      <section className={sectionY}>
+        <div className={`${copy} text-center`}>
+          <p className={body}>
+            &ldquo;Everything is thoughtfully done — from how the fabric feels
+            on your skin, to how the collar sits, to the neatness of every
+            stitch.&rdquo;
+          </p>
+        </div>
+      </section>
     </div>
   );
 }

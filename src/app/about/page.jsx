@@ -207,7 +207,7 @@ export default function AboutPage() {
         >
           <video
             ref={heroVideoRef}
-            src="/videos/banner.mp4"
+            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/about/beige-neutral-texture-photo-collage-desktop-wallpaper-3-1.mp4"
             autoPlay
             loop
             muted
@@ -603,105 +603,58 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section
-          style={{ padding: "clamp(1rem,10vw,9rem) 0", background: "rgba(255,255,255,1.0)" }}
-        >
-          <div style={S.inner}>
-            <div className="story-grid" style={S.twoCol}>
-              <div>
-                <Reveal>
-                  <h2
-                    className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
-                  >
-                    The Palette of DHIRAGO
-                  </h2>
-                </Reveal>
-                <Reveal delay={150}>
-                  <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
-                    DHIRAGO finds inspiration in the landscapes and subtle
-                    textures found in natural surroundings. The colour palette
-                    is shaped by tones that feel familiar and enduring — warm
-                    beiges, earthy browns, ecru, soft sky blues, muted
-                    lavenders, gentle greens, and sun-washed mustards. Rather
-                    than following seasonal colour trends, the focus remains on
-                    shades that feel timeless, calm, and easy to live with.
-                  </p>
-                  <p className=" font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] ">
-                    Designed with clean lines and relaxed silhouettes, the
-                    garments are created to become a natural part of everyday
-                    life. They are made to move effortlessly between moments —
-                    from workdays to slow weekends, casual gatherings to evening
-                    plans. Each piece is a belief that clothing should feel
-                    personal and comfortable, allowing individuality to come
-                    naturally rather than demanding attention.
-                  </p>
-                </Reveal>
-              </div>
-              <Reveal delay={100}>
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "clamp(320px, 46vw, 560px)",
-                  }}
-                >
-                  {/* Back image - offset up and to the right */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      right: 0,
-                      width: "62%",
-                      height: "78%",
-                      overflow: "hidden",
-                      zIndex: 1,
-                    }}
-                  >
-                    <Image
-                      src="/images/heron.jpeg"
-                      alt="Our Heritage"
-                      width={600}
-                      height={500}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                      }}
-                    />
-                  </div>
+     <section className="py-[clamp(1rem,5vw,9rem)] bg-white">
+  <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
+    <div
+      className="story-grid grid gap-[clamp(2rem,5vw,4rem)] items-center
+                 grid-cols-1 lg:grid-cols-[1fr_1.25fr]"
+    >
+      <div>
+        <Reveal>
+          <h2
+            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          >
+            The Palette of DHIRAGO
+          </h2>
+        </Reveal>
+        <Reveal delay={150}>
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#444444] tracking-[0.03em] mb-3">
+            DHIRAGO finds inspiration in the landscapes and subtle
+            textures found in natural surroundings. The colour palette
+            is shaped by tones that feel familiar and enduring — warm
+            beiges, earthy browns, ecru, soft sky blues, muted
+            lavenders, gentle greens, and sun-washed mustards. Rather
+            than following seasonal colour trends, the focus remains on
+            shades that feel timeless, calm, and easy to live with.
+          </p>
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#444444] tracking-[0.03em]">
+            Designed with clean lines and relaxed silhouettes, the
+            garments are created to become a natural part of everyday
+            life. They are made to move effortlessly between moments —
+            from workdays to slow weekends, casual gatherings to evening
+            plans. Each piece is a belief that clothing should feel
+            personal and comfortable, allowing individuality to come
+            naturally rather than demanding attention.
+          </p>
+        </Reveal>
+      </div>
 
-                  {/* Front image - offset down and to the left, sits on top */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      width: "62%",
-                      height: "78%",
-                      overflow: "hidden",
-                      zIndex: 2,
-                      boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
-                    }}
-                  >
-                    <Image
-                      src="/images/hero-mul-story.jpeg"
-                      alt="Our Heritage"
-                      width={600}
-                      height={500}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                      }}
-                    />
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </section>
+      <Reveal delay={100}>
+        <div className="relative w-full overflow-hidden bg-black/5 h-[clamp(360px,48vw,550px)]">
+          <Image
+            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/ud.png?v=1"
+            alt="A young man wearing a handwoven muslin shirt by a lakeside"
+            fill
+            priority
+            sizes="(min-width: 1024px) 55vw, 100vw"
+            className="object-cover transition-all duration-700"
+            unoptimized
+          />
+        </div>
+      </Reveal>
+    </div>
+  </div>
+</section>
 
         {/* ════════════════════════════════════════════════════════
             06. PHILOSOPHY — heron bg image, centred quote

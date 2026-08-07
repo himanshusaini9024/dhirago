@@ -2,6 +2,7 @@
 
 import { Josefin_Sans, Cormorant_Garamond } from "next/font/google";
 import Image from "next/image";
+
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["300", "500", "600"],
@@ -43,39 +44,57 @@ const photos = [
   "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06273.jpg",
 ];
 
+const sectionPad = "px-5 sm:px-8 lg:px-16";
+const container = `max-w-[1200px] mx-auto ${sectionPad}`;
+const heading = `${josefin.className} uppercase text-[clamp(13px,1.5vw,15px)] text-[#333] tracking-[0.12em] leading-[1.6]`;
+const body =
+  "font-futura font-light leading-[1.9] text-[clamp(13px,1.35vw,16px)] text-[#444] tracking-[0.02em]";
+
 export default function HandEmbroideryPage() {
   return (
-    <>
+    <div className="bg-white text-[#2a2a2a] overflow-x-hidden">
       {/* HERO */}
-      <section className="w-full leading-none">
+ 
+        <section className="relative w-full h-[50vh] min-h-[320px] max-h-[920px] sm:h-[65vh] lg:h-screen overflow-hidden bg-[#1a1a1a]">
         <img
-          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06358.jpg"
-          alt="Hand Embroidery"
-          className="w-full h-auto block max-h-screen object-cover"
+          src="/images/3.png"
+          alt="Better Materials"
+          className="absolute inset-0 w-full h-full object-cover "
         />
       </section>
 
-      {/* WHAT IS HAND EMBROIDERY */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div>
-              <h2
-                className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
-              >
+      {/* INTRO */}
+      <section className="py-12 sm:py-16 lg:py-24">
+        <div className={container}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
+            <div className="text-left max-w-[560px] mx-auto lg:mx-0 w-full">
+              <h2 className={`${heading} mb-5 sm:mb-6`}>
                 A Touch of Embroidery, a Shade of Elegance
               </h2>
-              <p
-                className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
-              >
-                DHIRAGO works with indigenous textile techniques and natural fabrics, thoughtfully integrating time-honoured crafts such as, Sashiko hand stitching, and Kantha embroidery and Tangaliya inspired weaving into its garments. Each technique is applied through controlled, manual execution—Sashiko through repetitive reinforcement stitching, Kantha through layered running stitches and tangaliya through its distinctive pattern language. Meticulously hand embroidered, each piece reflects our devotion to slow, thoughtful designs.
+              <p className={`${body} mb-4`}>
+                DHIRAGO works with indigenous textile techniques and natural
+                fabrics, thoughtfully integrating time-honoured crafts such as,
+                Sashiko hand stitching, and Kantha embroidery and Tangaliya
+                inspired weaving into its garments. Each technique is applied
+                through controlled, manual execution—Sashiko through repetitive
+                reinforcement stitching, Kantha through layered running stitches
+                and tangaliya through its distinctive pattern language.
+                Meticulously hand embroidered, each piece reflects our devotion
+                to slow, thoughtful designs.
               </p>
-              <p  className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
-                These practices are deeply rooted in India’s cultural heritage and are incorporated with finesse, creating garments that remain connected to tradition while expressed with a modern sensibility. By continuing these techniques, DHIRAGO upholds its commitment to preserving age-old craftsmanship and celebrating India’s rich textile legacy, presenting ethical and heritage-driven making as a form of true luxury. 
+              <p className={body}>
+                These practices are deeply rooted in India’s cultural heritage
+                and are incorporated with finesse, creating garments that remain
+                connected to tradition while expressed with a modern sensibility.
+                By continuing these techniques, DHIRAGO upholds its commitment to
+                preserving age-old craftsmanship and celebrating India’s rich
+                textile legacy, presenting ethical and heritage-driven making as
+                a form of true luxury.
               </p>
             </div>
-            <div>
-              <div className="w-full max-w-full aspect-video lg:max-w-[340px] lg:aspect-[9/16] overflow-hidden bg-[#111111] ml-auto">
+
+            <div className="w-full flex justify-center lg:justify-end">
+              <div className="w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px] aspect-[9/16] overflow-hidden bg-[#111]">
                 <video
                   src="https://kardo.co/wp-content/uploads/2025/06/reel-2-2.mp4"
                   autoPlay
@@ -91,7 +110,7 @@ export default function HandEmbroideryPage() {
       </section>
 
       {/* PROCESS */}
-      <section className="pt-4 lg:pt-20 pb-10 lg:pb-[100px]">
+     <section className="pt-4 lg:pt-20 pb-10 lg:pb-[100px]">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
           <h2
            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 text-center`}
@@ -121,135 +140,98 @@ export default function HandEmbroideryPage() {
       </section>
 
       {/* PHOTO GRID */}
-      <div className="grid grid-cols-2 gap-5 max-w-[1200px] mx-auto px-5 lg:px-[60px]">
-        {photos.map((src, i) => (
-          <div key={i} className="group aspect-[4/3] overflow-hidden leading-none">
-            <img
-              src={src}
-              alt={`Process ${i + 1}`}
-              loading="lazy"
-              className="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-            />
+      <section className="py-10 sm:py-14 lg:py-20">
+        <div className={container}>
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:gap-5">
+            {photos.map((src, i) => (
+              <div
+                key={src}
+                className="group relative aspect-[4/3] overflow-hidden bg-[#f0eeea]"
+              >
+                <img
+                  src={src}
+                  alt={`Embroidery process ${i + 1}`}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-
-      {/* MEET THE ARTIST */}
-      <section className="pt-16 lg:pt-28">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
-          <h2
-                      className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] `}
-
-          >
-            At DHIRAGO, every print begins with a story
-          </h2>
-         
         </div>
       </section>
 
-      <section className="pt-10 lg:pt-12 pb-16 lg:pb-20">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-12 lg:gap-16 items-start">
-           <div
-                            style={{
-                              position: "relative",
-                              width: "100%",
-                              height: "clamp(320px, 46vw, 560px)",
-                            }}
-                          >
-                            {/* Back image - offset up and to the right */}
-                            <div
-                              style={{
-                                position: "absolute",
-                                top: 0,
-                                right: 0,
-                                width: "62%",
-                                height: "78%",
-                                overflow: "hidden",
-                                zIndex: 1,
-                              }}
-                            >
-                              <Image
-                                src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06911.jpg"
-                                alt="Our Heritage"
-                                width={600}
-                                height={500}
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  objectFit: "cover",
-                                  display: "block",
-                                }}
-                                unoptimized
-                              />
-                            </div>
-          
-                            {/* Front image - offset down and to the left, sits on top */}
-                            <div
-                              style={{
-                                position: "absolute",
-                                bottom: 0,
-                                left: 0,
-                                width: "62%",
-                                height: "78%",
-                                overflow: "hidden",
-                                zIndex: 2,
-                                boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
-                              }}
-                            >
-                              <Image
-                                src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg"
-                                alt="Our Heritage"
-                                width={600}
-                                height={500}
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  objectFit: "cover",
-                                  display: "block",
-                                }}
-                                unoptimized
-                              />
-                            </div>
-                          </div>
-            <div>
-              
-              <p
-                  className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
-              >
-                Hand block printing preserves the rhythm of traditional craftsmanship, where each carved wooden block is pressed by hand, creating subtle variations that make every piece unique.
+      {/* STORY / HERITAGE */}
+      <section className="py-10 sm:py-14 lg:py-20">
+        <div className={container}>
+          <h2
+            className={`${heading} text-center max-w-[720px] mx-auto mb-10 sm:mb-12 lg:mb-16`}
+          >
+            At DHIRAGO, every stitch begins with a story
+          </h2>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
+            {/* Overlapping photos — safe offsets on all breakpoints */}
+            <div className="relative w-full max-w-[480px] mx-auto aspect-[4/5] sm:aspect-[5/6]">
+              <div className="absolute top-0 right-0 w-[70%] h-[72%] overflow-hidden z-[1]">
+                <Image
+                  src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06911.jpg"
+                  alt="Embroidery craft detail"
+                  fill
+                  unoptimized
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 70vw, 340px"
+                />
+              </div>
+              <div className="absolute lg:bottom-[140px] lg:left-[-8rem] bottom-0 left-0 w-[70%] h-[72%] overflow-hidden z-[2] shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+                <Image
+                  src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg"
+                  alt="Hand embroidery in progress"
+                  fill
+                  unoptimized
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 70vw, 340px"
+                />
+              </div>
+            </div>
+
+            <div className="max-w-[560px] mx-auto lg:mx-0 w-full text-left">
+              <p className={`${body} mb-4`}>
+                Hand embroidery preserves the rhythm of traditional
+                craftsmanship, where each stitch is guided by hand, creating
+                subtle variations that make every piece unique.
               </p>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-4">
-                Screen printing complements this process by bringing fine details and expressive artwork to fabric with precision.
+              <p className={`${body} mb-4`}>
+                From khakha marking to the wooden adda, every stage is shaped by
+                patience and precision—bringing fine detail and expressive
+                artwork to fabric with care.
               </p>
-              <p
-                 className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-4"
-              >
-               Together, these techniques celebrate the dialogue between heritage and contemporary design, allowing every garment to carry both the touch of the artisan and the spirit of thoughtful making.
-               
-                 
+              <p className={`${body} mb-4`}>
+                Together, these techniques celebrate the dialogue between
+                heritage and contemporary design, allowing every garment to
+                carry both the touch of the artisan and the spirit of thoughtful
+                making.
               </p>
-             
-             <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
-               It is here that exquisite craftsmanship meets material excellence—where detail is not an addition, but becomes a signature of the piece.
-             </p>
+              <p className={body}>
+                It is here that exquisite craftsmanship meets material
+                excellence—where detail is not an addition, but becomes a
+                signature of the piece.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* QUOTE */}
-      <section className="py-14 lg:py-16 border-t border-b border-[#e0e0e0] text-center">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
+      <section className="py-12 sm:py-14 lg:py-16 border-t border-b border-[#e8e4de]">
+        <div className={`${container} text-center`}>
           <p
-             className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
+            className={`${cormorant.className} italic text-[clamp(18px,2.4vw,26px)] leading-[1.55] text-[#444] max-w-[720px] mx-auto`}
           >
             &quot;An exceptionally skilled artisan, with the most brilliant
-            <br />
             hands—we couldn&apos;t have asked for anyone better.&quot;
           </p>
         </div>
       </section>
-    </>
+    </div>
   );
 }

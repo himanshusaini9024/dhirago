@@ -37,10 +37,10 @@ const processSteps = [
 ];
 
 const photos = [
-  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/european-linen.jpg",
-  "https://kardo.co/wp-content/uploads/2025/06/DSC00825-2-1024x1024.jpg",
-  "https://kardo.co/wp-content/uploads/2025/06/DSC00856-1024x1024.jpg",
-  "https://kardo.co/wp-content/uploads/2025/06/DSC00757-1024x1024.jpg",
+  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06299.jpg",
+  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06358.jpg",
+  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg",
+  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06273.jpg",
 ];
 
 export default function HandEmbroideryPage() {
@@ -49,7 +49,7 @@ export default function HandEmbroideryPage() {
       {/* HERO */}
       <section className="w-full leading-none">
         <img
-          src="https://kardo.co/wp-content/uploads/2025/06/Hand-embroidery-scaled.jpg"
+          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06358.jpg"
           alt="Hand Embroidery"
           className="w-full h-auto block max-h-screen object-cover"
         />
@@ -170,7 +170,7 @@ export default function HandEmbroideryPage() {
                               }}
                             >
                               <Image
-                                src="/images/heron.jpeg"
+                                src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06911.jpg"
                                 alt="Our Heritage"
                                 width={600}
                                 height={500}
@@ -180,6 +180,7 @@ export default function HandEmbroideryPage() {
                                   objectFit: "cover",
                                   display: "block",
                                 }}
+                                unoptimized
                               />
                             </div>
           
@@ -197,7 +198,7 @@ export default function HandEmbroideryPage() {
                               }}
                             >
                               <Image
-                                src="/images/hero-mul-story.jpeg"
+                                src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg"
                                 alt="Our Heritage"
                                 width={600}
                                 height={500}
@@ -207,6 +208,7 @@ export default function HandEmbroideryPage() {
                                   objectFit: "cover",
                                   display: "block",
                                 }}
+                                unoptimized
                               />
                             </div>
                           </div>

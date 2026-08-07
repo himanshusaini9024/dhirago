@@ -157,7 +157,7 @@ export default function BetterMaterials() {
           autoPlay loop muted playsInline
         /> */}
    <img
-          src="/images/DSC06401.jpg"
+          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06401.jpg"
           alt="Hand Embroidery"
           className="w-full h-auto block max-h-screen object-cover"
         />
@@ -209,7 +209,7 @@ export default function BetterMaterials() {
       </section>
 
       {/* ══ 4. MATERIAL QUALITIES ══════════════════════════════ */}
-     <section className="lg:w-1/2 relative lg:left-[29rem]" style={{ overflow: "hidden", minHeight: "57vh", display: "flex", alignItems: "center" }}>
+     <section className="lg:w-full lg:max-w-[67rem] relative lg:left-[24rem]" style={{ overflow: "hidden", minHeight: "57vh", display: "flex", alignItems: "center" }}>
 
           <video
             src="/videos/udaipur1.mp4"

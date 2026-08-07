@@ -11,7 +11,7 @@ import productsColors from "../../../utils/data/products-colors";
 import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
 import { fbEvent } from "../../../lib/facebookPixel";
-
+import { sendMetaEvent } from "../../../lib/meta";
 const F = "'Josefin Sans', sans-serif";
 
 function useIsMobile() {
@@ -170,7 +170,9 @@ export default function Content({ product }) {
     return Array.isArray(dims) && dims.some((d) => (d?.name || "").trim());
   }, [sizeGuide]);
 
-  const addToCart = () => {
+  const addToCart = async ()  => {
+      const eventID = crypto.randomUUID();
+
     if (!itemSize) {
       setSizeError("Please select your size");
       return;
@@ -180,7 +182,21 @@ export default function Content({ product }) {
     content_name: product.name,
     value: product.currentPrice,
     currency: "INR",
-});
+},eventID);
+
+ await sendMetaEvent({
+    event_name: "AddToCart",
+    event_time: Math.floor(Date.now() / 1000),
+    event_id: eventID,
+    action_source: "website",
+    custom_data: {
+      content_ids: [product.id],
+      content_name: product.name,
+      currency: "INR",
+      value: product.currentPrice,
+    },
+  });
+
     setSizeError("");
     event({
       action: "add_to_cart",

@@ -11,47 +11,60 @@ export default function Hero() {
     <section className={` ${josefin.className}`}>
       <div className="relative grid md:grid-cols-2">
         {/* Image */}
-        <div className="group relative w-full overflow-hidden bg-black/5">
+        <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/5">
           <Image
-            src="/images/european-linen.jpg"
-            alt="A young man in a handwoven muslin shirt, feeding pigeons by a lakeside at dusk"
-            width={800}
-            height={1500}
+            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/dsc06295.jpg"
+            alt="A young man wearing a handwoven muslin shirt by a lakeside"
+            width={1200}
+            height={800}
             priority
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="h-auto w-full  transition-all duration-700 ease-out group-hover:grayscale-0"
+            className="object-cover transition-all duration-700"
+            unoptimized
           />
+          {/* <img
+            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/dsc06295.jpg"
+            className="object-cover transition-all duration-700"
+            alt="A young man wearing a handwoven muslin shirt by a lakeside"
+            
+          /> */}
         </div>
-
-     
 
         {/* Copy */}
         <div className="flex items-center px-6 py-14 md:px-16 lg:px-28 ">
           <div className="max-w-2xl">
-            <p className={`${josefin.className} mb-6  uppercase `}
+            <p
+              className={`${josefin.className} mb-6  uppercase `}
               style={{
                 fontSize: "clamp(0.725rem, 1.6vw, 15px)",
                 color: "#333333",
                 letterSpacing: "0.02em",
-              }}>
+              }}
+            >
               The first story; woven with patience
             </p>
 
-            <p 
-            style={{ color: "#555555" }}
-                        className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] ${josefin.className}`}
-
+            <p
+              style={{ color: "#555555" }}
+              className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] ${josefin.className}`}
             >
-               Our debut collection explores the richness of traditional textiles, beginning with indigo hues and unfolding into a palette of mustard, green, and shadowed neutrals. Natural fabrics like linen, woven cottons, and cotton denim are thoughtfully paired with Kantha embroidery, hand block printing, and Tangaliya-inspired craftsmanship.
-
+              Our debut collection explores the richness of traditional
+              textiles, beginning with indigo hues and unfolding into a palette
+              of mustard, green, and shadowed neutrals. Natural fabrics like
+              linen, woven cottons, and cotton denim are thoughtfully paired
+              with Kantha embroidery, hand block printing, and
+              Tangaliya-inspired craftsmanship.
             </p>
 
-            <p   style={{ color: "#555555" }}
-                        className={`font-normal mt-3 lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] ${josefin.className}`}>
-              The name DHIRAGO draws from Dheera—a state of calmness. Created in limited numbers, each garment is conceived as a collectible object, designed to endure through time. Each piece quietly gathers character, reflecting the beauty of time.
-              
+            <p
+              style={{ color: "#555555" }}
+              className={`font-normal mt-3 lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] ${josefin.className}`}
+            >
+              The name DHIRAGO draws from Dheera—a state of calmness. Created in
+              limited numbers, each garment is conceived as a collectible
+              object, designed to endure through time. Each piece quietly
+              gathers character, reflecting the beauty of time.
             </p>
-
 
             <div className="mt-9 flex gap-3">
               {/* Filled primary button */}
@@ -62,7 +75,6 @@ export default function Hero() {
                 View Our Collection
               </a>
               {/* Outlined secondary button */}
-            
             </div>
           </div>
         </div>

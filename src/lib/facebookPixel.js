@@ -1,5 +1,11 @@
-export const fbEvent = (event, data = {}) => {
-  if (typeof window.fbq !== "undefined") {
-    window.fbq("track", event, data);
+export const fbEvent = (event, data = {}, eventID = null) => {
+  if (typeof window !== "undefined" && typeof window.fbq === "function") {
+    if (eventID) {
+      window.fbq("track", event, data, {
+        eventID,
+      });
+    } else {
+      window.fbq("track", event, data);
+    }
   }
 };

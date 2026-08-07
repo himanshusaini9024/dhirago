@@ -25,6 +25,8 @@ import { Analytics } from "@vercel/analytics/react";
 import CartSync from "../components/shopping-cart/cartsync";
 import MetaPixel from "../components/MetaPixel";
 import MetaPageTracker from "../components/MetaPageTracker";
+import { GoogleTagManager } from '@next/third-parties/google';
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -69,7 +71,9 @@ export default function RootLayout({ children }) {
                         <MetaPageTracker />
 
                 {children}
-                <GoogleAnalytics />
+                      <GoogleTagManager gtmId="GTM-5TDSXPBS" />
+
+                {/* <GoogleAnalytics /> */}
                 <Analytics />
                 <SpeedInsights />
               </LayoutWrapper>

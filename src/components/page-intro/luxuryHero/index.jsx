@@ -133,12 +133,12 @@ export default function LuxurySection() {
           </p>
 
           <Link
-            href="/collections/shirts"
+            href="/about"
             className={`${script.className} mt-7 inline-flex items-center text-[clamp(1.35rem,2vw,1.65rem)] transition-opacity hover:opacity-70`}
             style={{ color: "#9AA085" }}
           >
             more to explore
-            <ExploreArrow />
+            {/* <ExploreArrow /> */}
           </Link>
         </motion.div>
       </div>

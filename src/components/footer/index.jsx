@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Instagram, Mail } from "lucide-react";
+import { Instagram, Mail, Facebook } from "lucide-react";
 import Link from "next/link";
 import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import { useState } from "react";
@@ -73,25 +73,39 @@ function FlowerMark({ className = "" }) {
   );
 }
 
-function PinterestIcon({ size = 16 }) {
+function WhatsAppIcon({ size = 17 }) {
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
+      fill="currentColor"
+      aria-hidden="true"
     >
-      <circle cx="12" cy="12" r="9.5" />
-      <path
-        d="M9.5 18c.6-2.4 1.2-4.9 1.9-7.6M12 12c0-1.4 1.1-3 3.1-3 2.2 0 3.4 1.6 3.4 3.6 0 2.6-1.3 4.9-3.5 4.9-1 0-1.9-.6-2.2-1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.149-.15.347-.4.52-.6.174-.198.232-.34.348-.566.116-.225.058-.42-.04-.599-.099-.198-.868-2.098-1.19-2.87-.316-.755-.638-.654-.876-.666-.226-.011-.485-.013-.744-.013-.26 0-.68.098-.923.362-.243.264-.923.902-.923 2.204 0 1.301.947 2.559 1.08 2.735.133.176 1.83 2.794 4.437 3.807 2.605 1.014 2.605.676 3.075.633.47-.043 1.517-.62 1.73-1.219.213-.598.213-1.111.15-1.219-.065-.107-.24-.17-.516-.316zM12.05 22c-1.734 0-3.435-.463-4.912-1.339l-.352-.204-3.66.955.978-3.564-.229-.365A9.918 9.918 0 0 1 2.05 12C2.05 6.51 6.559 2 12.05 2c2.657 0 5.156 1.036 7.032 2.913A9.9 9.9 0 0 1 22 12c0 5.49-4.51 10-9.95 10zm0-22C6.007 0 1.05 4.958 1.05 12c0 2.108.53 4.09 1.46 5.821L0 24l6.393-1.664A10.98 10.98 0 0 0 12.05 24C18.093 24 23 19.042 23 12 23 5.958 18.093 0 12.05 0z" />
     </svg>
   );
 }
+
+// function PinterestIcon({ size = 16 }) {
+//   return (
+//     <svg
+//       width={size}
+//       height={size}
+//       viewBox="0 0 24 24"
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth="1.6"
+//     >
+//       <circle cx="12" cy="12" r="9.5" />
+//       <path
+//         d="M9.5 18c.6-2.4 1.2-4.9 1.9-7.6M12 12c0-1.4 1.1-3 3.1-3 2.2 0 3.4 1.6 3.4 3.6 0 2.6-1.3 4.9-3.5 4.9-1 0-1.9-.6-2.2-1.3"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//     </svg>
+//   );
+// }
 
 export default function UltraPremiumFooter() {
   const [email, setEmail] = useState("");
@@ -306,8 +320,9 @@ export default function UltraPremiumFooter() {
 
             <div className="flex items-center gap-4 mt-6">
               <a
-                href="#"
+                href="https://instagram.com/dhirago"
                 aria-label="Instagram"
+                target="_blank"
                 className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"
               >
                 <Instagram size={17} strokeWidth={1.4} />
@@ -317,10 +332,19 @@ export default function UltraPremiumFooter() {
                 aria-label="Pinterest"
                 className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"
               >
-                <PinterestIcon size={17} />
+                <Facebook size={17} />
               </a>
               <a
-                href="mailto:hello@dhirago.com"
+                href="https://wa.me/918905524932"
+                aria-label="WhatsApp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"
+              >
+                <WhatsAppIcon size={17} />
+              </a>
+              <a
+                href="mailto:contact@dhirago.com"
                 aria-label="Email"
                 className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"
               >

@@ -76,7 +76,7 @@ function CraftCard({ num, name, desc, delay = 0 }) {
         >
           {name}
         </div>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em]">
+        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em]">
           {desc}
         </p>
       </div>
@@ -190,70 +190,51 @@ export default function AboutPage() {
       `}</style>
 
       <div
-        style={{ background: "#F5F0E8", color: "#3D3530", overflowX: "hidden" }}
+       
       >
         {/* ════════════════════════════════════════════════════════
             01. HERO — pure autoplay, no text, scroll cue
         ════════════════════════════════════════════════════════ */}
-        <section
-          className="noise-overlay"
-          style={{
-            position: "relative",
-            height: "100vh",
-            minHeight: 600,
-            overflow: "hidden",
-            background: "#06101A",
-          }}
+          <section
+        className="
+          relative w-full overflow-hidden text-white
+          aspect-[3/4] max-h-[55svh]
+          md:aspect-auto md:h-screen md:max-h-none
+        "
+      >
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="
+            absolute inset-0 h-full w-full object-cover
+            object-[center_25%]
+            md:object-center
+          "
         >
-          <video
-            ref={heroVideoRef}
+          <source
             src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/about/beige-neutral-texture-photo-collage-desktop-wallpaper-3-1.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              zIndex: 0,
-            }}
+            type="video/mp4"
           />
-          {/* Bottom fade only */}
+        </video>
 
-          {/* Scroll cue */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: "2.5rem",
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 3,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 10,
-              color: "rgba(245,240,232,0.4)",
-              fontFamily: "'Jost',sans-serif",
-              fontSize: 9,
-              letterSpacing: "0.4em",
-              textTransform: "uppercase",
-            }}
-          >
-            <div
-              style={{
-                width: 1,
-                height: 50,
-                background: "linear-gradient(to bottom,#C4A882,transparent)",
-                animation: "scrollPulse 2s ease-in-out infinite",
-              }}
-            />
-            scroll
-          </div>
-        </section>
+        {/* Soft overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent md:bg-none" />
+        <div className="absolute inset-0 hidden bg-black/30 md:block" />
 
+        {/* Centered copy on the video (Dior-style mobile) */}
+        <div
+          className="
+            absolute inset-x-0 z-10 flex justify-center px-6 text-center
+            bottom-[18%]
+            md:bottom-[4rem] md:px-4
+          "
+        >
+         
+        </div>
+      </section>
         {/* ════════════════════════════════════════════════════════
             02. THE NAME / OUR STORY — centred heading + body
         ════════════════════════════════════════════════════════ */}
@@ -284,7 +265,7 @@ export default function AboutPage() {
             }}
           >
             <Reveal delay={260}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
                 DHIRAGO originates from a narrative that simplicity holds depth
                 and life is meant to be felt, not rushed. The name is inspired
                 by <em style={{ fontStyle: "italic" }}>"Dheera"</em> a state of
@@ -296,7 +277,7 @@ export default function AboutPage() {
               </p>
             </Reveal>
             <Reveal delay={340}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
                 As a conscious luxury label, DHIRAGO works with 60 count
                 European linen and organically sourced fabric, valued for its
                 breathability, texture, and the way it softens over time.
@@ -306,7 +287,7 @@ export default function AboutPage() {
               </p>
             </Reveal>
             <Reveal delay={420}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
                 Craftsmanship lies at the heart of DHIRAGO, our designs draw
                 from heritage techniques and time honoured practices like block
                 printing, natural dye and intricate detailing of miniature art
@@ -324,145 +305,55 @@ export default function AboutPage() {
             Desktop: big italic quote LEFT | body paras RIGHT
             Mobile:  heading → 4 stacked bordered paragraphs
         ════════════════════════════════════════════════════════ */}
-        <section
-          aria-label="Udaipur — the city of lakes"
-          className="relative overflow-hidden flex min-h-screen items-center"
-        
+   <section className="px-4 sm:px-8 lg:px-16">
+  <div className="relative mx-auto w-full max-w-[1380px] aspect-[9/16] sm:aspect-video overflow-hidden">
+    {/* <video
+      src="/videos/udaipur1.mp4"
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover object-center"
+    /> */}
+
+      <Image
+            src="/images/udcity.png"
+            alt="A young man wearing a handwoven muslin shirt by a lakeside"
+            fill
+            priority
+            sizes="(min-width: 1024px) 55vw, 100vw"
+            className="object-cover transition-all duration-700"
+            unoptimized
+          />
+
+    <div className="relative z-10 h-full flex flex-col justify-center px-5 py-10 sm:px-10 sm:py-16 lg:items-center lg:justify-center lg:px-24 lg:py-24">
+      <Reveal>
+        <p
+          className={`${josefin.className} text-[11px] sm:text-xs lg:text-base uppercase tracking-[0.12em] text-white drop-shadow-md mb-5`}
         >
-          <video
-            ref={udaipurVideoRef}
-            src="/videos/udaipur1.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover z-0"
+          Udaipur — the city of lakes
+        </p>
+      </Reveal>
 
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 1,
-              background:
-                "linear-gradient(to right, rgba(10,16,24,0.85) 0%, rgba(10,16,24,0.6) 50%, rgba(10,16,24,0.28) 100%)",
-            }}
-          />
-
-          <div
-            style={{
-              ...S.inner,
-              position: "relative",
-              zIndex: 2,
-              padding: "clamp(5rem,12vw,10rem) clamp(1.25rem,4vw,3rem)",
-            }}
-          >
-            <Reveal>
-              <p
-                className={josefin.className}
-                style={{
-                  fontSize: "clamp(0.6rem,1vw,1.01rem)",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#ffffff",
-                  margin: "0 0 1.5rem",
-                }}
-              >
-                Udaipur — the city of lakes
+      <div className="flex gap-4 sm:gap-8 lg:gap-12 max-w-[780px] items-stretch">
+        <div>
+          {[
+            "A city built around water, where reflection softens everything into calm and completeness.",
+            "The lakes do not rush — they hold the sky, the light, the moment.",
+            "Here, water is held and preserved through time, allowed to settle into its own stillness — calm not found, but gently formed through intention.",
+            "DHIRAGO draws from this belief — that when something is held with care and intention it transforms into something lasting.",
+          ].map((text, i) => (
+            <Reveal key={i} delay={220 + i * 90}>
+              <p className="font-futura font-light text-left text-[13px] sm:text-[0.891rem] leading-[1.65] sm:leading-[2.8] tracking-[0.03em] text-white drop-shadow-md mb-3 sm:mb-4 max-w-[560px]">
+                {text}
               </p>
             </Reveal>
-
-            <div
-              className="udaipur-grid"
-              style={{
-                display: "flex",
-                gap: "clamp(1.5rem,4vw,3rem)",
-                maxWidth: 780,
-                alignItems: "stretch",
-              }}
-            >
-              {/* Water-level rail: fills upward on reveal — the section's one signature move */}
-              <div
-                aria-hidden="true"
-                className="udaipur-rail hidden"
-                style={{
-                  position: "relative",
-                  width: 2,
-                  flexShrink: 0,
-                  background: "rgba(196,168,130,0.18)",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  className=" udaipur-rail-fill"
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    background:
-                      "linear-gradient(to top, #C4A882, rgba(196,168,130,0.3))",
-                  }}
-                />
-              </div>
-
-              <div>
-                {[
-                  "A city built around water, where reflection softens everything into calm and completeness.",
-                  "The lakes do not rush — they hold the sky, the light, the moment.",
-                  "Here, water is held and preserved through time, allowed to settle into its own stillness — calm not found, but gently formed through intention.",
-                  "DHIRAGO draws from this belief —  that when something is held with care and intention it transforms into something lasting.",
-                ].map((text, i) => (
-                  <Reveal key={i} delay={220 + i * 90}>
-                    <p
-                      className="font-futura font-light"
-                      style={{
-                        lineHeight: 1.9,
-                        fontSize: "clamp(12px,1.3vw,1.01rem)",
-                        color: "#ffffff",
-                        letterSpacing: "0.03em",
-                        marginBottom: "1.4rem",
-                        maxWidth: 560,
-                      }}
-                    >
-                      {text}
-                    </p>
-                  </Reveal>
-                ))}
-
-            
-              </div>
-            </div>
-          </div>
-
-          <style jsx>{`
-            .udaipur-rail-fill {
-              transform: translateY(100%);
-              animation: udaipurFill 1.6s ease-out 0.3s forwards;
-            }
-            @keyframes udaipurFill {
-              to {
-                transform: translateY(0%);
-              }
-            }
-            @media (max-width: 640px) {
-              .udaipur-coords {
-                display: none;
-              }
-              .udaipur-grid {
-                gap: 1.25rem !important;
-              }
-            }
-            @media (prefers-reduced-motion: reduce) {
-              .udaipur-rail-fill {
-                animation: none;
-                transform: translateY(0%);
-              }
-            }
-          `}</style>
-        </section>
-
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
         {/* ════════════════════════════════════════════════════════
             04. OUR SYMBOL — heron photo left, text right
         ════════════════════════════════════════════════════════ */}
@@ -520,7 +411,7 @@ export default function AboutPage() {
                 </Reveal>
 
                 <Reveal delay={310}>
-                  <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
                     The heron is DHIRAGO's mark - a symbol of balance, patience,
                     and quiet strength. Calmness in its presence and deliberate
                     in its movement, the bird reflects our approach to
@@ -618,7 +509,7 @@ export default function AboutPage() {
           </h2>
         </Reveal>
         <Reveal delay={150}>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#444444] tracking-[0.03em] mb-3">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.03em] mb-3">
             DHIRAGO finds inspiration in the landscapes and subtle
             textures found in natural surroundings. The colour palette
             is shaped by tones that feel familiar and enduring — warm
@@ -627,7 +518,7 @@ export default function AboutPage() {
             than following seasonal colour trends, the focus remains on
             shades that feel timeless, calm, and easy to live with.
           </p>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#444444] tracking-[0.03em]">
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.03em]">
             Designed with clean lines and relaxed silhouettes, the
             garments are created to become a natural part of everyday
             life. They are made to move effortlessly between moments —
@@ -640,7 +531,7 @@ export default function AboutPage() {
       </div>
 
       <Reveal delay={100}>
-        <div className="relative w-full overflow-hidden bg-black/5 h-[clamp(360px,48vw,550px)]">
+        <div className="relative w-full overflow-hidden bg-black/5 h-[clamp(360px,48vw,550px)] lg:left-[5rem]">
           <Image
             src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/ud.png?v=1"
             alt="A young man wearing a handwoven muslin shirt by a lakeside"
@@ -659,67 +550,35 @@ export default function AboutPage() {
         {/* ════════════════════════════════════════════════════════
             06. PHILOSOPHY — heron bg image, centred quote
         ════════════════════════════════════════════════════════ */}
-        <section
-          style={{
-            position: "relative",
-            minHeight: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: "url('/images/heron.jpeg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              transform: "scale(1.03)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to bottom,rgba(8,12,18,0.45),rgba(8,12,18,0.6))",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: 0.04,
-              backgroundImage:
-                "radial-gradient(circle,rgba(255,255,255,0.7) 1px,transparent 1px)",
-              backgroundSize: "42px 42px",
-              pointerEvents: "none",
-            }}
-          />
+      <section className="relative min-h-[70vh] sm:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
+  <div
+    className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
+    style={{ backgroundImage: "url('/images/heron.jpeg')" }}
+  />
 
-          <div
-            style={{
-              position: "relative",
-              zIndex: 2,
-              maxWidth: "900px",
-              padding: "0 2rem",
-              textAlign: "center",
-            }}
-          >
-            <Reveal delay={120}>
-              <blockquote
-                className={`${josefin.className} uppercase font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#ffffff] tracking-[0.23em]`}
-              >
-                When something is held with care and intention,
-                
-                it transforms into something lasting.
-              </blockquote>
-            </Reveal>
-          </div>
-        </section>
+  <div className="absolute inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />
+
+  <div
+    className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[length:28px_28px] sm:bg-[length:36px_36px] lg:bg-[length:42px_42px]"
+    style={{
+      backgroundImage:
+        "radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)",
+    }}
+  />
+
+  <div className="relative z-10 max-w-[900px] px-6 sm:px-8 lg:px-10 text-center">
+    <Reveal delay={120}>
+      <blockquote
+        className={`${josefin.className} uppercase font-light leading-[1.7] sm:leading-[1.8] lg:leading-[1.9] text-[13px] sm:text-[15px] lg:text-base text-white tracking-[0.15em] sm:tracking-[0.19em] lg:tracking-[0.23em]`}
+      >
+        When something is held with care and intention,
+        <br className="hidden sm:block" />
+        <span className="block sm:inline"> </span>
+        it transforms into something lasting.
+      </blockquote>
+    </Reveal>
+  </div>
+</section>
 
         {/* ════════════════════════════════════════════════════════
             07. FABRICS — image left, text right

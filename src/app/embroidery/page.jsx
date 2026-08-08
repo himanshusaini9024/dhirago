@@ -48,18 +48,23 @@ const sectionPad = "px-5 sm:px-8 lg:px-16";
 const container = `max-w-[1200px] mx-auto ${sectionPad}`;
 const heading = `${josefin.className} uppercase text-[clamp(13px,1.5vw,15px)] text-[#333] tracking-[0.12em] leading-[1.6]`;
 const body =
-  "font-futura font-light leading-[1.9] text-[clamp(13px,1.35vw,16px)] text-[#444] tracking-[0.02em]";
+  "font-futura font-light leading-[1.9] text-[clamp(13px,1.35vw,1.07rem)] text-[#444] tracking-[0.02em]";
 
 export default function HandEmbroideryPage() {
   return (
     <div className="bg-white text-[#2a2a2a] overflow-x-hidden">
       {/* HERO */}
- 
-        <section className="relative w-full h-[50vh] min-h-[320px] max-h-[920px] sm:h-[65vh] lg:h-screen overflow-hidden bg-[#1a1a1a]">
-        <img
-          src="/images/3.png"
-          alt="Better Materials"
-          className="absolute inset-0 w-full h-full object-cover "
+
+      <section className="w-full leading-none">
+        <Image
+          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06358.jpg?v=1"
+          alt="A young man wearing a handwoven muslin shirt by a lakeside"
+          width={2000}
+          height={800}
+          priority
+          sizes="100vw"
+          className="object-cover transition-all duration-700"
+          unoptimized
         />
       </section>
 
@@ -85,11 +90,11 @@ export default function HandEmbroideryPage() {
               <p className={body}>
                 These practices are deeply rooted in India’s cultural heritage
                 and are incorporated with finesse, creating garments that remain
-                connected to tradition while expressed with a modern sensibility.
-                By continuing these techniques, DHIRAGO upholds its commitment to
-                preserving age-old craftsmanship and celebrating India’s rich
-                textile legacy, presenting ethical and heritage-driven making as
-                a form of true luxury.
+                connected to tradition while expressed with a modern
+                sensibility. By continuing these techniques, DHIRAGO upholds its
+                commitment to preserving age-old craftsmanship and celebrating
+                India’s rich textile legacy, presenting ethical and
+                heritage-driven making as a form of true luxury.
               </p>
             </div>
 
@@ -110,10 +115,10 @@ export default function HandEmbroideryPage() {
       </section>
 
       {/* PROCESS */}
-     <section className="pt-4 lg:pt-20 pb-10 lg:pb-[100px]">
+      <section className="pt-4 lg:pt-20 pb-10 lg:pb-[100px]">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
           <h2
-           className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 text-center`}
+            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 text-center`}
           >
             PROCESS
           </h2>
@@ -123,14 +128,10 @@ export default function HandEmbroideryPage() {
                 key={step.title}
                 className={`mb-11 ${i === processSteps.length - 1 ? "mb-0" : ""}`}
               >
-                <span
-                    className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3"
-                >
+                <span className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
                   {step.title}
                 </span>
-                <span
-                   className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] block"
-                >
+                <span className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] block">
                   {step.desc}
                 </span>
               </div>

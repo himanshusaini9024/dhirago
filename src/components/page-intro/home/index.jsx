@@ -5,34 +5,21 @@ import { useEffect, useRef, useState } from "react";
 const slides = [
   {
     image:
-      "https://11-11.in/cdn/shop/files/LANDOUR_SHOOT_BANNER.webp?v=1781252214&width=1800",
-    alt: "Women Everyday Landour",
+      "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/bstnew.png",
+    alt: "banner1",
   },
   {
     image:
-      "https://11-11.in/cdn/shop/files/MUL_STORY_BANNER_2.webp?v=1778918921&width=1800",
-    alt: "The Mul Story",
+      "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/bts1.png",
+    alt: "banner2",
   },
   {
     image:
-      "https://11-11.in/cdn/shop/files/RESORT_26.webp?v=1778050083&width=1800",
-    alt: "Slower Summer",
+      "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/bts.png",
+    alt: "banner3",
   },
-  {
-    image:
-      "https://11-11.in/cdn/shop/files/BANNER_af8adc9c-c64f-4bec-9732-a1c621a95f11.webp?v=1773747446&width=1800",
-    alt: "Leisure Edit",
-  },
-  {
-    image:
-      "https://11-11.in/cdn/shop/files/MEETTHEMAKERS1.webp?v=1778240611&width=1800",
-    alt: "Meet The Makers",
-  },
-  {
-    image:
-      "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/ponduru4.jpeg",
-    alt: "Ponduru Cotton",
-  },
+ 
+ 
 ];
 
 const DURATION = 6000;

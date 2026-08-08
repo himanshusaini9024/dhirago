@@ -36,7 +36,7 @@ export default function ProductsFeatured() {
         position: "relative",
         width: "100%",
         height: "100vh",
-        backgroundColor: "#000",
+        // backgroundColor: "#000",
         overflow: "hidden",
         display: "flex",
         alignItems: "center",

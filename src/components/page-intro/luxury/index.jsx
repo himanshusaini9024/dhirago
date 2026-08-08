@@ -1,93 +1,85 @@
-"use client";
-
 import Image from "next/image";
-import { playfair } from "../../../app/font";
+import { Josefin_Sans } from "next/font/google";
 
-export default function Luxurypage() {
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+export default function Hero() {
   return (
-    <div className="relative min-h-screen">
-      {/* GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-2">
-        {/* BOX 1 */}
-        <div className="relative h-[50vh] lg:h-screen">
+    <section className={` ${josefin.className} mt-28`}>
+      <div className="relative grid md:grid-cols-2">
+        {/* Image */}
+
+
+            <div className="flex items-center px-6 py-14 md:px-16 lg:px-28 ">
+          <div className="max-w-2xl">
+            <p
+            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}
+
+            >
+              The first story; woven with patience
+            </p>
+
+            <p
+              style={{ color: "#555555" }}
+              className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.07rem)] leading-[2.10] font-futura`}
+            >
+              Our debut collection explores the richness of traditional
+              textiles, beginning with indigo hues and unfolding into a palette
+              of mustard, green, and shadowed neutrals. Natural fabrics like
+              linen, woven cottons, and cotton denim are thoughtfully paired
+              with Kantha embroidery, hand block printing, and
+              Tangaliya-inspired craftsmanship.
+            </p>
+
+            <p
+              style={{ color: "#555555" }}
+              className={`font-normal mt-3 lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] font-futura`}
+            >
+              The name DHIRAGO draws from Dheera—a state of calmness. Created in
+              limited numbers, each garment is conceived as a collectible
+              object, designed to endure through time. Each piece quietly
+              gathers character, reflecting the beauty of time.
+            </p>
+
+            <div className="mt-9 flex gap-3">
+              {/* Filled primary button */}
+              <a
+                href="/collections/shirts"
+                className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A]"
+              >
+                View Our Collection
+              </a>
+              {/* Outlined secondary button */}
+            </div>
+          </div>
+        </div>
+
+
+        <div className="relative  w-full overflow-hidden bg-black/5">
           <Image
-        src="/images/portrait.jpg"
-
-            alt="fabric"
-            fill
-            className="object-cover"
+            src="/images/wi.jpeg"
+            alt="A young man wearing a handwoven muslin shirt by a lakeside"
+            width={1200}
+            height={800}
+            priority
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-all duration-700"
+            unoptimized
           />
-
-          <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-6 md:p-10 text-white">
-            <h2 className={`${playfair.className} text-2xl md:text-4xl`}>
-              Craftsmanship
-            </h2>
-            <p className="text-sm md:text-base mt-2">
-              Attention to detail and skilled workmanship.
-            </p>
-          </div>
+          {/* <img
+            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/dsc06295.jpg"
+            className="object-cover transition-all duration-700"
+            alt="A young man wearing a handwoven muslin shirt by a lakeside"
+            
+          /> */}
         </div>
 
-        {/* BOX 2 */}
-        <div className="bg-[#efefef] flex items-center h-[50vh] lg:h-screen">
-          <div className="p-6 md:p-16 max-w-lg">
-            <p className="text-xs tracking-widest text-gray-500 mb-3">
-              WORKING WITH INTERNATIONAL BRANDS
-            </p>
-
-            <h1 className={`${playfair.className} text-3xl md:text-5xl mb-4`}>
-              Fabrics
-            </h1>
-
-            <p className="text-gray-600">
-              All our garments are made from the highest quality of fabric...
-            </p>
-          </div>
-        </div>
-
-        {/* BOX 3 */}
-        <div className="relative h-[50vh] lg:h-screen">
-          <Image
-            src="/images/portrait.jpg"
-            alt="suit"
-            fill
-            className="object-cover"
-          />
-        </div>
-
-        {/* BOX 4 */}
-        <div className="bg-white flex items-center h-[50vh] lg:h-screen">
-          <div className="p-6 md:p-16 max-w-lg">
-            <p className="text-xs tracking-widest text-gray-500 mb-3">
-              ABOUT US
-            </p>
-
-            <h2 className={`${playfair.className} text-3xl md:text-5xl mb-4`}>
-              Our Story
-            </h2>
-
-            <p className="text-gray-600">
-              Welcome to Brahaan, where timeless elegance meets craftsmanship...
-            </p>
-          </div>
-        </div>
+        {/* Copy */}
+    
       </div>
-
-      {/* 🔥 CENTER FLOATING SECTION */}
-      <div className="hidden lg:flex absolute top-1/2 left-3/4 -translate-x-1/2 -translate-y-1/2 z-10 text-center">
-        <div>
-          <h2 className={`${playfair.className} text-5xl text-gray-200`}>
-            Tailored for You
-          </h2>
-          <p className="text-gray-300 mt-2">
-            Custom-made to fit your unique needs.
-          </p>
-
-          <button className="mt-6 border border-gray-300 text-white-300 px-6 py-2 text-xs tracking-widest">
-            BOOK AN APPOINTMENT
-          </button>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }

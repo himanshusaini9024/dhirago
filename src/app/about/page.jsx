@@ -239,7 +239,7 @@ export default function AboutPage() {
             02. THE NAME / OUR STORY — centred heading + body
         ════════════════════════════════════════════════════════ */}
         <section
-          style={{ padding: "clamp(5rem,11vw,9rem) 0", background: "#FAFAF7" }}
+          style={{ padding: "clamp(5rem,11vw,9rem) 0", background: "#ffffff" }}
         >
           <div
             style={{

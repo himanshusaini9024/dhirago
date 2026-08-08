@@ -119,14 +119,16 @@ export default function LuxurySection() {
           className="max-w-[640px] text-left"
         >
           <h2
-            className={`${josefin.className} text-[0.910rem] md:text-[clamp(1.25rem,3.4vw,1.15rem)] font-medium leading-[1.25] tracking-[-0.01em]`}
-            style={{ color: "#2D2D2D" }}
+            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}
+
+            // className={`${josefin.className} text-[0.910rem] md:text-[clamp(1.25rem,3.4vw,1.15rem)] font-medium leading-[1.25] tracking-[-0.01em]`}
+            // style={{ color: "#2D2D2D" }}
           >
             Immerse yourself in the slow way of life with Dhirago.
           </h2>
 
           <p
-            className={`${josefin.className} mt-6 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1.05rem)] font-normal leading-[2.45]`}
+            className={`font-futura mt-6 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1.07rem)] font-normal leading-[2.45]`}
             style={{ color: "#555555" }}
           >
             DHIRAGO is a luxury Indian menswear label rooted in traditional textiles and enduring craft. Shaped through natural fabrics, distinctive embroidery and block print technique. Each garment is made with patience, refined through many hands and celebrated for comfort and thoughtful details.DHIRAGO was born from this way of seeing the world. More than menswear, it is an invitation to embrace simplicity, value craftsmanship, and find meaning in the details.
@@ -134,11 +136,11 @@ export default function LuxurySection() {
 
           <Link
             href="/about"
-            className={`${script.className} mt-7 inline-flex items-center text-[clamp(1.35rem,2vw,1.65rem)] transition-opacity hover:opacity-70`}
+            className={`${josefin.className} mt-7 inline-flex items-center text-[clamp(1.35rem,2vw,1rem)] transition-opacity hover:opacity-70`}
             style={{ color: "#9AA085" }}
           >
             more to explore
-            {/* <ExploreArrow /> */}
+            <ExploreArrow />
           </Link>
         </motion.div>
       </div>

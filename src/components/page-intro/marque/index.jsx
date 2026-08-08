@@ -68,7 +68,7 @@ export default function Marquee() {
       >
         <Reveal>
           <p
-            className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[1.90] ${josefin.className}`}
+            className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.07rem)] leading-[1.90] font-futura`}
           
             style={{ color: "#555555" }}
           >

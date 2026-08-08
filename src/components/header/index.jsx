@@ -1,15 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Logo from "../../assets/icons/logo";
 import Cookies from "js-cookie";
 import SearchModal from "../../components/searchmodal";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import LoginDrawer from "./logindashboard";
-import { usePathname } from "next/navigation";
 import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
 import API from "../../lib/api";
@@ -20,24 +18,13 @@ const josefin = Josefin_Sans({
   weight: ["300", "400", "500"],
 });
 
-
-
-import { Playfair_Display } from "next/font/google";
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-// ✅ All pages where the navbar should be transparent over a hero video/image
-const TRANSPARENT_HERO_PAGES = [
-  "/",
-  "/pages/better-materials",
-  "/embroidery",
-  "/sustainability"
-  // Add more hero pages here as needed, e.g.:
-  // "/pages/better-materials",
-  // "/about",
+const NAV_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Shop", href: "/collections/shirts" },
+  { label: "About", href: "/about" },
+  { label: "Craft Tradition", href: "/pages/better-materials" },
+  { label: "Handcrafted", href: "/embroidery" },
+  { label: "Sustainability", href: "/sustainability" },
 ];
 
 const Header = () => {
@@ -45,30 +32,12 @@ const Header = () => {
   const pathname = usePathname();
   const cartItems = useSelector((state) => state.cart?.cartItems || []);
   const router = useRouter();
-  const [megaMenuMen, setMegaMenuMen] = useState(false);
-  const [megaMenuHome, setMegaMenuHome] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const timeoutRef = useRef(null);
-  const searchRef = useRef(null);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
   const [loginOpen, setLoginOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  console.log("isLoggedIn", isLoggedIn);
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("user");
-  //   localStorage.removeItem("user_email");
-  //   localStorage.removeItem("isLoggedIn");
-  //   localStorage.removeItem("popupCount");
-  //   Cookies.remove("token");
-  //   dispatch(logout());
-  //   router.replace("/");
-  //   setMenuOpen(false);
-  // };
 
   const handleLogout = async () => {
     try {
@@ -76,75 +45,28 @@ const Header = () => {
     } catch (err) {
       console.error("Logout error:", err);
     } finally {
-      // ✅ clear any frontend cookies too
       Cookies.remove("token");
       Cookies.remove("XSRF-TOKEN");
-
       dispatch(logout());
       setMenuOpen(false);
       router.replace("/");
     }
   };
-  const isHeroPage = TRANSPARENT_HERO_PAGES.includes(pathname);
-
-  const handleMouseEnterMen = () => {
-    clearTimeout(timeoutRef.current);
-    setMegaMenuMen(true);
-    setMegaMenuHome(false);
-  };
-
-  const handleMouseLeaveMen = () => {
-    timeoutRef.current = setTimeout(() => setMegaMenuMen(false), 200);
-  };
-
-  const handleMouseEnterHome = () => {
-    clearTimeout(timeoutRef.current);
-    setMegaMenuHome(true);
-    setMegaMenuMen(false);
-  };
-
-  const handleMouseLeaveHome = () => {
-    timeoutRef.current = setTimeout(() => setMegaMenuHome(false), 200);
-  };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleKeyDown = (e) => {
-    if (e.key === "ArrowDown") {
-      setActiveIndex((prev) => prev + 1);
-    }
-    if (e.key === "ArrowUp") {
-      setActiveIndex((prev) => prev - 1);
-    }
-  };
 
   const mobileMenu = [
     {
       title: "Shop",
-      children: [
-        {
-          name: "Shirts",
-          href: "/collections/shirts",
-        },
-      ],
+      children: [{ name: "Shirts", href: "/collections/shirts" }],
     },
     {
       title: "About",
-      children: [
-        {
-          name: "Our Story",
-          href: "/about",
-        },
-      ],
+      children: [{ name: "Our Story", href: "/about" }],
     },
     {
       title: "Why Dhirago",
@@ -159,343 +81,122 @@ const Header = () => {
     },
   ];
 
+  const iconBtn =
+    "inline-flex items-center justify-center w-9 h-9 text-black hover:opacity-60 transition-opacity";
+
   return (
     <>
+      {/* Announcement — 11-11 style top strip */}
+      <div className="fixed top-0 left-0 w-full z-[60] bg-black text-white">
+        <p
+          className={`${josefin.className} text-center text-[10px] sm:text-[11px] tracking-[0.22em] uppercase py-2.5 px-4`}
+        >
+          The Beauty of Time — Collection Now Live
+        </p>
+      </div>
+
       <header
         className={`
-          fixed left-0 w-full z-50
-          transition-all duration-300
-          ${
-            isHeroPage
-              ? scrolled
-                ? "top-0 bg-white/80 backdrop-blur-lg shadow-sm text-black"
-                : "top-12 bg-transparent text-white"
-              : "top-0 bg-white shadow-sm text-black"
-          }
+          fixed left-0 w-full z-50 top-[36px]
+          bg-white text-black
+          transition-shadow duration-300
+          ${scrolled ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}
         `}
       >
-        {/* 
-          ── KEY CHANGE ──────────────────────────────────────────────────────────
-          Previously: pathname === "/" ? (scrolled ? white : transparent) : white
-          Now:        isHeroPage  ? (scrolled ? white : transparent) : white
-
-          This means ANY page in TRANSPARENT_HERO_PAGES gets the see-through
-          navbar over its full-screen hero video/image, and turns white on scroll.
-          All other pages keep their solid white navbar as before.
-          ────────────────────────────────────────────────────────────────────── 
-        */}
-        <div className="w-full">
-          <div
-            className={`
-              relative max-w-[92%] mx-auto px-3 lg:px-6 
-              flex items-center justify-between
-              h-[60px] lg:h-[80px]
-            `}
-          >
-            {/* LEFT */}
-            <div className="flex items-center gap-2 lg:gap-6">
-              {/* HAMBURGER */}
-              <button
-                aria-label={menuOpen ? "Close menu" : "Open menu"}
-                className="lg:hidden flex flex-col justify-center items-center w-9 h-9 relative z-10"
-                onClick={() => setMenuOpen(!menuOpen)}
-              >
-                <span
-                  className={`
-                    w-5 h-[2px] absolute transition-all duration-300
-                    ${menuOpen ? "rotate-45" : "-translate-y-1.5"}
-                    ${isHeroPage && !scrolled ? "bg-white" : "bg-black"}
-                  `}
-                />
-                <span
-                  className={`
-                    w-5 h-[2px] absolute transition-all duration-300
-                    ${menuOpen ? "opacity-0" : ""}
-                    ${isHeroPage && !scrolled ? "bg-white" : "bg-black"}
-                  `}
-                />
-                <span
-                  className={`
-                    w-5 h-[2px] absolute transition-all duration-300
-                    ${menuOpen ? "-rotate-45" : "translate-y-1.5"}
-                    ${isHeroPage && !scrolled ? "bg-white" : "bg-black"}
-                  `}
-                />
-              </button>
-
-              <nav
-                className={`${josefin.className} uppercase tracking-[0.2em] hidden lg:flex items-center gap-8 text-base lg:text-[1.172rem] tracking-wider text-sm uppercase`}
-              >
-                <div>
-                  <Link href={"/collections/shirts"}>
-                    <button className="hover:text-yellow-400 transition duration-300">
-                      Shop
-                    </button>
-                  </Link>
-                </div>
-
-                <div
-                  // onMouseEnter={handleMouseEnterHome}
-                  // onMouseLeave={handleMouseLeaveHome}
-                >
-                  <Link href={"/about"}>
-
-                  <button className="hover:text-yellow-400">About</button>
-                  </Link>
-
-                </div>
-              </nav>
-            </div>
-
-            {/* LOGO CENTER */}
-            <div
-              className={`
-                ${josefin.className}
-                absolute left-1/2 transform -translate-x-[74%] sm:-translate-x-1/2
-                text-[1.6rem] sm:text-[2rem] lg:text-[2.7rem]
-                tracking-[0.17em] uppercase z-10
-                transition-all duration-500
-             
-                ${isHeroPage ? (scrolled ? "text-black" : "text-white") : "text-black"}
-              `}
-              
+        <div className="relative w-full">
+          {/* Top row: menu | logo | icons */}
+          <div className="relative flex items-center justify-between h-[56px] lg:h-[64px] px-4 sm:px-6 lg:px-10">
+            <button
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="lg:invisible lg:pointer-events-none flex flex-col justify-center items-center w-9 h-9 relative z-10"
+              onClick={() => setMenuOpen(!menuOpen)}
             >
-              <Link
-                className={`${(pathname == "/pages/better-materials" || pathname == "embroidery" || pathname == "sustainability")  ? (scrolled ? "text-black block" : "hidden") : "block"}  font-nomral `}
-                href={"/"}
-              >
-                
-                Dhirago
-              </Link>
-            </div>
+              <span
+                className={`w-5 h-[1.5px] absolute bg-black transition-all duration-300 ${
+                  menuOpen ? "rotate-45" : "-translate-y-1.5"
+                }`}
+              />
+              <span
+                className={`w-5 h-[1.5px] absolute bg-black transition-all duration-300 ${
+                  menuOpen ? "opacity-0" : ""
+                }`}
+              />
+              <span
+                className={`w-5 h-[1.5px] absolute bg-black transition-all duration-300 ${
+                  menuOpen ? "-rotate-45" : "translate-y-1.5"
+                }`}
+              />
+            </button>
 
-            {/* RIGHT */}
-            <div className="flex items-center gap-4">
-              {/* SEARCH */}
-              <button
-                aria-label="Search products"
-                title="Search products"
-                onClick={() => setSearchOpen(true)}
-              >
-                <i
-                  aria-hidden="true"
-                  className={`icon-search text-[18px] ${isHeroPage && !scrolled ? "text-white" : "text-black"}`}
-                />
-              </button>
+            <Link
+              href="/"
+              className={`${josefin.className} absolute left-1/2 -translate-x-1/2 text-[1.35rem] sm:text-[1.65rem] lg:text-[1.85rem] tracking-[0.28em] uppercase font-normal text-black hover:opacity-70 transition-opacity`}
+            >
+              Dhirago
+            </Link>
 
-              {/* CART */}
-              <Link
-                href="/cart"
-                className="relative"
-                aria-label={`Shopping cart (${cartItems.length} items)`}
-                title="Shopping Cart"
-              >
-                <i
-                  aria-hidden="true"
-                  className={`icon-cart text-[18px] ${
-                    isHeroPage && !scrolled ? "text-white" : "text-black"
-                  }`}
-                ></i>
-                {cartItems.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] px-1.5 py-0.5 rounded-full">
-                    {cartItems.length}
-                  </span>
-                )}
-              </Link>
-
-              {/* USER */}
+            <div className="flex items-center gap-0.5 sm:gap-1 z-10">
               {!isLoggedIn ? (
                 <button
                   aria-label="Login"
                   title="Login"
                   onClick={() => setLoginOpen(true)}
-                  className={`text-[18px] ${
-                    isHeroPage && !scrolled ? "text-white" : "text-black"
-                  }`}
+                  className={iconBtn}
                 >
-                  <i aria-hidden="true" className="icon-avatar"></i>
+                  <i aria-hidden="true" className="icon-avatar text-[17px]" />
                 </button>
               ) : (
                 <LoginDropdown user={user} handleLogout={handleLogout} />
               )}
+
+              <button
+                aria-label="Search products"
+                title="Search products"
+                onClick={() => setSearchOpen(true)}
+                className={iconBtn}
+              >
+                <i aria-hidden="true" className="icon-search text-[17px]" />
+              </button>
+
+              <Link
+                href="/cart"
+                className={`${iconBtn} relative`}
+                aria-label={`Shopping cart (${cartItems.length} items)`}
+                title="Shopping Cart"
+              >
+                <i aria-hidden="true" className="icon-cart text-[17px]" />
+                {cartItems.length > 0 && (
+                  <span className="absolute top-0.5 right-0.5 min-w-[14px] h-[14px] flex items-center justify-center bg-black text-white text-[9px] px-0.5 rounded-full">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Link>
             </div>
           </div>
+
+          {/* Desktop nav — centered under logo */}
+          <nav
+            className={`${josefin.className} hidden lg:flex items-center justify-center gap-7 xl:gap-9 pb-3.5 text-[11px] xl:text-[12px] tracking-[0.22em] uppercase`}
+          >
+            {NAV_LINKS.map((link) => {
+              const active =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname === link.href || pathname.startsWith(`${link.href}/`);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`transition-opacity duration-200 ${
+                    active ? "opacity-100" : "opacity-55 hover:opacity-100"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
-
-        {/* MEN MEGA MENU */}
-        {megaMenuMen && (
-          <div
-            className="absolute top-full left-1/2 transform -translate-x-1/2 w-full !bg-white text-black shadow-lg font-sans"
-            onMouseEnter={handleMouseEnterMen}
-            onMouseLeave={handleMouseLeaveMen}
-          >
-            <div className="max-w-[108rem] mx-auto px-10 py-6 grid grid-cols-12">
-              <div className="col-span-7 grid grid-cols-3 gap-8 font-medium">
-                <div>
-                  <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-6 font-medium">
-                    Featured
-                  </h3>
-                  <ul className="text-gray-700 space-y-3 font-light text-[15px]">
-                    {[
-                      {
-                        name: "Mens Fashion",
-                        href: "/collections/mens-fashion",
-                      },
-                      { name: "New Arrivals", href: "/shop/new-arrivals" },
-                      { name: "Bestsellers", href: "/collections/bestsellers" },
-                      { name: "Back in Stock", href: "/back-in-stock" },
-                      {
-                        name: "Foundational Prices",
-                        href: "/foundational-prices",
-                      },
-                      { name: "Shop All", href: "/shop" },
-                    ].map((item) => (
-                      <li key={item.name} className="!py-1">
-                        <Link
-                          href={item.href}
-                          className="hover:text-yellow-500 hover:underline transition duration-200"
-                        >
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-4 font-medium">
-                    Categories
-                  </h3>
-                  <ul className="space-y-3 text-gray-700 font-light text-[15px]">
-                    {[
-                      "Shirts",
-                      "Polos",
-                      "Tees",
-                      "Bottomwear",
-                      "Winterwear",
-                      "Ethnicwear",
-                      "Denims",
-                    ].map((cat) => (
-                      <li key={cat} className="!py-1">
-                        <Link
-                          href="#"
-                          className="hover:text-yellow-500 hover:underline transition duration-200"
-                        >
-                          {cat}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-4 font-medium">
-                    Collections
-                  </h3>
-                  <ul className="space-y-3 font-light text-gray-700">
-                    {[
-                      { name: "Rise", newTag: true },
-                      { name: "New Hues" },
-                      { name: "Shop all collection" },
-                    ].map((col) => (
-                      <li key={col.name} className="!py-1">
-                        <Link
-                          href="#"
-                          className="hover:text-yellow-500 hover:underline transition duration-200 flex items-center gap-1"
-                        >
-                          {col.name}
-                          {col.newTag && (
-                            <span className="ml-1 bg-black text-white text-[10px] px-1 py-0.5 rounded">
-                              NEW
-                            </span>
-                          )}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className="col-span-5 flex gap-6">
-                {[
-                  { src: "/images/featured-1.jpg", title: "Rise Collection" },
-                  { src: "/images/featured-2.jpg", title: "New Hues" },
-                ].map((img) => (
-                  <div key={img.title} className="w-1/2 cursor-pointer">
-                    <img
-                      src={img.src}
-                      alt={img.title}
-                      className="w-full h-[220px] object-cover rounded-lg transition-transform duration-300 hover:scale-105"
-                    />
-                    <p className="text-center mt-2 text-sm text-gray-700 font-medium">
-                      {img.title}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* HOME MEGA MENU */}
-        {megaMenuHome && (
-          <div
-            className="absolute top-full left-[30%] -translate-x-1/2 w-[60%] bg-white text-black shadow-lg"
-            onMouseEnter={handleMouseEnterHome}
-            onMouseLeave={handleMouseLeaveHome}
-          >
-            <div className="max-w-[103rem] mx-auto py-6 grid grid-cols-12 gap-12 pl-20">
-              <div className="col-span-12 grid md:grid-cols-3 gap-10">
-                <div>
-                  <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-4 font-medium">
-                    About Dhirago
-                  </h3>
-                  <ul className="text-gray-700 text-[15px] font-light">
-                    {[
-                      { name: "Our Story", href: "/about" },
-                      { name: "Contact Us", href: "/contact" },
-                      {
-                        name: "Free Shipping & Return",
-                        href: "/shipping-and-return",
-                      },
-                      { name: "Shop All", href: "/" },
-                    ].map((item) => (
-                      <li key={item.name} className="py-2">
-                        <Link
-                          href={item.href}
-                          className="hover:text-yellow-500 hover:underline transition duration-200"
-                        >
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="uppercase text-xs tracking-widest text-gray-500 mb-4 font-medium">
-                    Why Dhirago
-                  </h3>
-                  <ul className="text-gray-700 text-[15px] font-light">
-                    {[
-                      {
-                        name: "The Essence of Fine Garment",
-                        href: "/pages/better-materials",
-                      },
-                      { name: "A Touch of Embroidery", href: "/embroidery" },
-                      { name: "Sustainable Fashion", href: "/sustainability" },
-                    ].map((item) => (
-                      <li key={item.name} className="py-3">
-                        <Link
-                          href={item.href}
-                          className="hover:text-yellow-500 hover:underline transition duration-200"
-                        >
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         <LoginDrawer open={loginOpen} setOpen={setLoginOpen} />
       </header>
@@ -521,18 +222,18 @@ const Header = () => {
                   transition={{ type: "spring", stiffness: 90, damping: 20 }}
                   className="fixed top-0 left-0 h-full w-[320px] sm:w-[360px] bg-white z-[9999] flex flex-col shadow-2xl"
                 >
-                  <Dialog.Title></Dialog.Title>
+                  <Dialog.Title className="sr-only">Menu</Dialog.Title>
                   <div className="relative">
                     <img
                       src="/images/login/loginbanner.jpeg"
-                      alt="menu banner"
+                      alt=""
                       className="w-full h-40 object-cover"
                     />
                     <button
                       aria-label="Close menu"
                       title="Close menu"
                       onClick={() => setMenuOpen(false)}
-                      className="absolute top-3 right-3 bg-white rounded-full p-1 shadow"
+                      className="absolute top-3 right-3 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow"
                     >
                       ✕
                     </button>
@@ -553,7 +254,6 @@ const Header = () => {
                     <Link
                       href="/cart"
                       onClick={() => setMenuOpen(false)}
-
                       className="block py-4 mt-4 border-t text-sm font-medium"
                     >
                       Cart ({cartItems.length})
@@ -561,7 +261,10 @@ const Header = () => {
                     <div className="pt-3">
                       {!isLoggedIn ? (
                         <button
-                          onClick={() => [setLoginOpen(true),setMenuOpen(false)]}
+                          onClick={() => {
+                            setLoginOpen(true);
+                            setMenuOpen(false);
+                          }}
                           className="flex items-center gap-2 text-sm"
                         >
                           Login
@@ -569,9 +272,11 @@ const Header = () => {
                       ) : (
                         <div className="space-y-2 text-sm">
                           <Link
-                      onClick={() => setMenuOpen(false)}
-                          
-                          href="/account">My Profile</Link>
+                            onClick={() => setMenuOpen(false)}
+                            href="/account"
+                          >
+                            My Profile
+                          </Link>
                           <br />
                           <br />
                           <button onClick={handleLogout}>Logout</button>
@@ -613,8 +318,8 @@ function AccordionItem({ item, setMenuOpen }) {
   return (
     <div className="border-b">
       <button
-       aria-expanded={open}
-  aria-label={`${open ? "Collapse" : "Expand"} ${item.title || item.name}`}
+        aria-expanded={open}
+        aria-label={`${open ? "Collapse" : "Expand"} ${item.title || item.name}`}
         onClick={() => setOpen(!open)}
         className="w-full flex justify-between items-center py-3 text-left"
       >

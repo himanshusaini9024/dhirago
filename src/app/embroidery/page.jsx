@@ -2,6 +2,7 @@
 
 import { Josefin_Sans, Cormorant_Garamond } from "next/font/google";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -43,6 +44,38 @@ const photos = [
   "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg",
   "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06273.jpg",
 ];
+
+function Reveal({ children, delay = 0, className = "" }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(28px)",
+        transition: visible
+          ? `opacity 0.85s cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 0.85s cubic-bezier(0.22,1,0.36,1) ${delay}ms`
+          : "opacity 0.35s ease 0ms, transform 0.35s ease 0ms",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
 const sectionPad = "px-5 sm:px-8 lg:px-16";
 const container = `max-w-[1200px] mx-auto ${sectionPad}`;
@@ -162,62 +195,59 @@ export default function HandEmbroideryPage() {
       </section>
 
       {/* STORY / HERITAGE */}
-      <section className="py-10 sm:py-14 lg:py-20">
-        <div className={container}>
-          <h2
-            className={`${heading} text-center max-w-[720px] mx-auto mb-10 sm:mb-12 lg:mb-16`}
+
+      <section className="py-[clamp(1rem,5vw,9rem)] bg-white">
+        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
+          <div
+            className="story-grid grid gap-[clamp(2rem,5vw,4rem)] items-center
+                       grid-cols-1 lg:grid-cols-[1fr_1.25fr]"
           >
-            At DHIRAGO, every stitch begins with a story
-          </h2>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 xl:gap-20 items-center">
-            {/* Overlapping photos — safe offsets on all breakpoints */}
-            <div className="relative w-full max-w-[480px] mx-auto aspect-[4/5] sm:aspect-[5/6]">
-              <div className="absolute top-0 right-0 w-[70%] h-[72%] overflow-hidden z-[1]">
-                <Image
-                  src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06911.jpg"
-                  alt="Embroidery craft detail"
-                  fill
-                  unoptimized
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 70vw, 340px"
-                />
-              </div>
-              <div className="absolute lg:bottom-[140px] lg:left-[-8rem] bottom-0 left-0 w-[70%] h-[72%] overflow-hidden z-[2] shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
-                <Image
-                  src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg"
-                  alt="Hand embroidery in progress"
-                  fill
-                  unoptimized
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 70vw, 340px"
-                />
-              </div>
+            <div>
+              <Reveal>
+                <h2
+                  className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+                >
+                  At DHIRAGO, every stitch begins with a story
+                </h2>
+              </Reveal>
+              <Reveal delay={150}>
+                <p className={`${body} mb-4`}>
+                  Hand embroidery preserves the rhythm of traditional
+                  craftsmanship, where each stitch is guided by hand, creating
+                  subtle variations that make every piece unique.
+                </p>
+                <p className={`${body} mb-4`}>
+                  From khakha marking to the wooden adda, every stage is shaped
+                  by patience and precision—bringing fine detail and expressive
+                  artwork to fabric with care.
+                </p>
+                <p className={`${body} mb-4`}>
+                  Together, these techniques celebrate the dialogue between
+                  heritage and contemporary design, allowing every garment to
+                  carry both the touch of the artisan and the spirit of
+                  thoughtful making.
+                </p>
+                <p className={body}>
+                  It is here that exquisite craftsmanship meets material
+                  excellence—where detail is not an addition, but becomes a
+                  signature of the piece.
+                </p>
+              </Reveal>
             </div>
 
-            <div className="max-w-[560px] mx-auto lg:mx-0 w-full text-left">
-              <p className={`${body} mb-4`}>
-                Hand embroidery preserves the rhythm of traditional
-                craftsmanship, where each stitch is guided by hand, creating
-                subtle variations that make every piece unique.
-              </p>
-              <p className={`${body} mb-4`}>
-                From khakha marking to the wooden adda, every stage is shaped by
-                patience and precision—bringing fine detail and expressive
-                artwork to fabric with care.
-              </p>
-              <p className={`${body} mb-4`}>
-                Together, these techniques celebrate the dialogue between
-                heritage and contemporary design, allowing every garment to
-                carry both the touch of the artisan and the spirit of thoughtful
-                making.
-              </p>
-              <p className={body}>
-                It is here that exquisite craftsmanship meets material
-                excellence—where detail is not an addition, but becomes a
-                signature of the piece.
-              </p>
-            </div>
+            <Reveal delay={100}>
+              <div className="relative w-full overflow-hidden bg-black/5 h-[clamp(360px,48vw,550px)] lg:left-[5rem]">
+                <Image
+                  src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/ud.png?v=1"
+                  alt="A young man wearing a handwoven muslin shirt by a lakeside"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 55vw, 100vw"
+                  className="object-cover transition-all duration-700"
+                  unoptimized
+                />
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>

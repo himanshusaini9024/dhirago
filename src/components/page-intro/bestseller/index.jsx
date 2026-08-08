@@ -34,19 +34,15 @@ export default function Hero() {
         <div className="flex items-center px-6 py-14 md:px-16 lg:px-28 ">
           <div className="max-w-2xl">
             <p
-              className={`${josefin.className} mb-6  uppercase `}
-              style={{
-                fontSize: "clamp(0.725rem, 1.6vw, 15px)",
-                color: "#333333",
-                letterSpacing: "0.02em",
-              }}
+           className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}
+
             >
               The first story; woven with patience
             </p>
 
             <p
               style={{ color: "#555555" }}
-              className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] ${josefin.className}`}
+              className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] font-futura`}
             >
               Our debut collection explores the richness of traditional
               textiles, beginning with indigo hues and unfolding into a palette
@@ -58,7 +54,7 @@ export default function Hero() {
 
             <p
               style={{ color: "#555555" }}
-              className={`font-normal mt-3 lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] ${josefin.className}`}
+              className={`font-normal mt-3 lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] font-futura`}
             >
               The name DHIRAGO draws from Dheera—a state of calmness. Created in
               limited numbers, each garment is conceived as a collectible

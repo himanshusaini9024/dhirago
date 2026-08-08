@@ -1,28 +1,16 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-const TRANSPARENT_HERO_PAGES = [
-  "/",
-  "/pages/better-materials",
-  "/embroidery",
-  "/sustainability"
-  // Add more hero pages here as needed, e.g.:
-  // "/pages/why-dhirago",
-  // "/about",
-];
+
 export default function LayoutWrapper({ children }) {
   const pathname = usePathname();
-  const isHeroPage = TRANSPARENT_HERO_PAGES.includes(pathname);
 
+  // Announcement (36px) + header: mobile 56px / desktop 64px + nav ~36px
+  // Always offset content below the fixed white header (11-11 style)
   return (
     <main
-      className={`
-        ${
-          isHeroPage
-            ? "pt-0"
-            : "pt-[60px] lg:pt-[80px]"
-        }
-      `}
+      className="pt-[92px] lg:pt-[128px]"
+      data-path={pathname}
     >
       {children}
     </main>

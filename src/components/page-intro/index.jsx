@@ -44,8 +44,7 @@ const PageIntro = () => {
         </video>
 
         {/* Soft overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent md:bg-none" />
-        <div className="absolute inset-0 hidden bg-black/30 md:block" />
+    
 
         {/* Centered copy on the video (Dior-style mobile) */}
        

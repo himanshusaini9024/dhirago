@@ -3,12 +3,11 @@ import Image from "next/image";
 const PageIntro = () => {
   return (
     <section
-      className="
-        relative w-full overflow-hidden bg-[#111]
-        h-[calc(100svh-92px)]
-        lg:h-[calc(100svh-128px)]
-        min-h-[420px]
-      "
+    className="
+          relative w-full overflow-hidden text-white
+          aspect-[3/4] max-h-[85svh]
+          md:aspect-auto md:h-screen md:max-h-none
+        "
       aria-label="Home intro"
     >
       <video

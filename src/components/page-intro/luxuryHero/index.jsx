@@ -134,14 +134,17 @@ export default function LuxurySection() {
             DHIRAGO is a luxury Indian menswear label rooted in traditional textiles and enduring craft. Shaped through natural fabrics, distinctive embroidery and block print technique. Each garment is made with patience, refined through many hands and celebrated for comfort and thoughtful details.DHIRAGO was born from this way of seeing the world. More than menswear, it is an invitation to embrace simplicity, value craftsmanship, and find meaning in the details.
           </p>
 
-          <Link
-            href="/about"
-            className={`${josefin.className} mt-7 inline-flex items-center text-[clamp(1.35rem,2vw,1rem)] transition-opacity hover:opacity-70`}
-            style={{ color: "#9AA085" }}
-          >
-            more to explore
-            <ExploreArrow />
-          </Link>
+          
+            <div className="mt-9 flex gap-3">
+              {/* Filled primary button */}
+              <Link
+                href="/about"
+                className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A] hover:bg-black hover:text-white transition"
+              >
+                More to explore
+              </Link>
+              {/* Outlined secondary button */}
+            </div>
         </motion.div>
       </div>
     </section>

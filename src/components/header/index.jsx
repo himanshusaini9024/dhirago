@@ -99,7 +99,7 @@ const Header = () => {
         className={`
           fixed left-0 w-full z-50 top-[36px]
           bg-white text-black
-          transition-shadow duration-300
+          transition-shadow duration-300 p-2
           ${scrolled ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}
         `}
       >
@@ -130,7 +130,7 @@ const Header = () => {
 
             <Link
               href="/"
-              className={`${josefin.className} absolute left-1/2 -translate-x-1/2 text-[1.35rem] sm:text-[1.65rem] lg:text-[1.85rem] tracking-[0.28em] uppercase font-normal text-black hover:opacity-70 transition-opacity`}
+              className={`${josefin.className} absolute left-[8rem] lg:left-1/2 -translate-x-1/2 text-[1.35rem] sm:text-[1.65rem] lg:text-[1.85rem] tracking-[0.28em] uppercase font-normal text-black hover:opacity-70 transition-opacity`}
             >
               Dhirago
             </Link>
@@ -176,7 +176,7 @@ const Header = () => {
 
           {/* Desktop nav — centered under logo */}
           <nav
-            className={`${josefin.className} hidden lg:flex items-center justify-center gap-7 xl:gap-9 pb-3.5 text-[11px] xl:text-[12px] tracking-[0.22em] uppercase`}
+            className={`${josefin.className} hidden lg:flex items-center justify-center gap-7 xl:gap-9 p-3.5 text-[11px] xl:text-[12px] tracking-[0.22em] uppercase`}
           >
             {NAV_LINKS.map((link) => {
               const active =
@@ -188,7 +188,7 @@ const Header = () => {
                   key={link.href}
                   href={link.href}
                   className={`transition-opacity duration-200 ${
-                    active ? "opacity-100" : "opacity-55 hover:opacity-100"
+                    active ? "opacity-100" : "opacity-100 hover:opacity-100"
                   }`}
                 >
                   {link.label}

@@ -66,7 +66,7 @@ export default function Hero() {
               {/* Filled primary button */}
               <a
                 href="/collections/shirts"
-                className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A]"
+                className="border hover:bg-black hover:text-white transition border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A]"
               >
                 View Our Collection
               </a>

@@ -31,7 +31,7 @@ export default function Hero() {
         </div>
 
         {/* Copy */}
-        <div className="flex items-center px-6 py-14 md:px-16 lg:px-28 ">
+        <div className="flex items-center px-6 py-16 md:px-16 lg:px-28 ">
           <div className="max-w-2xl">
             <p
            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}

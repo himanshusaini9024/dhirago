@@ -96,7 +96,7 @@ export default function HandEmbroideryPage() {
           height={800}
           priority
           sizes="100vw"
-          className="object-cover transition-all duration-700"
+          className="h-full w-full object-cover object-center transition-all duration-700"
           unoptimized
         />
       </section>

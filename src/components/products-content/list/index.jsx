@@ -124,11 +124,25 @@ export default function ProductList({ initialProducts, slug }) {
       .sort((a, b) => {
         if (sort === "low") return a.currentPrice - b.currentPrice;
         if (sort === "high") return b.currentPrice - a.currentPrice;
-        return 0;
+
+        // Default / popular: admin sort_order (asc), nulls last
+        const ao = a.sort_order;
+        const bo = b.sort_order;
+        const aNull = ao === null || ao === undefined || ao === "";
+        const bNull = bo === null || bo === undefined || bo === "";
+        if (aNull && bNull) return (b.id || 0) - (a.id || 0);
+        if (aNull) return 1;
+        if (bNull) return -1;
+        const diff = Number(ao) - Number(bo);
+        return diff !== 0 ? diff : (b.id || 0) - (a.id || 0);
       });
   }, [products, filters, sort]);
 
-  const sortLabels = { popular: "Sort", low: "Price: Low → High", high: "Price: High → Low" };
+  const sortLabels = {
+    popular: "Featured",
+    low: "Price: Low → High",
+    high: "Price: High → Low",
+  };
   const activeCount = filters.size.length + filters.color.length;
   const pricePct = Math.round((filters.maxPrice / 10000) * 100);
 

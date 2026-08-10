@@ -7,6 +7,7 @@ import { toggleFavProduct } from "../../store/reducers/user";
 import { useEffect, useState } from "react";
 import QuickAddModal from "./qucikview";
 import productsSizes from "../../utils/data/products-sizes";
+import { sortProductImages } from "../../utils/sortProductImages";
 
 const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, category }) => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
     dispatch(toggleFavProduct({ id }));
   };
   const [openModal, setOpenModal] = useState(false);
-  const imageList = images || [];
+  const imageList = sortProductImages(images);
   const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
   const [hovered, setHovered] = useState(false);
@@ -103,7 +104,7 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
           name,
           slug,
           sku,
-          images,
+          images: imageList,
           color,
           currentPrice,
           category,

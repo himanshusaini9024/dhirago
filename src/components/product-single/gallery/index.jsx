@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { sortProductImages } from "../../../utils/sortProductImages";
 
 const BASE = process.env.NEXT_PUBLIC_IMG_URL;
 
@@ -22,7 +23,8 @@ function injectCSS() {
   document.head.appendChild(s);
 }
 
-export default function Gallery({ images }) {
+export default function Gallery({ images: rawImages }) {
+  const images = useMemo(() => sortProductImages(rawImages), [rawImages]);
   const [active,   setActive]   = useState(0);
   const [isOpen,   setIsOpen]   = useState(false);
   const [openIdx,  setOpenIdx]  = useState(0);
@@ -41,7 +43,7 @@ export default function Gallery({ images }) {
   const maxScroll    = useRef(0);   // max scrollable px
   const rafPending   = useRef(false);
 
-  const count = Array.isArray(images) ? images.length : 0;
+  const count = images.length;
 
   useEffect(() => {
     injectCSS();

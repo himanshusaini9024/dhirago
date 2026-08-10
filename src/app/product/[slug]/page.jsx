@@ -6,6 +6,7 @@ import RecentlyViewedTracker from "../../../components/recentlyviewtracker";
 import HeroCarousel from "../../../components/product-single/HeroCarousel";
 import ProductTabs from "../../../components/product-single/producttab";
 import { generateSEO } from "../../../utils/seo";
+import { sortProductImages } from "../../../utils/sortProductImages";
 
 async function getProduct(pid) {
   try {
@@ -14,7 +15,11 @@ async function getProduct(pid) {
       { next: { revalidate: 60 } },
     );
     if (res.status === 404) return null;
-    return await res.json();
+    const product = await res.json();
+    return {
+      ...product,
+      images: sortProductImages(product.images),
+    };
   } catch (err) {
     console.error("API Error:", err);
     return null;
@@ -34,9 +39,10 @@ export async function generateMetadata({ params }) {
       noIndex: true,
     });
   const product = await res.json();
+  const images = sortProductImages(product.images);
   const s3url = process.env.NEXT_PUBLIC_IMG_URL;
-  const imageUrl = product.images[0]?.url
-    ? `${s3url}${product.images[0].url}`
+  const imageUrl = images[0]?.url
+    ? `${s3url}${images[0].url}`
     : "/og-image.jpg";
   return generateSEO({
     title: `Buy ${product.name} Online | Best Price in India`,
@@ -49,9 +55,6 @@ export async function generateMetadata({ params }) {
 export default async function ProductPage({ params }) {
   const { slug } = await params;
   const product  = await getProduct(slug);
-
-
-  
 
   if (!product) {
     return (

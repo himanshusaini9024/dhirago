@@ -8,8 +8,17 @@ import { useEffect, useState } from "react";
 import QuickAddModal from "./qucikview";
 import productsSizes from "../../utils/data/products-sizes";
 import { sortProductImages } from "../../utils/sortProductImages";
-
-const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, category }) => {
+import Image from "next/image";
+const ProductItem = ({
+  images,
+  id,
+  name,
+  sku,
+  slug,
+  color,
+  currentPrice,
+  category,
+}) => {
   const dispatch = useDispatch();
   const favProducts = useSelector((state) => state.user?.favProducts || []);
   const isFavourite = some(favProducts, (productId) => productId === id);
@@ -34,8 +43,6 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
   //   return () => clearInterval(interval);
   // }, [imageList.length]);
 
-  
-
   return (
     <div className="group cursor-pointer mt-6 md:mt-0">
       {/* IMAGE */}
@@ -43,7 +50,7 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
       <div
         className="relative w-full h-[300px] md:h-[540px] overflow-hidden bg-[#f5f5f5]"
         onMouseEnter={() => setHovered(true)}
-        onTouchStart={()=>setHovered(true)}
+        onTouchStart={() => setHovered(true)}
         onMouseLeave={() => {
           setHovered(false);
         }}
@@ -52,7 +59,8 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
         <Link href={`/product/${slug}`}>
           <div className="relative w-full h-full overflow-hidden">
             {/* First Image */}
-            <img
+
+            <Image
               src={
                 imageList?.[0]?.url
                   ? baseURL + imageList[0].url
@@ -62,16 +70,28 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
                 hovered ? "opacity-0" : "opacity-100"
               }`}
+              width={1200}
+              height={1600}
+              sizes="100vw"
+              quality={75}
             />
 
             {/* Second Image */}
             {imageList?.[1] && (
-              <img
-                src={baseURL + imageList[1].url}
+              <Image
+                src={
+                  imageList?.[1]?.url
+                    ? baseURL + imageList[1].url
+                    : "/images/placeholder.png"
+                }
                 alt={name}
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
                   hovered ? "opacity-100" : "opacity-0"
                 }`}
+                width={1200}
+                height={1600}
+                sizes="100vw"
+                quality={75}
               />
             )}
           </div>
@@ -116,7 +136,9 @@ const ProductItem = ({ images, id, name, sku, slug, color, currentPrice, categor
 
       {/* DETAILS */}
       <div className="mt-[1.1rem] ">
-        <h6 className="text-xs md:text-sm uppercase text-black text-center">{name}</h6>
+        <h6 className="text-xs md:text-sm uppercase text-black text-center">
+          {name}
+        </h6>
         <p className="mt-2 text-[0.911rem] text-gray-500 mt-1 text-center">
           Rs.{currentPrice}
         </p>

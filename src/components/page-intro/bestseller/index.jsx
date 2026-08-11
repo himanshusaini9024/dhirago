@@ -13,17 +13,15 @@ export default function Hero() {
         {/* Image */}
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/5">
           <Image
-            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/dsc06295.jpg"
+            src={`https://images.dhirago.com/ecommerce/Home/dsc06295.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
             alt="A young man wearing a handwoven muslin shirt by a lakeside"
-            width={1200}
-            height={800}
-            priority
+            fill
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover transition-all duration-700"
-            unoptimized
+            quality={75}
           />
           {/* <img
-            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/dsc06295.jpg"
+            src="https://images.dhirago.com/ecommerce/Home/dsc06295.jpg"
             className="object-cover transition-all duration-700"
             alt="A young man wearing a handwoven muslin shirt by a lakeside"
             

@@ -3,8 +3,8 @@
 import { useRef, useState } from "react";
 
 // ── Config ──────────────────────────────────────────────────────────
-const VIDEO_URL =
-  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/homefooter.mp4";
+// const VIDEO_URL =
+//   "https://images.dhirago.com/ecommerce/Home/homefooter.mp4";
 
 // Aspect ratio of the source video. This is what controls the black
 // pillar bars: if the video is narrower than the screen (e.g. a
@@ -128,7 +128,7 @@ export default function ProductsFeatured() {
       className="absolute inset-0 h-full w-full object-cover object-center md:grayscale"
     >
       <source
-        src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/homefooter.mp4"
+        src={`https://images.dhirago.com/ecommerce/Home/homefooter.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
         type="video/mp4"
       />
     </video>

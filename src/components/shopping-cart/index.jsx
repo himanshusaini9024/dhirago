@@ -230,7 +230,7 @@ export default function ShoppingCart() {
             </div>
 
             <img
-              src="https://cdn.shopify.com/s/files/1/0618/3183/9957/files/payment-options.png"
+              src="/images/payment-options.png"
               alt="Accepted payment methods"
               className="mx-auto mt-4 w-full max-w-[220px] opacity-90"
             />

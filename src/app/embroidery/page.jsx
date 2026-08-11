@@ -39,10 +39,10 @@ const processSteps = [
 ];
 
 const photos = [
-  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06299.jpg",
-  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06358.jpg",
-  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg",
-  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06273.jpg",
+  `https://images.dhirago.com/ecommerce/banner/dsc06299.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
+  `https://images.dhirago.com/ecommerce/banner/dsc06358.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
+  `https://images.dhirago.com/ecommerce/banner/dsc06360.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
+  `https://images.dhirago.com/ecommerce/banner/dsc06273.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
 ];
 
 function Reveal({ children, delay = 0, className = "" }) {
@@ -90,14 +90,13 @@ export default function HandEmbroideryPage() {
 
       <section className="w-full leading-none">
         <Image
-          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06358.jpg?v=1"
+          src={`https://images.dhirago.com/ecommerce/banner/dsc06358.webp?v=1?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
           alt="A young man wearing a handwoven muslin shirt by a lakeside"
           width={2000}
           height={800}
           priority
           sizes="100vw"
           className="h-full w-full object-cover object-center transition-all duration-700"
-          unoptimized
         />
       </section>
 
@@ -182,11 +181,13 @@ export default function HandEmbroideryPage() {
                 key={src}
                 className="group relative aspect-[4/3] overflow-hidden bg-[#f0eeea]"
               >
-                <img
+                <Image
                   src={src}
                   alt={`Embroidery process ${i + 1}`}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  quality={75}
                 />
               </div>
             ))}
@@ -238,13 +239,12 @@ export default function HandEmbroideryPage() {
             <Reveal delay={100}>
               <div className="relative w-full overflow-hidden bg-black/5 h-[clamp(360px,48vw,550px)] lg:left-[5rem]">
                 <Image
-                  src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/ud.png?v=1"
+                  src={`https://images.dhirago.com/ecommerce/banner/ud.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
                   alt="A young man wearing a handwoven muslin shirt by a lakeside"
                   fill
                   priority
                   sizes="(min-width: 1024px) 55vw, 100vw"
                   className="object-cover transition-all duration-700"
-                  unoptimized
                 />
               </div>
             </Reveal>

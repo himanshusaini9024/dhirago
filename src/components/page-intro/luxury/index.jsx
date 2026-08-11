@@ -49,25 +49,30 @@ export default function Hero() {
           {/* Image 1 */}
           <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full min-h-[200px] sm:min-h-[280px] md:min-h-[600px] lg:min-h-[680px] overflow-hidden bg-black/5 md:order-2">
             <Image
-              src="/images/wi2.jpg"
+            src={`https://images.dhirago.com/ecommerce/Home/wi2.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+              
               alt="A young man wearing a handwoven muslin shirt by a lakeside"
               fill
               priority
               sizes="(min-width: 768px) 32vw, 50vw"
               unoptimized
               className="object-cover"
+              quality={85}
+
             />
           </div>
 
           {/* Image 2 */}
           <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full min-h-[200px] sm:min-h-[280px] md:min-h-[600px] lg:min-h-[680px] overflow-hidden bg-black/5 md:order-3">
             <Image
-              src="/images/wi.jpeg"
+            src={`https://images.dhirago.com/ecommerce/Home/wi.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+
               alt="A young man wearing a handwoven muslin shirt, alternate view"
               fill
               sizes="(min-width: 768px) 32vw, 50vw"
               unoptimized
               className="object-cover"
+              quality={85}
             />
           </div>
         </div>

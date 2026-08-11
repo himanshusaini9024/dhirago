@@ -331,7 +331,7 @@ export default function Gallery({ images: rawImages }) {
               }}
             >
               <motion.img
-                src={img.url ? BASE + img.url : "/placeholder.jpg"}
+                src={img.url ? BASE + img.url + 11 : "/placeholder.jpg"}
                 alt={img.alt || `Product ${i + 1}`}
                 loading={i === 0 ? "eager" : "lazy"}
                 onLoad={() => setLoaded(p => ({ ...p, [i]: true }))}
@@ -414,7 +414,7 @@ export default function Gallery({ images: rawImages }) {
                   outlineOffset: "2px", opacity: i === openIdx ? 1 : 0.2,
                   cursor: "pointer", background: "#181818", transition: "opacity 0.18s",
                 }}>
-                  <img src={BASE + img.url} alt=""
+                  <img src={BASE + img.url+11} alt=""
                     style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
                   />
                 </button>

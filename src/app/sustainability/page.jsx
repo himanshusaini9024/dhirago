@@ -56,7 +56,7 @@ export default function OurKissaPage() {
       {/* HERO */}
       {/* <section className="relative w-full h-[60vh] sm:h-[75vh] md:h-[85vh] lg:h-screen overflow-hidden">
         <Image
-          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06358.jpg?v=1"
+          src="https://images.dhirago.com/ecommerce/banner/dsc06358.jpg?v=1"
           alt="A young man wearing a handwoven muslin shirt by a lakeside"
           fill
           priority
@@ -69,14 +69,14 @@ export default function OurKissaPage() {
       <section className="w-full leading-none">
  
    <Image
-          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06358.jpg?v=1"
+          src={`https://images.dhirago.com/ecommerce/banner/dsc06358.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
           alt="A young man wearing a handwoven muslin shirt by a lakeside"
           width={2000}
           height={800}
           priority
           sizes="100vw"
           className="h-full w-full object-cover object-center transition-all duration-700"
-          unoptimized
+          
         />
   </section>
 
@@ -102,24 +102,24 @@ export default function OurKissaPage() {
               <Reveal className="w-1/2">
                 <div className="relative w-full aspect-[3/4] overflow-hidden border border-black">
                   <Image
-                    src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg"
+                    src={`https://images.dhirago.com/ecommerce/banner/dsc06360.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
                     alt="Natural wood grain texture"
                     fill
                     sizes="50vw"
                     className="object-cover"
-                    unoptimized
+                    
                   />
                 </div>
               </Reveal>
               <Reveal delay={100} className="w-1/2">
                 <div className="relative w-full aspect-[3/4] overflow-hidden border border-black">
                   <Image
-                    src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06355.jpg"
+                    src={`https://images.dhirago.com/ecommerce/banner/dsc06355.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
                     alt="White flower growing through a crack in stone"
                     fill
                     sizes="50vw"
                     className="object-cover"
-                    unoptimized
+                    
                   />
                 </div>
               </Reveal>
@@ -127,12 +127,12 @@ export default function OurKissaPage() {
             <Reveal delay={200}>
               <div className="relative w-full aspect-[3/4] overflow-hidden border border-black">
                 <Image
-                  src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06299.jpg"
+                  src={`https://images.dhirago.com/ecommerce/banner/dsc06299.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
                   alt="Hands holding red berry branches"
                   fill
                   sizes="100vw"
                   className="object-cover"
-                  unoptimized
+                  
                 />
               </div>
             </Reveal>
@@ -154,24 +154,24 @@ export default function OurKissaPage() {
                 <Reveal>
                   <div className="relative w-full aspect-[3/4] overflow-hidden border border-black">
                     <Image
-                      src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06360.jpg"
+                      src={`https://images.dhirago.com/ecommerce/banner/dsc06360.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
                       alt="Natural wood grain texture"
                       fill
                       sizes="(max-width: 1280px) 30vw, 420px"
                       className="object-cover"
-                      unoptimized
+                      
                     />
                   </div>
                 </Reveal>
                 <Reveal delay={100}>
                   <div className="relative w-full aspect-[3/4] overflow-hidden border border-black">
                     <Image
-                      src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06355.jpg"
+                      src={`https://images.dhirago.com/ecommerce/banner/dsc06355.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
                       alt="White flower growing through a crack in stone"
                       fill
                       sizes="(max-width: 1280px) 30vw, 420px"
                       className="object-cover"
-                      unoptimized
+                      
                     />
                   </div>
                 </Reveal>
@@ -191,12 +191,12 @@ export default function OurKissaPage() {
             <Reveal delay={200} className="h-full">
               <div className="relative w-full h-full min-h-[480px] overflow-hidden border border-black">
                 <Image
-                  src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06299.jpg"
+                  src={`https://images.dhirago.com/ecommerce/banner/dsc06299.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
                   alt="Hands holding red berry branches"
                   fill
                   sizes="(max-width: 1280px) 32vw, 460px"
                   className="object-cover"
-                  unoptimized
+                  
                 />
               </div>
             </Reveal>

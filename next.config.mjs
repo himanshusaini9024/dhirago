@@ -18,6 +18,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "dhirago-images-761186487122-eu-north-1-an.s3.eu-north-1.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.dhirago.com",
+        pathname: "/**",
+      },
     ],
   },
 };

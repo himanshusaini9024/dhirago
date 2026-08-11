@@ -5,17 +5,17 @@ import { useEffect, useRef, useState } from "react";
 const slides = [
   {
     image:
-      "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/bstnew.png",
+      `https://images.dhirago.com/ecommerce/Home/bstnew.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
     alt: "banner1",
   },
   {
     image:
-      "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/bts1.png",
+      `https://images.dhirago.com/ecommerce/Home/bts1.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
     alt: "banner2",
   },
   {
     image:
-      "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/bts.png",
+      `https://images.dhirago.com/ecommerce/Home/bts.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
     alt: "banner3",
   },
  

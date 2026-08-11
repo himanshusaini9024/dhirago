@@ -215,7 +215,7 @@ export default function AboutPage() {
           "
         >
           <source
-            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/about/beige-neutral-texture-photo-collage-desktop-wallpaper-3-1.mp4"
+            src={`https://images.dhirago.com/ecommerce/about/beige-neutral-texture-photo-collage-desktop-wallpaper-3-1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
             type="video/mp4"
           />
         </video>
@@ -307,16 +307,16 @@ export default function AboutPage() {
         ════════════════════════════════════════════════════════ */}
    <section className="px-4 sm:px-8 lg:px-16">
   <div className="relative mx-auto w-full max-w-[1380px] aspect-[9/16] sm:aspect-video overflow-hidden">
-    {/* <video
-      src="/videos/udaipur1.mp4"
+    <video
+      src="/videos/ud1.mp4"
       autoPlay
       loop
       muted
       playsInline
       className="absolute inset-0 w-full h-full object-cover object-center"
-    /> */}
+    />
 
-      <Image
+      {/* <Image
             src="/images/udcity.png"
             alt="A young man wearing a handwoven muslin shirt by a lakeside"
             fill
@@ -324,12 +324,12 @@ export default function AboutPage() {
             sizes="(min-width: 1024px) 55vw, 100vw"
             className="object-cover transition-all duration-700"
             unoptimized
-          />
+          /> */}
 
-    <div className="relative z-10 h-full flex flex-col justify-center px-5 py-10 sm:px-10 sm:py-16 lg:items-center lg:justify-center lg:px-24 lg:py-24">
+    {/* <div className="relative z-10 h-full flex flex-col justify-center px-5 py-10 sm:px-10 sm:py-16 lg:items-center lg:justify-center lg:px-24 lg:py-24">
       <Reveal>
         <p
-          className={`${josefin.className} text-[11px] sm:text-xs lg:text-base uppercase tracking-[0.12em] text-white drop-shadow-md mb-5`}
+          className={`${josefin.className} text-[11px] sm:text-xs lg:text-base uppercase tracking-[0.12em] text-[#111111] drop-shadow-md mb-5`}
         >
           Udaipur — the city of lakes
         </p>
@@ -344,16 +344,19 @@ export default function AboutPage() {
             "DHIRAGO draws from this belief — that when something is held with care and intention it transforms into something lasting.",
           ].map((text, i) => (
             <Reveal key={i} delay={220 + i * 90}>
-              <p className="font-futura font-light text-left text-[13px] sm:text-[0.891rem] leading-[1.65] sm:leading-[2.8] tracking-[0.03em] text-white drop-shadow-md mb-3 sm:mb-4 max-w-[560px]">
+              <p className="font-futura font-medium text-left text-[13px] sm:text-[0.891rem] leading-[1.65] sm:leading-[2.8] tracking-[0.03em] text-[#111111] drop-shadow-md mb-3 sm:mb-4 max-w-[560px]">
                 {text}
               </p>
             </Reveal>
           ))}
         </div>
       </div>
-    </div>
+    </div> */}
   </div>
 </section>
+
+
+
         {/* ════════════════════════════════════════════════════════
             04. OUR SYMBOL — heron photo left, text right
         ════════════════════════════════════════════════════════ */}
@@ -533,13 +536,13 @@ export default function AboutPage() {
       <Reveal delay={100}>
         <div className="relative w-full overflow-hidden bg-black/5 h-[clamp(360px,48vw,550px)] lg:left-[5rem]">
           <Image
-            src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/ud.png?v=1"
+            src={`https://images.dhirago.com/ecommerce/banner/ud.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
             alt="A young man wearing a handwoven muslin shirt by a lakeside"
             fill
             priority
             sizes="(min-width: 1024px) 55vw, 100vw"
             className="object-cover transition-all duration-700"
-            unoptimized
+            quality={75}
           />
         </div>
       </Reveal>
@@ -553,7 +556,7 @@ export default function AboutPage() {
       <section className="relative min-h-[70vh] sm:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
   <div
     className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
-    style={{ backgroundImage: "url('/images/heron.jpeg')" }}
+    style={{ backgroundImage: "url('/images/DSC06480.jpg')" }}
   />
 
   <div className="absolute inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />
@@ -566,7 +569,7 @@ export default function AboutPage() {
     }}
   />
 
-  <div className="relative z-10 max-w-[900px] px-6 sm:px-8 lg:px-10 text-center">
+  <div className="relative z-10 max-w-[900px] px-6 sm:px-8 lg:px-10 bottom-[8rem] text-center">
     <Reveal delay={120}>
       <blockquote
         className={`${josefin.className} uppercase font-light leading-[1.7] sm:leading-[1.8] lg:leading-[1.9] text-[13px] sm:text-[15px] lg:text-base text-white tracking-[0.15em] sm:tracking-[0.19em] lg:tracking-[0.23em]`}

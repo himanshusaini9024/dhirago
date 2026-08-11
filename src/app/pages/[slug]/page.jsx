@@ -160,8 +160,8 @@ const elements = [
 ];
 
 const photos = [
-  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/better-materail/dsc03796.jpg",
-  "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/better-materail/dsc06268.jpg",
+  "https://images.dhirago.com/ecommerce/better-materail/dsc03796.jpg",
+  "https://images.dhirago.com/ecommerce/better-materail/dsc06268.jpg",
 ];
 
 /* Shared layout tokens — same padding / type on every breakpoint */
@@ -180,14 +180,14 @@ export default function BetterMaterials() {
 
       <section className="w-full leading-none">
         <Image
-          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/banner/dsc06401.jpg?v=1"
+          src={`https://images.dhirago.com/ecommerce/banner/dsc06401.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
           alt="A young man wearing a handwoven muslin shirt by a lakeside"
           width={2000}
           height={800}
           priority
           sizes="100vw"
           className="h-full w-full object-cover object-center transition-all duration-700 "
-          unoptimized
+          quality={85}
         />
       </section>
 
@@ -222,7 +222,7 @@ export default function BetterMaterials() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 50vw, 25vw"
-                  unoptimized
+                  quality={75}
                 />
               </div>
             ))}
@@ -269,13 +269,13 @@ export default function BetterMaterials() {
 
           <Image
             src={
-              "https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/better-materail/craft.png"
+              `https://images.dhirago.com/ecommerce/better-materail/craft.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`
             }
             alt={`Material detail`}
             fill
             className="object-cover"
             sizes="(max-width: 640px) 50vw, 25vw"
-            unoptimized
+            quality={85}
           />
         </div>
       </section>

@@ -19,7 +19,7 @@ const PageIntro = () => {
         className="absolute inset-0 h-full w-full object-cover object-center"
       >
         <source
-          src="https://pub-f4b2c7f0b6174bbdb5e18f57a2251298.r2.dev/ecommerce/Home/video-1-1.mp4"
+          src={`https://images.dhirago.com/ecommerce/Home/video-1-1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
           type="video/mp4"
         />
       </video>

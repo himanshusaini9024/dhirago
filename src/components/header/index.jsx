@@ -22,8 +22,8 @@ const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/collections/shirts" },
   { label: "About", href: "/about" },
-  { label: "Craft Tradition", href: "/pages/better-materials" },
-  { label: "Handcrafted", href: "/embroidery" },
+  { label: "Materials", href: "/pages/better-materials" },
+  { label: "embroidery", href: "/embroidery" },
   { label: "Sustainability", href: "/sustainability" },
 ];
 
@@ -72,11 +72,11 @@ const Header = () => {
       title: "Why Dhirago",
       children: [
         {
-          name: "The Essence of Fine Garment",
+          name: "Materials",
           href: "/pages/better-materials",
         },
-        { name: "A Touch of Embroidery", href: "/embroidery" },
-        { name: "Sustainability Fashion", href: "/sustainability" },
+        { name: "embroidery", href: "/embroidery" },
+        { name: "Sustainability", href: "/sustainability" },
       ],
     },
   ];
@@ -225,7 +225,7 @@ const Header = () => {
                   <Dialog.Title className="sr-only">Menu</Dialog.Title>
                   <div className="relative">
                     <img
-                      src="/images/login/loginbanner.jpeg"
+                      src="/images/DSC06480.jpg"
                       alt=""
                       className="w-full h-40 object-cover"
                     />
@@ -242,7 +242,7 @@ const Header = () => {
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 }}
-                    className="flex-1 overflow-y-auto px-4 py-4"
+                    className={`flex-1 overflow-y-auto px-4 py-4 ${josefin.className}`}
                   >
                     {mobileMenu.map((section, i) => (
                       <AccordionItem
@@ -296,14 +296,14 @@ const Header = () => {
 };
 
 function AccordionItem({ item, setMenuOpen }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   if (item.href) {
     return (
       <Link
         href={item.href}
         onClick={() => setMenuOpen(false)}
-        className="flex items-center justify-between py-3 text-sm hover:text-black"
+        className={`${josefin.className} flex items-center justify-between py-3 text-sm hover:text-black`}
       >
         <span className="text-sm font-medium">{item.title || item.name}</span>
         {item.tag && (

@@ -8,7 +8,7 @@ const josefin = Josefin_Sans({
 
 export default function Hero() {
   return (
-    <section className={`${josefin.className} mt-10 lg:mt-28 px-4 sm:px-6 md:px-0`}>
+    <section className={`${josefin.className} mt-3 lg:mt-28 px-4 sm:px-6 md:px-0`}>
       <h3
         className={`${josefin.className} text-center uppercase leading-[1.7] md:leading-[1.9] text-[clamp(11px,1.3vw,1.07rem)] text-[#333333] tracking-[0.03em] mb-4 px-2`}
       >
@@ -17,7 +17,7 @@ export default function Hero() {
 
       <div className="relative grid grid-cols-1 md:grid-cols-[1fr_0.777fr_0.777fr] gap-6 md:gap-8  sm:py-10 md:py-20 px-0 md:px-14">
         {/* Text content */}
-        <div className="order-1 flex items-center px-1 sm:px-4 py-2 md:px-8 lg:px-10">
+        <div className="order-1 flex items-center px-1 sm:px-4 lg:py-2 md:px-8 lg:px-10">
           <div className="max-w-2xl mx-auto md:mx-0">
             <p
               style={{ color: "#555555" }}

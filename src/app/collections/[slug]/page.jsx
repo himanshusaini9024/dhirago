@@ -90,7 +90,7 @@ export default async function ProductsPage({ params }) {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: name,
-            url: `https://yourdomain.com/collections/${slug}`,
+            url: `${process.env.NEXT_PUBLIC_SITE_URL}/collections/${slug}`,
             description: `Shop ${name} online in India`,
           }),
         }}

@@ -38,13 +38,6 @@ const processSteps = [
   },
 ];
 
-const photos = [
-  `https://images.dhirago.com/ecommerce/banner/dsc06299.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
-  `https://images.dhirago.com/ecommerce/banner/dsc06358.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
-  `https://images.dhirago.com/ecommerce/banner/dsc06360.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
-  `https://images.dhirago.com/ecommerce/banner/dsc06273.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
-];
-
 function Reveal({ children, delay = 0, className = "" }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -90,7 +83,7 @@ export default function HandEmbroideryPage() {
 
       <section className="w-full leading-none">
         <Image
-          src={`https://images.dhirago.com/ecommerce/banner/dsc06358.webp?v=1?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+          src={`https://images.dhirago.com/ecommerce/banner/handcraft.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
           alt="A young man wearing a handwoven muslin shirt by a lakeside"
           width={2000}
           height={800}
@@ -173,62 +166,70 @@ export default function HandEmbroideryPage() {
       </section>
 
       {/* PHOTO GRID */}
-      <section className="py-10 sm:py-14 lg:py-20">
+      {/* <section className="py-10 sm:py-14 lg:py-20">
         <div className={container}>
           <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:gap-5">
-            {photos.map((src, i) => (
               <div
-                key={src}
+              
                 className="group relative aspect-[4/3] overflow-hidden bg-[#f0eeea]"
               >
                 <Image
-                  src={src}
-                  alt={`Embroidery process ${i + 1}`}
+                  src="/images/embor.png"
+                  alt={`Embroidery process`}
                   fill
-                  priority={i === 0}
                   sizes="100vw"
                   quality={75}
                 />
               </div>
-            ))}
           </div>
+        </div>
+      </section> */}
+
+      <section className="w-full leading-none">
+        <div className="group relative aspect-[6/4] overflow-hidden bg-[#f0eeea]">
+          <Image
+            src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+            alt="A young man wearing a handwoven muslin shirt by a lakeside"
+            width={2000}
+            height={800}
+            sizes="100vw"
+            className="h-full w-full object-center"
+          />
         </div>
       </section>
 
       {/* STORY / HERITAGE */}
 
-      <section className="py-[clamp(1rem,5vw,9rem)] bg-white">
-        <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
-          <div
-            className="story-grid grid gap-[clamp(2rem,5vw,4rem)] items-center
-                       grid-cols-1 lg:grid-cols-[1fr_1.25fr]"
-          >
-            <div>
+      <section className="py-12 sm:py-16 lg:py-28 bg-white overflow-x-hidden">
+        <div className="max-w-[1640px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.55fr)] gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
+            {/* Copy */}
+            <div className="w-full max-w-[480px] lg:max-w-none">
               <Reveal>
                 <h2
-                  className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+                  className={`${josefin.className} uppercase leading-[1.90] text-[clamp(13px,1.3vw,15px)] text-[#333333] tracking-[0.08em] mb-4 sm:mb-5`}
                 >
                   At DHIRAGO, every stitch begins with a story
                 </h2>
               </Reveal>
               <Reveal delay={150}>
-                <p className={`${body} mb-4`}>
+                <p className="font-futura font-light leading-[1.90] text-[clamp(13px,1.3vw,18px)] text-[#444444] tracking-[0.02em] mb-4">
                   Hand embroidery preserves the rhythm of traditional
                   craftsmanship, where each stitch is guided by hand, creating
                   subtle variations that make every piece unique.
                 </p>
-                <p className={`${body} mb-4`}>
+                <p className="font-futura font-light leading-[1.90] text-[clamp(13px,1.3vw,18px)] text-[#444444] tracking-[0.02em]">
                   From khakha marking to the wooden adda, every stage is shaped
                   by patience and precision—bringing fine detail and expressive
                   artwork to fabric with care.
                 </p>
-                <p className={`${body} mb-4`}>
+                <p className="font-futura font-light leading-[1.90] text-[clamp(13px,1.3vw,18px)] text-[#444444] tracking-[0.02em]">
                   Together, these techniques celebrate the dialogue between
                   heritage and contemporary design, allowing every garment to
                   carry both the touch of the artisan and the spirit of
                   thoughtful making.
                 </p>
-                <p className={body}>
+                <p className="font-futura font-light leading-[1.90] text-[clamp(13px,1.3vw,18px)] text-[#444444] tracking-[0.02em]">
                   It is here that exquisite craftsmanship meets material
                   excellence—where detail is not an addition, but becomes a
                   signature of the piece.
@@ -236,15 +237,17 @@ export default function HandEmbroideryPage() {
               </Reveal>
             </div>
 
-            <Reveal delay={100}>
-              <div className="relative w-full overflow-hidden bg-black/5 h-[clamp(360px,48vw,550px)] lg:left-[5rem]">
+            {/* Larger image block */}
+            <Reveal delay={100} className="w-full min-w-0">
+              <div className="relative w-full overflow-hidden bg-white aspect-[1500/1189] min-h-[320px] sm:min-h-[420px] lg:min-h-[560px] xl:min-h-[640px]">
                 <Image
-                  src={`https://images.dhirago.com/ecommerce/banner/ud.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-                  alt="A young man wearing a handwoven muslin shirt by a lakeside"
+                  src={`https://images.dhirago.com/ecommerce/banner/handcraft1.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+                  alt="The Palette of DHIRAGO"
                   fill
+                  sizes="(max-width: 1023px) 100vw, 70vw"
+                  className="object-contain object-center scale-[1.08] sm:scale-[1.12] lg:scale-[1.10]"
+                  quality={90}
                   priority
-                  sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="object-cover transition-all duration-700"
                 />
               </div>
             </Reveal>

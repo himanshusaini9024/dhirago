@@ -189,52 +189,48 @@ export default function AboutPage() {
         }
       `}</style>
 
-      <div
-       
-      >
+      <div>
         {/* ════════════════════════════════════════════════════════
             01. HERO — pure autoplay, no text, scroll cue
         ════════════════════════════════════════════════════════ */}
-          <section
-        className="
+        <section
+          className="
           relative w-full overflow-hidden text-white
           aspect-[3/4] max-h-[55svh]
           md:aspect-auto md:h-screen md:max-h-none
         "
-      >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="
+        >
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="
             absolute inset-0 h-full w-full object-cover
             object-[center_25%]
             md:object-center
           "
-        >
-          <source
-            src={`https://images.dhirago.com/ecommerce/about/beige-neutral-texture-photo-collage-desktop-wallpaper-3-1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-            type="video/mp4"
-          />
-        </video>
+          >
+            <source
+              src={`https://images.dhirago.com/ecommerce/about/beige-neutral-texture-photo-collage-desktop-wallpaper-3-1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+              type="video/mp4"
+            />
+          </video>
 
-        {/* Soft overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent md:bg-none" />
-        <div className="absolute inset-0 hidden bg-black/30 md:block" />
+          {/* Soft overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent md:bg-none" />
+          <div className="absolute inset-0 hidden bg-black/30 md:block" />
 
-        {/* Centered copy on the video (Dior-style mobile) */}
-        <div
-          className="
+          {/* Centered copy on the video (Dior-style mobile) */}
+          <div
+            className="
             absolute inset-x-0 z-10 flex justify-center px-6 text-center
             bottom-[18%]
             md:bottom-[4rem] md:px-4
           "
-        >
-         
-        </div>
-      </section>
+          ></div>
+        </section>
         {/* ════════════════════════════════════════════════════════
             02. THE NAME / OUR STORY — centred heading + body
         ════════════════════════════════════════════════════════ */}
@@ -305,63 +301,36 @@ export default function AboutPage() {
             Desktop: big italic quote LEFT | body paras RIGHT
             Mobile:  heading → 4 stacked bordered paragraphs
         ════════════════════════════════════════════════════════ */}
-   <section className="px-4 sm:px-8 lg:px-16">
-  <div className="relative mx-auto w-full max-w-[1380px] aspect-[9/16] sm:aspect-video overflow-hidden">
-    <video
-      src="/videos/ud1.mp4"
-      autoPlay
-      loop
-      muted
-      playsInline
-      className="absolute inset-0 w-full h-full object-cover object-center"
-    />
-
-      {/* <Image
-            src="/images/udcity.png"
-            alt="A young man wearing a handwoven muslin shirt by a lakeside"
-            fill
-            priority
-            sizes="(min-width: 1024px) 55vw, 100vw"
-            className="object-cover transition-all duration-700"
-            unoptimized
-          /> */}
-
-    {/* <div className="relative z-10 h-full flex flex-col justify-center px-5 py-10 sm:px-10 sm:py-16 lg:items-center lg:justify-center lg:px-24 lg:py-24">
-      <Reveal>
-        <p
-          className={`${josefin.className} text-[11px] sm:text-xs lg:text-base uppercase tracking-[0.12em] text-[#111111] drop-shadow-md mb-5`}
+        <section
+          className="
+          relative w-full overflow-hidden text-white
+          aspect-[3/4] max-h-[55svh]
+          md:aspect-auto md:h-screen md:max-h-none
+        "
         >
-          Udaipur — the city of lakes
-        </p>
-      </Reveal>
+          <div className="relative mx-auto w-full max-w-[1380px] aspect-[9/16] sm:aspect-[12/9] overflow-hidden">
+            <video
+              src={`https://images.dhirago.com/ecommerce/banner/ud1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
 
-      <div className="flex gap-4 sm:gap-8 lg:gap-12 max-w-[780px] items-stretch">
-        <div>
-          {[
-            "A city built around water, where reflection softens everything into calm and completeness.",
-            "The lakes do not rush — they hold the sky, the light, the moment.",
-            "Here, water is held and preserved through time, allowed to settle into its own stillness — calm not found, but gently formed through intention.",
-            "DHIRAGO draws from this belief — that when something is held with care and intention it transforms into something lasting.",
-          ].map((text, i) => (
-            <Reveal key={i} delay={220 + i * 90}>
-              <p className="font-futura font-medium text-left text-[13px] sm:text-[0.891rem] leading-[1.65] sm:leading-[2.8] tracking-[0.03em] text-[#111111] drop-shadow-md mb-3 sm:mb-4 max-w-[560px]">
-                {text}
-              </p>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </div> */}
-  </div>
-</section>
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
 
-
+           
+          </div>
+        </section>
 
         {/* ════════════════════════════════════════════════════════
             04. OUR SYMBOL — heron photo left, text right
         ════════════════════════════════════════════════════════ */}
         <section
-          style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "rgba(255,255,255,1.0)" }}
+          style={{
+            padding: "clamp(4rem,10vw,9rem) 0",
+            background: "rgba(255,255,255,1.0)",
+          }}
         >
           <div style={S.inner}>
             <div
@@ -378,7 +347,9 @@ export default function AboutPage() {
                 <div style={{ position: "relative" }}>
                   <div style={{ position: "relative", overflow: "hidden" }}>
                     <Image
-                      src="/images/heron.jpeg"
+                      
+                      src={`https://images.dhirago.com/ecommerce/banner/heron.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+
                       alt="The Heron — symbol of Dhirago"
                       width={600}
                       height={750}
@@ -444,7 +415,10 @@ export default function AboutPage() {
             05. CRAFTSMANSHIP — 3 hover cards
         ════════════════════════════════════════════════════════ */}
         <section
-          style={{ padding: "clamp(4rem,10vw,9rem) 0", background: "rgba(255,255,255,1.0)" }}
+          style={{
+            padding: "clamp(4rem,10vw,9rem) 0",
+            background: "rgba(255,255,255,1.0)",
+          }}
         >
           <div style={S.inner}>
             <Reveal>
@@ -497,91 +471,91 @@ export default function AboutPage() {
           </div>
         </section>
 
-     <section className="py-[clamp(1rem,5vw,9rem)] bg-white">
-  <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
-    <div
-      className="story-grid grid gap-[clamp(2rem,5vw,4rem)] items-center
-                 grid-cols-1 lg:grid-cols-[1fr_1.25fr]"
-    >
-      <div>
-        <Reveal>
-          <h2
-            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
-          >
-            The Palette of DHIRAGO
-          </h2>
-        </Reveal>
-        <Reveal delay={150}>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.03em] mb-3">
-            DHIRAGO finds inspiration in the landscapes and subtle
-            textures found in natural surroundings. The colour palette
-            is shaped by tones that feel familiar and enduring — warm
-            beiges, earthy browns, ecru, soft sky blues, muted
-            lavenders, gentle greens, and sun-washed mustards. Rather
-            than following seasonal colour trends, the focus remains on
-            shades that feel timeless, calm, and easy to live with.
-          </p>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.03em]">
-            Designed with clean lines and relaxed silhouettes, the
-            garments are created to become a natural part of everyday
-            life. They are made to move effortlessly between moments —
-            from workdays to slow weekends, casual gatherings to evening
-            plans. Each piece is a belief that clothing should feel
-            personal and comfortable, allowing individuality to come
-            naturally rather than demanding attention.
-          </p>
-        </Reveal>
-      </div>
+        <section className="py-12 sm:py-16 lg:py-24 bg-white overflow-x-hidden">
+          <div className="max-w-[1640px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.45fr)] gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
+              {/* Copy */}
+              <div className="w-full max-w-[480px] lg:max-w-none">
+                <Reveal>
+                  <h2
+                    className={`${josefin.className} uppercase leading-[1.90] text-[clamp(13px,1.3vw,15px)] text-[#333333] tracking-[0.08em] mb-4 sm:mb-5`}
+                  >
+                    The Palette of DHIRAGO
+                  </h2>
+                </Reveal>
+                <Reveal delay={150}>
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(13px,1.3vw,18px)] text-[#444444] tracking-[0.02em] mb-4">
+                    DHIRAGO finds inspiration in the landscapes and subtle
+                    textures found in natural surroundings. The colour palette
+                    is shaped by tones that feel familiar and enduring — warm
+                    beiges, earthy browns, ecru, soft sky blues, muted
+                    lavenders, gentle greens, and sun-washed mustards. Rather
+                    than following seasonal colour trends, the focus remains on
+                    shades that feel timeless, calm, and easy to live with.
+                  </p>
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(13px,1.3vw,18px)] text-[#444444] tracking-[0.02em]">
+                    Designed with clean lines and relaxed silhouettes, the
+                    garments are created to become a natural part of everyday
+                    life. They are made to move effortlessly between moments —
+                    from workdays to slow weekends, casual gatherings to evening
+                    plans. Each piece is a belief that clothing should feel
+                    personal and comfortable, allowing individuality to come
+                    naturally rather than demanding attention.
+                  </p>
+                </Reveal>
+              </div>
 
-      <Reveal delay={100}>
-        <div className="relative w-full overflow-hidden bg-black/5 h-[clamp(360px,48vw,550px)] lg:left-[5rem]">
-          <Image
-            src={`https://images.dhirago.com/ecommerce/banner/ud.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-            alt="A young man wearing a handwoven muslin shirt by a lakeside"
-            fill
-            priority
-            sizes="(min-width: 1024px) 55vw, 100vw"
-            className="object-cover transition-all duration-700"
-            quality={75}
-          />
-        </div>
-      </Reveal>
-    </div>
-  </div>
-</section>
+              {/* Larger image block */}
+              <Reveal delay={100} className="w-full min-w-0">
+                <div className="relative w-full overflow-hidden bg-white aspect-[1500/1189] min-h-[320px] sm:min-h-[420px] lg:min-h-[560px] xl:min-h-[640px]">
+                  <Image
+                    src={`https://images.dhirago.com/ecommerce/banner/palette.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+
+                    alt="The Palette of DHIRAGO"
+                    fill
+                    sizes="(max-width: 1023px) 100vw, 70vw"
+                    className="object-contain object-center scale-[1.08] sm:scale-[1.12] lg:scale-[1.10]"
+                    quality={90}
+                    priority
+                  />
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
 
         {/* ════════════════════════════════════════════════════════
             06. PHILOSOPHY — heron bg image, centred quote
         ════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[70vh] sm:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-  <div
-    className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
-    style={{ backgroundImage: "url('/images/DSC06480.jpg')" }}
-  />
+        <section className="relative min-h-[70vh] sm:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
+          <div
+            className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/images/DSC06480.jpg')" }}
+          />
 
-  <div className="absolute inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />
 
-  <div
-    className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[length:28px_28px] sm:bg-[length:36px_36px] lg:bg-[length:42px_42px]"
-    style={{
-      backgroundImage:
-        "radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)",
-    }}
-  />
+          <div
+            className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[length:28px_28px] sm:bg-[length:36px_36px] lg:bg-[length:42px_42px]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)",
+            }}
+          />
 
-  <div className="relative z-10 max-w-[900px] px-6 sm:px-8 lg:px-10 bottom-[8rem] text-center">
-    <Reveal delay={120}>
-      <blockquote
-        className={`${josefin.className} uppercase font-light leading-[1.7] sm:leading-[1.8] lg:leading-[1.9] text-[13px] sm:text-[15px] lg:text-base text-white tracking-[0.15em] sm:tracking-[0.19em] lg:tracking-[0.23em]`}
-      >
-        When something is held with care and intention,
-        <br className="hidden sm:block" />
-        <span className="block sm:inline"> </span>
-        it transforms into something lasting.
-      </blockquote>
-    </Reveal>
-  </div>
-</section>
+          <div className="relative z-10 max-w-[900px] px-6 sm:px-8 lg:px-10 bottom-[8rem] text-center">
+            <Reveal delay={120}>
+              <blockquote
+                className={`${josefin.className} uppercase font-light leading-[1.7] sm:leading-[1.8] lg:leading-[1.9] text-[13px] sm:text-[15px] lg:text-base text-white tracking-[0.15em] sm:tracking-[0.19em] lg:tracking-[0.23em]`}
+              >
+                When something is held with care and intention,
+                <br className="hidden sm:block" />
+                <span className="block sm:inline"> </span>
+                it transforms into something lasting.
+              </blockquote>
+            </Reveal>
+          </div>
+        </section>
 
         {/* ════════════════════════════════════════════════════════
             07. FABRICS — image left, text right

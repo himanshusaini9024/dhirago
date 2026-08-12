@@ -53,7 +53,7 @@ export default function SearchDrawer({ open, onClose }) {
       const images = typeof photo === "string" ? JSON.parse(photo) : photo;
 
       return images?.[0]?.url
-        ? process.env.NEXT_PUBLIC_IMG_URL`${images[0].url}`
+        ? `${process.env.NEXT_PUBLIC_IMG_URL}${images[0].url}`
         : "/placeholder.png";
     } catch {
       return "/placeholder.png";
@@ -155,7 +155,9 @@ export default function SearchDrawer({ open, onClose }) {
           {/* Products */}
           {products.length > 0 && (
             <div>
-              <h3 className="text-xs text-gray-400 uppercase font-futura mb-3">Products</h3>
+              <h3 className="text-xs text-gray-400 uppercase font-futura mb-3">
+                Products
+              </h3>
 
               <div className="space-y-2">
                 {products.map((prod) => (

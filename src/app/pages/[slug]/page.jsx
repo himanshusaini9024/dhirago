@@ -1,6 +1,6 @@
 "use client";
 
-import { Josefin_Sans } from "next/font/google";
+import { Josefin_Sans,Cormorant_Garamond } from "next/font/google";
 import Image from "next/image";
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -158,6 +158,13 @@ const elements = [
     ),
   },
 ];
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
+});
+const sectionPad = "px-5 sm:px-8 lg:px-16";
+const container = `max-w-[1200px] mx-auto ${sectionPad}`;
 
 const photos = [
   "https://images.dhirago.com/ecommerce/better-materail/dsc03796.jpg",
@@ -350,13 +357,27 @@ export default function BetterMaterials() {
         </div>
       </section>
 
+
+
+       <section className="w-full leading-none">
+              <Image
+                src={`https://images.dhirago.com/ecommerce/banner/pi1.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+
+                alt="A young man wearing a handwoven muslin shirt by a lakeside"
+                width={2000}
+                height={800}
+                sizes="100vw"
+                className="h-full w-full object-center"
+              />
+            </section>
+
       {/* QUOTE */}
-      <section className={sectionY}>
-        <div className={`${copy} text-center`}>
-          <p className={body}>
-            &ldquo;Everything is thoughtfully done — from how the fabric feels
-            on your skin, to how the collar sits, to the neatness of every
-            stitch.&rdquo;
+     <section className="py-12 sm:py-14 lg:py-16 border-t border-b border-[#e8e4de]">
+        <div className={`${container} text-center`}>
+          <p
+            className={`${cormorant.className} italic text-[clamp(18px,2.4vw,26px)] leading-[1.55] text-[#444] max-w-[720px] mx-auto`}
+          >
+            &quot;Everything is thoughtfully done — from how the fabric feels on your skin, to how the collar sits, to the neatness of every stitch&quot;
           </p>
         </div>
       </section>

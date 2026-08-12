@@ -208,27 +208,10 @@ export default function ProductCarePage() {
 
     
 
-        <div className="relative w-full h-[240px]   sm:h-[320px] md:h-[450px] overflow-hidden rounded-sm">
-                 <Image
-                   src="/images/european-linen.jpg"
-                   alt="EUROPEAN LINEN"
-                   fill
-                   className="w-full h-full md:px-[23rem] md:py-20  object-cover"
-                   
-                 />
-                   <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-200 via-sky-100 to-blue-300" />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/1">
-              <h3
-                className="text-white text-xl sm:text-2xl md:text-3xl font-medium tracking-[0.2em] drop-shadow-xl"
-                style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
-              >
-              Product Care
-              </h3>
-            </div>
-      </div>
+    
 
       {/* ── MOBILE: Accordion Layout (hidden on md+) ── */}
-      <div className="md:hidden px-4 pb-10 pt-5 space-y-2">
+      <div className="md:hidden px-4 pb-10 pt-12 space-y-2">
         {fabricData.map((fabric, idx) => (
           <MobileFabricCard
             key={fabric.name}

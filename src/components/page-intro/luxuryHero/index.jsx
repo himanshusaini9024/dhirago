@@ -110,7 +110,7 @@ export default function LuxurySection() {
       </motion.div> */}
 
       {/* Left-aligned editorial copy */}
-      <div className="relative z-[2] mx-auto w-full max-w-[1400px] px-[clamp(1rem,6vw,1rem)] py-[clamp(3.5rem,9vw,7rem)]">
+      <div className="relative z-[2] mx-auto w-full max-w-[1400px] px-[clamp(1rem,6vw,2rem)] lg:py-[clamp(3.5rem,9vw,7rem)] py-[clamp(2.5rem,1vw,1rem)]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -119,7 +119,7 @@ export default function LuxurySection() {
           className="max-w-[640px] text-left"
         >
           <h2
-            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}
+            className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] lg:mb-6 `}
 
             // className={`${josefin.className} text-[0.910rem] md:text-[clamp(1.25rem,3.4vw,1.15rem)] font-medium leading-[1.25] tracking-[-0.01em]`}
             // style={{ color: "#2D2D2D" }}
@@ -128,14 +128,14 @@ export default function LuxurySection() {
           </h2>
 
           <p
-            className={`font-futura mt-6 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1.07rem)] font-normal leading-[2.45]`}
+            className={`font-futura lg:mt-6 mt-3 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1.07rem)] font-normal leading-[2.45]`}
             style={{ color: "#555555" }}
           >
             DHIRAGO is a luxury Indian menswear label rooted in traditional textiles and enduring craft. Shaped through natural fabrics, distinctive embroidery and block print technique. Each garment is made with patience, refined through many hands and celebrated for comfort and thoughtful details.DHIRAGO was born from this way of seeing the world. More than menswear, it is an invitation to embrace simplicity, value craftsmanship, and find meaning in the details.
           </p>
 
           
-            <div className="mt-9 flex gap-3">
+            <div className="lg:mt-9 mt-3 flex gap-3">
               {/* Filled primary button */}
               <Link
                 href="/about"

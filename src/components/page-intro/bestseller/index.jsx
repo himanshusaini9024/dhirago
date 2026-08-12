@@ -11,7 +11,7 @@ export default function Hero() {
     <section className={` ${josefin.className}`}>
       <div className="relative grid md:grid-cols-2">
         {/* Image */}
-        <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/5">
+        <div className="relative aspect-[3/5] w-full overflow-hidden bg-black/5">
           <Image
             src={`https://images.dhirago.com/ecommerce/Home/dsc06295.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
             alt="A young man wearing a handwoven muslin shirt by a lakeside"
@@ -29,10 +29,10 @@ export default function Hero() {
         </div>
 
         {/* Copy */}
-        <div className="flex items-center px-6 py-16 md:px-16 lg:px-28 ">
+        <div className="flex items-center px-6 lg:py-16 py-8 md:px-16 lg:px-28 ">
           <div className="max-w-2xl">
             <p
-           className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}
+           className={`${josefin.className} uppercase lg:leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] lg:mb-6 mb-4`}
 
             >
               The first story; woven with patience
@@ -60,7 +60,7 @@ export default function Hero() {
               gathers character, reflecting the beauty of time.
             </p>
 
-            <div className="mt-9 flex gap-3">
+            <div className="lg:mt-9 mt-3 flex gap-3">
               {/* Filled primary button */}
               <a
                 href="/collections/shirts"

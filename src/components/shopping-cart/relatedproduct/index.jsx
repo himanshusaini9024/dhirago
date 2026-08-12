@@ -1,11 +1,21 @@
 "use client";
 
 import { useSelector } from "react-redux";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import ProductItem from "../../../components/product-item";
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+});
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const MAX_RELATED = 8;
+const MAX_RELATED = 12;
 
 async function fetchCategoryProducts(slug) {
   try {
@@ -51,6 +61,8 @@ export default function RelatedProduct() {
   const { cartItems } = useSelector((state) => state.cart);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
 
   const cartKey = useMemo(
     () =>
@@ -73,7 +85,6 @@ export default function RelatedProduct() {
     const loadRelated = async () => {
       setLoading(true);
 
-      // Prefer category stored on cart items; resolve missing ones from PDP API
       const categoryCounts = new Map();
 
       await Promise.all(
@@ -92,7 +103,6 @@ export default function RelatedProduct() {
         }),
       );
 
-      // Most common categories first
       const rankedCategories = [...categoryCounts.entries()]
         .sort((a, b) => b[1] - a[1])
         .map(([slug]) => slug);
@@ -149,28 +159,66 @@ export default function RelatedProduct() {
   if (!items.length) return null;
 
   return (
-    <div className="mt-16 pt-10 border-t border-gray-100">
+    <div className="mt-12 sm:mt-16 pt-8 sm:pt-10 pb-10 border-t border-gray-100 px-4 md:px-8 lg:px-12">
       <h2
-        style={{ textAlign: "center", fontWeight: 400 }}
-        className="text-2xl md:text-3xl uppercase font-light mb-8"
+        className={`${josefin.className} text-center text-[13px] sm:text-[15px] uppercase tracking-[0.18em] font-normal text-[#1a1a1a] mb-8 sm:mb-10`}
       >
-        Related Products
+        You May Also Like
       </h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {items.map((item) => (
-          <ProductItem
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            sku={item.sku}
-            slug={item.slug}
-            images={item.images}
-            currentPrice={item.currentPrice || 0}
-            color={item.color || []}
-            category={item.category || null}
-          />
-        ))}
+      <div className="relative group/slider">
+        <button
+          ref={prevRef}
+          aria-label="Previous"
+          className="hidden sm:flex absolute -left-1 lg:-left-4 top-[38%] -translate-y-1/2 z-10 w-9 h-9 items-center justify-center bg-white border border-black/10 shadow-sm opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300 hover:bg-black hover:text-white"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7L9 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        <button
+          ref={nextRef}
+          aria-label="Next"
+          className="hidden sm:flex absolute -right-1 lg:-right-4 top-[38%] -translate-y-1/2 z-10 w-9 h-9 items-center justify-center bg-white border border-black/10 shadow-sm opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300 hover:bg-black hover:text-white"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M5 2L10 7L5 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+
+        <Swiper
+          modules={[Navigation]}
+          navigation={{
+            prevEl: prevRef.current,
+            nextEl: nextRef.current,
+          }}
+          onBeforeInit={(swiper) => {
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+          }}
+          breakpoints={{
+            0: { slidesPerView: 2, spaceBetween: 12 },
+            640: { slidesPerView: 3, spaceBetween: 16 },
+            1024: { slidesPerView: 4, spaceBetween: 20 },
+          }}
+          className="!overflow-hidden"
+        >
+          {items.map((item) => (
+            <SwiperSlide key={item.id}>
+              <ProductItem
+                id={item.id}
+                name={item.name}
+                sku={item.sku}
+                slug={item.slug}
+                images={item.images}
+                currentPrice={item.currentPrice || 0}
+                color={item.color || []}
+                category={item.category || null}
+                hideQuickAdd
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </div>
   );

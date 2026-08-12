@@ -95,7 +95,7 @@ export default function OurKissaPage() {
 
       {/* Single large editorial image — crop top white margin from sus.png */}
       <section className="w-full py-0 -mt-1 sm:mt-0">
-        <div className="mx-auto w-full max-w-[1800px] px-2 sm:px-5 md:px-8 lg:px-10">
+        <div className="mx-auto w-full max-w-[1700px] px-2 sm:px-5 md:px-8 lg:px-10">
           <Reveal>
             <div className="relative w-full overflow-hidden bg-white aspect-[1500/1189] leading-none">
               <Image
@@ -144,6 +144,18 @@ export default function OurKissaPage() {
         </div>
       </section>
 
+
+         <section className="py-12 sm:py-14 lg:py-16 border-t border-b border-[#e8e4de]">
+        <div className={`${container} text-center`}>
+          <p
+            className={`${cormorant.className} italic text-[clamp(18px,2.4vw,26px)] leading-[1.55] text-[#444] max-w-[720px] mx-auto`}
+          >
+            &quot;Sustainability is not a feature —
+            it is the quiet discipline behind every decision we make.&quot;
+          </p>
+        </div>
+      </section>
+
       
 
       {/* SUSTAINABILITY BAND */}
@@ -165,18 +177,7 @@ export default function OurKissaPage() {
             }}
           />
 
-          <div className="relative z-10 max-w-[900px] px-6 sm:px-8 lg:px-10 bottom-[8rem] text-center">
-            <Reveal delay={120}>
-              <blockquote
-                className={`${josefin.className} uppercase font-light leading-[1.7] sm:leading-[1.8] lg:leading-[1.9] text-[13px] sm:text-[15px] lg:text-base text-white tracking-[0.15em] sm:tracking-[0.19em] lg:tracking-[0.23em]`}
-              >
-                Sustainability is not a feature — 
-                <br className="hidden sm:block" />
-                <span className="block sm:inline"> </span>
-               it is the quiet discipline behind every decision we make
-              </blockquote>
-            </Reveal>
-          </div>
+      
         </section>
     </div>
   );

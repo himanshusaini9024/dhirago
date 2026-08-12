@@ -65,12 +65,14 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 bg-black/40 z-50 flex items-end md:items-center justify-center"
+        onClick={onClose}
       >
         <motion.div
           initial={{ y: "100%", scale: 1 }}
           animate={{ y: 0, scale: 1 }}
           exit={{ y: "100%" }}
           transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+          onClick={(e) => e.stopPropagation()}
           className="
       bg-white w-full h-[90vh] rounded-t-2xl
       md:rounded-none md:w-[95%] md:max-w-5xl md:h-[80vh]

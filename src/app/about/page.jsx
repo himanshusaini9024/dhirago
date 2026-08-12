@@ -530,7 +530,7 @@ export default function AboutPage() {
         <section className="relative min-h-[70vh] sm:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
           <div
             className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/images/DSC06480.jpg')" }}
+            style={{ backgroundImage: "url('/images/aboutfooter.jpg')" }}
           />
 
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />

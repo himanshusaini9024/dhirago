@@ -18,6 +18,7 @@ const ProductItem = ({
   color,
   currentPrice,
   category,
+  hideQuickAdd = false,
 }) => {
   const dispatch = useDispatch();
   const favProducts = useSelector((state) => state.user?.favProducts || []);
@@ -48,7 +49,7 @@ const ProductItem = ({
       {/* IMAGE */}
 
       <div
-        className="relative w-full h-[300px] md:h-[540px] overflow-hidden bg-[#f5f5f5]"
+        className="relative w-full h-[300px] md:h-[670px] overflow-hidden bg-[#f5f5f5]"
         onMouseEnter={() => setHovered(true)}
         onTouchStart={() => setHovered(true)}
         onMouseLeave={() => {
@@ -108,14 +109,16 @@ const ProductItem = ({
         </button> */}
 
         {/* ADD TO CART */}
-        <div className="absolute bottom-1 md:left-[21rem] right-[0.333rem]  w-[12%] translate-y-full group-hover:translate-y-0 transition duration-500">
-          <button
-            onClick={() => setOpenModal(true)}
-            className="w-full bg-white text-black text-[0.676rem] md:text-xl py-3"
-          >
-            +
-          </button>
-        </div>
+        {!hideQuickAdd && (
+          <div className="absolute bottom-2 right-2 translate-y-full group-hover:translate-y-0 transition duration-500 z-[5]">
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpenModal(true); }}
+              className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center bg-white text-black text-lg md:text-xl shadow-md hover:bg-black hover:text-white transition-colors duration-200"
+            >
+              +
+            </button>
+          </div>
+        )}
       </div>
 
       <QuickAddModal

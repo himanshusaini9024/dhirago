@@ -35,29 +35,25 @@ export default function Hero() {
            className={`${josefin.className} uppercase lg:leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] lg:mb-6 mb-4`}
 
             >
-              The first story; woven with patience
+              The first story; creafted with patience
             </p>
 
             <p
               style={{ color: "#555555" }}
               className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] font-futura`}
             >
-              Our debut collection explores the richness of traditional
-              textiles, beginning with indigo hues and unfolding into a palette
-              of mustard, green, and shadowed neutrals. Natural fabrics like
-              linen, woven cottons, and cotton denim are thoughtfully paired
-              with Kantha embroidery, hand block printing, and
-              Tangaliya-inspired craftsmanship.
+             Our debut collection explores the richness of traditional textiles, beginning with indigo hues and unfolding into a palette of mustard, greens, and shadowed neutrals. Natural fabrics like linen and kala cottons are thoughtfully paired with Kantha embroidery, hand block printing, and Tangaliya-inspired detailing.
+
+
+
+
             </p>
 
             <p
               style={{ color: "#555555" }}
               className={`font-normal mt-3 lg:text-justify  text-[clamp(0.7rem,1.35vw,1.05rem)] leading-[2.10] font-futura`}
             >
-              The name DHIRAGO draws from Dheera—a state of calmness. Created in
-              limited numbers, each garment is conceived as a collectible
-              object, designed to endure through time. Each piece quietly
-              gathers character, reflecting the beauty of time.
+             Created in limited numbers, each garment is conceived as a collectible object, designed to endure through time. As it is worn and lived in, it gathers character, revealing a beauty that deepens with age.
             </p>
 
             <div className="lg:mt-9 mt-3 flex gap-3">

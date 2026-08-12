@@ -360,6 +360,8 @@ export default function BetterMaterials() {
 
 
        <section className="w-full leading-none">
+        <div className="group relative aspect-[6/4] ">
+
               <Image
                 src={`https://images.dhirago.com/ecommerce/banner/pi1.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
 
@@ -369,6 +371,7 @@ export default function BetterMaterials() {
                 sizes="100vw"
                 className="h-full w-full object-center"
               />
+              </div>
             </section>
 
       {/* QUOTE */}

@@ -39,7 +39,14 @@ function PostageStamp() {
     >
       <div className="flex h-full flex-col items-center justify-center px-1.5 pt-1 pb-2">
         <svg width="40" height="36" viewBox="0 0 40 36" fill="none">
-          <ellipse cx="20" cy="28" rx="10" ry="4" fill="#C5D4B8" opacity="0.55" />
+          <ellipse
+            cx="20"
+            cy="28"
+            rx="10"
+            ry="4"
+            fill="#C5D4B8"
+            opacity="0.55"
+          />
           <path
             d="M20 28 C18 20 12 16 10 10 C14 12 17 16 20 22 C23 16 26 12 30 10 C28 16 22 20 20 28Z"
             fill="#7A9B6D"
@@ -131,20 +138,26 @@ export default function LuxurySection() {
             className={`font-futura lg:mt-6 mt-3 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1.07rem)] font-normal leading-[2.45]`}
             style={{ color: "#555555" }}
           >
-            DHIRAGO is a luxury Indian menswear label rooted in traditional textiles and enduring craft. Shaped through natural fabrics, distinctive embroidery and block print technique. Each garment is made with patience, refined through many hands and celebrated for comfort and thoughtful details.DHIRAGO was born from this way of seeing the world. More than menswear, it is an invitation to embrace simplicity, value craftsmanship, and find meaning in the details.
+            DHIRAGO is a luxury Indian menswear label rooted in traditional
+            textiles and enduring craft. Natural fabrics form the foundation,
+            shaped through distinctive hand embroidery, block printing and
+            thoughtful construction. Each garment is made with patience, refined
+            through many hands and celebrated for comfort and thoughtful
+            details. More than a way of dressing, DHIRAGO reflects a quieter way
+            of seeing — one that values simplicity, respects craftsmanship and
+            finds meaning in what reveals itself over time.
           </p>
 
-          
-            <div className="lg:mt-9 mt-3 flex gap-3">
-              {/* Filled primary button */}
-              <Link
-                href="/about"
-                className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A] hover:bg-black hover:text-white transition"
-              >
-                More to explore
-              </Link>
-              {/* Outlined secondary button */}
-            </div>
+          <div className="lg:mt-9 mt-3 flex gap-3">
+            {/* Filled primary button */}
+            <Link
+              href="/about"
+              className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A] hover:bg-black hover:text-white transition"
+            >
+              More to explore
+            </Link>
+            {/* Outlined secondary button */}
+          </div>
         </motion.div>
       </div>
     </section>

@@ -8,7 +8,7 @@ const josefin = Josefin_Sans({
   weight: ["300", "500", "600"],
 });
 
-const SIZE_ORDER = ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL"];
+const SIZE_ORDER = ["S", "M", "L", "XL"];
 
 function normalizeSizeGuide(raw) {
   if (!raw) return null;

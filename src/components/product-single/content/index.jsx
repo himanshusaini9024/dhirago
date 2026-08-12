@@ -232,10 +232,7 @@ export default function Content({ product }) {
 
   const CareSection = () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "11px" }}>
-      <p style={prose}>
-        It is advisable to wash this garment separately and do not expose it to
-        direct sunlight as it could lead to variation in colour.
-      </p>
+      
       {[
         {
           label: "Do not bleach",

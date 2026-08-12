@@ -181,7 +181,6 @@ export default function ReturnPage() {
                           <option>M</option>
                           <option>L</option>
                           <option>XL</option>
-                          <option>XXL</option>
                         </select>
                       </div>
 

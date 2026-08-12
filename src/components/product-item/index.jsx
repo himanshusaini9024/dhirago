@@ -143,7 +143,7 @@ const ProductItem = ({
           {name}
         </h6>
         <p className="mt-2 text-[0.911rem] text-gray-500 mt-1 text-center">
-          ₹ .{currentPrice}
+          ₹ {currentPrice}
         </p>
       </div>
     </div>

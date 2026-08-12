@@ -352,7 +352,7 @@ export default function Content({ product }) {
               fontFamily: F,
             }}
           >
-            ₹. {product.price?.toLocaleString("en-IN")}.00
+            ₹ {product.price?.toLocaleString("en-IN")}.00
           </span>
         </div>
 

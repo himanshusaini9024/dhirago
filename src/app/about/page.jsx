@@ -308,7 +308,7 @@ export default function AboutPage() {
           md:aspect-auto md:h-screen md:max-h-none
         "
         >
-          <div className="relative mx-auto w-full max-w-[1380px] aspect-[9/16] sm:aspect-[12/9] overflow-hidden">
+          <div className="relative mx-auto w-full max-w-[1380px] aspect-[40/28] sm:aspect-[12/9] overflow-hidden">
             <video
               src={`https://images.dhirago.com/ecommerce/banner/ud1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
 

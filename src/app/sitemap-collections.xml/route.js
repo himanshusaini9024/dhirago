@@ -2,7 +2,7 @@ export async function GET() {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-  const categories = ["mens-shirts", "womens-wear"];
+  const categories = ["shirts",];
 
   const urls = categories
     .map(

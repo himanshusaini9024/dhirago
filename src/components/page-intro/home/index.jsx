@@ -97,7 +97,7 @@ export default function Hero() {
   return (
     <section
       className="relative w-full overflow-hidden bg-[#f5f5f5]
-                 h-[70vw] max-h-[520px] min-h-[280px]
+                 aspect-[3/4] md:aspect-[14/9]  h-[70vw] max-h-[520px] min-h-[280px]
                  md:max-h-none md:min-h-[640px]"
       aria-label="Home banner"
     >

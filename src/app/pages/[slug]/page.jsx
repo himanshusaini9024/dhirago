@@ -182,7 +182,7 @@ const body =
 
 export default function BetterMaterials() {
   return (
-    <div className="bg-white text-[#2a2a2a] overflow-x-hidden">
+    <div className="bg-white text-[#2a2a2a]">
       {/* HERO — taller on mobile + zoomed crop for proper framing */}
 
       <section className="w-full leading-none">
@@ -193,7 +193,7 @@ export default function BetterMaterials() {
           height={800}
           priority
           sizes="100vw"
-          className="h-full w-full object-cover object-center transition-all duration-700 "
+          className="block h-auto w-full object-contain object-center"
           quality={85}
         />
       </section>
@@ -201,7 +201,7 @@ export default function BetterMaterials() {
       {/* INTRO */}
       <section className="py-14 md:py-28 px-5 sm:px-8 md:px-16 lg:px-24  max-w-[64rem] mx-auto">
         <h2
-          className={`${josefin.className} uppercase leading-[1.90] text-center text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+          className={`${josefin.className} uppercase leading-[1.90] text-center text-[clamp(11px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           True craftsmanship starts with the material
         </h2>
@@ -210,7 +210,7 @@ export default function BetterMaterials() {
           foundation, shaping its character, comfort, and longevity. We are
           deliberate about every fabric—where it comes from, how it is produced,
           and the hands involved in its making—ensuring each piece is crafted
-          with care for both the wearer and the world it belongs to.
+          with care for both the wearer and the world it belongs to. A fine material is not only defined by how it begins, but by how beautifully it continues.
         </p>
       </section>
 
@@ -241,23 +241,16 @@ export default function BetterMaterials() {
       <section className="pt-10 lg:pt-20 pb-16 lg:pb-24 px-5">
         <div className="max-w-[79rem]  mx-auto mt-1 md:mt-4 text-center">
           <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
-            Every piece begins with a simple belief—true quality begins with the
-            material. At DHIRAGO, we work with thoughtfully sourced natural
-            fabrics, chosen not only for how they look, but for how they feel,
-            and endure over time.
+            Before craftsmanship, before detail, and before form, there is cloth. Long before a silhouette takes place, it is the material that determines how a garment will feel, move, breathe, and eventually age. We are drawn to fabrics with an inherent richness—materials valued across generations for their quality, resilience, and ability to become more soften with time.
           </p>
           <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
-            From premium European linen to finely woven cottons and other
-            natural fibres, each textile is selected through trusted partners
-            who share our commitment to exceptional quality, responsible
-            sourcing, and lasting craftsmanship. Every fabric is chosen for its
-            breathability, comfort and refined texture.
+            From fine European linen and indigenous Kala cotton to organic cottons. Each is chosen for what makes it distinct: its natural texture, breathability, tactile quality, enduring strength, and the story held within its making. Rooted in textile traditions that have been valued across generations, these materials are not chosen simply for how they appear when new, but for how they soften, settle, and develop character through time.
           </p>
-          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em]">
-            These fibres are cultivated with respect for the environment,
-            relying on responsible farming practices and minimal resources.
-            Their lasting quality reflects a quieter approach to making—one that
-            values longevity over excess.
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
+            Linen is among the world's oldest known textile fibres, valued for centuries for its strength, breathability, and distinctive natural texture. Our fine European linen is made from flax and selected for its lightness, refined hand-feel, effortless drape, and enduring quality. What makes linen particularly beautiful is the way it lives: initially crisp, it gradually softens with wear while developing gentle creases and a character unique to its wearer. Rather than losing its beauty with age, linen becomes more personal with time—an expression of everything we value in a material. 
+          </p>
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] ">
+            Indigenous to Kutch, Kala cotton is a hardy, rain-fed fibre with generations of cultivation and weaving tradition behind it. Naturally breathable and resilient, its distinctive texture and subtle irregularities preserve the character of the handwoven cloth. Alongside carefully selected organic cottons, these fibres offer softness, comfort, and an enduring character that becomes more personal with wear.
           </p>
         </div>
       </section>
@@ -276,7 +269,7 @@ export default function BetterMaterials() {
 
           <Image
             src={
-              `https://images.dhirago.com/ecommerce/better-materail/craft.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`
+              `https://images.dhirago.com/ecommerce/better-materail/craft.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`
             }
             alt={`Material detail`}
             fill
@@ -304,22 +297,18 @@ export default function BetterMaterials() {
         {/* Hallmarks copy */}
         <div className="max-w-[51rem] mx-auto mt-5 md:mt-16 ">
           <h3
-            className={`${josefin.className} text-center uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
+            className={`${josefin.className} text-center uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
           >
             The Hallmarks of a great garment
           </h3>
           <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
-            Every inch of a Dhirago piece reflects an approach of craftsmanship
-            – where precision and attention to details are never compromised.
-            It's evident in how our fabrics feels on your skin, to how the
-            collar sits and the neatness of every stitch, everything is
-            thoughtfully done.
+            Every inch of a DHIRAGO piece reflects a considered approach to craftsmanship, where precision and attention to detail are never compromised. It can be felt in the quality of the fabric against the skin, seen in the way a collar holds its form, and discovered in the neatness of every stitch. From proportion and construction to the smallest finishing details, each element is thoughtfully considered to create a garment that feels refined from the inside out.
           </p>
           <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em]">
-            All the garments are made to maximise the wear, this is done by
-            adding an extra layer of fabric to placket, cuffs and collars to
-            give them added layer of strength. It enhances durability while
-            giving the garment a sharper, more refined finish.
+            Our garments are constructed with longevity in mind. Additional layers of fabric are carefully incorporated into areas that experience greater wear, including the placket, cuffs, and collars, providing added strength and structure. This considered construction not only enhances durability but also helps the garment retain its shape and refined finish through repeated wear.
+          </p>
+          <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em]">
+            Often, it is these quieter details—the ones that may not be noticed at first glance—that define the quality of a well-made garment and allow it to remain with you for years to come.
           </p>
         </div>
 
@@ -327,7 +316,7 @@ export default function BetterMaterials() {
         <div className="mt-14 md:mt-20 py-4 md:py-16 px-4 sm:px-8 md:px-16 lg:px-20 bg-white border-y border-[#C4A882]/15">
           <div className="max-w-[1160px] mx-auto">
             <span
-              className={`block text-center uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4 font-medium text-stone-900 mb-4 md:mb-12 ${josefin.className}`}
+              className={`block text-center uppercase leading-[1.90] text-[13px] text-[#333333] tracking-[0.03em] mb-4 font-medium text-stone-900 mb-4 md:mb-12 ${josefin.className}`}
             >
               The Five Elements of Craft
             </span>
@@ -347,7 +336,7 @@ export default function BetterMaterials() {
                   >
                     {el.path}
                   </svg>
-                  <span className="text-[clamp(12px,1.3vw,1.01rem)]  tracking-[0.1em] sm:tracking-[0.45em] uppercase text-[#1C1814] font-normal text-center">
+                  <span className="text-[13px]  tracking-[0.1em] sm:tracking-[0.45em] uppercase text-[#1C1814] font-normal text-center">
                     {el.label}
                   </span>
                 </div>
@@ -360,18 +349,14 @@ export default function BetterMaterials() {
 
 
        <section className="w-full leading-none">
-        <div className="group relative aspect-[6/4] ">
-
               <Image
                 src={`https://images.dhirago.com/ecommerce/banner/pi1.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-
                 alt="A young man wearing a handwoven muslin shirt by a lakeside"
                 width={2000}
                 height={800}
                 sizes="100vw"
-                className="h-full w-full object-center"
+                className="block h-auto w-full"
               />
-              </div>
             </section>
 
       {/* QUOTE */}

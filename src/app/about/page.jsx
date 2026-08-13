@@ -72,11 +72,11 @@ function CraftCard({ num, name, desc, delay = 0 }) {
           {num}
         </div>
         <div
-          className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}
+          className={`${josefin.className} uppercase leading-[1.90] text-[13px] text-[#333333] tracking-[0.03em] mb-6`}
         >
           {name}
         </div>
-        <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em]">
+        <p className="font-futura font-light leading-[1.90] text-[15.6px]  text-[#444444] tracking-[0.03em]">
           {desc}
         </p>
       </div>
@@ -196,8 +196,7 @@ export default function AboutPage() {
         <section
           className="
           relative w-full overflow-hidden text-white
-          aspect-[3/4] max-h-[55svh]
-          md:aspect-auto md:h-screen md:max-h-none
+          aspect-[3/4] md:aspect-[16/9]
         "
         >
           <video
@@ -249,7 +248,8 @@ export default function AboutPage() {
               <h2
                 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}
               >
-                A Label woven in stillness,defined by craftsmanship
+                A QUIET EXPRESSION OF CRAFT, SHAPED IN STILLNESS AND REFINED
+                THROUGH TIME
               </h2>
             </Reveal>
           </div>
@@ -261,36 +261,38 @@ export default function AboutPage() {
             }}
           >
             <Reveal delay={260}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
                 DHIRAGO originates from a narrative that simplicity holds depth
                 and life is meant to be felt, not rushed. The name is inspired
-                by <em style={{ fontStyle: "italic" }}>"Dheera"</em> a state of
-                calmness that values clarity and thoughtful living. In a world
-                that moves quickly, it offers a sense of ease—inviting you to
-                slow down and experience beauty found in small details. DHIRAGO
-                crafts menswear that celebrates simplicity, comfort, and the
-                beauty of well-considered details.
+                by “Dheera,” a state of calmness that values clarity and
+                thoughtful living. In a world that moves quickly, it offers a
+                sense of ease—inviting you to slow down and experience beauty
+                found in small details - details that deepen in character and
+                reveal themselves with time. DHIRAGO crafts menswear that
+                celebrates simplicity, comfort, and the beauty of
+                well-considered details.
               </p>
             </Reveal>
             <Reveal delay={340}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
-                As a conscious luxury label, DHIRAGO works with 60 count
-                European linen and organically sourced fabric, valued for its
-                breathability, texture, and the way it softens over time.
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
+                As a conscious luxury label, DHIRAGO works with 60 lea European
+                linen, kala cotton, and organically sourced fabric, valued for
+                its breathability, texture, and the way it softens over time.
                 Produced in small batches in close collaboration with artisans,
                 where each item is hand-cut, sewn by a single tailor from
                 beginning to end and carefully hand-finished.
               </p>
             </Reveal>
             <Reveal delay={420}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
                 Craftsmanship lies at the heart of DHIRAGO, our designs draw
                 from heritage techniques and time honoured practices like block
-                printing, natural dye and intricate detailing of miniature art
-                alongside handwork traditions inspired from sashiko, kantha and
-                tangaliya weaving. We actively collaborate with karigars across
-                India to create piece that celebrate traditional craftsmanship
-                while remaining relevant to modern wardrobe.
+                printing, Artisanal tie-dye and intricate detailing of miniature
+                art alongside handwork traditions inspired from sashiko, kantha
+                and tangaliya inspired detailing. We actively collaborate with
+                karigar’s across India to create piece that celebrate
+                traditional craftsmanship while remaining relevant to modern
+                wardrobe.
               </p>
             </Reveal>
           </div>
@@ -301,25 +303,16 @@ export default function AboutPage() {
             Desktop: big italic quote LEFT | body paras RIGHT
             Mobile:  heading → 4 stacked bordered paragraphs
         ════════════════════════════════════════════════════════ */}
-        <section
-          className="
-          relative w-full overflow-hidden text-white
-          aspect-[3/4] max-h-[55svh]
-          md:aspect-auto md:h-screen md:max-h-none
-        "
-        >
-          <div className="relative mx-auto w-full max-w-[1380px] aspect-[40/28] sm:aspect-[12/9] overflow-hidden">
+        <section className="relative w-full">
+          <div className="relative mx-auto w-full max-w-[1380px] aspect-[16/10]">
             <video
               src={`https://images.dhirago.com/ecommerce/banner/ud1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-
               autoPlay
               loop
               muted
               playsInline
               className="absolute inset-0 w-full h-full object-cover object-center"
             />
-
-           
           </div>
         </section>
 
@@ -347,16 +340,14 @@ export default function AboutPage() {
                 <div style={{ position: "relative" }}>
                   <div style={{ position: "relative", overflow: "hidden" }}>
                     <Image
-                      
                       src={`https://images.dhirago.com/ecommerce/banner/heron.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-
                       alt="The Heron — symbol of Dhirago"
                       width={600}
                       height={750}
                       style={{
                         width: "100%",
-                        height: "clamp(400px,55vw,680px)",
-                        objectFit: "cover",
+                        height: "auto",
+                        objectFit: "contain",
                         objectPosition: "center",
                         display: "block",
                       }}
@@ -378,7 +369,7 @@ export default function AboutPage() {
               <div>
                 <Reveal delay={150}>
                   <h3
-                    className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}
+                    className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}
                   >
                     The Heron a reflection of Dhirago
                   </h3>
@@ -432,7 +423,7 @@ export default function AboutPage() {
                 }}
               >
                 <h2
-                  className={`${josefin.className} uppercase leading-[1.90] text-[clamp(14px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}
+                  className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}
                 >
                   Craftsmanship
                 </h2>
@@ -471,29 +462,29 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="py-12 sm:py-16 lg:py-24 bg-white overflow-x-hidden">
+        <section className="py-12 sm:py-16 lg:py-24 bg-white">
           <div className="max-w-[1640px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.45fr)] gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
               {/* Copy */}
               <div className="w-full max-w-[480px] lg:max-w-none">
                 <Reveal>
                   <h2
-                    className={`${josefin.className} uppercase leading-[1.90] text-[clamp(13px,1.3vw,15px)] text-[#333333] tracking-[0.08em] mb-4 sm:mb-5`}
+                    className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)] text-[#333333] tracking-[0.08em] mb-4 sm:mb-5`}
                   >
                     The Palette of DHIRAGO
                   </h2>
                 </Reveal>
                 <Reveal delay={150}>
-                  <p className="font-futura font-light leading-[1.90] text-[clamp(13px,1.3vw,18px)] text-[#444444] tracking-[0.02em] mb-4">
-                    DHIRAGO finds inspiration in the landscapes and subtle
-                    textures found in natural surroundings. The colour palette
-                    is shaped by tones that feel familiar and enduring — warm
-                    beiges, earthy browns, ecru, soft sky blues, muted
+                  <p className="font-futura font-light leading-[1.90]  text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.02em] mb-4">
+                    Our inspiration comes from the city and its surroundings—its
+                    streets, architecture and natural landscapes. The colour
+                    palette is shaped by tones that feel familiar and enduring —
+                    warm beiges, earthy browns, ecru, soft sky blues, muted
                     lavenders, gentle greens, and sun-washed mustards. Rather
                     than following seasonal colour trends, the focus remains on
                     shades that feel timeless, calm, and easy to live with.
                   </p>
-                  <p className="font-futura font-light leading-[1.90] text-[clamp(13px,1.3vw,18px)] text-[#444444] tracking-[0.02em]">
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.02em]">
                     Designed with clean lines and relaxed silhouettes, the
                     garments are created to become a natural part of everyday
                     life. They are made to move effortlessly between moments —
@@ -507,14 +498,13 @@ export default function AboutPage() {
 
               {/* Larger image block */}
               <Reveal delay={100} className="w-full min-w-0">
-                <div className="relative w-full overflow-hidden bg-white aspect-[1500/1189] min-h-[320px] sm:min-h-[420px] lg:min-h-[560px] xl:min-h-[640px]">
+                <div className="relative w-full bg-white aspect-[1500/1189]">
                   <Image
                     src={`https://images.dhirago.com/ecommerce/banner/palette.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-
                     alt="The Palette of DHIRAGO"
                     fill
                     sizes="(max-width: 1023px) 100vw, 70vw"
-                    className="object-contain object-center scale-[1.08] sm:scale-[1.12] lg:scale-[1.10]"
+                    className="object-contain object-center"
                     quality={90}
                     priority
                   />
@@ -527,13 +517,13 @@ export default function AboutPage() {
         {/* ════════════════════════════════════════════════════════
             06. PHILOSOPHY — heron bg image, centred quote
         ════════════════════════════════════════════════════════ */}
-        <section className="relative min-h-[70vh] sm:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-center justify-center">
           <div
             className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: "url('/images/aboutfooter.jpg')" }}
           />
 
-          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />
+          <div className="inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />
 
           <div
             className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[length:28px_28px] sm:bg-[length:36px_36px] lg:bg-[length:42px_42px]"

@@ -112,9 +112,8 @@ export default function ProductsFeatured() {
      <section
   className="
         relative w-full overflow-hidden text-white
-        aspect-[3/4] max-h-[85svh] lg:mt-16 mt-12
-        md:aspect-auto md:h-screen md:max-h-none
-        md:mt-0 md:px-10 md:pt-10 md:pb-0
+        aspect-[3/4] md:aspect-[16/9]
+        mt-12 lg:mt-16 md:mt-0 md:px-10 md:pt-10
       "
   aria-label="Home intro"
 >

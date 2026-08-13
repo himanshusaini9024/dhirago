@@ -23,7 +23,7 @@ const NAV_LINKS = [
   { label: "Shop", href: "/collections/shirts" },
   { label: "About", href: "/about" },
   { label: "Materials", href: "/pages/better-materials" },
-  { label: "embroidery", href: "/embroidery" },
+  { label: "Handwork", href: "/embroidery" },
   { label: "Sustainability", href: "/sustainability" },
 ];
 
@@ -75,7 +75,7 @@ const Header = () => {
           name: "Materials",
           href: "/pages/better-materials",
         },
-        { name: "embroidery", href: "/embroidery" },
+        { name: "Handwork", href: "/embroidery" },
         { name: "Sustainability", href: "/sustainability" },
       ],
     },

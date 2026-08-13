@@ -626,7 +626,7 @@ export default function Content({ product }) {
         </AccordionRow>
 
         <AccordionRow
-          title="Wash Care for Cotton"
+          title="Wash Care"
           isOpen={openAccordion === "care"}
           onToggle={() => toggleAccordion("care")}
         >

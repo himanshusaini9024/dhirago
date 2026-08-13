@@ -68,7 +68,7 @@ export default function OurKissaPage() {
         />
       </section> */}
 
-      <section className="w-full leading-none">
+      <section className="w-full leading-none ">
         <Image
           src={`https://images.dhirago.com/ecommerce/banner/dsc06358.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
           alt="A young man wearing a handwoven muslin shirt by a lakeside"
@@ -76,13 +76,13 @@ export default function OurKissaPage() {
           height={800}
           priority
           sizes="100vw"
-          className="block h-auto w-full object-cover object-center"
+          className="block h-auto w-full"
         />
       </section>
 
-      <section className="pt-4 pb-1 sm:pt-5 sm:pb-1 md:pt-10 md:pb-2 px-5 sm:px-8 md:px-16 lg:px-24 max-w-[75rem] mx-auto">
+      <section className="pt-4 pb-1 sm:pt-5 sm:pb-1 md:pt-4 md:pb-0 px-5 sm:px-8 md:px-16 lg:px-24 max-w-[75rem] mx-auto lg:relative lg:top-[4rem] lg:z-[999]">
         <Reveal>
-          <p className="font-futura font-light text-center leading-[1.85] text-[clamp(13px,1.3vw,1.07rem)] text-[#444444]">
+          <p className="font-futura font-light text-center leading-[1.85] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444]">
             We believe the finest garments are those that become more themselves
             with time. The moment you put on a garment, there is a shift from
             being an individual to becoming an interconnected member of society -
@@ -94,7 +94,7 @@ export default function OurKissaPage() {
       </section>
 
       {/* Single large editorial image — crop top white margin from sus.png */}
-      <section className="w-full py-0 -mt-1 sm:mt-0">
+      <section className="w-full py-0 -mt-1 sm:mt-0 md:-mt-8">
         <div className="mx-auto w-full max-w-[1700px] px-2 sm:px-5 md:px-8 lg:px-10">
           <Reveal>
             <div className="relative w-full overflow-hidden bg-white aspect-[1500/1189] leading-none">
@@ -104,7 +104,7 @@ export default function OurKissaPage() {
                 alt="Sustainability editorial"
                 fill
                 sizes="100vw"
-                className="object-cover object-[center_78%] scale-[1.22] sm:scale-[1.16] md:scale-[1.12]"
+                className="object-contain object-center md:object-cover md:object-[center_80%] md:scale-[1.2]"
                 quality={90}
                 priority
               />
@@ -116,7 +116,7 @@ export default function OurKissaPage() {
       <section className="pt-3 pb-6 sm:pt-4 sm:pb-8 md:pt-5 md:pb-10 px-5 sm:px-8 md:px-16 lg:px-24">
         <div className="max-w-[51rem] mx-auto">
           <Reveal>
-            <p className="font-futura font-light leading-[1.9] text-[clamp(13px,1.3vw,1.07rem)] text-[#444444] tracking-[0.03em] mb-3">
+            <p className="font-futura font-light leading-[1.9] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
               At DHIRAGO, endurance begins long before a garment is worn. It
               begins with thoughtful choices—natural fibres selected for their
               lasting character and a commitment to making only what deserves
@@ -127,7 +127,7 @@ export default function OurKissaPage() {
             </p>
           </Reveal>
           <Reveal delay={150}>
-            <p className="font-futura font-light leading-[1.9] text-[clamp(13px,1.3vw,1.07rem)] text-[#444444] tracking-[0.03em]">
+            <p className="font-futura font-light leading-[1.9] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em]">
               The label maintains its unique vision by departing from
               mainstream manufacturing, producing small batch slow-made
               clothing in collaboration with groups of artisans. Every
@@ -161,13 +161,13 @@ export default function OurKissaPage() {
       {/* SUSTAINABILITY BAND */}
      
 
-         <section className="relative min-h-[70vh] sm:min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
+         <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-center justify-center">
           <div
             className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: "url('/images/DSC06480.jpg')" }}
           />
 
-          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />
+          <div className=" inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />
 
           <div
             className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[length:28px_28px] sm:bg-[length:36px_36px] lg:bg-[length:42px_42px]"

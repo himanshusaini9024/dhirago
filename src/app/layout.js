@@ -61,7 +61,7 @@ export default function RootLayout({ children }) {
 
           <ReduxProvider>
             <AuthLoader />
-            <PopupProvider>
+            {/* <PopupProvider> */}
               <Header />
 
               <LayoutWrapper>
@@ -127,7 +127,7 @@ export default function RootLayout({ children }) {
               </Script> */}
 
               <Footer />
-            </PopupProvider>
+            {/* </PopupProvider> */}
           </ReduxProvider>
         </div>
       </body>

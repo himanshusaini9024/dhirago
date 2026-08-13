@@ -5,8 +5,7 @@ const PageIntro = () => {
     <section
     className="
           relative w-full overflow-hidden text-white
-          aspect-[3/4] max-h-[85svh]
-          md:aspect-auto md:h-screen md:max-h-none
+          aspect-[3/4] md:aspect-[16/9]
         "
       aria-label="Home intro"
     >

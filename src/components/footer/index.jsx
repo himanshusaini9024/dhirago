@@ -32,9 +32,9 @@ const storyLinks = [
 ];
 
 const makingLinks = [
-  { label: "Craft Traditions", href: "/pages/better-materials" },
-  { label: "Handcrafted Details", href: "/embroidery" },
-  { label: "Made to Endure", href: "/sustainability" },
+  { label: "Materials", href: "/pages/better-materials" },
+  { label: "Handwork", href: "/embroidery" },
+  { label: "Sustainability", href: "/sustainability" },
 ];
 
 const houseLinks = [

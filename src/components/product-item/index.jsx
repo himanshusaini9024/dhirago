@@ -49,7 +49,7 @@ const ProductItem = ({
       {/* IMAGE */}
 
       <div
-        className="relative w-full h-[300px] md:h-[670px] overflow-hidden bg-[#f5f5f5]"
+        className="relative w-full aspect-[3/4] md:aspect-[4/6] overflow-hidden bg-[#f5f5f5]"
         onMouseEnter={() => setHovered(true)}
         onTouchStart={() => setHovered(true)}
         onMouseLeave={() => {

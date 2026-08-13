@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section className={`${josefin.className} mt-3 lg:mt-28 px-4 sm:px-6 md:px-0`}>
       <h3
-        className={`${josefin.className} text-center uppercase leading-[1.7] md:leading-[1.9] text-[clamp(11px,1.3vw,1.07rem)] text-[#333333] tracking-[0.03em] mb-4 px-2`}
+        className={`${josefin.className} text-center uppercase leading-[1.7] md:leading-[1.9] text-[clamp(11px,1.3vw,1.08rem)] text-[#333333] tracking-[0.03em] mb-4 px-2`}
       >
         EMBROIDERED THROUGH <br className="hidden sm:block" />HANDS AND TIME
       </h3>
@@ -23,14 +23,14 @@ export default function Hero() {
               style={{ color: "#555555" }}
               className={`font-normal text-justify text-[clamp(0.8rem,1.35vw,1.07rem)] leading-[1.75] md:leading-[2.10] font-futura`}
             >
-              we works with indigenous textile techniques and natural fabrics, thoughtfully integrating time-honoured crafts such as and Kantha embroidery and Tangaliya inspired weaving, Sashiko inspired into its garments creating quiet details and distinctive pattern.
+              In the hands of our artisan, a simple thread transform into timeless art. Each stitch reflect generation of skills, patience and precision and knowledge passed through generations. The beauty of handwork lies in its variations, each one shaped by the instinct of the maker. No two expressions are ever entirely the same.
             </p>
 
             <p
               style={{ color: "#555555" }}
-              className={`font-normal mt-3 text-justify text-[clamp(0.8rem,1.35vw,1.05rem)] leading-[1.75] md:leading-[2.10] font-futura`}
+              className={`font-normal mt-3 text-justify text-[clamp(0.8rem,1.35vw,1.07rem)] leading-[1.75] md:leading-[2.10] font-futura`}
             >
-              Every stitch is considered, every detail given time. Meticulously worked by hand, each piece celebrates the beauty of things made slowly — garments designed not only to endure, but to grow richer in character and more beautiful with time.
+              Worked slowly and with intention, these details are more than embellishment; they hold the time, touch, and skill invested in their making. Often quiet at first glance, they reveal themselves gradually—because the true signature of something beautifully made is found in the details that ask you to look closer.
             </p>
 
             <div className="mt-6 md:mt-9 flex justify-center md:justify-start gap-3">
@@ -47,7 +47,7 @@ export default function Hero() {
         {/* Images wrapper: side-by-side on mobile, becomes two independent grid items on desktop */}
         <div className="order-2 grid grid-cols-2 gap-3 sm:gap-4 md:contents">
           {/* Image 1 */}
-          <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full min-h-[200px] sm:min-h-[280px] md:min-h-[600px] lg:min-h-[680px] overflow-hidden bg-black/5 md:order-2">
+          <div className="relative w-full aspect-[3/4] overflow-hidden bg-black/5 md:order-2">
             <Image
             src={`https://images.dhirago.com/ecommerce/Home/wi2.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
               
@@ -63,7 +63,7 @@ export default function Hero() {
           </div>
 
           {/* Image 2 */}
-          <div className="relative w-full aspect-[3/4] md:aspect-auto md:h-full min-h-[200px] sm:min-h-[280px] md:min-h-[600px] lg:min-h-[680px] overflow-hidden bg-black/5 md:order-3">
+          <div className="relative w-full aspect-[3/4] overflow-hidden bg-black/5 md:order-3">
             <Image
             src={`https://images.dhirago.com/ecommerce/Home/wi.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
 

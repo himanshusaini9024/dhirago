@@ -173,9 +173,9 @@ export default function HandEmbroideryPage() {
 
       <section className="w-full leading-none">
           <Image
-            src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+            src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}2`}
             alt="A young man wearing a handwoven muslin shirt by a lakeside"
-            width={2000}
+            width={1000}
             height={800}
             sizes="100vw"
             className="block h-auto w-full"

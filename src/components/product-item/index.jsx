@@ -45,11 +45,11 @@ const ProductItem = ({
   // }, [imageList.length]);
 
   return (
-    <div className="group cursor-pointer mt-6 md:mt-0">
+    <div className="group cursor-pointer mt-4 md:mt-0">
       {/* IMAGE */}
 
       <div
-        className="relative w-full aspect-[3/4] md:aspect-[4/6] overflow-hidden bg-[#f5f5f5]"
+        className="relative w-full aspect-[4/6] md:aspect-[4/6] overflow-hidden bg-[#f5f5f5]"
         onMouseEnter={() => setHovered(true)}
         onTouchStart={() => setHovered(true)}
         onMouseLeave={() => {
@@ -86,7 +86,7 @@ const ProductItem = ({
                     : "/images/placeholder.png"
                 }
                 alt={name}
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                className={`absolute inset-0 w-full h-full object-cover  ${
                   hovered ? "opacity-100" : "opacity-0"
                 }`}
                 width={1200}

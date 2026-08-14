@@ -134,7 +134,7 @@ export default function ShippingReturn() {
               Refund will be processed once we receive the product at our studio
             </li>
           </ul>
-          <p>You can also call or write to us if you need any assistance.</p>
+          <p className="font-medium text-[#111111]">You can also call or write to us if you need any assistance.</p>
         </div>
 
           <div>

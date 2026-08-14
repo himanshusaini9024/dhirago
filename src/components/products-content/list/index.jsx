@@ -242,7 +242,7 @@ export default function ProductList({ initialProducts, slug }) {
       </div>
 
       {/* ── PRODUCT GRID ───────────────────────────────────── */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-14 gap-3 md:px-12 px-4 md:py-6 py-0">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-14 gap-3 md:px-12 px-2 md:py-6 py-0">
         {filteredProducts.map((item) => (
           <ProductItem
             key={item.id}

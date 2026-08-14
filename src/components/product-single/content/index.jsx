@@ -104,16 +104,15 @@ function AccordionRow({ title, children, isOpen, onToggle }) {
 }
 
 export default function Content({ product }) {
-
   useEffect(() => {
     fbEvent("ViewContent", {
-        content_ids: [product.id],
-        content_name: product.name,
-        content_type: "product",
-        value: product.currentPrice,
-        currency: "INR",
+      content_ids: [product.id],
+      content_name: product.name,
+      content_type: "product",
+      value: product.currentPrice,
+      currency: "INR",
     });
-}, []);
+  }, []);
 
   const dispatch = useDispatch();
   const isMobile = useIsMobile();
@@ -170,32 +169,36 @@ export default function Content({ product }) {
     return Array.isArray(dims) && dims.some((d) => (d?.name || "").trim());
   }, [sizeGuide]);
 
-  const addToCart = async ()  => {
-      const eventID = crypto.randomUUID();
+  const addToCart = async () => {
+    const eventID = crypto.randomUUID();
 
     if (!itemSize) {
       setSizeError("Please select your size");
       return;
     }
-    fbEvent("AddToCart", {
-    content_ids: [product.id],
-    content_name: product.name,
-    value: product.currentPrice,
-    currency: "INR",
-},eventID);
+    fbEvent(
+      "AddToCart",
+      {
+        content_ids: [product.id],
+        content_name: product.name,
+        value: product.currentPrice,
+        currency: "INR",
+      },
+      eventID,
+    );
 
- await sendMetaEvent({
-    event_name: "AddToCart",
-    event_time: Math.floor(Date.now() / 1000),
-    event_id: eventID,
-    action_source: "website",
-    custom_data: {
-      content_ids: [product.id],
-      content_name: product.name,
-      currency: "INR",
-      value: product.currentPrice,
-    },
-  });
+    await sendMetaEvent({
+      event_name: "AddToCart",
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: eventID,
+      action_source: "website",
+      custom_data: {
+        content_ids: [product.id],
+        content_name: product.name,
+        currency: "INR",
+        value: product.currentPrice,
+      },
+    });
 
     setSizeError("");
     event({
@@ -232,35 +235,98 @@ export default function Content({ product }) {
 
   const CareSection = () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "11px" }}>
-      
       {[
         {
           label: "Do not bleach",
           icon: (
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M8 4h8l-1.5 4H9.5L8 4z" stroke="#555" strokeWidth="1.4" strokeLinejoin="round" />
-              <path d="M7 9h10l-1.2 9.2a2 2 0 0 1-2 1.8h-3.6a2 2 0 0 1-2-1.8L7 9z" stroke="#555" strokeWidth="1.4" strokeLinejoin="round" />
-              <path d="M5 5l14 14" stroke="#555" strokeWidth="1.5" strokeLinecap="round" />
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden
+            >
+              <path
+                d="M8 4h8l-1.5 4H9.5L8 4z"
+                stroke="#555"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M7 9h10l-1.2 9.2a2 2 0 0 1-2 1.8h-3.6a2 2 0 0 1-2-1.8L7 9z"
+                stroke="#555"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5 5l14 14"
+                stroke="#555"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
             </svg>
           ),
         },
         {
           label: "Iron or steam with warm heat",
           icon: (
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M4 14h13a4 4 0 0 0 0-8H9" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
-              <path d="M4 14v2a2 2 0 0 0 2 2h10" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
-              <path d="M8 18v2M12 18v2M16 18v2" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden
+            >
+              <path
+                d="M4 14h13a4 4 0 0 0 0-8H9"
+                stroke="#555"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+              <path
+                d="M4 14v2a2 2 0 0 0 2 2h10"
+                stroke="#555"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+              <path
+                d="M8 18v2M12 18v2M16 18v2"
+                stroke="#555"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
             </svg>
           ),
         },
         {
           label: "Separately hand wash",
           icon: (
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M8 11c0-2 1.5-3.5 3.5-3.5S15 9 15 11v1" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
-              <path d="M7 12h9.5a2.5 2.5 0 0 1 0 5H9a3 3 0 0 1-3-3v-1.2A1.8 1.8 0 0 1 7.8 11" stroke="#555" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M9 7.5V5.8M12 7V5M15 7.5V6" stroke="#555" strokeWidth="1.4" strokeLinecap="round" />
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden
+            >
+              <path
+                d="M8 11c0-2 1.5-3.5 3.5-3.5S15 9 15 11v1"
+                stroke="#555"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+              <path
+                d="M7 12h9.5a2.5 2.5 0 0 1 0 5H9a3 3 0 0 1-3-3v-1.2A1.8 1.8 0 0 1 7.8 11"
+                stroke="#555"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M9 7.5V5.8M12 7V5M15 7.5V6"
+                stroke="#555"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
             </svg>
           ),
         },
@@ -286,15 +352,15 @@ export default function Content({ product }) {
           <span style={prose}>{item.label}</span>
         </div>
       ))}
-      <div style={{ borderTop: BORDER, paddingTop: "10px" }}>
-        <p style={prose}>
-          NOTE:
-          <br />
-          Colour bleeding is normal in naturally dyed garments in the initial
-          washes after which the colours stabilise. The fading and bleeding of
-          the natural dyes result in graceful fades with the passage of time.
-        </p>
-      </div>
+      {product?.name === "Deep Indigo embroidered neckline shirt" && (
+        <div style={{ borderTop: BORDER, paddingTop: "10px" }}>
+          <p style={prose}>
+            Colour bleeding is normal in naturally dyed garments in the initial
+            washes after which the colours stabilise. The fading and bleeding of
+            the natural dyes result in graceful fades with the passage of time.
+          </p>
+        </div>
+      )}
     </div>
   );
 
@@ -575,9 +641,9 @@ export default function Content({ product }) {
         >
           <div
             style={{
-              fontSize: "14px",
+              fontSize: "14.3px",
               lineHeight: "2.4",
-              color: "#555555",
+              color: "#111111",
               fontWeight: 400,
               fontFamily: F,
             }}
@@ -585,44 +651,14 @@ export default function Content({ product }) {
               __html: product?.description || "No description available.",
             }}
           />
-          {/* {measurements && (
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                marginTop: "12px",
-              }}
-            >
-              <tbody>
-                {Object.entries(measurements).map(([k, v]) => (
-                  <tr key={k} style={{ borderBottom: BORDER }}>
-                    <td
-                      style={{
-                        padding: "7px 0",
-                        fontSize: "10.5px",
-                        color: "#a8a49c",
-                        textTransform: "capitalize",
-                        fontFamily: F,
-                      }}
-                    >
-                      {k.replace(/_/g, " ")}
-                    </td>
-                    <td
-                      style={{
-                        padding: "7px 0",
-                        fontSize: "10.5px",
-                        color: "#1a1a1a",
-                        textAlign: "right",
-                        fontFamily: F,
-                      }}
-                    >
-                      {v}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )} */}
+           <div style={{  paddingTop: "10px" }}>
+        <p style={prose}>
+          NOTE:
+          <br />
+          Garment fabric colour(s) may vary slightly due to photographic lighting sources or your screen settings.
+        </p>
+      </div>
+         
         </AccordionRow>
 
         <AccordionRow
@@ -640,23 +676,13 @@ export default function Content({ product }) {
         >
           <div style={prose}>
             <p style={{ margin: "0 0 6px" }}>
-              Ready-to-ship styles dispatch in 5–8 days.
+              Complimentary shipping across India.
             </p>
             <p style={{ margin: "0 0 6px" }}>
-              Express delivery 4–5 business days across India after dispatch.
+              Orders are dispatched within 1–2 business days.
             </p>
-            <p style={{ margin: 0 }}>
-              For changes email&nbsp;
-              <a
-                href="mailto:brahaanbynarains@gmail.com"
-                style={{
-                  color: "#111",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "3px",
-                }}
-              >
-                contact@dhirago.com
-              </a>
+            <p style={{ margin: " 0 0 6px" }}>
+              Delivery usually takes 5–8 business days from the date of dispatch
             </p>
           </div>
         </AccordionRow>
@@ -668,21 +694,11 @@ export default function Content({ product }) {
         >
           <div style={prose}>
             <p style={{ margin: "0 0 6px" }}>
-              Refunds and returns possible in certain situations. Fitting
-              alterations can be arranged.
+              We accept returns/exchanges within 5 days of delivery.
             </p>
-            <p style={{ margin: 0 }}>
-              <a
-                href={`${baseUrl}/shipping-and-return`}
-                target="_blank"
-                style={{
-                  color: "#111",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "3px",
-                }}
-              >
-                Read full policy →
-              </a>
+            <p style={{ margin: "0 0 6px" }}>
+              Refunds will be applicable after the returned product passes our
+              quality check
             </p>
           </div>
         </AccordionRow>
@@ -729,7 +745,6 @@ md:rounded-none
                 onClick={() => setOpenSizeChart(false)}
                 className="px-1 py-1 absolute top-[12px] right-[10px] md:right-[6px]"
                 style={{
-
                   background: "black",
                   border: "none",
                   cursor: "pointer",

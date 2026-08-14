@@ -30,7 +30,9 @@ export default function Gallery({ images: rawImages }) {
   const [openIdx,  setOpenIdx]  = useState(0);
   const [loaded,   setLoaded]   = useState({});
   const [isMobile, setIsMobile] = useState(false);
-
+  const [zoomed,   setZoomed]   = useState(false);
+  const [origin,   setOrigin]   = useState({ x: 50, y: 50 });
+const [isWide, setIsWide] = useState(false);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
   const stackRef    = useRef(null);
@@ -47,7 +49,11 @@ export default function Gallery({ images: rawImages }) {
 
   useEffect(() => {
     injectCSS();
-    const check = () => setIsMobile(window.innerWidth < 768);
+     const check = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsWide(window.innerWidth >= 2050);
+    };
+    // const check = () => setIsMobile(window.innerWidth < 768);s
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -59,11 +65,18 @@ export default function Gallery({ images: rawImages }) {
       if (!isOpen) return;
       if (e.key === "ArrowRight") setOpenIdx(p => Math.min(count - 1, p + 1));
       if (e.key === "ArrowLeft")  setOpenIdx(p => Math.max(0, p - 1));
-      if (e.key === "Escape")     setIsOpen(false);
+      if (e.key === "Escape") {
+        if (zoomed) setZoomed(false);
+        else setIsOpen(false);
+      }
     };
     window.addEventListener("keydown", fn);
     return () => window.removeEventListener("keydown", fn);
-  }, [isOpen, count]);
+  }, [isOpen, count, zoomed]);
+
+  useEffect(() => {
+    if (!isOpen) setZoomed(false);
+  }, [isOpen, openIdx]);
 
   // ── DESKTOP SCROLL ENGINE ─────────────────────────────────────────────────
   // Strategy: intercept ALL wheel events globally. While gallery has images
@@ -119,6 +132,8 @@ export default function Gallery({ images: rawImages }) {
     setupObserver();
 
     const onWheel = (e) => {
+      // if (e.target?.closest?.(".pdp-content-col")) return;
+
       const stack = stackRef.current;
       if (!stack) return;
 
@@ -126,13 +141,11 @@ export default function Gallery({ images: rawImages }) {
       const atTop    = scrollY.current <= 0;
       const atBottom = scrollY.current >= maxScroll.current - 1;
 
-      // If gallery can absorb this scroll direction → consume it
       if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
         e.preventDefault();
         e.stopPropagation();
         applyScroll(e.deltaY);
       }
-      // else: fall through to normal page scroll
     };
 
     // MUST be { passive: false } and on document to intercept before browser
@@ -145,19 +158,34 @@ export default function Gallery({ images: rawImages }) {
   }, [isMobile, count, images]);
 
   // Thumbnail click
+
+
   const goTo = useCallback((i) => {
-    if (i < 0 || i >= count) return;
-    setActive(i);
-    suppress.current = true;
-    setTimeout(() => { suppress.current = false; }, 800);
-    const el  = imgRefs.current[i];
-    const col = stackRef.current;
-    if (el && col) {
-      const target = el.offsetTop;
-      scrollY.current = Math.max(0, Math.min(maxScroll.current, target));
-      col.scrollTop = scrollY.current;
-    }
-  }, [count]);
+  if (i < 0 || i >= count) return;
+
+  setActive(i);
+  suppress.current = true;
+  setTimeout(() => (suppress.current = false), 400);
+
+  const col = stackRef.current;
+  const el = imgRefs.current[i];
+  if (!col || !el) return;
+
+  // Recalculate scroll height before scrolling
+  maxScroll.current = col.scrollHeight - col.clientHeight;
+
+  const target = Math.min(
+    el.offsetTop,
+    Math.max(0, maxScroll.current)
+  );
+
+  scrollY.current = target;
+
+  col.scrollTo({
+    top: target,
+    behavior: "smooth",
+  });
+}, [count]);
 
   // Mobile swipe
   const handleTouchStart = (e) => {
@@ -173,7 +201,29 @@ export default function Gallery({ images: rawImages }) {
     }
   };
 
-  const openLightbox = useCallback((i) => { setOpenIdx(i); setIsOpen(true); }, []);
+  const openLightbox = useCallback((i) => {
+    setOpenIdx(i);
+    setZoomed(false);
+    setIsOpen(true);
+  }, []);
+
+  const setOriginFromEvent = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setOrigin({ x, y });
+  };
+
+  const handleLightboxImgClick = (e) => {
+    e.stopPropagation();
+    setOriginFromEvent(e);
+    setZoomed((z) => !z);
+  };
+
+  const handleLightboxImgMove = (e) => {
+    if (!zoomed) return;
+    setOriginFromEvent(e);
+  };
 
   if (count === 0) return null;
 
@@ -248,10 +298,15 @@ export default function Gallery({ images: rawImages }) {
               }}>✕</button>
               <AnimatePresence mode="wait">
                 <motion.img key={openIdx} src={BASE + images[openIdx].url} alt=""
-                  initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: zoomed ? 2.2 : 1 }}
                   exit={{ opacity: 0, scale: 0.97 }} transition={{ duration: 0.2 }}
-                  style={{ maxHeight: "90vh", maxWidth: "92vw", objectFit: "contain" }}
-                  onClick={e => e.stopPropagation()}
+                  style={{
+                    maxHeight: "90vh", maxWidth: "92vw", objectFit: "contain",
+                    cursor: zoomed ? "zoom-out" : "zoom-in",
+                    transformOrigin: `${origin.x}% ${origin.y}%`,
+                  }}
+                  onClick={handleLightboxImgClick}
+                  onMouseMove={handleLightboxImgMove}
                 />
               </AnimatePresence>
               <div style={{
@@ -326,16 +381,17 @@ export default function Gallery({ images: rawImages }) {
               onClick={() => openLightbox(i)}
               style={{
                 position: "relative", flexShrink: 0,
-                width: "92%",height:"100vh", aspectRatio: "4/5",
+                width: "92%",height: isWide ? "70vh":"100vh", aspectRatio: isWide ? undefined : "4/5",
                 background: "#edeae3", cursor: "zoom-in", overflow: "hidden",
               }}
             >
               <motion.img
-                src={img.url ? BASE + img.url + 11 : "/placeholder.jpg"}
+                src={img.url ? BASE + img.url : "/placeholder.jpg"}
                 alt={img.alt || `Product ${i + 1}`}
                 loading={i === 0 ? "eager" : "lazy"}
                 onLoad={() => setLoaded(p => ({ ...p, [i]: true }))}
                 whileHover={{ scale: 1.013 }}
+                
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 style={{
                   position: "absolute", inset: 0, width: "100%", height: "100%",
@@ -382,10 +438,17 @@ export default function Gallery({ images: rawImages }) {
             <AnimatePresence mode="wait">
               <motion.img key={openIdx}
                 src={BASE + images[openIdx].url} alt={images[openIdx].alt || "Product"}
-                initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.97 }} transition={{ duration: 0.2 }}
-                style={{ maxHeight: "90vh", maxWidth: "88vw", objectFit: "contain", display: "block" }}
-                onClick={e => e.stopPropagation()} draggable={false}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: zoomed ? 2.4 : 1 }}
+                exit={{ opacity: 0, scale: 0.97 }} transition={{ duration: 0.22 }}
+                style={{
+                  maxHeight: "90vh", maxWidth: "88vw", objectFit: "contain", display: "block",
+                  cursor: zoomed ? "zoom-out" : "zoom-in",
+                  transformOrigin: `${origin.x}% ${origin.y}%`,
+                }}
+                onClick={handleLightboxImgClick}
+                onMouseMove={handleLightboxImgMove}
+                draggable={false}
               />
             </AnimatePresence>
 
@@ -414,7 +477,7 @@ export default function Gallery({ images: rawImages }) {
                   outlineOffset: "2px", opacity: i === openIdx ? 1 : 0.2,
                   cursor: "pointer", background: "#181818", transition: "opacity 0.18s",
                 }}>
-                  <img src={BASE + img.url+11} alt=""
+                  <img src={BASE + img.url} alt=""
                     style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
                   />
                 </button>

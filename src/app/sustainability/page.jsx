@@ -95,7 +95,7 @@ export default function OurKissaPage() {
 
       {/* Single large editorial image — crop top white margin from sus.png */}
       <section className="w-full py-0 -mt-1 sm:mt-0 md:-mt-8">
-        <div className="mx-auto w-full max-w-[1700px] px-2 sm:px-5 md:px-8 lg:px-10">
+        <div className="mx-auto w-full max-w-[1500px] px-2 sm:px-5 md:px-8 lg:px-10">
           <Reveal>
             <div className="relative w-full overflow-hidden bg-white aspect-[1500/1189] leading-none">
               <Image

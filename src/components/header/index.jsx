@@ -27,6 +27,14 @@ const NAV_LINKS = [
   { label: "Sustainability", href: "/sustainability" },
 ];
 
+const MOBILE_NAV_LINKS = [
+  { label: "Shop", href: "/collections/shirts" },
+  { label: "About", href: "/about" },
+  { label: "Materials", href: "/pages/better-materials" },
+  { label: "Handwork", href: "/embroidery" },
+  { label: "Sustainability", href: "/sustainability" },
+];
+
 const Header = () => {
   const dispatch = useDispatch();
   const pathname = usePathname();
@@ -58,28 +66,6 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const mobileMenu = [
-    {
-      title: "Shop",
-      children: [{ name: "Shirts", href: "/collections/shirts" }],
-    },
-    {
-      title: "About",
-      children: [{ name: "Our Story", href: "/about" }],
-    },
-    {
-      title: "Why Dhirago",
-      children: [
-        {
-          name: "Materials",
-          href: "/pages/better-materials",
-        },
-        { name: "Handwork", href: "/embroidery" },
-        { name: "Sustainability", href: "/sustainability" },
-      ],
-    },
-  ];
 
   const iconBtn =
     "inline-flex items-center justify-center w-9 h-9 text-black hover:opacity-60 transition-opacity";
@@ -242,47 +228,58 @@ const Header = () => {
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 }}
-                    className={`flex-1 overflow-y-auto px-4 py-4 ${josefin.className}`}
+                    className={`flex-1 overflow-y-auto px-6 py-6 ${josefin.className}`}
                   >
-                    {mobileMenu.map((section, i) => (
-                      <AccordionItem
-                        key={i}
-                        item={section}
-                        setMenuOpen={setMenuOpen}
-                      />
-                    ))}
-                    <Link
-                      href="/cart"
-                      onClick={() => setMenuOpen(false)}
-                      className="block py-4 mt-4 border-t text-sm font-medium"
-                    >
-                      Cart ({cartItems.length})
-                    </Link>
-                    <div className="pt-3">
+                    <nav className="flex flex-col">
+                      {MOBILE_NAV_LINKS.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setMenuOpen(false)}
+                          className="py-4 text-[13px] tracking-[0.18em] uppercase text-black border-b border-[#ece8e2]"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+
+                      <Link
+                        href="/cart"
+                        onClick={() => setMenuOpen(false)}
+                        className="py-4 text-[13px] tracking-[0.18em] uppercase text-black border-b border-[#ece8e2]"
+                      >
+                        Cart ({cartItems.length})
+                      </Link>
+
                       {!isLoggedIn ? (
                         <button
+                          type="button"
                           onClick={() => {
                             setLoginOpen(true);
                             setMenuOpen(false);
                           }}
-                          className="flex items-center gap-2 text-sm"
+                          className="py-4 text-left text-[13px] tracking-[0.18em] uppercase text-black border-b border-[#ece8e2]"
                         >
                           Login
                         </button>
                       ) : (
-                        <div className="space-y-2 text-sm">
+                        <>
                           <Link
-                            onClick={() => setMenuOpen(false)}
                             href="/account"
+                            onClick={() => setMenuOpen(false)}
+                            className="py-4 text-[13px] tracking-[0.18em] uppercase text-black border-b border-[#ece8e2]"
                           >
                             My Profile
                           </Link>
-                          <br />
-                          <br />
-                          <button onClick={handleLogout}>Logout</button>
-                        </div>
+                          <button
+                            type="button"
+                            onClick={handleLogout}
+                            className="py-4 text-left text-[13px] tracking-[0.18em] uppercase text-black border-b border-[#ece8e2]"
+                          >
+                            Logout
+                          </button>
+                        </>
                       )}
-                    </div>
+                    </nav>
                   </motion.div>
                 </motion.div>
               </Dialog.Content>
@@ -294,54 +291,5 @@ const Header = () => {
     </>
   );
 };
-
-function AccordionItem({ item, setMenuOpen }) {
-  const [open, setOpen] = useState(true);
-
-  if (item.href) {
-    return (
-      <Link
-        href={item.href}
-        onClick={() => setMenuOpen(false)}
-        className={`${josefin.className} flex items-center justify-between py-3 text-sm hover:text-black`}
-      >
-        <span className="text-sm font-medium">{item.title || item.name}</span>
-        {item.tag && (
-          <span className="text-[10px] bg-black text-white px-2 py-[2px] ml-2">
-            {item.tag}
-          </span>
-        )}
-      </Link>
-    );
-  }
-
-  return (
-    <div className="border-b">
-      <button
-        aria-expanded={open}
-        aria-label={`${open ? "Collapse" : "Expand"} ${item.title || item.name}`}
-        onClick={() => setOpen(!open)}
-        className="w-full flex justify-between items-center py-3 text-left"
-      >
-        <span className="text-sm font-medium">{item.title || item.name}</span>
-        <span className="text-xs">{open ? "−" : "+"}</span>
-      </button>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden pl-3"
-          >
-            {item.children?.map((child, i) => (
-              <AccordionItem key={i} item={child} setMenuOpen={setMenuOpen} />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
 
 export default Header;

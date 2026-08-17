@@ -24,7 +24,7 @@ const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Materials", href: "/pages/better-materials" },
   { label: "Handwork", href: "/embroidery" },
-  { label: "Sustainability", href: "/sustainability" },
+  { label: "Timeless", href: "/sustainability" },
 ];
 
 const MOBILE_NAV_LINKS = [
@@ -32,7 +32,7 @@ const MOBILE_NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Materials", href: "/pages/better-materials" },
   { label: "Handwork", href: "/embroidery" },
-  { label: "Sustainability", href: "/sustainability" },
+  { label: "Timeless", href: "/sustainability" },
 ];
 
 const Header = () => {

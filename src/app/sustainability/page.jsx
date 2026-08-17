@@ -80,31 +80,26 @@ export default function OurKissaPage() {
         />
       </section>
 
-      <section className="pt-4 pb-1 sm:pt-5 sm:pb-1 md:pt-4 md:pb-0 px-5 sm:px-8 md:px-16 lg:px-24 max-w-[75rem] mx-auto lg:relative lg:top-[4rem] lg:z-[999]">
+      <section className="pt-4 pb-1 sm:pt-5 sm:pb-1 md:pt-4 md:pb-0 px-5 sm:px-8 md:px-16 lg:p-20 max-w-[75rem] mx-auto lg:relative lg:top-[4rem] ">
         <Reveal>
           <p className="font-futura font-light text-center leading-[1.85] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444]">
-            We believe the finest garments are those that become more themselves
-            with time. The moment you put on a garment, there is a shift from
-            being an individual to becoming an interconnected member of society -
-            cloth connects our bodies & minds to a team of makers who brings each
-            piece to life. The materiality of the garment connects us to the
-            environment & where we stand in relationship to it.
+            A wall gathers colour slowly with time. Stone softens at the edges, pigments fade into unexpected shades, and sunlight leaves its quiet traces across the surface. Seasons pass, hands touch, and generations leave behind marks that no one could have planned or recreated. What may once have seemed like wear gradually becomes part of its character. The surface no longer holds the perfection of something new; instead, it carries the beauty of everything it has lived through. Perhaps that is what makes old things so compelling—they do not remain untouched, they become entirely their own. 
           </p>
         </Reveal>
       </section>
 
       {/* Single large editorial image — crop top white margin from sus.png */}
-      <section className="w-full py-0 -mt-1 sm:mt-0 md:-mt-8">
-        <div className="mx-auto w-full max-w-[1500px] px-2 sm:px-5 md:px-8 lg:px-10">
+      <section className="w-full py-0 -mt-1 sm:mt-0 ">
+        <div className="mx-auto w-full max-w-[1700px] px-2 sm:px-5 md:px-8 lg:px-10">
           <Reveal>
-            <div className="relative w-full overflow-hidden bg-white aspect-[1500/1189] leading-none">
+            <div className="relative w-full overflow-hidden bg-white aspect-[1500/1042] leading-none">
               <Image
                 src={`https://images.dhirago.com/ecommerce/banner/sus.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
 
                 alt="Sustainability editorial"
                 fill
                 sizes="100vw"
-                className="object-contain object-center md:object-cover md:object-[center_80%] md:scale-[1.2]"
+                className="object-contain object-center md:object-cover md:object-[center_80%] md:scale-[1]"
                 quality={90}
                 priority
               />
@@ -117,30 +112,17 @@ export default function OurKissaPage() {
         <div className="max-w-[51rem] mx-auto">
           <Reveal>
             <p className="font-futura font-light leading-[1.9] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
-              At DHIRAGO, endurance begins long before a garment is worn. It
-              begins with thoughtful choices—natural fibres selected for their
-              lasting character and a commitment to making only what deserves
-              to remain. The looks developed are safe for the skin and
-              transitions seamlessly between cultures from day to evening wear.
-              Relaxed silhouettes created with a sartorial touch that echo the
-              brand&apos;s philosophy &apos;the beauty of time&apos;
+              In much the same way, we believe a garment should not be defined only by how it looks when it is new, but by how beautifully it continues to live. Natural fibres are chosen for the way they soften, settle, and develop character through wear, while relaxed silhouettes and considered construction allow each piece to remain relevant beyond a season. The intention is not to preserve a garment exactly as it began, but to create something with the quality to evolve&apos;
             </p>
           </Reveal>
           <Reveal delay={150}>
-            <p className="font-futura font-light leading-[1.9] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em]">
-              The label maintains its unique vision by departing from
-              mainstream manufacturing, producing small batch slow-made
-              clothing in collaboration with groups of artisans. Every
-              collection is developed in considered quantities, allowing
-              greater attention to every fabric, every stitch, and every
-              finish. Materials are used with care, leftover fabrics are
-              thoughtfully repurposed wherever possible, and every decision is
-              guided by respect for both the craft and the resources behind it.
-              For us, making something enduring is not simply about how long it
-              lasts—it is about creating something worthy of being kept,
-              returned to, and valued for years to come.
+            <p className="font-futura font-light leading-[1.9] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
+              This thinking extends to the way each piece is made. Rather than following the pace of mainstream production, DHIRAGO works in considered quantities, allowing greater attention to the material, handwork, construction, and finishing of every garment. Fabrics are used thoughtfully, remaining materials are repurposed wherever possible, and skilled hands remain an integral part of the making process.
             </p>
           </Reveal>
+          <p className="font-futura font-light leading-[1.9] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em]">
+            For us, endurance is not simply measured by how long something lasts. It is found in the desire to keep it—to wear it often, return to it over the years, and allow it to gather a character that could belong to no one else.
+          </p>
         </div>
       </section>
 
@@ -150,8 +132,7 @@ export default function OurKissaPage() {
           <p
             className={`${cormorant.className} italic text-[clamp(18px,2.4vw,26px)] leading-[1.55] text-[#444] max-w-[720px] mx-auto`}
           >
-            &quot;Sustainability is not a feature —
-            it is the quiet discipline behind every decision we make.&quot;
+            &quot;Timeless is not what remains unchanged, but what continues to hold meaning as it changes.&quot;
           </p>
         </div>
       </section>

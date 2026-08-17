@@ -1,6 +1,5 @@
 import Breadcrumb from "../../../components/breadcrumb";
-import Content from "../../../components/product-single/content";
-import Gallery from "../../../components/product-single/gallery";
+import ProductGrid from "../../../components/product-single/ProductGrid";
 import ProductsFeatured from "../../../components/products-featured";
 import RecentlyViewedTracker from "../../../components/recentlyviewtracker";
 import HeroCarousel from "../../../components/product-single/HeroCarousel";
@@ -101,34 +100,11 @@ export default async function ProductPage({ params }) {
         }}
       />
 
-      {/* ── PRODUCT GRID ── */}
-      <div className="pdp-grid">
-        {/* LEFT — gallery with scroll-lock */}
-        <div className="pdp-gallery-col">
-          <Gallery images={product.images} />
-        </div>
+      <ProductGrid product={product} />
 
-        {/* RIGHT — sticky content */}
-        <div className="pdp-content-col">
-          <Content product={product} />
-        </div>
-      </div>
-
-      {/* ── BELOW FOLD ── */}
-      {/* <div className="pdp-below">
-        <ProductTabs product={product} />
-        <HeroCarousel />
-      </div> */}
-
-      <div className="pdp-featured">
+      <div className="mt-10 border-t border-[#e0ddd6] md:mt-[60px]">
         <ProductsFeatured />
       </div>
-
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
-
-    
-      `}</style>
     </>
   );
 }

@@ -102,10 +102,25 @@ export default function HandEmbroideryPage() {
                 A Touch of Embroidery, a Shade of Elegance
               </h2>
               <p className={`${body} mb-4`}>
-                Handwork is integral to the language of DHIRAGO, bringing depth, individuality, and the unmistakable presence of the maker into every garment. Time-honoured crafts such as, Sashiko hand stitching, and Kantha embroidery and Tangaliya inspired detailing are thoughtfully integrated into its garments. Each technique is applied through controlled, manual execution—Sashiko through repetitive reinforcement stitching, Kantha through layered running stitches and tangaliya through its distinctive pattern language. Meticulously hand embroidered, each piece reflects our devotion to slow, thoughtful designs. 
+                Handwork is integral to the language of DHIRAGO, bringing depth,
+                individuality, and the unmistakable presence of the maker into
+                every garment. Time-honoured crafts such as, Sashiko hand
+                stitching, and Kantha embroidery and Tangaliya inspired
+                detailing are thoughtfully integrated into its garments. Each
+                technique is applied through controlled, manual
+                execution—Sashiko through repetitive reinforcement stitching,
+                Kantha through layered running stitches and tangaliya through
+                its distinctive pattern language. Meticulously hand embroidered,
+                each piece reflects our devotion to slow, thoughtful designs.
               </p>
               <p className={body}>
-               These practices are deeply rooted in India’s cultural heritage and are incorporated with finesse, creating garments that remain connected to tradition while expressed with a modern sensibility. By continuing these techniques, DHIRAGO upholds its commitment to preserving age-old craftsmanship and celebrating India’s rich textile legacy, presenting ethical and heritage-driven making as a form of true luxury.
+                These practices are deeply rooted in India’s cultural heritage
+                and are incorporated with finesse, creating garments that remain
+                connected to tradition while expressed with a modern
+                sensibility. By continuing these techniques, DHIRAGO upholds its
+                commitment to preserving age-old craftsmanship and celebrating
+                India’s rich textile legacy, presenting ethical and
+                heritage-driven making as a form of true luxury.
               </p>
             </div>
 
@@ -172,38 +187,58 @@ export default function HandEmbroideryPage() {
       </section> */}
 
       <section className="w-full leading-none">
-          <Image
-            src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}2`}
-            alt="A young man wearing a handwoven muslin shirt by a lakeside"
-            width={1000}
-            height={800}
-            sizes="100vw"
-            className="block h-auto w-full"
-          />
+        <Image
+          src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}2`}
+          alt="A young man wearing a handwoven muslin shirt by a lakeside"
+          width={1000}
+          height={800}
+          sizes="100vw"
+          className="block h-auto w-full"
+        />
       </section>
 
       {/* STORY / HERITAGE */}
 
-      <section className="py-12 sm:py-16 lg:py-28 bg-white">
+      <section className="py-12 sm:py-16 lg:py-40 bg-white">
+           <h3
+        className={`${josefin.className} text-center uppercase leading-[1.7] md:leading-[1.9] text-[clamp(11px,1.3vw,1.08rem)] text-[#333333] tracking-[0.03em] mb-4 px-2`}
+      >
+        EMBROIDERED THROUGH <br className="hidden sm:block" />HANDS AND TIME
+      </h3>
         <div className="max-w-[1640px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.55fr)] gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
             {/* Copy */}
+            
             <div className="w-full max-w-[480px] lg:max-w-none">
               <Reveal>
                 <h2
                   className={`${josefin.className} uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.08em] mb-4 sm:mb-5`}
                 >
-          Block printing and screen printing
+                  Block printing and screen printing
                 </h2>
               </Reveal>
               <Reveal delay={150}>
                 <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.02em] mb-4">
-                  Hand block printing preserves the rhythm of traditional craftsmanship, where each carved wooden block is pressed by hand onto the fabric, building pattern through repetition and touch. The slight shifts in pressure and placement create subtle variations, ensuring that no two impressions are ever entirely alike and giving every piece its own quiet individuality. Screen printing complements this process by allowing finer details, layered compositions, and more expressive artwork to be translated onto cloth with precision. While the two techniques differ in execution, both rely on a thoughtful relationship between hand, surface, and design.
+                  Hand block printing preserves the rhythm of traditional
+                  craftsmanship, where each carved wooden block is pressed by
+                  hand onto the fabric, building pattern through repetition and
+                  touch. The slight shifts in pressure and placement create
+                  subtle variations, ensuring that no two impressions are ever
+                  entirely alike and giving every piece its own quiet
+                  individuality. Screen printing complements this process by
+                  allowing finer details, layered compositions, and more
+                  expressive artwork to be translated onto cloth with precision.
+                  While the two techniques differ in execution, both rely on a
+                  thoughtful relationship between hand, surface, and design.
                 </p>
                 <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.02em]">
-                 Together, these techniques celebrate the dialogue between heritage and contemporary design, allowing every garment to carry both the touch of the artisan and the spirit of thoughtful making. It is here that exquisite craftsmanship meets material excellence—where detail is not an addition, but becomes a signature of the piece.
+                  Together, these techniques celebrate the dialogue between
+                  heritage and contemporary design, allowing every garment to
+                  carry both the touch of the artisan and the spirit of
+                  thoughtful making. It is here that exquisite craftsmanship
+                  meets material excellence—where detail is not an addition, but
+                  becomes a signature of the piece.
                 </p>
-              
               </Reveal>
             </div>
 

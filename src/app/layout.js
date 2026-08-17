@@ -51,10 +51,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${futura.variable} `}>
-        <Script
-          src="https://checkout.razorpay.com/v1/checkout.js"
-          strategy="beforeInteractive"
-        />
+                      <GoogleTagManager gtmId="GTM-5TDSXPBS" />
+        
 
         <div className="app-main">
            <MetaPixel />
@@ -71,7 +69,6 @@ export default function RootLayout({ children }) {
                         <MetaPageTracker />
 
                 {children}
-                      <GoogleTagManager gtmId="GTM-5TDSXPBS" />
 
                 {/* <GoogleAnalytics /> */}
                 <Analytics />

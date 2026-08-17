@@ -34,7 +34,7 @@ const storyLinks = [
 const makingLinks = [
   { label: "Materials", href: "/pages/better-materials" },
   { label: "Handwork", href: "/embroidery" },
-  { label: "Sustainability", href: "/sustainability" },
+  { label: "Timeless", href: "/sustainability" },
 ];
 
 const houseLinks = [

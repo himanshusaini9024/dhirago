@@ -642,7 +642,7 @@ export default function Content({ product }) {
           <div
             style={{
               fontSize: "14.3px",
-              lineHeight: "2.4",
+              lineHeight: "2.2",
               color: "#111111",
               fontWeight: 400,
               fontFamily: F,

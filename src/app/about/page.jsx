@@ -533,10 +533,10 @@ export default function AboutPage() {
             }}
           />
 
-          <div className="relative z-10 max-w-[900px] px-6 sm:px-8 lg:px-10 bottom-[8rem] text-center">
+          <div className="relative z-10 max-w-[900px] px-6 sm:px-8   lg:px-10 bottom-[8rem] text-center">
             <Reveal delay={120}>
               <blockquote
-                className={`${josefin.className} uppercase font-light leading-[1.7] sm:leading-[1.8] lg:leading-[1.9] text-[13px] sm:text-[15px] lg:text-base text-white tracking-[0.15em] sm:tracking-[0.19em] lg:tracking-[0.23em]`}
+                className={`${josefin.className} uppercase font-light leading-[1.7] sm:leading-[1.8] lg:leading-[1.9] text-[13px] sm:text-[15px] lg:text-base text-[#111111] tracking-[0.15em] sm:tracking-[0.19em] lg:tracking-[0.23em]`}
               >
                 When something is held with care and intention,
                 <br className="hidden sm:block" />

@@ -131,11 +131,11 @@ export default function LuxurySection() {
             // className={`${josefin.className} text-[0.910rem] md:text-[clamp(1.25rem,3.4vw,1.15rem)] font-medium leading-[1.25] tracking-[-0.01em]`}
             // style={{ color: "#2D2D2D" }}
           >
-            Immerse yourself in the slow way of life with Dhirago.
+            Immerse yourself in the slow way of life with Dhirago
           </h2>
 
           <p
-            className={`font-futura lg:mt-6 mt-3 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1.07rem)] font-normal leading-[2.45]`}
+            className={`font-futura lg:mt-6 mt-3 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1rem)] font-normal leading-[2.45]`}
             style={{ color: "#555555" }}
           >
             DHIRAGO is a luxury Indian menswear label rooted in traditional

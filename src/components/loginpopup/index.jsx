@@ -6,6 +6,7 @@ import { loginSuccess } from "../../store/authslice";
 import { toast } from "react-hot-toast";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { Josefin_Sans } from "next/font/google";
+import Image from "next/image";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -57,57 +58,12 @@ const errorToast = (msg) => {
   );
 };
 
-const PERKS = [
-  {
-    title: "Clothing & Accessories",
-    body: "Designed for  men.",
-  },
-  {
-    title: "All Natural Fabrics",
-    body: "Sourced and handcrafted in India.",
-  },
-  {
-    title: "Shop From Anywhere",
-    body: "Safe payments, global shipping.",
-  },
-];
-
-function StarIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#E8C56A" aria-hidden>
-      <path d="M12 2.5l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 16.5 6.6 19.3l1-6.1L3.2 8.9l6.1-.9L12 2.5z" />
-    </svg>
-  );
-}
-
-function RefreshIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M20 12a8 8 0 1 1-2.2-5.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M20 4v5h-5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function LoginPopup({ isOpen, onClose }) {
   const [mobile, setMobile] = useState("");
   const [otpDigits, setOtpDigits] = useState(Array(OTP_LENGTH).fill(""));
   const [step, setStep] = useState("mobile");
   const [loading, setLoading] = useState(false);
-  const [notify, setNotify] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [perkIndex, setPerkIndex] = useState(0);
   const [resendIn, setResendIn] = useState(0);
   const inputRefs = useRef([]);
 
@@ -143,14 +99,6 @@ export default function LoginPopup({ isOpen, onClose }) {
     }, 1000);
     return () => clearInterval(timer);
   }, [resendIn]);
-
-  useEffect(() => {
-    if (!isOpen) return undefined;
-    const timer = setInterval(() => {
-      setPerkIndex((i) => (i + 1) % PERKS.length);
-    }, 3200);
-    return () => clearInterval(timer);
-  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -308,118 +256,82 @@ export default function LoginPopup({ isOpen, onClose }) {
 
   const canSubmitMobile = mobile.length === 10 && !loading;
   const canSubmitOtp = otp.length === OTP_LENGTH && !loading;
-  const activePerk = PERKS[perkIndex];
+  const mm = String(Math.floor(resendIn / 60)).padStart(2, "0");
+  const ss = String(resendIn % 60).padStart(2, "0");
 
   return (
     <div
-      className={`fixed inset-0 z-[80] flex items-center justify-center bg-black/55 p-3 sm:p-4 ${josefin.className}`}
+      className={`fixed inset-0 z-[80] flex items-center justify-center bg-black/60 p-3 sm:p-4 ${josefin.className}`}
     >
       <div
-        className="relative w-full max-w-[400px] md:max-w-[860px] rounded-2xl bg-[#b39572] shadow-2xl overflow-hidden
-                   md:p-5 md:flex md:flex-row md:items-stretch md:gap-4"
+        className="relative grid w-full max-w-[780px] grid-cols-1 overflow-hidden rounded-2xl bg-white shadow-2xl md:grid-cols-[42%_58%]"
         role="dialog"
         aria-modal="true"
         aria-label={step === "otp" ? "OTP Verification" : "Login or Signup"}
       >
-        {/* Close — mobile sits on tan shell; desktop sits on white card */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-white/90 md:bg-[#f3f3f3] text-[#555] hover:text-black text-lg leading-none md:hidden"
+          className="absolute right-3 top-3 z-30 border-0 bg-transparent text-2xl leading-none text-[#111] hover:opacity-70"
           aria-label="Close"
         >
           ×
         </button>
 
-        {/* LEFT / TOP — brand + perks */}
-        <div className="relative text-white px-5 pt-5 pb-4 md:px-5 md:py-5 md:w-[55%] flex flex-col">
-          <div className="shrink-0">
-            <p
-              className={`text-[18px] md:text-[24px] tracking-[0.28em] uppercase font-medium ${josefin.className}`}
-            >
-              Dhirago
+        {/* Left banner column: stretches to match the right column's natural height */}
+        <div className="relative hidden bg-[#1a1a1a] md:block">
+          <Image
+            src="/images/aboutfooter.jpg"
+            alt="Dhirago promotional banner"
+            fill
+            sizes="(min-width: 768px) 42vw, 0px"
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/25" />
+          <div className="absolute inset-0 p-6 text-white">
+            <h3 className="max-w-[220px] text-[26px] leading-[1.2] font-normal text-white">
+              Register &amp; Be A Part Of The Dhirago Circle!
+            </h3>
+           
+            <p className="absolute bottom-4 right-4 text-[10px] text-white/90">
+              T&amp;C Apply
             </p>
-            <p className="mt-0.5 md:mt-1 text-[10px] md:text-[11px] tracking-[0.18em] uppercase text-white/75">
-              The beauty of time
-            </p>
-          </div>
-
-          {/* Mobile: capsule carousel */}
-          <div className="mt-5 flex flex-col items-center md:hidden">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/70 px-4 py-2.5 bg-white/5 min-w-[220px] justify-center">
-              <StarIcon />
-              <span className="text-[13px] font-medium text-white whitespace-nowrap">
-                {activePerk.title}
-              </span>
-            </div>
-            <div className="mt-3 flex items-center gap-1.5">
-              {PERKS.map((perk, i) => (
-                <button
-                  key={perk.title}
-                  type="button"
-                  onClick={() => setPerkIndex(i)}
-                  aria-label={`Show ${perk.title}`}
-                  className={`h-1.5 w-1.5 rounded-full transition-all ${
-                    i === perkIndex ? "bg-white" : "bg-white/40"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Desktop: 3 perk cards */}
-          <div className="hidden md:flex md:flex-1 md:items-center">
-            <div className="w-full grid grid-cols-3 gap-3">
-              {PERKS.map((perk) => (
-                <div
-                  key={perk.title}
-                  className="rounded-xl bg-[#9d8060]/80 px-2.5 py-4 text-center border border-white/10 flex flex-col items-center justify-center min-h-[150px]"
-                >
-                  <div className="flex justify-center mb-2">
-                    <StarIcon />
-                  </div>
-                  <p className="text-[13px] font-semibold leading-snug">
-                    {perk.title}
-                  </p>
-                  <p className="mt-1.5 text-[11px] leading-[1.4] text-white/85">
-                    {perk.body}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
-        {/* RIGHT / BOTTOM — white form card */}
-        <div className="relative bg-white rounded-2xl shadow-md mx-3 mb-3 md:mx-0 md:mb-0 md:w-[45%] flex flex-col justify-center px-5 py-7 sm:px-7 sm:py-8 md:px-8 md:py-10">
-          <button
-            type="button"
-            onClick={onClose}
-            className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-[#f3f3f3] text-[#555] hover:text-black text-lg leading-none hidden md:block"
-            aria-label="Close"
-          >
-            ×
-          </button>
-
+        {/* Right form column: content drives the row height, left column stretches to match */}
+        <div className="flex flex-col justify-center px-6 py-8 sm:px-8 md:py-10">
           {step === "mobile" ? (
-            <div className="w-full max-w-[320px] mx-auto">
-              <h3 className="text-[22px] sm:text-[24px] font-medium text-[#1a1a1a] text-center">
+            <div className="mx-auto w-full max-w-[320px]">
+              <p className="text-center text-[26px] leading-none tracking-[0.28em] text-[#111]">
+                DHIRAGO
+              </p>
+              <p className="mt-1 text-center text-[10px] tracking-[0.4em] text-[#111]">
+                THE BEAUTY OF TIME
+              </p>
+
+              <h3 className="mt-6 text-center text-lg font-bold text-[#111]">
                 Login / Sign up
               </h3>
+              <p className="mt-1 text-center text-sm text-[#111]">
+                Enter your log in details
+              </p>
 
-              <div className="mt-6  border border-solid flex items-center rounded-xl border border-[#d7d7d7] overflow-hidden focus-within:border-[#b39572] bg-white">
-                <div className="flex items-center gap-2 px-3 py-3.5 bg-[#fafafa] border-r border-[#e5e5e5] shrink-0">
+              <p className="mt-6 text-sm font-semibold text-[#111]">Phone</p>
+              <div className="mt-2 flex items-center overflow-hidden rounded-md border border-[#d2d8e2] bg-[#ecf2fd]">
+                <div className="flex shrink-0 items-center gap-2 border-r border-[#d0d7e2] bg-white px-3 py-2.5">
                   <span
-                    className="inline-block w-[18px] h-[12px] rounded-[1px] overflow-hidden border border-[#ddd] shrink-0"
+                    className="inline-block h-[10px] w-[15px] shrink-0 overflow-hidden rounded-[1px] border border-[#ddd]"
                     aria-hidden
                   >
                     <span className="block h-1/3 bg-[#FF9933]" />
-                    <span className="block h-1/3 bg-white relative">
-                      <span className="absolute inset-0 m-auto w-[5px] h-[5px] rounded-full border border-[#000080]" />
+                    <span className="relative block h-1/3 bg-white">
+                      <span className="absolute inset-0 m-auto w-[4px] h-[4px] rounded-full border border-[#000080]" />
                     </span>
                     <span className="block h-1/3 bg-[#138808]" />
                   </span>
-                  <span className="text-[14px] text-[#333] font-medium">+91</span>
+                  <span className="text-sm text-[#333]">+91</span>
                 </div>
                 <input
                   type="tel"
@@ -430,75 +342,62 @@ export default function LoginPopup({ isOpen, onClose }) {
                   onChange={(e) =>
                     setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))
                   }
-                  className="w-full px-3 py-3.5 outline-none text-[14px] text-[#222] placeholder:text-[#999]"
+                  className="w-full bg-transparent px-3 py-2.5 text-sm text-[#111] outline-none placeholder:text-[#8a95a8]"
                 />
               </div>
-
-              <label className="mt-4 flex items-center gap-2.5 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={notify}
-                  onChange={(e) => setNotify(e.target.checked)}
-                  className="w-4 h-4 rounded border border-[#ccc] accent-[#1a1a1a]"
-                />
-                <span className="text-[12px] sm:text-[13px] text-[#777]">
-                  Notify me with offers & updates
-                </span>
-              </label>
 
               <button
                 type="button"
                 onClick={() => handleSendOtp()}
                 disabled={!canSubmitMobile}
-                className={`mt-5 w-full rounded-xl py-3.5 text-[15px] font-semibold text-white transition-colors ${
+                className={`mt-4 w-full rounded-md py-2.5 text-sm font-medium text-white transition-colors ${
                   canSubmitMobile
-                    ? "bg-[#111] hover:bg-black"
-                    : "bg-[#cfcfcf] cursor-not-allowed"
+                    ? "bg-black hover:bg-[#111]"
+                    : "cursor-not-allowed bg-[#bcbcbc]"
                 }`}
               >
-                {loading ? "Sending..." : "Submit"}
+                {loading ? "Sending..." : "Request OTP"}
               </button>
 
-              <p className="mt-6 text-[11px] leading-[1.55] text-[#888] text-center">
+              <p className="mt-6 text-center text-xs leading-[1.5] text-[#9a9a9a]">
                 I accept that I have read & understood your{" "}
-                <a href="/privacy-policy" className="underline underline-offset-2">
+                <a href="/privacy-policy" className="underline">
                   Privacy Policy
                 </a>{" "}
                 and{" "}
-                <a
-                  href="/shipping-and-return"
-                  className="underline underline-offset-2"
-                >
+                <a href="/shipping-and-return" className="underline">
                   T&amp;Cs
                 </a>
                 .
               </p>
             </div>
           ) : (
-            <div className="w-full max-w-[320px] mx-auto">
-              <h3 className="text-[22px] sm:text-[20px] font-medium text-[#1a1a1a] text-center">
-                OTP Verification
-              </h3>
-
-              <p className="mt-3 text-[13px] sm:text-[14px] text-[#888] text-center">
-                Verification code sent to
+            <div className="mx-auto w-full max-w-[320px]">
+              <p className="text-center text-[26px] leading-none tracking-[0.28em] text-[#111]">
+                DHIRAGO
+              </p>
+              <p className="mt-1 text-center text-[10px] tracking-[0.4em] text-[#111]">
+                THE BEAUTY OF TIME
               </p>
 
-              <div className="mt-2 flex items-center justify-center gap-2.5 flex-wrap">
-                <span className="text-[15px] text-[#333] font-semibold">
-                  +91 {mobile}
-                </span>
+              <h3 className="mt-6 text-center text-lg font-bold text-[#111]">
+                Enter OTP
+              </h3>
+
+              <p className="mt-2 text-center text-sm text-[#111]">
+                The OTP is sent on your whatsapp number <br /> +91 {mobile}{" "}
                 <button
                   type="button"
                   onClick={goToMobileStep}
-                  className="inline-flex items-center rounded-full border border-[#3cb371] px-3 py-0.5 text-[12px] font-medium text-[#3cb371] hover:bg-[#3cb371]/5 transition-colors"
+                  className="inline-block text-sm text-[#555]"
                 >
-                  Edit
+                  ✎
                 </button>
-              </div>
+              </p>
 
+              <p className="mt-5 text-sm font-semibold text-[#111]">OTP</p>
               <div
-                className="mt-7 flex items-center justify-center gap-2 sm:gap-2.5"
+                className="mt-2 flex items-center justify-between gap-2"
                 onPaste={handleOtpPaste}
               >
                 {otpDigits.map((digit, index) => (
@@ -515,47 +414,49 @@ export default function LoginPopup({ isOpen, onClose }) {
                     onChange={(e) => updateDigit(index, e.target.value)}
                     onKeyDown={(e) => handleOtpKeyDown(index, e)}
                     onFocus={() => setActiveIndex(index)}
-                    className={`w-10 h-11 sm:w-11 sm:h-12 rounded-lg text-center text-[18px] font-semibold text-[#1a1a1a] outline-none transition-colors ${
+                    className={`h-11 w-11 rounded-md text-center text-lg font-semibold text-[#111] outline-none transition-colors ${
                       activeIndex === index || digit
-                        ? "border border-[#b39572] shadow-[0_0_0_2px_rgba(179,149,114,0.15)]"
-                        : "border border-[#d9d9d9] shadow-[0_0_0_2px_rgba(179,149,114,0.15)]"
+                        ? "border border-[#9ca8b9]"
+                        : "border border-[#d6dbe3]"
                     }`}
                     aria-label={`OTP digit ${index + 1}`}
                   />
                 ))}
               </div>
 
-              <div className="mt-5 flex justify-center">
-                {resendIn > 0 ? (
-                  <p className="inline-flex items-center gap-1.5 text-[14px] font-medium text-[#b39572]">
-                    <RefreshIcon />
-                    Resend OTP in {resendIn} Sec
-                  </p>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleSendOtp({ isResend: true })}
-                    disabled={loading}
-                    className="inline-flex items-center gap-1.5 text-[14px] font-medium text-[#b39572] hover:opacity-80 disabled:opacity-50"
-                  >
-                    <RefreshIcon />
-                    Resend OTP
-                  </button>
-                )}
-              </div>
-
               <button
                 type="button"
                 onClick={() => handleVerifyOtp()}
                 disabled={!canSubmitOtp}
-                className={`mt-6 w-full rounded-xl py-3.5 text-[15px] font-semibold text-white transition-colors ${
+                className={`mt-4 w-full rounded-md py-2.5 text-sm font-medium text-white transition-colors ${
                   canSubmitOtp
-                    ? "bg-[#b39572] hover:bg-[#a38462]"
-                    : "bg-[#d8d8d8] cursor-not-allowed"
+                    ? "bg-black hover:bg-[#111]"
+                    : "cursor-not-allowed bg-[#bcbcbc]"
                 }`}
               >
-                {loading ? "Verifying..." : "Verify"}
+                {loading ? "Verifying..." : "Verify OTP"}
               </button>
+
+              <div className="mt-5 text-center">
+                <span className="inline-block bg-[#111] px-2 py-0.5 text-xs leading-none text-white">
+                  {mm}:{ss}
+                </span>
+                <p className="mt-2 text-xs text-[#bebebe]">
+                  {resendIn > 0
+                    ? `Verify OTP in ${resendIn} second`
+                    : "Didn't receive OTP?"}
+                </p>
+                {resendIn === 0 && (
+                  <button
+                    type="button"
+                    onClick={() => handleSendOtp({ isResend: true })}
+                    disabled={loading}
+                    className="mt-1 text-xs font-medium text-[#111] underline disabled:opacity-50"
+                  >
+                    Resend OTP
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>

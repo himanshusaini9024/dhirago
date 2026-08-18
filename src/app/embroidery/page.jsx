@@ -127,7 +127,7 @@ export default function HandEmbroideryPage() {
             <div className="w-full flex justify-center lg:justify-end">
               <div className="w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px] aspect-[9/16] overflow-hidden bg-[#111]">
                 <video
-                  src="https://kardo.co/wp-content/uploads/2025/06/reel-2-2.mp4"
+                  src="https://images.dhirago.com/ecommerce/banner/handwork.mp4"
                   autoPlay
                   loop
                   muted
@@ -186,7 +186,7 @@ export default function HandEmbroideryPage() {
         </div>
       </section> */}
 
-      <section className="w-full leading-none">
+      {/* <section className="w-full leading-none">
         <Image
           src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}2`}
           alt="A young man wearing a handwoven muslin shirt by a lakeside"
@@ -195,6 +195,25 @@ export default function HandEmbroideryPage() {
           sizes="100vw"
           className="block h-auto w-full"
         />
+      </section> */}
+
+        <section className="w-full py-0 -mt-1 sm:mt-0 ">
+        <div className="mx-auto w-full max-w-[1700px] px-2 sm:px-5 md:px-8 lg:px-10">
+          <Reveal>
+            <div className="relative w-full overflow-hidden bg-white aspect-[1500/1042] leading-none">
+              <Image
+                src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+
+                alt="Sustainability editorial"
+                fill
+                sizes="100vw"
+                className="object-contain object-center md:object-cover md:object-[center_80%] md:scale-[1]"
+                quality={90}
+                priority
+              />
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* STORY / HERITAGE */}

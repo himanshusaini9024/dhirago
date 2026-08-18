@@ -30,7 +30,7 @@ export default function ProductGrid({ product }) {
 
       <div
         data-pdp-content
-        className="w-full border-t border-[#e0ddd6] px-4 pt-5 md:sticky md:top-32 md:h-[calc(100vh-140px)] md:max-h-[calc(100vh-140px)] md:min-h-0 md:self-start md:overflow-x-hidden md:overflow-y-auto md:overscroll-contain md:border-t-0 md:px-0 md:pt-2 md:pb-10 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="w-full border-t border-[#e0ddd6] px-4 pt-5 md:sticky md:top-32 md:h-[calc(100vh-140px)] md:max-h-[calc(100vh-140px)] md:min-h-0 md:self-start md:overflow-x-hidden md:overflow-y-auto md:overscroll-contain md:border-t-0 md:px-0 md:pt-2 md:pb-24 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
         <Content product={product} />
       </div>

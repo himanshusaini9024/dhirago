@@ -9,7 +9,7 @@ export default function LayoutWrapper({ children }) {
   // Always offset content below the fixed white header (11-11 style)
   return (
     <main
-      className="pt-[72px] lg:pt-[128px]"
+      className="pt-[72px] lg:pt-[120px]"
       data-path={pathname}
     >
       {children}

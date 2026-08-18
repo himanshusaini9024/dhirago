@@ -88,6 +88,7 @@ const Header = () => {
           transition-shadow duration-300 p-2
           ${scrolled ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}
         `}
+          style={{ borderBottom:"1px solid rgb(221, 221, 221)" }}
       >
         <div className="relative w-full">
           {/* Top row: menu | logo | icons */}

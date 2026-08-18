@@ -125,6 +125,22 @@ export default function Gallery({ images: rawImages }) {
     const stackEl = stackRef.current;
     stackEl?.addEventListener("scroll", syncFromStack, { passive: true });
 
+    const getContentEl = () =>
+      stackRef.current
+        ?.closest("[data-pdp-grid]")
+        ?.querySelector("[data-pdp-content]");
+
+    const applyContentScroll = (delta) => {
+      const el = getContentEl();
+      if (!el) return false;
+      const max = Math.max(0, el.scrollHeight - el.clientHeight);
+      const prev = el.scrollTop;
+      const next = Math.max(0, Math.min(max, prev + delta));
+      if (next === prev) return false;
+      el.scrollTop = next;
+      return true;
+    };
+
     const onWheel = (e) => {
       if (isOpen) return;
       if (
@@ -135,35 +151,48 @@ export default function Gallery({ images: rawImages }) {
         return;
       }
 
-      const contentCol = e.target?.closest?.("[data-pdp-content]");
-      if (contentCol) {
-        const canScrollDown =
-          contentCol.scrollTop + contentCol.clientHeight <
-          contentCol.scrollHeight - 1;
-        const canScrollUp = contentCol.scrollTop > 0;
-        if ((e.deltaY > 0 && canScrollDown) || (e.deltaY < 0 && canScrollUp)) {
-          return;
-        }
-      }
-
       const stack = stackRef.current;
       if (!stack) return;
 
       const grid = stack.closest("[data-pdp-grid]");
       if (grid) {
         const r = grid.getBoundingClientRect();
-        if (r.bottom < 80 || r.top > window.innerHeight - 40) return;
+        if (r.bottom < 40) return;
       }
 
       maxScroll.current = Math.max(0, stack.scrollHeight - stack.clientHeight);
       scrollY.current = stack.scrollTop;
-      const atTop = scrollY.current <= 0;
-      const atBottom = scrollY.current >= maxScroll.current - 1;
+      const pageY = window.scrollY || document.documentElement.scrollTop || 0;
+      const pageMax = Math.max(
+        0,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
 
-      if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
+      // Page has already moved past the product block — keep scrolling the page
+      if (e.deltaY < 0 && pageY > 2) {
         e.preventDefault();
         e.stopPropagation();
-        applyScroll(e.deltaY);
+        window.scrollBy(0, e.deltaY);
+        return;
+      }
+
+      const movedContent = applyContentScroll(e.deltaY);
+      const movedGallery = applyScroll(e.deltaY);
+
+      if (movedContent || movedGallery) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
+      // Gallery + content finished — continue the page so the section below can show
+      if (
+        (e.deltaY > 0 && pageY < pageMax - 1) ||
+        (e.deltaY < 0 && pageY > 1)
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.scrollBy(0, e.deltaY);
       }
     };
 

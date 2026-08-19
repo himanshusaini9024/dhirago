@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+
 const IMGURL = process.env.NEXT_PUBLIC_IMG_URL;
 
 function useReveal() {
@@ -42,18 +44,24 @@ const Categorybaner = ({ catbanner, catbannerMobile, slug }) => {
 
   return (
     <section className="relative flex min-h-[clamp(225px,50vw,100vh)] items-center overflow-hidden">
-      {/* Mobile image */}
-      <img
+      <Image
         src={`${IMGURL}${mobileBanner}`}
         alt={slug ? `${slug.replace(/-/g, " ")} banner` : "Category banner"}
-        className="absolute inset-0 h-full w-full  object-center block md:hidden"
+        fill
+        priority
+        sizes="100vw"
+        quality={75}
+        className="object-center object-cover block md:hidden"
       />
 
-      {/* Desktop image */}
-      <img
+      <Image
         src={`${IMGURL}${desktopBanner}`}
         alt={slug ? `${slug.replace(/-/g, " ")} banner` : "Category banner"}
-        className="absolute inset-0 h-full w-full object-cover object-center hidden md:block"
+        fill
+        priority
+        sizes="100vw"
+        quality={75}
+        className="object-cover object-center hidden md:block"
       />
 
       {/* Dark overlay for text legibility */}

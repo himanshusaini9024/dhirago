@@ -1,14 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
-import { some } from "lodash";
 import { toggleFavProduct } from "../../store/reducers/user";
-import { useEffect, useState } from "react";
-import QuickAddModal from "./qucikview";
+import { useState } from "react";
 import productsSizes from "../../utils/data/products-sizes";
 import { sortProductImages } from "../../utils/sortProductImages";
 import Image from "next/image";
+
+const QuickAddModal = dynamic(() => import("./qucikview"), { ssr: false });
+
+const GRID_IMAGE_SIZES = "(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw";
+
 const ProductItem = ({
   images,
   id,
@@ -19,10 +23,12 @@ const ProductItem = ({
   currentPrice,
   category,
   hideQuickAdd = false,
+  priority = false,
+  imageSizes = GRID_IMAGE_SIZES,
 }) => {
   const dispatch = useDispatch();
   const favProducts = useSelector((state) => state.user?.favProducts || []);
-  const isFavourite = some(favProducts, (productId) => productId === id);
+  const isFavourite = favProducts.includes(id);
 
   const toggleFav = () => {
     dispatch(toggleFavProduct({ id }));
@@ -71,14 +77,15 @@ const ProductItem = ({
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
                 hovered ? "opacity-0" : "opacity-100"
               }`}
-              width={1200}
-              height={1600}
-              sizes="100vw"
-              quality={75}
+              width={600}
+              height={900}
+              sizes={imageSizes}
+              quality={70}
+              priority={priority}
             />
 
-            {/* Second Image */}
-            {imageList?.[1] && (
+            {/* Second Image — only mount after hover to avoid loading 22 images upfront */}
+            {hovered && imageList?.[1] && (
               <Image
                 src={
                   imageList?.[1]?.url
@@ -86,13 +93,11 @@ const ProductItem = ({
                     : "/images/placeholder.png"
                 }
                 alt={name}
-                className={`absolute inset-0 w-full h-full object-cover  ${
-                  hovered ? "opacity-100" : "opacity-0"
-                }`}
-                width={1200}
-                height={1600}
-                sizes="100vw"
-                quality={75}
+                className="absolute inset-0 w-full h-full object-cover opacity-100"
+                width={600}
+                height={900}
+                sizes={imageSizes}
+                quality={70}
               />
             )}
           </div>

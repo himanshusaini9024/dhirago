@@ -243,7 +243,7 @@ export default function ProductList({ initialProducts, slug }) {
 
       {/* ── PRODUCT GRID ───────────────────────────────────── */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-14 gap-3 md:px-12 px-2 md:py-6 py-0">
-        {filteredProducts.map((item) => (
+        {filteredProducts.map((item, index) => (
           <ProductItem
             key={item.id}
             id={item.id}
@@ -254,6 +254,7 @@ export default function ProductList({ initialProducts, slug }) {
             currentPrice={item.currentPrice}
             images={item.image}
             category={item.category || slug}
+            priority={index < 4}
           />
         ))}
       </div>

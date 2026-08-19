@@ -348,16 +348,23 @@ export default function BetterMaterials() {
 
 
 
-       <section className="w-full leading-none">
-              <Image
+
+              <section className="w-full ">
+                    <div className="mx-auto flex w-full max-w-[1800px] items-center justify-center px-2 sm:px-5 md:px-8 lg:px-10">
+                      <div className="relative mx-auto w-full overflow-hidden bg-white min-h-[72svh] sm:min-h-0 sm:aspect-[1500/1042]">
+                        <Image
                 src={`https://images.dhirago.com/ecommerce/banner/pi1.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-                alt="A young man wearing a handwoven muslin shirt by a lakeside"
-                width={2000}
-                height={800}
-                sizes="100vw"
-                className="block h-auto w-full"
-              />
-            </section>
+            
+                          // src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}2`}
+                          alt="Hand-embroidered Dhirago garments photographed in daylight"
+                          fill
+                          sizes="100vw"
+                          className="object-cover object-center sm:object-contain"
+                          quality={90}
+                        />
+                      </div>
+                    </div>
+                  </section>
 
       {/* QUOTE */}
      <section className="py-12 sm:py-14 lg:py-16 border-t border-b border-[#e8e4de]">

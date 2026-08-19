@@ -23,16 +23,16 @@ const NAV_LINKS = [
   { label: "Shop", href: "/collections/shirts" },
   { label: "About", href: "/about" },
   { label: "Materials", href: "/pages/better-materials" },
-  { label: "Handwork", href: "/embroidery" },
-  { label: "Timeless", href: "/sustainability" },
+  { label: "Handwork", href: "/handwork" },
+  { label: "Timeless", href: "/timeless" },
 ];
 
 const MOBILE_NAV_LINKS = [
   { label: "Shop", href: "/collections/shirts" },
   { label: "About", href: "/about" },
   { label: "Materials", href: "/pages/better-materials" },
-  { label: "Handwork", href: "/embroidery" },
-  { label: "Timeless", href: "/sustainability" },
+  { label: "Handwork", href: "/handwork" },
+  { label: "Timeless", href: "/timeless" },
 ];
 
 const Header = () => {

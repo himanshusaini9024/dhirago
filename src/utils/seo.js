@@ -5,7 +5,7 @@ export function generateSEO({
   title,
   description,
   path = "",
-  image = "/og-image.jpg",
+  image = "https://images.dhirago.com/ecommerce/dhirago-og.webp",
   noIndex = false,
 }) {
   return {
@@ -28,7 +28,7 @@ export function generateSEO({
             
           url: image,
           width: 1200,
-          height: 630,
+          height: 600,
         },
       ],
       type: "website",

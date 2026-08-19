@@ -5,9 +5,13 @@ export async function GET() {
   const pages = [
     "",
     "/about",
+    "/handwork",
+    "/timeless",
+    "/pages/better-materials",
     "/contact",
     "/faq",
     "/privacy",
+    
   ];
 
   const urls = pages

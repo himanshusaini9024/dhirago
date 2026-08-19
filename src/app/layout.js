@@ -39,11 +39,15 @@ export const metadata = {
   ),
   title: {
     default: "Dhirago - Premium Cloths",
-    template: "%s | Your Store",
+    template: "%s | Dhirago",
   },
   robots: {
-    index: false,
-    follow: false,
+    index: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
+    follow: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
+     googleBot: {
+      index: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
+      follow: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
+    },
   },
 };
 

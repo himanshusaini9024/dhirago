@@ -18,7 +18,7 @@ export const metadata = generateSEO({
 
   title: "Buy Premium Men's Shirts Online in India | Dhirago",
   description:
-    "Discover Dhirago, premium mens shirts with a designer clothing brand creating timeless, handcrafted apparel with integrity, heritage, and quiet elegance",
+    "Shop premium men's shirts online in India at Dhirago. Discover timeless designer shirts crafted with quality fabrics, refined details, and effortless elegance.",
   path: "/",
 });
 

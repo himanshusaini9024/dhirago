@@ -125,7 +125,7 @@ export default function HandEmbroideryPage() {
             </div>
 
             <div className="w-full flex justify-center lg:justify-end">
-              <div className="w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[340px] aspect-[9/16] overflow-hidden bg-[#111]">
+              <div className="w-full max-w-[360px] sm:max-w-[380px] lg:max-w-[400px] aspect-[9/16] overflow-hidden bg-[#111]">
                 <video
                   src="https://images.dhirago.com/ecommerce/banner/handwork.mp4"
                   autoPlay
@@ -186,7 +186,8 @@ export default function HandEmbroideryPage() {
         </div>
       </section> */}
 
-      {/* <section className="w-full leading-none">
+
+{/* <section className="w-full leading-none">
         <Image
           src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}2`}
           alt="A young man wearing a handwoven muslin shirt by a lakeside"
@@ -195,26 +196,26 @@ export default function HandEmbroideryPage() {
           sizes="100vw"
           className="block h-auto w-full"
         />
-      </section> */}
+      </section>  */}
 
-        <section className="w-full py-0 -mt-1 sm:mt-0 ">
-        <div className="mx-auto w-full max-w-[1700px] px-2 sm:px-5 md:px-8 lg:px-10">
-          <Reveal>
-            <div className="relative w-full overflow-hidden bg-white aspect-[1500/1042] leading-none">
-              <Image
-                src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-
-                alt="Sustainability editorial"
-                fill
-                sizes="100vw"
-                className="object-contain object-center md:object-cover md:object-[center_80%] md:scale-[1]"
-                quality={90}
-                priority
-              />
-            </div>
-          </Reveal>
+      {/* embroidery image */}
+      <section className="w-full ">
+        <div className="mx-auto flex w-full max-w-[1800px] items-center justify-center px-2 sm:px-5 md:px-8 lg:px-10">
+          <div className="relative mx-auto w-full overflow-hidden bg-white min-h-[72svh] sm:min-h-0 sm:aspect-[1500/1042]">
+            <Image
+              src={`https://images.dhirago.com/ecommerce/banner/embor.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}2`}
+              alt="Hand-embroidered Dhirago garments photographed in daylight"
+              fill
+              sizes="100vw"
+              className="object-cover object-center sm:object-contain"
+              quality={90}
+            />
+          </div>
         </div>
       </section>
+      
+
+       
 
       {/* STORY / HERITAGE */}
 

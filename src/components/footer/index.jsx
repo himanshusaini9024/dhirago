@@ -320,7 +320,7 @@ export default function UltraPremiumFooter() {
 
             <div className="flex items-center gap-4 mt-6">
               <a
-                href="https://instagram.com/dhirago"
+                href="https://instagram.com/dhirago_"
                 aria-label="Instagram"
                 target="_blank"
                 className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"

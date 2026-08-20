@@ -49,6 +49,9 @@ export const metadata = {
       follow: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
     },
   },
+   verification: {
+    google: "VAG1hHNGSz3usCxHr8pXpFnc5DY42snyTnwXp2A2PiY",
+  },
 };
 
 export default function RootLayout({ children }) {

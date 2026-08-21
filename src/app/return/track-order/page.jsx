@@ -73,7 +73,7 @@ export default function TrackOrderPage() {
                 <form onSubmit={trackOrder} className="space-y-4">
                   <input
                     type="text"
-                    placeholder="Tracking number / AWB or Order ID"
+                    placeholder="Enter your Order ID"
                     value={query}
                     onChange={(e) => {
                       setQuery(e.target.value);
@@ -99,7 +99,7 @@ export default function TrackOrderPage() {
                   <em className="font-semibold text-[#1a1a1a] not-italic">
                     Note:
                   </em>{" "}
-                  Use your Order ID (e.g. 1001) or AWB tracking ID.
+                  Use your Order ID (e.g. 1001).
                 </p>
               </div>
             </motion.div>

@@ -172,10 +172,11 @@ export default function ContactPage() {
                 Social Contact:
               </h3>
               <a
-                href="mailto:press@dhirago.com"
+              target="_blank"
+                href="https://instagram.com/dhirago_"
                 className="text-[13px] font-medium text-stone-600 hover:text-stone-900 transition-colors"
               >
-                @Dhirago.co
+                @Dhirago_
               </a>
             </div>
 

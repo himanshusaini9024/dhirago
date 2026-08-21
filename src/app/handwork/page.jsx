@@ -219,13 +219,13 @@ export default function HandEmbroideryPage() {
 
       {/* STORY / HERITAGE */}
 
-      <section className="py-12 sm:py-16 lg:py-40 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
            <h3
         className={`${josefin.className} text-center uppercase leading-[1.7] md:leading-[1.9] text-[clamp(11px,1.3vw,1.08rem)] text-[#333333] tracking-[0.03em] mb-4 px-2`}
       >
-        EMBROIDERED THROUGH <br className="hidden sm:block" />HANDS AND TIME
+        Made by hand <br className="hidden sm:block" />made individual
       </h3>
-        <div className="max-w-[1640px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12">
+        <div className="max-w-[1640px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12 lg:pt-16">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.55fr)] gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
             {/* Copy */}
             

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../store/authslice";
 import { toast } from "react-hot-toast";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle, Timer } from "lucide-react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 
@@ -256,8 +256,6 @@ export default function LoginPopup({ isOpen, onClose }) {
 
   const canSubmitMobile = mobile.length === 10 && !loading;
   const canSubmitOtp = otp.length === OTP_LENGTH && !loading;
-  const mm = String(Math.floor(resendIn / 60)).padStart(2, "0");
-  const ss = String(resendIn % 60).padStart(2, "0");
 
   return (
     <div
@@ -307,9 +305,9 @@ export default function LoginPopup({ isOpen, onClose }) {
               <p className="text-center text-[26px] leading-none tracking-[0.28em] text-[#111]">
                 DHIRAGO
               </p>
-              <p className="mt-1 text-center text-[10px] tracking-[0.4em] text-[#111]">
+              {/* <p className="mt-1 text-center text-[10px] tracking-[0.4em] text-[#111]">
                 THE BEAUTY OF TIME
-              </p>
+              </p> */}
 
               <h3 className="mt-6 text-center text-lg font-bold text-[#111]">
                 Login / Sign up
@@ -372,91 +370,87 @@ export default function LoginPopup({ isOpen, onClose }) {
               </p>
             </div>
           ) : (
-            <div className="mx-auto w-full max-w-[320px]">
+            <div className="mx-auto w-full max-w-[340px]">
               <p className="text-center text-[26px] leading-none tracking-[0.28em] text-[#111]">
                 DHIRAGO
               </p>
-              <p className="mt-1 text-center text-[10px] tracking-[0.4em] text-[#111]">
-                THE BEAUTY OF TIME
-              </p>
 
-              <h3 className="mt-6 text-center text-lg font-bold text-[#111]">
-                Enter OTP
-              </h3>
-
-              <p className="mt-2 text-center text-sm text-[#111]">
-                The OTP is sent on your whatsapp number <br /> +91 {mobile}{" "}
+              <div className="mt-8 flex items-center justify-center gap-2.5">
+                <p className="text-[15px] font-medium tracking-wide text-[#1a1a1a]">
+                  +91 {mobile}
+                </p>
                 <button
                   type="button"
                   onClick={goToMobileStep}
-                  className="inline-block text-sm text-[#555]"
+                  className="rounded-full border border-[#22c55e] px-3 py-[3px] text-[11px] font-medium leading-none text-[#16a34a] transition-colors hover:bg-[#22c55e] hover:text-white"
                 >
-                  ✎
+                  Edit
                 </button>
-              </p>
+              </div>
 
-              <p className="mt-5 text-sm font-semibold text-[#111]">OTP</p>
               <div
-                className="mt-2 flex items-center justify-between gap-2"
+                className="mt-7 flex items-center justify-center gap-2.5 sm:gap-3"
                 onPaste={handleOtpPaste}
               >
-                {otpDigits.map((digit, index) => (
-                  <input
-                    key={index}
-                    ref={(el) => {
-                      inputRefs.current[index] = el;
-                    }}
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete={index === 0 ? "one-time-code" : "off"}
-                    maxLength={1}
-                    value={digit}
-                    onChange={(e) => updateDigit(index, e.target.value)}
-                    onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                    onFocus={() => setActiveIndex(index)}
-                    className={`h-11 w-11 rounded-md text-center text-lg font-semibold text-[#111] outline-none transition-colors ${
-                      activeIndex === index || digit
-                        ? "border border-[#9ca8b9]"
-                        : "border border-[#d6dbe3]"
-                    }`}
-                    aria-label={`OTP digit ${index + 1}`}
-                  />
-                ))}
+                {otpDigits.map((digit, index) => {
+                  const isActive = activeIndex === index;
+                  return (
+                    <input
+                      key={index}
+                      ref={(el) => {
+                        inputRefs.current[index] = el;
+                      }}
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete={index === 0 ? "one-time-code" : "off"}
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => updateDigit(index, e.target.value)}
+                      onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                      onFocus={() => setActiveIndex(index)}
+                      className={`h-[48px] w-[48px] rounded-[12px] bg-white text-center text-[20px] font-semibold text-[#111] outline-none transition-all duration-150 sm:h-[52px] sm:w-[52px] ${
+                        isActive
+                          ? "border-[1.5px] border-black shadow-[0_0_0_3px_rgba(147,197,253,0.55)]"
+                          : "border border-[#d8dde6]"
+                      }`}
+                      aria-label={`OTP digit ${index + 1}`}
+                    />
+                  );
+                })}
+              </div>
+
+              <div className="mt-5 flex items-center justify-center gap-1.5 text-[#4b5568]">
+                {resendIn > 0 ? (
+                  <>
+                    <Timer className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+                    <p className="text-[12px] font-medium">
+                      Resend OTP in {resendIn} Sec
+                    </p>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handleSendOtp({ isResend: true })}
+                    disabled={loading}
+                    className="text-[12px] font-medium text-[#111] underline underline-offset-2 disabled:opacity-50"
+                  >
+                    Resend OTP
+                  </button>
+                )}
               </div>
 
               <button
                 type="button"
                 onClick={() => handleVerifyOtp()}
                 disabled={!canSubmitOtp}
-                className={`mt-4 w-full rounded-md py-2.5 text-sm font-medium text-white transition-colors ${
+                className={`mt-6 w-full rounded-[12px] py-3.5 text-[15px] font-medium text-white transition-colors ${
                   canSubmitOtp
                     ? "bg-black hover:bg-[#111]"
-                    : "cursor-not-allowed bg-[#bcbcbc]"
+                    : "cursor-not-allowed bg-[#d1d5db]"
                 }`}
               >
-                {loading ? "Verifying..." : "Verify OTP"}
+                {loading ? "Verifying..." : "Verify"}
               </button>
-
-              <div className="mt-5 text-center">
-                <span className="inline-block bg-[#111] px-2 py-0.5 text-xs leading-none text-white">
-                  {mm}:{ss}
-                </span>
-                <p className="mt-2 text-xs text-[#bebebe]">
-                  {resendIn > 0
-                    ? `Verify OTP in ${resendIn} second`
-                    : "Didn't receive OTP?"}
-                </p>
-                {resendIn === 0 && (
-                  <button
-                    type="button"
-                    onClick={() => handleSendOtp({ isResend: true })}
-                    disabled={loading}
-                    className="mt-1 text-xs font-medium text-[#111] underline disabled:opacity-50"
-                  >
-                    Resend OTP
-                  </button>
-                )}
-              </div>
             </div>
           )}
         </div>

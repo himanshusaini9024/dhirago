@@ -542,7 +542,21 @@ export default function OrdersPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.4 }}
                 >
-                  <OrderDetailsUI order={selectedOrder} />
+                  <OrderDetailsUI
+                    order={selectedOrder}
+                    allowAddressEdit
+                    onOrderUpdated={(updated) => {
+                      setSelectedOrder(updated);
+                      setOrders((prev) =>
+                        prev.map((o) =>
+                          o.id === updated.id ||
+                          o.order_number === updated.order_number
+                            ? { ...o, ...updated }
+                            : o,
+                        ),
+                      );
+                    }}
+                  />
                 </motion.div>
               </motion.div>
             </motion.div>

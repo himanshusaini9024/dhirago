@@ -53,15 +53,19 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductPage({ params }) {
   const { slug } = await params;
-  const product  = await getProduct(slug);
+  const product = await getProduct(slug);
 
   if (!product) {
     return (
-      <div style={{
-        textAlign: "center", padding: "80px 20px",
-        color: "#aaa", letterSpacing: "0.1em",
-        fontFamily: "'Josefin Sans', sans-serif",
-      }}>
+      <div
+        style={{
+          textAlign: "center",
+          padding: "80px 20px",
+          color: "#aaa",
+          letterSpacing: "0.1em",
+          fontFamily: "'Josefin Sans', sans-serif",
+        }}
+      >
         Product not found
       </div>
     );
@@ -82,6 +86,7 @@ export default async function ProductPage({ params }) {
             image: product.images?.map((i) => i.url),
             description: product.description || product.name,
             sku: product.id,
+
             offers: {
               "@type": "Offer",
               priceCurrency: "INR",
@@ -91,11 +96,14 @@ export default async function ProductPage({ params }) {
                   ? "https://schema.org/InStock"
                   : "https://schema.org/OutOfStock",
             },
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: product.punctuation?.punctuation || 0,
-              reviewCount: product.punctuation?.countOpinions || 0,
-            },
+
+            ...(product.punctuation?.countOpinions > 0 && {
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: product.punctuation.punctuation,
+                reviewCount: product.punctuation.countOpinions,
+              },
+            }),
           }),
         }}
       />

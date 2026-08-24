@@ -642,7 +642,7 @@ export default function Content({ product }) {
           <div
             style={{
               fontSize: "14.3px",
-              lineHeight: "2.2",
+              lineHeight: "1.9",
               color: "#111111",
               fontWeight: 400,
               fontFamily: F,
@@ -675,13 +675,13 @@ export default function Content({ product }) {
           onToggle={() => toggleAccordion("shipment")}
         >
           <div style={prose}>
-            <p style={{ margin: "0 0 6px" }}>
+            <p style={{ margin: "0 0 1px" }}>
               Complimentary shipping across India.
             </p>
-            <p style={{ margin: "0 0 6px" }}>
+            <p style={{ margin: "0 0 1px" }}>
               Orders are dispatched within 1–2 business days.
             </p>
-            <p style={{ margin: " 0 0 6px" }}>
+            <p style={{ margin: " 0 0 1px" }}>
               Delivery usually takes 5–8 business days from the date of dispatch
             </p>
           </div>
@@ -693,10 +693,10 @@ export default function Content({ product }) {
           onToggle={() => toggleAccordion("returns")}
         >
           <div style={prose}>
-            <p style={{ margin: "0 0 6px" }}>
+            <p style={{ margin: "0 0 1px" }}>
               We accept returns/exchanges within 5 days of delivery.
             </p>
-            <p style={{ margin: "0 0 6px" }}>
+            <p style={{ margin: "0 0 1px" }}>
               Refunds will be applicable after the returned product passes our
               quality check
             </p>

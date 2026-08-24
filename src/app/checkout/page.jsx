@@ -304,6 +304,45 @@ const CheckoutPage = () => {
     return true;
   };
 
+  const handlePlaceOrder = async () => {
+    if (!validateBeforePay()) return;
+    if (processing) return;
+    setProcessing(true);
+
+    try {
+      if (paymentMethod === "online") {
+        await handleOnlinePayment({
+          priceTotal,
+          selectedAddress,
+          cartItems,
+          createOrder,
+          email,
+        });
+      } else {
+        await new Promise((r) => setTimeout(r, 1200));
+        await handleCOD({ createOrder, email, priceTotal });
+      }
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const handleAddAddressClick = () => {
+    if (selectedAddress) {
+      setShowAddressModal(true);
+      return;
+    }
+    openAddAddress();
+    scrollToField(addressSectionRef.current);
+  };
+
+  const payButtonLabel =
+    paymentMethod === "online" ? "Proceed to Payment" : "Place Order";
+  const payButtonLoadingLabel =
+    paymentMethod === "online"
+      ? "Redirecting to Payment..."
+      : "Placing Your Order...";
+
   // ── helpers ───────────────────────────────
   const RadioDot = ({ active }) => (
     <div className={`pay-radio${active ? " active" : ""}`}>
@@ -511,57 +550,21 @@ const CheckoutPage = () => {
                 </div>
               </div>
 
-              <div className="cta-area">
-                {paymentMethod === "online" ? (
-                  <button
-                    className="btn-primary"
-                    disabled={processing}
-                    onClick={async () => {
-                      if (!validateBeforePay()) return;
-                      if (processing) return;
-                      setProcessing(true);
-                      await handleOnlinePayment({
-                        priceTotal,
-                        selectedAddress,
-                        cartItems,
-                        createOrder,
-                        email,
-                      });
-                      setProcessing(false);
-                    }}
-                  >
-                    {processing ? (
-                      <span className="co-processing">
-                        <span className="co-spinner" />
-                        <span>Redirecting to Payment...</span>
-                      </span>
-                    ) : (
-                      "Proceed to Payment"
-                    )}
-                  </button>
-                ) : (
-                  <button
-                    className="btn-primary"
-                    disabled={processing}
-                    onClick={async () => {
-                      if (!validateBeforePay()) return;
-                      if (processing) return;
-                      setProcessing(true);
-                      await new Promise((r) => setTimeout(r, 1200));
-                      await handleCOD({ createOrder, email, priceTotal });
-                      setProcessing(false);
-                    }}
-                  >
-                    {processing ? (
-                      <span className="co-processing">
-                        <span className="co-spinner" />
-                        <span>Placing Your Order...</span>
-                      </span>
-                    ) : (
-                      "Place Order "
-                    )}
-                  </button>
-                )}
+              <div className="cta-area co-desktop-cta">
+                <button
+                  className="btn-primary"
+                  disabled={processing}
+                  onClick={handlePlaceOrder}
+                >
+                  {processing ? (
+                    <span className="co-processing">
+                      <span className="co-spinner" />
+                      <span>{payButtonLoadingLabel}</span>
+                    </span>
+                  ) : (
+                    payButtonLabel
+                  )}
+                </button>
 
                 <Link href="/" className="btn-secondary">
                   Continue Shopping
@@ -600,6 +603,39 @@ const CheckoutPage = () => {
           <Link href="/cart" className="co-back">
             ← Back to Cart
           </Link>
+        </div>
+
+        {/* Mobile sticky checkout bar — stays visible while scrolling address/email */}
+        <div className="co-mobile-bar" aria-label="Checkout actions">
+          <div className="co-mobile-bar-inner">
+            <div className="co-mobile-bar-total">
+              <span className="co-mobile-bar-label">Total</span>
+              <span className="co-mobile-bar-amount">₹{priceTotal}</span>
+            </div>
+            <div className="co-mobile-bar-actions">
+              <button
+                type="button"
+                className="co-mobile-bar-secondary"
+                onClick={handleAddAddressClick}
+              >
+                {selectedAddress ? "Change Address" : "Add Address"}
+              </button>
+              <button
+                type="button"
+                className="co-mobile-bar-primary"
+                disabled={processing}
+                onClick={handlePlaceOrder}
+              >
+                {processing ? (
+                  <span className="co-processing">
+                    <span className="co-spinner" />
+                  </span>
+                ) : (
+                  payButtonLabel
+                )}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* ── ADDRESS SELECT MODAL ── */}

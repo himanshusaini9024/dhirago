@@ -22,6 +22,11 @@
   min-height: 100vh;
   color: var(--ink);
   font-size: 14px;
+
+  @media (max-width: 899px) {
+    padding-top: 96px;
+    padding-bottom: 24px;
+  }
 }
 .checkout-page *, .checkout-page *::before, .checkout-page *::after { box-sizing: border-box; }
 
@@ -301,6 +306,110 @@
 .secure-note {
   text-align: center; font-size: 11px; color: var(--muted); letter-spacing: 0.5px;
   display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+
+/* ── MOBILE STICKY CHECKOUT BAR ── */
+.co-mobile-bar {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .co-mobile-bar {
+    display: block;
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    z-index: 55;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    box-shadow: 0 8px 24px rgba(13, 13, 13, 0.08);
+    padding: 10px 12px calc(10px + env(safe-area-inset-top, 0px));
+  }
+
+  .co-mobile-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .co-mobile-bar-total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .co-mobile-bar-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .co-mobile-bar-amount {
+    font-family: "Century Gothic", Futura, "Trebuchet MS", sans-serif;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .co-mobile-bar-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    gap: 8px;
+  }
+
+  .co-mobile-bar-secondary,
+  .co-mobile-bar-primary {
+    min-height: 44px;
+    border-radius: 8px;
+    font-family: "Century Gothic", Futura, "Trebuchet MS", sans-serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .co-mobile-bar-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 0.5px solid var(--border);
+    padding: 0 10px;
+
+    &:hover {
+      border-color: var(--ink);
+    }
+  }
+
+  .co-mobile-bar-primary {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 0 12px;
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--gold);
+    }
+  }
+
+  /* Hide duplicate desktop CTAs inside summary on mobile */
+  .co-desktop-cta {
+    display: none;
+  }
+
+  /* Keep order summary first, then address, contact, payment */
+  .summary-box {
+    order: -1;
+  }
 }
 
 /* ── BACK LINK ── */

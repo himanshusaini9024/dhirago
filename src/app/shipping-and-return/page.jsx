@@ -2,6 +2,7 @@
 
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
@@ -121,19 +122,42 @@ export default function ShippingReturn() {
         <div className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
           <p>Request. Confirm. Handover. </p>
           <ul className="list-disc pl-5 space-y-2">
-            <li>
-              The easiest way to return or exchange is to generate a request
-              from our website. Visit the Return/Exchange page.{" "}
+          <li>
+              Visit our{" "}
+              <Link
+                href="/return-exchange"
+                className="underline text-stone-900"
+              >
+                Return/Exchange page
+              </Link>{" "}
+              after your order has been delivered.
             </li>
             <li>
-              Pack the item as originally received and hand over the product to
-              our logistics partner.
+              Submit your request within 5 days from the date of delivery.
             </li>
-            <li>Free of cost for all eligible returns/exchanges</li>
+            <li>Pack the product as originally received.</li>
             <li>
-              Refund will be processed once we receive the product at our studio
+              Hand over the package to our designated logistics partner when
+              instructed.
+            </li>
+            <li>
+              The returned product will be received and inspected at our studio.
             </li>
           </ul>
+              <p className="mb-4">
+            Eligible returns and exchanges are free of cost.
+          </p>
+
+          <p className="mb-5">
+            A refund will be processed once the returned product is received at
+            our studio and is confirmed to meet the applicable return
+            conditions.
+          </p>
+
+          <p className="mb-5">
+            You may also contact our customer care team if you need assistance
+            with a return or exchange.
+          </p>
           <p className="font-medium text-[#111111]">You can also call or write to us if you need any assistance.</p>
         </div>
 

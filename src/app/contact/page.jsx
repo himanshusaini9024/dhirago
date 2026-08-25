@@ -172,15 +172,13 @@ export default function ContactPage() {
                 Social Contact:
               </h3>
               <a
-              target="_blank"
+                target="_blank"
                 href="https://instagram.com/dhirago_"
                 className="text-[13px] font-medium text-stone-600 hover:text-stone-900 transition-colors"
               >
                 @Dhirago_
               </a>
             </div>
-
-           
 
             <div>
               <h3 className="text-[13px] mb-2 font-bold text-stone-900 tracking-wide">
@@ -190,21 +188,24 @@ export default function ContactPage() {
                 href="tel:+918905524932"
                 className="text-[13px] font-medium text-stone-600 hover:text-stone-900 transition-colors"
               >
-                +91 8905524932, 
+                +91 8905524932,
               </a>
-              <p className="text-[13px] mt-2 font-medium text-stone-700">Monday – Saturday, [10am – 7pm]</p>
-
+              <p className="text-[13px] mt-2 font-medium text-stone-700">
+                Monday – Saturday, [10am – 7pm]
+              </p>
             </div>
 
             <div>
               <h3 className="text-[13px]  mb-2 font-bold text-stone-900 tracking-wide mb-1">
                 BY APPOINTMENT:
               </h3>
-              <p className="text-[13px] font-medium text-stone-700">DHIRAGO FASHION PRIVATE LIMITED</p>
+              <p className="text-[13px] font-medium text-stone-700">
+                DHIRAGO FASHION PRIVATE LIMITED
+              </p>
               <p className="text-[13px] font-medium text-stone-600 leading-relaxed mt-2">
-                3rd floor, New electric market, 120, ft Road, A.M Business Center, Mali Colony, Central Area
+                FLAT NO.502 ARCHI THE DIVINE,Udaipur City
                 <br />
-               Udaipur, Rajasthan 313002
+                Udaipur, Rajasthan 313002 India
               </p>
             </div>
           </motion.div>

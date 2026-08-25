@@ -44,6 +44,7 @@ const houseLinks = [
   { label: "Shipping & Returns", href: "/shipping-and-return" },
   { label: "FAQ", href: "/faq" },
   { label: "Track order", href: "/return/track-order" },
+  { label: "Terms & Conditions", href: "/terms-conditions" },
 ];
 
 

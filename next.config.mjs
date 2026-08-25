@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Next.js 16 uses Turbopack by default; keep an empty turbopack config
+  // so a custom webpack block (if re-added for production builds) won't crash `next dev`.
+  turbopack: {},
   images: {
     remotePatterns: [
       {

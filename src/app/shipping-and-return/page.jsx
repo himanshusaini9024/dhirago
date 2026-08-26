@@ -13,23 +13,30 @@ export default function ShippingReturn() {
     <div
       className={`min-h-screen bg-white text-stone-800 ${josefin.className}`}
     >
-      <div className="relative w-full h-[240px]   sm:h-[320px] md:h-[350px] overflow-hidden rounded-sm">
-        <Image
-          src="/images/european-linen.jpg"
-          alt="EUROPEAN LINEN"
-          fill
-          className="w-full h-full md:px-10  object-cover"
-        />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-200 via-sky-100 to-blue-300" />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/1">
-          <h3
-            className="text-white text-xl sm:text-2xl md:text-3xl font-medium tracking-[0.2em] drop-shadow-xl"
-            style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
-          >
-            Shipping & Return
-          </h3>
+   
+
+        <section className="w-full leading-none">
+        <div className="relative w-full sm:h-[320px] md:h-[350px] overflow-hidden rounded-sm">
+          <Image
+            src={`https://images.dhirago.com/ecommerce/banner/co.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+            alt="A young man wearing a handwoven muslin shirt by a lakeside"
+            width={2000}
+            height={800}
+            priority
+            sizes="100vw"
+            unoptimized
+            className="block h-auto w-full object-contain object-center"
+          />
+          <div className="absolute inset-0  lg:top-[9rem] top-[4rem] flex items-center justify-center bg-black/1">
+            <h3
+              className="text-white  text-sm sm:text-2xl md:text-2xl font-medium tracking-[0.1em] drop-shadow-xl"
+              style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
+            >
+              Shipping & Return
+            </h3>
+          </div>
         </div>
-      </div>
+      </section>
       <div className="max-w-4xl mx-auto px-6 md:px-10 py-14">
         <h1
           className={`${josefin.className} text-center uppercase leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}

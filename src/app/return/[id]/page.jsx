@@ -1,18 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { motion } from "framer-motion";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { Josefin_Sans } from "next/font/google";
 import API from "../../../lib/api";
-import { useSearchParams } from "next/navigation";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
 
-export default function ReturnPage() {
+function ReturnPageContent() {
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -201,5 +200,19 @@ export default function ReturnPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ReturnPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[50vh] flex items-center justify-center text-sm text-gray-500">
+          Loading…
+        </div>
+      }
+    >
+      <ReturnPageContent />
+    </Suspense>
   );
 }

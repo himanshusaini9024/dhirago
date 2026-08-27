@@ -5,6 +5,7 @@ import {
   Inter,
   Montserrat,
 } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import "../assets/css/styles.scss";
 import GoogleAnalytics from "../components/GoogleAnalytics";
@@ -76,8 +77,12 @@ export default function RootLayout({ children }) {
               <LayoutWrapper>
                 <CartSync />
                 <ChatwootSync />
-                <PageTracker />
-                        <MetaPageTracker />
+                <Suspense fallback={null}>
+                  <PageTracker />
+                </Suspense>
+                <Suspense fallback={null}>
+                  <MetaPageTracker />
+                </Suspense>
 
                 {children}
 

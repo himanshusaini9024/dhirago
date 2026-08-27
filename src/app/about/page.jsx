@@ -245,12 +245,12 @@ export default function AboutPage() {
             }}
           >
             <Reveal delay={100}>
-              <h2
+              <h1
                 className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] mb-6`}
               >
                 A QUIET EXPRESSION OF CRAFT, SHAPED IN STILLNESS AND REFINED
                 THROUGH TIME
-              </h2>
+              </h1>
             </Reveal>
           </div>
           <div

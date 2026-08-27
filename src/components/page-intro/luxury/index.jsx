@@ -9,11 +9,11 @@ const josefin = Josefin_Sans({
 export default function Hero() {
   return (
     <section className={`${josefin.className} mt-3 lg:mt-28 px-4 sm:px-6 md:px-0`}>
-      <h3
+      <h2
         className={`${josefin.className} lg:text-center uppercase leading-[1.7] md:leading-[1.9] text-[clamp(11px,1.3vw,1.08rem)] text-[#333333] tracking-[0.03em] mb-4 px-2`}
       >
         EMBROIDERED THROUGH <br className="hidden sm:block" />HANDS AND TIME
-      </h3>
+      </h2>
 
       <div className="relative grid grid-cols-1 md:grid-cols-[1fr_0.777fr_0.777fr] gap-6 md:gap-8  sm:py-10 md:py-20 px-0 md:px-14">
         {/* Text content */}

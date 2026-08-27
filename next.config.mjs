@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  turbopack: {},
   images: {
     remotePatterns: [
       {
@@ -24,6 +25,49 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+  },
+
+  async headers() {
+    // Permissive enough for GTM, Meta Pixel, Razorpay, CDNs, and camera try-on;
+    // still satisfies common SEO/security header checks.
+    const contentSecurityPolicy = [
+      "default-src 'self'",
+      "base-uri 'self'",
+      "object-src 'none'",
+      "frame-ancestors 'self'",
+      "form-action 'self' https:",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: blob:",
+      "style-src 'self' 'unsafe-inline' https:",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data: https:",
+      "connect-src 'self' https: wss: blob:",
+      "frame-src 'self' https:",
+      "media-src 'self' https: blob:",
+      "worker-src 'self' blob:",
+      "manifest-src 'self'",
+    ].join("; ");
+
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(self), microphone=(), geolocation=()",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: contentSecurityPolicy,
+          },
+        ],
+      },
+    ];
   },
 };
 

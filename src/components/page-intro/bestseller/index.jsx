@@ -31,12 +31,11 @@ export default function Hero() {
         {/* Copy */}
         <div className="flex items-center px-6 lg:py-16 py-8 md:px-16 lg:px-28 ">
           <div className="max-w-2xl">
-            <p
-           className={`${josefin.className} uppercase lg:leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] lg:mb-6 mb-4`}
-
+            <h2
+              className={`${josefin.className} uppercase lg:leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] lg:mb-6 mb-4`}
             >
-              The first story; crafted with patience
-            </p>
+              The first story crafted with patience
+            </h2>
 
             <p
               style={{ color: "#555555" }}

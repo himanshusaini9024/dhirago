@@ -200,11 +200,11 @@ export default function BetterMaterials() {
 
       {/* INTRO */}
       <section className="py-14 md:py-28 px-5 sm:px-8 md:px-16 lg:px-24  max-w-[64rem] mx-auto">
-        <h2
+        <h1
           className={`${josefin.className} uppercase leading-[1.90] text-center text-[clamp(11px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-4`}
         >
           True craftsmanship starts with the material
-        </h2>
+        </h1>
         <p className="font-futura text-center font-light leading-[1.75] text-[clamp(12px,1.3vw,1.07rem)] leading-[1.85] text-[#444444] tracking-[0.03em]">
           Every garment begins with a story. The materials we choose become its
           foundation, shaping its character, comfort, and longevity. We are

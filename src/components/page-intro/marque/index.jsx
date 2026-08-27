@@ -67,12 +67,16 @@ export default function Marquee() {
         }}
       >
         <Reveal>
+          <h2 className="sr-only">
+            Collectible menswear made to be remembered
+          </h2>
           <p
             className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1rem)] leading-[1.90] font-futura`}
-          
             style={{ color: "#555555" }}
           >
-            "The offering begins with a simple instinct—to make something worth remembering. Each piece is conceived as an object to collect and keep, quietly becoming part of a life."
+            &ldquo;The offering begins with a simple instinct—to make something
+            worth remembering. Each piece is conceived as an object to collect
+            and keep, quietly becoming part of a life.&rdquo;
           </p>
         </Reveal>
       </div>

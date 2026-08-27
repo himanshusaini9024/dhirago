@@ -71,9 +71,9 @@ const Categorybaner = ({ catbanner, catbannerMobile, slug }) => {
       <div className="relative z-10 mx-auto w-full max-w-[1200px] px-[clamp(1.5rem,5vw,5rem)]">
         <Reveal className="flex flex-col items-center text-center">
           <div className="mb-6 h-px w-12 bg-[var(--green-light)]" />
-          <h2 className="max-w-full text-[clamp(25px,2.8vw,32px)] font-medium uppercase tracking-[0.23em] text-[#F0EBE0]  leading-[1.55]">
+          <h1 className="max-w-full text-[clamp(25px,2.8vw,32px)] font-medium uppercase tracking-[0.23em] text-[#F0EBE0]  leading-[1.55]">
             {slug?.replace(/-/g, " ")}
-          </h2>
+          </h1>
         </Reveal>
       </div>
     </section>

@@ -1,6 +1,8 @@
 export default function robots() {
   const isIndexingEnabled =
     process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.dhirago.com";
 
   if (!isIndexingEnabled) {
     return {
@@ -19,6 +21,10 @@ export default function robots() {
         "/cart",
         "/checkout",
         "/account",
+        "/account/",
+        "/signup",
+        "/success",
+        "/return",
         "/login",
         "/register",
         "/wishlist",
@@ -26,6 +32,6 @@ export default function robots() {
         "/api",
       ],
     },
-    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL}/sitemap.xml`,
+    sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

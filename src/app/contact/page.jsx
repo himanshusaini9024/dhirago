@@ -66,12 +66,12 @@ export default function ContactPage() {
             className="block h-auto w-full object-contain object-center"
           />
           <div className="absolute inset-0  lg:top-[9rem] top-[4rem] flex items-center justify-center bg-black/1">
-            <h3
+            <h1
               className="text-white  text-sm sm:text-2xl md:text-2xl font-medium tracking-[0.1em] drop-shadow-xl"
               style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
             >
               CONTACT US
-            </h3>
+            </h1>
           </div>
         </div>
       </section>

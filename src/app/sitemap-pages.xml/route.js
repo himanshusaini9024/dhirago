@@ -7,11 +7,16 @@ export async function GET() {
     "/about",
     "/handwork",
     "/timeless",
+    "/linen",
+    "/essence",
     "/pages/better-materials",
+    "/product-care",
     "/contact",
     "/faq",
     "/privacy",
-    
+    "/shipping-and-return",
+    "/terms-conditions",
+    "/collections/shirts",
   ];
 
   const urls = pages
@@ -20,7 +25,9 @@ export async function GET() {
   <url>
     <loc>${baseUrl}${p}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
-  </url>`
+    <changefreq>weekly</changefreq>
+    <priority>${p === "" ? "1.0" : "0.7"}</priority>
+  </url>`,
     )
     .join("");
 

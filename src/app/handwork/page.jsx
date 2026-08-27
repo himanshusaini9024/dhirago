@@ -98,9 +98,9 @@ export default function HandEmbroideryPage() {
         <div className={container}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12  items-center">
             <div className="text-left max-w-[560px] mx-auto lg:mx-0 w-full">
-              <h2 className={`${heading} mb-5 sm:mb-6`}>
+              <h1 className={`${heading} mb-5 sm:mb-6`}>
                 A Touch of Embroidery, a Shade of Elegance
-              </h2>
+              </h1>
               <p className={`${body} mb-4`}>
                 Handwork is integral to the language of DHIRAGO, bringing depth,
                 individuality, and the unmistakable presence of the maker into

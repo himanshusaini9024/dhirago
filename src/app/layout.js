@@ -38,18 +38,22 @@ export const metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   ),
   title: {
-    default: "Dhirago - Premium Cloths",
+    default: "Dhirago — Premium Menswear",
     template: "%s | Dhirago",
   },
-  robots: {
-    index: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
-    follow: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
-     googleBot: {
-      index: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
-      follow: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
-    },
-  },
-   verification: {
+  robots: (() => {
+    const allowIndexing =
+      process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+    return {
+      index: allowIndexing,
+      follow: allowIndexing,
+      googleBot: {
+        index: allowIndexing,
+        follow: allowIndexing,
+      },
+    };
+  })(),
+  verification: {
     google: "VAG1hHNGSz3usCxHr8pXpFnc5DY42snyTnwXp2A2PiY",
   },
 };

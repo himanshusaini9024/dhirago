@@ -16,8 +16,8 @@ export default function Hero() {
       </h2>
 
       <div className="relative grid grid-cols-1 md:grid-cols-[1fr_0.777fr_0.777fr] gap-6 md:gap-8  sm:py-10 md:py-20 px-0 md:px-14">
-        {/* Text content */}
-        <div className="order-1 flex items-center px-1 sm:px-4 lg:py-2 md:px-8 lg:px-10">
+        {/* Text — after images on mobile, left column on desktop */}
+        <div className="order-2 md:order-1 flex items-center px-1 sm:px-4 lg:py-2 md:px-8 lg:px-10">
           <div className="max-w-2xl mx-auto md:mx-0">
             <p
               style={{ color: "#555555" }}
@@ -35,7 +35,7 @@ export default function Hero() {
 
             <div className="mt-6 md:mt-9 flex justify-center md:justify-start gap-3">
               
-               <a href="/embroidery"
+               <a href="/handwork"
                 className="border border-[#14171A] px-6 sm:px-8 py-3 sm:py-3.5 text-[10px] sm:text-[11px] font-semibold uppercase text-[#14171A] transition-colors hover:bg-[#14171A] hover:text-white"
               >
                 Our embroidery
@@ -44,8 +44,8 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Images wrapper: side-by-side on mobile, becomes two independent grid items on desktop */}
-        <div className="order-2 grid grid-cols-2 gap-3 sm:gap-4 md:contents">
+        {/* Images — directly under heading on mobile; columns 2–3 on desktop */}
+        <div className="order-1 md:contents grid grid-cols-2 gap-3 sm:gap-4">
           {/* Image 1 */}
           <div className="relative w-full aspect-[3/4] overflow-hidden bg-black/5 md:order-2">
             <Image

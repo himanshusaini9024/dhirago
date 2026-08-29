@@ -46,6 +46,14 @@ const Header = () => {
   const user = useSelector((state) => state.auth.user);
   const [loginOpen, setLoginOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Avoid hydration mismatch: redux-persist cart differs between SSR and client
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const cartCount = mounted ? cartItems.length : 0;
 
   const handleLogout = async () => {
     try {
@@ -148,13 +156,13 @@ const Header = () => {
               <Link
                 href="/cart"
                 className={`${iconBtn} relative`}
-                aria-label={`Shopping cart (${cartItems.length} items)`}
+                aria-label={`Shopping cart (${cartCount} items)`}
                 title="Shopping Cart"
               >
                 <i aria-hidden="true" className="icon-cart text-[17px]" />
-                {cartItems.length > 0 && (
+                {cartCount > 0 && (
                   <span className="absolute top-0.5 right-0.5 min-w-[14px] h-[14px] flex items-center justify-center bg-black text-white text-[9px] px-0.5 rounded-full">
-                    {cartItems.length}
+                    {cartCount}
                   </span>
                 )}
               </Link>
@@ -248,7 +256,7 @@ const Header = () => {
                         onClick={() => setMenuOpen(false)}
                         className="py-4 text-[13px] tracking-[0.18em] uppercase text-black border-b border-[#ece8e2]"
                       >
-                        Cart ({cartItems.length})
+                        Cart ({cartCount})
                       </Link>
 
                       {!isLoggedIn ? (

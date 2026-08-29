@@ -26,13 +26,12 @@ import { Analytics } from "@vercel/analytics/react";
 import CartSync from "../components/shopping-cart/cartsync";
 import MetaPixel from "../components/MetaPixel";
 import MetaPageTracker from "../components/MetaPageTracker";
-import { GoogleTagManager } from '@next/third-parties/google';
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
 
 export const metadata = {
   metadataBase: new URL(
@@ -42,9 +41,14 @@ export const metadata = {
     default: "Dhirago — Premium Menswear",
     template: "%s | Dhirago",
   },
+    description:
+    "Discover Dhirago, a luxury Indian menswear brand offering handcrafted shirts with contemporary designs and considered detailing.",
+
+  alternates: {
+    canonical: "https://www.dhirago.com/",
+  },
   robots: (() => {
-    const allowIndexing =
-      process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+    const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
     return {
       index: allowIndexing,
       follow: allowIndexing,
@@ -63,34 +67,69 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${futura.variable} `}>
-                      <GoogleTagManager gtmId="GTM-5TDSXPBS" />
-        
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://www.dhirago.com/#organization",
+                name: "Dhirago Fashion Private Limited",
+                url: "https://www.dhirago.com/",
+                logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+                description:
+                  "Dhirago is a luxury Indian menswear brand offering handcrafted shirts with contemporary designs and considered detailing.",
+                sameAs: [
+                  "https://www.instagram.com/dhirago_/"
+                ],
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  telephone: "+91-8905524932",
+                  contactType: "customer service",
+                  email: "contact@dhirago.com",
+                },
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": "https://www.dhirago.com/#website",
+                url: "https://www.dhirago.com/",
+                name: "Dhirago",
+                publisher: {
+                  "@id": "https://www.dhirago.com/#organization",
+                },
+              },
+            ]),
+          }}
+        />
+        <GoogleTagManager gtmId="GTM-5TDSXPBS" />
 
         <div className="app-main">
-           <MetaPixel />
+          <MetaPixel />
 
           <ReduxProvider>
             <AuthLoader />
             {/* <PopupProvider> */}
-              <Header />
+            <Header />
 
-              <LayoutWrapper>
-                <CartSync />
-                <ChatwootSync />
-                <Suspense fallback={null}>
-                  <PageTracker />
-                </Suspense>
-                <Suspense fallback={null}>
-                  <MetaPageTracker />
-                </Suspense>
+            <LayoutWrapper>
+              <CartSync />
+              <ChatwootSync />
+              <Suspense fallback={null}>
+                <PageTracker />
+              </Suspense>
+              <Suspense fallback={null}>
+                <MetaPageTracker />
+              </Suspense>
 
-                {children}
+              {children}
 
-                {/* <GoogleAnalytics /> */}
-                <Analytics />
-                <SpeedInsights />
-              </LayoutWrapper>
-              {/* <Script
+              {/* <GoogleAnalytics /> */}
+              <Analytics />
+              <SpeedInsights />
+            </LayoutWrapper>
+            {/* <Script
                 id="tawk-chat"
                 strategy="afterInteractive"
                 dangerouslySetInnerHTML={{
@@ -109,7 +148,7 @@ export default function RootLayout({ children }) {
                 }}
               /> */}
 
-              {/* <Script id="chatwoot" strategy="afterInteractive">
+            {/* <Script id="chatwoot" strategy="afterInteractive">
                 {`
             window.chatwootSettings = {
             position: "right",
@@ -139,7 +178,7 @@ export default function RootLayout({ children }) {
             `}
               </Script> */}
 
-              <Footer />
+            <Footer />
             {/* </PopupProvider> */}
           </ReduxProvider>
         </div>

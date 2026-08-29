@@ -8,9 +8,9 @@ const josefin = Josefin_Sans({
 
 export default function Hero() {
   return (
-    <section className={`${josefin.className} mt-3 lg:mt-28 px-4 sm:px-6 md:px-0`}>
+    <section className={`${josefin.className} mt-10 lg:mt-28 px-4 sm:px-6 md:px-0`}>
       <h2
-        className={`${josefin.className} lg:text-center uppercase leading-[1.7] md:leading-[1.9] text-[clamp(11px,1.3vw,1.08rem)] text-[#333333] tracking-[0.03em] mb-4 px-2`}
+        className={`${josefin.className} lg:text-center uppercase leading-[1.7] md:leading-[1.9] text-[clamp(13px,1.3vw,1.08rem)] text-[#333333] tracking-[0.03em] mb-4 px-2`}
       >
         EMBROIDERED THROUGH <br className="hidden sm:block" />HANDS AND TIME
       </h2>
@@ -21,17 +21,19 @@ export default function Hero() {
           <div className="max-w-2xl mx-auto md:mx-0">
             <p
               style={{ color: "#555555" }}
-              className={`font-normal text-justify text-[clamp(0.8rem,1.35vw,1rem)] leading-[1.75] md:leading-[2.10] font-futura`}
+              className={`font-normal text-justify text-[clamp(0.8rem,1.35vw,1rem)] leading-[2.10] font-futura`}
             >
               In the hands of our artisan, a simple thread transform into timeless art. Each stitch reflect generation of skills, patience and precision and knowledge passed through generations. The beauty of handwork lies in its variations, each one shaped by the instinct of the maker. No two expressions are ever entirely the same.
             </p>
 
             <p
               style={{ color: "#555555" }}
-              className={`font-normal mt-3 text-justify text-[clamp(0.8rem,1.35vw,1rem)] leading-[1.75] md:leading-[2.10] font-futura`}
+              className={`font-normal mt-3 text-justify text-[clamp(0.8rem,1.35vw,1rem)] leading-[2.10] font-futura`}
             >
               Worked slowly and with intention, these details are more than embellishment; they hold the time, touch, and skill invested in their making. Often quiet at first glance, they reveal themselves gradually—because the true signature of something beautifully made is found in the details that ask you to look closer.
             </p>
+
+            
 
             <div className="mt-6 md:mt-9 flex justify-center md:justify-start gap-3">
               

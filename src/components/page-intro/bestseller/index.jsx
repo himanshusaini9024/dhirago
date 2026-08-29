@@ -32,7 +32,7 @@ export default function Hero() {
         <div className="flex items-center px-6 lg:py-16 py-8 md:px-16 lg:px-28 ">
           <div className="max-w-2xl">
             <h2
-              className={`${josefin.className} uppercase lg:leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] lg:mb-6 mb-4`}
+              className={`${josefin.className} uppercase lg:leading-[1.90] text-[clamp(13px,1.3vw,1.01rem)]  text-[#333333] tracking-[0.01em] lg:mb-6 mb-4`}
             >
               The first story crafted with patience
             </h2>

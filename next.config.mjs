@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const nextConfig = {
   turbopack: {},
   images: {
@@ -40,7 +41,7 @@ const nextConfig = {
       "style-src 'self' 'unsafe-inline' https:",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data: https:",
-      "connect-src 'self' https: wss: blob:",
+      `connect-src 'self' ${BASE_URL}   https: wss: blob:`,
       "frame-src 'self' https:",
       "media-src 'self' https: blob:",
       "worker-src 'self' blob:",

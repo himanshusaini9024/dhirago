@@ -15,7 +15,7 @@ export default function PopupProvider({ children }) {
 
       let popupCount = parseInt(localStorage.getItem("popupCount")) || 0;
 
-      if (!isLoggedIn && popupCount < 2 && !hasTriggered) {
+      if (!isLoggedIn && popupCount < 1 && !hasTriggered) {
         if (window.scrollY > 300) {
           setHasTriggered(true);
 
@@ -40,7 +40,7 @@ export default function PopupProvider({ children }) {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     let popupCount = parseInt(localStorage.getItem("popupCount")) || 0;
 
-    if (!isLoggedIn && popupCount < 2) {
+    if (!isLoggedIn && popupCount < 1) {
       setTimeout(() => {
         setShowPopup(true);
 

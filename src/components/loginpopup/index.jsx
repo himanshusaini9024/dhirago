@@ -65,6 +65,7 @@ export default function LoginPopup({ isOpen, onClose }) {
   const [loading, setLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [resendIn, setResendIn] = useState(0);
+  const [otpError, setOtpError] = useState("");
   const inputRefs = useRef([]);
 
   const dispatch = useDispatch();
@@ -105,6 +106,7 @@ export default function LoginPopup({ isOpen, onClose }) {
   const handleSendOtp = async ({ isResend = false } = {}) => {
     if (mobile.length !== 10) return;
     if (isResend && resendIn > 0) return;
+    setOtpError("");
     setLoading(true);
 
     try {
@@ -162,19 +164,29 @@ export default function LoginPopup({ isOpen, onClose }) {
         body: JSON.stringify({ mobile, otp: code }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Invalid OTP");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(
+          data.message ||
+            data.errors?.otp?.[0] ||
+            "Incorrect OTP. Please check the code and try again.",
+        );
+      }
 
       dispatch(
         loginSuccess({
           user: data.user,
         }),
       );
+      setOtpError("");
 
       onClose();
       successToast("OTP successfully verified");
     } catch (err) {
-      errorToast(err.message || "Error verifying OTP");
+      const message =
+        err.message || "Incorrect OTP. Please check the code and try again.";
+      setOtpError(message);
+      errorToast(message);
       console.error(err);
     }
 
@@ -182,6 +194,7 @@ export default function LoginPopup({ isOpen, onClose }) {
   };
 
   const updateDigit = (index, value) => {
+    setOtpError("");
     const digit = value.replace(/\D/g, "").slice(-1);
     const next = [...otpDigits];
     next[index] = digit;
@@ -227,6 +240,7 @@ export default function LoginPopup({ isOpen, onClose }) {
 
   const handleOtpPaste = (e) => {
     e.preventDefault();
+    setOtpError("");
     const pasted = e.clipboardData
       .getData("text")
       .replace(/\D/g, "")
@@ -252,6 +266,7 @@ export default function LoginPopup({ isOpen, onClose }) {
     setOtpDigits(Array(OTP_LENGTH).fill(""));
     setActiveIndex(0);
     setResendIn(0);
+    setOtpError("");
   };
 
   const canSubmitMobile = mobile.length === 10 && !loading;
@@ -408,8 +423,11 @@ export default function LoginPopup({ isOpen, onClose }) {
                       onChange={(e) => updateDigit(index, e.target.value)}
                       onKeyDown={(e) => handleOtpKeyDown(index, e)}
                       onFocus={() => setActiveIndex(index)}
+                      aria-invalid={Boolean(otpError)}
                       className={`h-[48px] w-[48px] rounded-[12px] bg-white text-center text-[20px] font-semibold text-[#111] outline-none transition-all duration-150 sm:h-[52px] sm:w-[52px] ${
-                        isActive
+                        otpError
+                          ? "border-[1.5px] border-red-500 shadow-[0_0_0_3px_rgba(248,113,113,0.18)]"
+                          : isActive
                           ? "border-[1.5px] border-black shadow-[0_0_0_3px_rgba(147,197,253,0.55)]"
                           : "border border-[#d8dde6]"
                       }`}
@@ -418,6 +436,15 @@ export default function LoginPopup({ isOpen, onClose }) {
                   );
                 })}
               </div>
+
+              {otpError && (
+                <p
+                  role="alert"
+                  className="mt-3 text-center text-xs leading-relaxed text-red-600"
+                >
+                  {otpError}
+                </p>
+              )}
 
               <div className="mt-5 flex items-center justify-center gap-1.5 text-[#4b5568]">
                 {resendIn > 0 ? (

@@ -61,7 +61,7 @@ const canReturnOrder = (order) => {
     (today - deliveredDate) / (1000 * 60 * 60 * 24),
   );
 
-  return diffDays >= 0 && diffDays <= 7;
+  return diffDays >= 0 && diffDays <= 5;
 };
 
 export default function OrdersPage() {

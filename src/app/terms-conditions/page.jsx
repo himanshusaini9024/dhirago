@@ -90,7 +90,7 @@ export default function TermsConditionPage() {
 
           <p className="mb-3">
             <strong>Business Address:</strong> FLAT NO.502 ARCHI THE
-            DIVINE,Udaipur City udaipur Rajasthan 313001 India
+            DIVINE,Udaipur City udaipur Rajasthan 313002 India
           </p>
 
           <p className="mb-3">
@@ -651,7 +651,8 @@ export default function TermsConditionPage() {
           <p className="mb-5">Except Indian public holidays.</p>
 
           <p>
-            <strong>Business Address:</strong> [BUSINESS ADDRESS]
+            <strong>Business Address:</strong> FLAT NO.502 ARCHI THE
+            DIVINE,Udaipur City udaipur Rajasthan 313002 India
           </p>
         </Content>
       </div>

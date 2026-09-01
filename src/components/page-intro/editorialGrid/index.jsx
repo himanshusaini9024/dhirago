@@ -123,6 +123,7 @@ export default function ProductsFeatured() {
       muted
       loop
       playsInline
+      poster={`https://images.dhirago.com/ecommerce/banner/dsc06401.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
       preload="metadata"
       className="absolute inset-0 h-full w-full object-cover object-center md:grayscale"
     >

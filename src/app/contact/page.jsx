@@ -197,7 +197,7 @@ export default function ContactPage() {
                 +91 8905524932,
               </a>
               <p className="text-[13px] mt-2 font-medium text-stone-700">
-                Monday – Saturday, [10am – 7pm]
+                Monday – Saturday, [10am – 6pm]
               </p>
             </div>
 

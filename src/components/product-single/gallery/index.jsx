@@ -285,7 +285,7 @@ export default function Gallery({ images: rawImages }) {
                 <div
                   key={i}
                   onClick={() => openLightbox(i)}
-                  className="relative aspect-[3/4] w-full shrink-0 cursor-zoom-in overflow-hidden bg-[#edeae3]"
+                  className="relative  w-full shrink-0 cursor-zoom-in overflow-hidden"
                 >
                   <img
                     src={img.url ? BASE + img.url : "/placeholder.jpg"}
@@ -394,8 +394,7 @@ export default function Gallery({ images: rawImages }) {
                 <div
                   className="absolute inset-0 z-[1]"
                   style={{
-                    background:
-                      "linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
+                    // background:"linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
                     backgroundSize: "200% 100%",
                     animation: "dhgsk5 1.6s ease infinite",
                   }}

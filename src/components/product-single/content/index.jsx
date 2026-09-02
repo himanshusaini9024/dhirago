@@ -374,6 +374,7 @@ export default function Content({ product }) {
             fontWeight: 400,
             textTransform: "uppercase",
             color: "#111",
+            textAlign: isMobile ? 'center' : 'justify',
             lineHeight: 1.45,
             margin: "0 0 4px",
             fontFamily: F,
@@ -385,12 +386,13 @@ export default function Content({ product }) {
         {/* SKU */}
         {product.sku && (
           <p
-            className="!mt-4"
+            className="!mt-3 uppercase"
             style={{
               fontSize: "13.3px",
               color: "#rgb(28,28,28)",
               fontWeight: 450,
               textTransform: "uppercase",
+              textAlign: isMobile ? 'center' : 'justify',
               margin: "0 0 10px",
               fontFamily: F,
             }}
@@ -401,7 +403,7 @@ export default function Content({ product }) {
 
         {/* PRICE */}
         <div
-          className="!mt-6"
+          className="lg:!mt-6 mt-4"
           style={{
             display: "flex",
             alignItems: "center",
@@ -415,10 +417,13 @@ export default function Content({ product }) {
               color: "rgb(28,28,28,0.65)",
               letterSpacing: "0.01em",
               fontWeight: 480,
+              position: isMobile ? 'relative' : 'relative',
+              left: isMobile ? '34%' : '0',
+
               fontFamily: F,
             }}
           >
-            ₹ {product.price?.toLocaleString("en-IN")}.00
+            MRP ₹ {product.price?.toLocaleString("en-IN")}.00
           </span>
         </div>
 
@@ -464,7 +469,7 @@ export default function Content({ product }) {
         )}
 
         {/* SIZE */}
-        <div className="!mt-8" style={{ marginBottom: "12px" }}>
+        <div className="lg:!mt-8" style={{ marginBottom: "12px" }}>
           <div
             style={{
               display: "flex",

@@ -44,7 +44,7 @@ export async function generateMetadata({ params }) {
     ? `${s3url}${images[0].url}`
     : "/og-image.jpg";
   return generateSEO({
-    title: `Buy ${product.name} Online | Best Price in India`,
+    title: `Buy ${product.name} `,
     description: `Buy ${product.name} online at best price. ${product.description?.slice(0, 120)}`,
     path: `/product/${slug}`,
     image: imageUrl,

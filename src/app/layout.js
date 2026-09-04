@@ -26,6 +26,7 @@ import { Analytics } from "@vercel/analytics/react";
 import CartSync from "../components/shopping-cart/cartsync";
 import MetaPixel from "../components/MetaPixel";
 import MetaPageTracker from "../components/MetaPageTracker";
+import AutoPushPrompt from "../components/AutoPushPrompt";
 import { GoogleTagManager } from "@next/third-parties/google";
 
 const geistSans = Geist({
@@ -45,7 +46,7 @@ export const metadata = {
     "Discover Dhirago, a luxury Indian menswear brand offering handcrafted shirts with contemporary designs and considered detailing.",
 
   alternates: {
-    canonical: "https://www.dhirago.com/",
+    canonical: "/",
   },
   robots: (() => {
     const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
@@ -112,6 +113,7 @@ export default function RootLayout({ children }) {
             <AuthLoader />
             <PopupProvider>
             <Header />
+            <AutoPushPrompt />
 
             <LayoutWrapper>
               <CartSync />

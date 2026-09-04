@@ -71,6 +71,9 @@ export const metadata = {
   verification: {
     google: "VAG1hHNGSz3usCxHr8pXpFnc5DY42snyTnwXp2A2PiY",
   },
+    other: {
+    "p:domain_verify": "d150942f3295ffc9c70aa454d969eabc",
+  },
 };
 
 export default function RootLayout({ children }) {

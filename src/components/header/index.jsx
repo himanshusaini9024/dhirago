@@ -125,7 +125,7 @@ const Header = () => {
 
             <Link
               href="/"
-              className={`${josefin.className} absolute left-[8rem] lg:left-1/2 -translate-x-1/2 text-[1.35rem] sm:text-[1.65rem] lg:text-[1.85rem] tracking-[0.28em] uppercase font-normal text-black hover:opacity-70 transition-opacity`}
+              className={`${josefin.className} absolute z-[1] left-[3.75rem] sm:left-1/2 sm:-translate-x-1/2 text-[1.2rem] sm:text-[1.55rem] md:text-[1.65rem] lg:text-[1.85rem] tracking-[0.18em] sm:tracking-[0.28em] uppercase font-normal text-black hover:opacity-70 transition-opacity`}
             >
               Dhirago
             </Link>

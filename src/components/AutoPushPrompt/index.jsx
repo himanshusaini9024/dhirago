@@ -9,48 +9,58 @@ const ENABLED_KEY = "dhirago_push_enabled";
 
 /**
  * Auto-asks the browser for notification permission (no profile button).
- * Runs once per browser until the user allows or blocks.
+ * Also re-saves the subscription after login so customer_id is linked.
  */
 export default function AutoPushPrompt() {
-  const ran = useRef(false);
+  const askedDefault = useRef(false);
+  const lastLoginSync = useRef(false);
   const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn);
 
+  // First visit: request permission if still default
   useEffect(() => {
-    if (ran.current) return;
     if (typeof window === "undefined") return;
     if (!("Notification" in window) || !("serviceWorker" in navigator)) return;
 
-    // Already blocked — never ask again
     if (Notification.permission === "denied") {
       localStorage.setItem(ASKED_KEY, "1");
       return;
     }
 
-    // Already granted — ensure subscription is saved (re-sync after login)
     if (Notification.permission === "granted") {
-      ran.current = true;
       enablePushNotifications().then((result) => {
-        if (result.success) {
-          localStorage.setItem(ENABLED_KEY, "1");
-        }
+        if (result.success) localStorage.setItem(ENABLED_KEY, "1");
       });
       return;
     }
 
-    // permission === 'default' — prompt the browser automatically
-    if (localStorage.getItem(ASKED_KEY) === "1") return;
-
-    ran.current = true;
+    // permission === default
+    if (askedDefault.current || localStorage.getItem(ASKED_KEY) === "1") return;
+    askedDefault.current = true;
 
     const timer = setTimeout(async () => {
       localStorage.setItem(ASKED_KEY, "1");
       const result = await enablePushNotifications();
-      if (result.success) {
-        localStorage.setItem(ENABLED_KEY, "1");
-      }
+      if (result.success) localStorage.setItem(ENABLED_KEY, "1");
     }, 2500);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // After login: re-save subscription so Laravel stores customer_id
+  useEffect(() => {
+    if (!isLoggedIn) {
+      lastLoginSync.current = false;
+      return;
+    }
+    if (typeof window === "undefined") return;
+    if (!("Notification" in window)) return;
+    if (Notification.permission !== "granted") return;
+    if (lastLoginSync.current) return;
+
+    lastLoginSync.current = true;
+    enablePushNotifications().then((result) => {
+      if (result.success) localStorage.setItem(ENABLED_KEY, "1");
+    });
   }, [isLoggedIn]);
 
   return null;

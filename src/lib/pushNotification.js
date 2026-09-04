@@ -17,7 +17,7 @@ function urlBase64ToUint8Array(base64String) {
 
 /**
  * Ask browser for notification permission + save Web Push subscription.
- * Called automatically by AutoPushPrompt (no button required).
+ * After this, Laravel can push even when the Dhirago tab is closed.
  */
 export async function enablePushNotifications() {
   try {
@@ -41,7 +41,6 @@ export async function enablePushNotifications() {
       };
     }
 
-    // Triggers the native browser "Allow / Block" dialog when permission is default
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
       return {
@@ -50,12 +49,30 @@ export async function enablePushNotifications() {
       };
     }
 
-    const registration = await navigator.serviceWorker.register("/sw-push.js");
+    // Register SW at site root so it stays active with tabs closed
+    const registration = await navigator.serviceWorker.register("/sw-push.js", {
+      scope: "/",
+      updateViaCache: "none",
+    });
+
+    // Ensure an active worker is controlling / ready for background push
+    if (registration.installing) {
+      await new Promise((resolve) => {
+        registration.installing.addEventListener("statechange", function onChange() {
+          if (this.state === "activated") {
+            this.removeEventListener("statechange", onChange);
+            resolve();
+          }
+        });
+      });
+    }
+
     await navigator.serviceWorker.ready;
 
     let subscription = await registration.pushManager.getSubscription();
 
     if (!subscription) {
+      // userVisibleOnly: true is required — push must show a visible notification
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
@@ -76,7 +93,7 @@ export async function enablePushNotifications() {
     return {
       success: true,
       endpoint: json.endpoint,
-      message: "Push notifications enabled.",
+      message: "Push notifications enabled for background delivery.",
     };
   } catch (error) {
     console.error("Push notification error:", error);

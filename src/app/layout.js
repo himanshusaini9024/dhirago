@@ -42,9 +42,18 @@ export const metadata = {
     default: "Dhirago — Premium Menswear",
     template: "%s | Dhirago",
   },
-    description:
+  description:
     "Discover Dhirago, a luxury Indian menswear brand offering handcrafted shirts with contemporary designs and considered detailing.",
-
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "Dhirago",
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+    apple: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+  },
   alternates: {
     canonical: "/",
   },

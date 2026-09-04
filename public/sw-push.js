@@ -1,6 +1,23 @@
-/* Native Web Push — rich notification (title, body, icon, large image) */
+/* Native Web Push — works with tab closed / app in background / lock screen (supported devices) */
+
+const DEFAULT_ICON = "https://images.dhirago.com/ecommerce/logo/logo.jpg";
+const DEFAULT_URL = "https://dhirago.com";
+
+self.addEventListener("install", (event) => {
+  // Activate updated SW immediately so background push uses latest handler
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim());
+});
 
 self.addEventListener("push", (event) => {
+  // Browsers require a visible notification for push events while the site is closed.
+  event.waitUntil(handlePush(event));
+});
+
+async function handlePush(event) {
   let payload = {};
 
   try {
@@ -14,21 +31,36 @@ self.addEventListener("push", (event) => {
 
   const title = payload.title || "Dhirago";
   const options = {
-    body: payload.body || "You have a new notification.",
-    icon: payload.icon || "/images/logo/logo.gif",
-    badge: payload.badge || payload.icon || "/images/logo/logo.gif",
+    body: payload.body || "You have a new update from Dhirago.",
+    icon: toAbsoluteUrl(payload.icon) || DEFAULT_ICON,
+    badge: toAbsoluteUrl(payload.badge || payload.icon) || DEFAULT_ICON,
+    // Keep notification until user interacts (better for lock screen / background)
+    requireInteraction: false,
+    renotify: true,
+    tag: payload.tag || "dhirago-push",
+    vibrate: [120, 60, 120],
     data: {
-      url: payload.url || (payload.data && payload.data.url) || "https://dhirago.com",
+      url: payload.url || (payload.data && payload.data.url) || DEFAULT_URL,
     },
   };
 
-  // Large banner image (Chrome / Android — Meesho-style expanded notification)
+  // Large banner (Chrome / Android)
   if (payload.image) {
-    options.image = payload.image;
+    options.image = toAbsoluteUrl(payload.image);
   }
 
-  event.waitUntil(self.registration.showNotification(title, options));
-});
+  await self.registration.showNotification(title, options);
+}
+
+function toAbsoluteUrl(value) {
+  if (!value || typeof value !== "string") return null;
+  if (/^https?:\/\//i.test(value)) return value;
+  try {
+    return new URL(value, self.registration.scope).href;
+  } catch (e) {
+    return value;
+  }
+}
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
@@ -37,7 +69,7 @@ self.addEventListener("notificationclick", (event) => {
     (event.notification &&
       event.notification.data &&
       event.notification.data.url) ||
-    "https://dhirago.com";
+    DEFAULT_URL;
 
   event.waitUntil(
     clients

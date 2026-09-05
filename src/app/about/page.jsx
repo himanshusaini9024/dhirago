@@ -204,12 +204,9 @@ export default function AboutPage() {
             muted
             loop
             playsInline
+            poster={`https://images.dhirago.com/ecommerce/banner/dsc06401.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
             preload="metadata"
-            className="
-            absolute inset-0 h-full w-full object-cover
-            object-[center_25%]
-            md:object-center
-          "
+            className="absolute inset-0 h-full w-full object-cover object-center"
           >
             <source
               src={`https://images.dhirago.com/ecommerce/about/beige-neutral-texture-photo-collage-desktop-wallpaper-3-1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
@@ -261,38 +258,49 @@ export default function AboutPage() {
             }}
           >
             <Reveal delay={260}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
-                DHIRAGO originates from a narrative that simplicity holds depth
-                and life is meant to be felt, not rushed. The name is inspired
-                by “Dheera,” a state of calmness that values clarity and
-                thoughtful living. In a world that moves quickly, it offers a
-                sense of ease—inviting you to slow down and experience beauty
-                found in small details - details that deepen in character and
-                reveal themselves with time. DHIRAGO crafts menswear that
-                celebrates simplicity, comfort, and the beauty of
-                well-considered details.
+              <p className="font-futura font-light lg:leading-[1.70] leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
+                DHIRAGO is built on the belief that simplicity has depth and
+                life is meant to be lived fully and to be experienced without
+                being rushed. We create thought that what surrounds us should
+                bring a sense of calm, comfort and meaning to everyday life. The
+                name draws from “Dheera” a state of calmness, clarity and
+                thoughtful living – reflects a more considered approach to
+                modern menswear.
               </p>
             </Reveal>
-            <Reveal delay={340}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
-                As a conscious luxury label, DHIRAGO works with 60 lea European
-                linen, kala cotton, and organically sourced fabric, valued for
-                its breathability, texture, and the way it softens over time.
-                Produced in small batches in close collaboration with artisans,
-                where each item is hand-cut, sewn by a single tailor from
-                beginning to end and carefully hand-finished.
+            <Reveal delay={260}>
+              <p className="font-futura font-light lg:leading-[1.70] leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
+                Rooted in the timeless spirit of Udaipur, the historic heart of
+                Mewar, DHIRAGO draws from the city’s heritage, architecture and
+                generations of artistry and craftsmanship. This connection
+                shapes a considered way of making—finding beauty in small
+                details, ease and the character that deepens with time.
               </p>
             </Reveal>
-            <Reveal delay={420}>
-              <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
-                Craftsmanship lies at the heart of DHIRAGO, our designs draw
-                from heritage techniques and time honoured practices like block
-                printing, Artisanal tie-dye and intricate detailing of miniature
-                art alongside handwork traditions inspired from sashiko, kantha
-                and tangaliya inspired detailing. We actively collaborate with
-                karigar’s across India to create piece that celebrate
-                traditional craftsmanship while remaining relevant to modern
-                wardrobe.
+
+            <Reveal delay={260}>
+              <p className="font-futura font-light lg:leading-[1.70] leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
+                This quiet grandeur is reflected in every piece through natural
+                fabrics such as 60 Lea European linen, selected for their
+                breathability, texture and ability to develop greater character
+                with time. Produced in small batches in collaboration with
+                skilled artisans across India. Each garment is carefully hand
+                cut, tailored, hand finished, combining traditional techniques
+                with contemporary design. We actively collaborate with karigar’s
+                across Rajasthan to create piece that celebrate traditional
+                craftsmanship while remaining relevant to modern wardrobe.
+              </p>
+            </Reveal>
+            <Reveal delay={260}>
+              <p className="font-futura font-light lg:leading-[1.70] leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]   text-[#444444] tracking-[0.03em] mb-3">
+                Craftsmanship remains at the heart of the brand, our designs
+                draw from heritage techniques and time honoured practices like
+                hand block printing, Artisanal tie-dye and intricate detailing
+                of miniature art and handwork traditions inspired from sashiko,
+                kantha and tangaliya inspired detailing – each carrying its own
+                history, rhythm and purpose.This is where history meets
+                modernity, tradition meets individuality and simplicity becomes
+                timeless.
               </p>
             </Reveal>
           </div>
@@ -376,13 +384,22 @@ export default function AboutPage() {
                 </Reveal>
 
                 <Reveal delay={310}>
-                  <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
-                    The heron is DHIRAGO's mark - a symbol of balance, patience,
-                    and quiet strength. Calmness in its presence and deliberate
-                    in its movement, the bird reflects our approach to
-                    craftsmanship — thoughtful, refined, and intentional. Its
-                    connection to water and nature also represents the calm
-                    spirit of Udaipur, the city that inspires our brand.
+                  <p className="font-futura font-light lg:leading-[1.70] leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)]  text-[#444444] tracking-[0.03em] mb-3">
+                    The heron is the defining mark of DHIRAGO, symbolising
+                    balance, patience and quiet strength. Its calm presence and
+                    deliberate movement reflect our approach to menswear
+                    thoughtful in design, refined in execution and intentional
+                    in every detail. It represents our belief and developed
+                    patience, precision and deep respect for the craft and hands
+                    behind it.
+                    <br />
+                    The heron’s natural connection with water and its serene
+                    presence echo spirit of Udaipur city that inspires DHIRAGO.
+                    It creates menswear that balances simplicity, comfort and
+                    sophistication. The heron represents character of the brand,
+                    grounded in nature, rooted in Indian craftsmanship and
+                    guided by a timeless philosophy of thoughtful and purposeful
+                    living.
                   </p>
                 </Reveal>
                 {/* <Reveal delay={390}>

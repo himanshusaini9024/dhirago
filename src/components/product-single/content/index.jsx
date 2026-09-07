@@ -170,7 +170,7 @@ export default function Content({ product }) {
   }, [sizeGuide]);
 
   const addToCart = async () => {
-    const eventID = crypto.randomUUID();
+    // const eventID = crypto.randomUUID();
 
     if (!itemSize) {
       setSizeError("Please select your size");
@@ -184,13 +184,13 @@ export default function Content({ product }) {
         value: product.currentPrice,
         currency: "INR",
       },
-      eventID,
+      // eventID,
     );
 
     await sendMetaEvent({
       event_name: "AddToCart",
       event_time: Math.floor(Date.now() / 1000),
-      event_id: eventID,
+      // event_id: eventID,
       action_source: "website",
       custom_data: {
         content_ids: [product.id],

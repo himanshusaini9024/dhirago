@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import Item from "./item";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import LoginPopup from "../../components/loginpopup/index";
 import RelatedProduct from "./relatedproduct";
+import { fetchFirstOrderQuote } from "../../lib/firstOrderDiscount";
 
 function formatINR(value) {
   const amount = Number(value) || 0;
@@ -19,8 +20,14 @@ export default function ShoppingCart() {
   const router = useRouter();
   const [showLogin, setShowLogin] = useState(false);
   const [giftWrap, setGiftWrap] = useState(false);
+  const [firstOrder, setFirstOrder] = useState({
+    eligible: false,
+    discount: 0,
+    total: 0,
+    label: null,
+  });
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, isLoggedIn } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
 
   const productTotal = useMemo(
@@ -43,7 +50,41 @@ export default function ShoppingCart() {
     [cartItems],
   );
 
-  const total = productTotal;
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadQuote = async () => {
+      if (!cartItems.length || !(isLoggedIn || user)) {
+        if (!cancelled) {
+          setFirstOrder({
+            eligible: false,
+            discount: 0,
+            total: productTotal,
+            label: null,
+          });
+        }
+        return;
+      }
+
+      const quote = await fetchFirstOrderQuote(cartItems);
+      if (!cancelled) {
+        setFirstOrder({
+          eligible: quote.eligible,
+          discount: quote.discount,
+          total: quote.total,
+          label: quote.label,
+        });
+      }
+    };
+
+    loadQuote();
+    return () => {
+      cancelled = true;
+    };
+  }, [cartItems, isLoggedIn, user, productTotal]);
+
+  const firstOrderDiscount = firstOrder.eligible ? firstOrder.discount : 0;
+  const total = firstOrder.eligible ? firstOrder.total : productTotal;
 
   const handleCheckout = () => {
     if (user || localStorage.getItem("isLoggedIn")) {
@@ -146,6 +187,21 @@ export default function ShoppingCart() {
               <span>Your Savings</span>
               <span className="text-[#1f8a4c]">{formatINR(savings)}</span>
             </div>
+
+            {firstOrderDiscount > 0 && (
+              <div className="flex justify-between gap-4">
+                <span>{firstOrder.label || "First order 10% off"}</span>
+                <span className="text-[#1f8a4c]">
+                  -{formatINR(firstOrderDiscount)}
+                </span>
+              </div>
+            )}
+
+            {!firstOrder.eligible && !(isLoggedIn || user) && cartItems.length > 0 && (
+              <p className="text-[12px] text-[#666] leading-snug pt-1">
+                Login to unlock 10% off on your first order
+              </p>
+            )}
 
             <div className="flex justify-between gap-4">
               <span>Shipping</span>

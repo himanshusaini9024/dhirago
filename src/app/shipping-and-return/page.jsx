@@ -61,7 +61,7 @@ export default function ShippingReturn() {
           For any information, please contact our customer care service at:{" "}
           <br />
           <br />
-          Email: contact@dhirago.com, or WhatsApp (+91 8905524932).
+          Email: contact@dhirago.com, or WhatsApp (+917742711543,+918905524932).
         </p>
 
         {/* International Shipping */}
@@ -175,7 +175,7 @@ export default function ShippingReturn() {
             CUSTOMER CARE
           </h2>
           <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.01rem)]  text-[#444444] tracking-[0.03em] mb-3">
-            Mobile - (+91 8905524932). <br />
+            Mobile - (+91 7742711543,+91 8905524932). <br />
             Email - contact@dhirago.com <br />
             Business Hours <br />
             10 am – 6 pm IST, Monday to Friday <br />

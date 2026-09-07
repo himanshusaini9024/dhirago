@@ -320,7 +320,7 @@ export default function PrivacyPolicyPage() {
           >
             contact@dhirago.com
           </a>{" "}
-          or call us at +91-8905524932.
+          or call us at +91-7742711543,+91-8905524932.
         </p>
       </div>
     </div>

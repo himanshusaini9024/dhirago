@@ -194,7 +194,7 @@ export default function ContactPage() {
                 href="tel:+918905524932"
                 className="text-[13px] font-medium text-stone-600 hover:text-stone-900 transition-colors"
               >
-                +91 8905524932,
+               +917742711543, +918905524932,
               </a>
               <p className="text-[13px] mt-2 font-medium text-stone-700">
                 Monday – Saturday, [10am – 6pm]

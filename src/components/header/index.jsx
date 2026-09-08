@@ -81,17 +81,17 @@ const Header = () => {
   return (
     <>
       {/* Announcement — 11-11 style top strip */}
-      {/* <div className="fixed top-0 left-0 w-full z-[60] bg-black text-white">
+      <div className="fixed top-0 left-0 w-full z-[60] bg-black text-white">
         <p
-          className={`${josefin.className} text-center text-[10px] sm:text-[11px] tracking-[0.22em] uppercase py-2.5 px-4`}
+          className={`font-fuutra text-center text-[12px] font-semibold sm:text-[12px] lg:tracking-[0.122rem] uppercase py-2.5 px-4`}
         >
-          The Beauty of Time — Collection Now Live
+          Flat <em style={{fontWeight:"900px" }}>10%-Off</em>  On Your First order
         </p>
-      </div> */}
+      </div>
 
       <header
         className={`
-          fixed left-0 w-full z-50 top-[0px]
+          fixed left-0 w-full z-50 top-[30px]
           bg-white text-black
           transition-shadow duration-300 p-2
           ${scrolled ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}

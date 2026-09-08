@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import "../../assets/css/checkout.scss";
 import AddressAutocomplete from "../../components/AddressAutocomplete";
 import Script from "next/script";
+import { fetchFirstOrderQuote } from "../../lib/firstOrderDiscount";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
    ───────────────────────────────────────────── */
@@ -82,6 +83,48 @@ const CheckoutPage = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const userdata = useSelector((state) => state.auth.user);
   const customer_id = userdata?.customer_id;
+  const [firstOrder, setFirstOrder] = useState({
+    eligible: false,
+    discount: 0,
+    total: 0,
+    label: null,
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadQuote = async () => {
+      if (!cartItems?.length || !customer_id) {
+        if (!cancelled) {
+          setFirstOrder({
+            eligible: false,
+            discount: 0,
+            total: priceTotal,
+            label: null,
+          });
+        }
+        return;
+      }
+
+      const quote = await fetchFirstOrderQuote(cartItems);
+      if (!cancelled) {
+        setFirstOrder({
+          eligible: quote.eligible,
+          discount: quote.discount,
+          total: quote.total,
+          label: quote.label,
+        });
+      }
+    };
+
+    loadQuote();
+    return () => {
+      cancelled = true;
+    };
+  }, [cartItems, customer_id, priceTotal]);
+
+  const firstOrderDiscount = firstOrder.eligible ? firstOrder.discount : 0;
+  const payableTotal = firstOrder.eligible ? firstOrder.total : priceTotal;
 
   // ── create order ───────────────────────────
   const createOrder = async (payment_status, payment_id, razorpay_order_id) => {
@@ -90,7 +133,8 @@ const CheckoutPage = () => {
     const orderData = {
       sub_total: priceTotal,
       customer_id: customer_id,
-      total_amount: priceTotal,
+      total_amount: payableTotal,
+      coupon: firstOrderDiscount > 0 ? firstOrderDiscount : null,
       quantity: cartItems.reduce((a, c) => a + c.quantity, 0),
       payment_method: payment_status === "paid" ? "online" : "cod",
       payment_status,
@@ -312,7 +356,7 @@ const CheckoutPage = () => {
     try {
       if (paymentMethod === "online") {
         await handleOnlinePayment({
-          priceTotal,
+          priceTotal: payableTotal,
           selectedAddress,
           cartItems,
           createOrder,
@@ -320,7 +364,7 @@ const CheckoutPage = () => {
         });
       } else {
         await new Promise((r) => setTimeout(r, 1200));
-        await handleCOD({ createOrder, email, priceTotal });
+        await handleCOD({ createOrder, email, priceTotal: payableTotal });
       }
     } finally {
       setProcessing(false);
@@ -540,13 +584,19 @@ const CheckoutPage = () => {
                   <span>Product total</span>
                   <span style={{ color: "var(--ink)" }}>₹{priceTotal}</span>
                 </div>
+                {firstOrderDiscount > 0 && (
+                  <div className="price-row">
+                    <span>{firstOrder.label || "First order 10% off"}</span>
+                    <span className="free-badge">-₹{firstOrderDiscount}</span>
+                  </div>
+                )}
                 <div className="price-row">
                   <span>Shipping</span>
                   <span className="free-badge">Free</span>
                 </div>
                 <div className="price-row-total">
                   <span>Total</span>
-                  <span className="total-figure">₹{priceTotal}</span>
+                  <span className="total-figure">₹{payableTotal}</span>
                 </div>
               </div>
 
@@ -610,7 +660,7 @@ const CheckoutPage = () => {
           <div className="co-mobile-bar-inner">
             <div className="co-mobile-bar-total">
               <span className="co-mobile-bar-label">Total</span>
-              <span className="co-mobile-bar-amount">₹{priceTotal}</span>
+              <span className="co-mobile-bar-amount">₹{payableTotal}</span>
             </div>
             <div className="co-mobile-bar-actions">
               <button

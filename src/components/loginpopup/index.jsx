@@ -306,7 +306,7 @@ export default function LoginPopup({ isOpen, onClose }) {
             <h3 className="max-w-[220px] text-[26px] leading-[1.2] font-normal text-white">
               Register &amp; Be A Part Of The Dhirago Circle!
             </h3>
-           
+
             <p className="absolute bottom-4 right-4 text-[10px] text-white/90">
               T&amp;C Apply
             </p>
@@ -320,11 +320,11 @@ export default function LoginPopup({ isOpen, onClose }) {
               <p className="text-center text-[26px] leading-none tracking-[0.28em] text-[#111]">
                 DHIRAGO
               </p>
-              {/* <p className="mt-1 text-center text-[10px] tracking-[0.4em] text-[#111]">
-                THE BEAUTY OF TIME
-              </p> */}
+              <p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
+                get 10% off on your first order
+              </p>
 
-              <h3 className="mt-6 text-center text-lg font-bold text-[#111]">
+              <h3 className="mt-4 text-center text-lg font-bold text-[#111]">
                 Login / Sign up
               </h3>
               <p className="mt-1 text-center text-sm text-[#111]">
@@ -428,8 +428,8 @@ export default function LoginPopup({ isOpen, onClose }) {
                         otpError
                           ? "border-[1.5px] border-red-500 shadow-[0_0_0_3px_rgba(248,113,113,0.18)]"
                           : isActive
-                          ? "border-[1.5px] border-black shadow-[0_0_0_3px_rgba(147,197,253,0.55)]"
-                          : "border border-[#d8dde6]"
+                            ? "border-[1.5px] border-black shadow-[0_0_0_3px_rgba(147,197,253,0.55)]"
+                            : "border border-[#d8dde6]"
                       }`}
                       aria-label={`OTP digit ${index + 1}`}
                     />
@@ -449,7 +449,10 @@ export default function LoginPopup({ isOpen, onClose }) {
               <div className="mt-5 flex items-center justify-center gap-1.5 text-[#4b5568]">
                 {resendIn > 0 ? (
                   <>
-                    <Timer className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+                    <Timer
+                      className="h-3.5 w-3.5 shrink-0"
+                      strokeWidth={1.75}
+                    />
                     <p className="text-[12px] font-medium">
                       Resend OTP in {resendIn} Sec
                     </p>

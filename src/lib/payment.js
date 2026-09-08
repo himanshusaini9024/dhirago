@@ -13,6 +13,10 @@ export const handleOnlinePayment = async ({
   if (!selectedAddress) return alert("Select address");
   const { data } = await API.post("/razorpay/create-order", {
     amount: priceTotal,
+    items: (cartItems || []).map((item) => ({
+      price: item.price,
+      quantity: item.quantity,
+    })),
   });
   const rzpkey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
 

@@ -392,8 +392,10 @@ export default function AboutPage() {
                     in every detail. It represents our belief and developed
                     patience, precision and deep respect for the craft and hands
                     behind it.
-                    <br />
-                    The heron’s natural connection with water and its serene
+                   
+                  </p>
+                    <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.02em]">
+                   The heron’s natural connection with water and its serene
                     presence echo spirit of Udaipur city that inspires DHIRAGO.
                     It creates menswear that balances simplicity, comfort and
                     sophistication. The heron represents character of the brand,
@@ -480,7 +482,7 @@ export default function AboutPage() {
         </section>
 
         <section className="py-12 sm:py-16 lg:py-24 bg-white">
-          <div className="max-w-[1640px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12">
+          <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.45fr)] gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
               {/* Copy */}
               <div className="w-full max-w-[480px] lg:max-w-none">

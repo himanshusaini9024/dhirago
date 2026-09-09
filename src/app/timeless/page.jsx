@@ -145,7 +145,7 @@ export default function OurKissaPage() {
          <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-center justify-center">
           <div
             className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/images/DSC06480.jpg')" }}
+            style={{ backgroundImage: "url('https://images.dhirago.com/ecommerce/banner/dsc06480.webp')" }}
           />
 
           <div className=" inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />

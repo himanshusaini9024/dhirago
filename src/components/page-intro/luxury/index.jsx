@@ -19,23 +19,23 @@ export default function Hero() {
         {/* Text — after images on mobile, left column on desktop */}
         <div className="order-2 md:order-1 flex items-center px-1 sm:px-4 lg:py-2 md:px-8 lg:px-10">
           <div className="max-w-2xl mx-auto md:mx-0">
-            <p
+           <p
               style={{ color: "#555555" }}
-              className={`font-normal text-justify text-[clamp(0.8rem,1.35vw,1rem)] leading-[2.10] font-futura`}
+              className={`font-normal lg:text-justify  text-[clamp(0.7rem,1.35vw,1rem)] leading-[2.10] font-futura`}
             >
               In the hands of our artisan, a simple thread transform into timeless art. Each stitch reflect generation of skills, patience and precision and knowledge passed through generations. The beauty of handwork lies in its variations, each one shaped by the instinct of the maker. No two expressions are ever entirely the same.
             </p>
 
-            <p
+           <p
               style={{ color: "#555555" }}
-              className={`font-normal mt-3 text-justify text-[clamp(0.8rem,1.35vw,1rem)] leading-[2.10] font-futura`}
+              className={`font-normal mt-3 lg:text-justify  text-[clamp(0.7rem,1.35vw,1rem)] leading-[2.10] font-futura`}
             >
               Worked slowly and with intention, these details are more than embellishment; they hold the time, touch, and skill invested in their making. Often quiet at first glance, they reveal themselves gradually—because the true signature of something beautifully made is found in the details that ask you to look closer.
             </p>
 
             
 
-            <div className="mt-6 md:mt-9 flex justify-center md:justify-start gap-3">
+            <div className="mt-6 md:mt-9 flex  md:justify-start gap-3">
               
                <a href="/handwork"
                 className="border border-[#14171A] px-6 sm:px-8 py-3 sm:py-3.5 text-[10px] sm:text-[11px] font-semibold uppercase text-[#14171A] transition-colors hover:bg-[#14171A] hover:text-white"

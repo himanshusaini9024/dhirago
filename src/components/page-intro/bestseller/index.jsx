@@ -55,15 +55,14 @@ export default function Hero() {
              Created in limited numbers, each garment is conceived as a collectible object, designed to endure through time. As it is worn and lived in, it gathers character, revealing a beauty that deepens with age.
             </p>
 
-            <div className="lg:mt-9 mt-3 flex gap-3">
-              {/* Filled primary button */}
-              <a
-                href="/collections/shirts"
-                className="border hover:bg-black hover:text-white transition border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A]"
+          
+              <div className="mt-6 md:mt-9 flex  md:justify-start gap-3">
+              
+               <a href="/collections/shirts"
+                className="border border-[#14171A] px-6 sm:px-8 py-3 sm:py-3.5 text-[10px] sm:text-[11px] font-semibold uppercase text-[#14171A] transition-colors hover:bg-[#14171A] hover:text-white"
               >
-                View Our Collection
+               View Our Collection
               </a>
-              {/* Outlined secondary button */}
             </div>
           </div>
         </div>

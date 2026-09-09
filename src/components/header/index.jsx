@@ -83,9 +83,10 @@ const Header = () => {
       {/* Announcement — 11-11 style top strip */}
       <div className="fixed top-0 left-0 w-full z-[60] bg-black text-white">
         <p
-          className={`font-fuutra text-center text-[12px] font-semibold sm:text-[12px] lg:tracking-[0.122rem] uppercase py-2.5 px-4`}
+          className={`font-fuutra text-center text-[10px] font-semibold sm:text-[12px] lg:tracking-[0.122rem] uppercase py-2.5 px-4`}
         >
-          Flat <em style={{fontWeight:"900px" }}>10%-Off</em>  On Your First order
+          Flat <em style={{ fontWeight: "900px" }}>10%-Off</em> On Your First
+          order
         </p>
       </div>
 
@@ -96,7 +97,7 @@ const Header = () => {
           transition-shadow duration-300 p-2
           ${scrolled ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}
         `}
-          style={{ borderBottom:"1px solid rgb(221, 221, 221)" }}
+        style={{ borderBottom: "1px solid rgb(221, 221, 221)" }}
       >
         <div className="relative w-full">
           {/* Top row: menu | logo | icons */}
@@ -177,7 +178,8 @@ const Header = () => {
               const active =
                 link.href === "/"
                   ? pathname === "/"
-                  : pathname === link.href || pathname.startsWith(`${link.href}/`);
+                  : pathname === link.href ||
+                    pathname.startsWith(`${link.href}/`);
               return (
                 <Link
                   key={link.href}
@@ -220,7 +222,7 @@ const Header = () => {
                   <Dialog.Title className="sr-only">Menu</Dialog.Title>
                   <div className="relative">
                     <img
-                      src="/images/DSC06480.jpg"
+                      src={`https://images.dhirago.com/ecommerce/banner/dsc06480.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
                       alt=""
                       className="w-full h-40 object-cover"
                     />

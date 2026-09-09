@@ -132,7 +132,7 @@ export default function LuxurySection() {
           </h2>
 
           <p
-            className={`font-futura lg:mt-6 mt-3 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1rem)] font-normal leading-[2.45]`}
+            className={`font-futura lg:mt-6 mt-3 md:w-[1200px] text-[clamp(0.7rem,1.35vw,1rem)] font-normal leading-[2.10]`}
             style={{ color: "#555555" }}
           >
             DHIRAGO is a luxury Indian menswear label rooted in traditional
@@ -149,7 +149,7 @@ export default function LuxurySection() {
             {/* Filled primary button */}
             <Link
               href="/about"
-              className="border border-[#14171A] px-8 py-3.5 text-[11px] font-semibold uppercase  text-[#14171A] transition-colors hover:border-[#14171A] hover:bg-black hover:text-white transition"
+              className="border border-[#14171A] px-6 sm:px-8 py-3 sm:py-3.5 text-[10px] sm:text-[11px] font-semibold uppercase text-[#14171A] transition-colors hover:bg-[#14171A] hover:text-white"
             >
               More to explore
             </Link>

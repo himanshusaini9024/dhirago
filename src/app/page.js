@@ -8,6 +8,7 @@ import CrawlSeo from "../components/seo/CrawlSeo";
 import { generateSEO } from "../utils/seo";
 import { SITE_LINKS } from "../lib/pageSeo";
 import Marquee from "../components/page-intro/marque";
+import InstagramFeed from "../components/InstagramFeed"
 
 export const metadata = generateSEO({
   title: "Buy Premium Men's Shirts Online in India | Dhirago",
@@ -32,6 +33,7 @@ export default function Home() {
       <Bestsellers />
       <Luxurypage />
       <EditorialGrid />
+      <InstagramFeed/>
     </main>
   );
 }

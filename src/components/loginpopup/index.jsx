@@ -294,7 +294,8 @@ export default function LoginPopup({ isOpen, onClose }) {
         {/* Left banner column: stretches to match the right column's natural height */}
         <div className="relative hidden bg-[#1a1a1a] md:block">
           <Image
-            src="/images/aboutfooter.jpg"
+          src={`https://images.dhirago.com/ecommerce/banner/aboutfooter.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
+
             alt="Dhirago promotional banner"
             fill
             sizes="(min-width: 768px) 42vw, 0px"

@@ -392,10 +392,9 @@ export default function AboutPage() {
                     in every detail. It represents our belief and developed
                     patience, precision and deep respect for the craft and hands
                     behind it.
-                   
                   </p>
-                    <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.02em]">
-                   The heron’s natural connection with water and its serene
+                  <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.02em]">
+                    The heron’s natural connection with water and its serene
                     presence echo spirit of Udaipur city that inspires DHIRAGO.
                     It creates menswear that balances simplicity, comfort and
                     sophistication. The heron represents character of the brand,
@@ -483,7 +482,7 @@ export default function AboutPage() {
 
         <section className="py-12 sm:py-16 lg:py-24 bg-white">
           <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.45fr)] gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
               {/* Copy */}
               <div className="w-full max-w-[480px] lg:max-w-none">
                 <Reveal>
@@ -495,22 +494,29 @@ export default function AboutPage() {
                 </Reveal>
                 <Reveal delay={150}>
                   <p className="font-futura font-light leading-[1.90]  text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.02em] mb-4">
-                    Our inspiration comes from the city and its surroundings—its
-                    streets, architecture and natural landscapes. The colour
-                    palette is shaped by tones that feel familiar and enduring —
-                    warm beiges, earthy browns, ecru, soft sky blues, muted
-                    lavenders, gentle greens, and sun-washed mustards. Rather
-                    than following seasonal colour trends, the focus remains on
-                    shades that feel timeless, calm, and easy to live with.
+                    The colour palette of DHIRAGO is inspired by beauty of
+                    Udaipur like old streets, heritage architecture, natural
+                    landscapes and peaceful surroundings. These influences come
+                    through in warm, natural and timeless shades such as soft
+                    beige, earthy brown, ecru, sky blue, muted lavender, gentle
+                    green and sun washed mustard. We choose colours that feel
+                    easy, familiar and effortless to wear rather than simply
+                    following seasonal trends. Each shade is designed to work
+                    naturally, giving you freedom to create your own style and
+                    allowing the colours to become more personal and meaningful
+                    with every wear.
                   </p>
                   <p className="font-futura font-light leading-[1.90] text-[clamp(12px,1.3vw,1.07rem)] text-[#444444] tracking-[0.02em]">
-                    Designed with clean lines and relaxed silhouettes, the
-                    garments are created to become a natural part of everyday
-                    life. They are made to move effortlessly between moments —
-                    from workdays to slow weekends, casual gatherings to evening
-                    plans. Each piece is a belief that clothing should feel
-                    personal and comfortable, allowing individuality to come
-                    naturally rather than demanding attention.
+                    Our garments are designed with clean lines, relaxed
+                    silhouettes and strong focus on comfort. This can naturally
+                    become part of your everyday life. Whether you are dressing
+                    for work, enjoying a slow weekend, meeting friends or
+                    heading to an evening occasion. Each piece is designed to
+                    move with you and keep you comfortable. At DHIRAGO, we
+                    believe clothing should complement your personality. Every
+                    colour, fabric and silhouette gives you a sense of ease,
+                    confidence and individuality creating menswear that feels
+                    personal, refined and timeless.
                   </p>
                 </Reveal>
               </div>
@@ -539,7 +545,7 @@ export default function AboutPage() {
         <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-center justify-center">
           <div
             className="absolute inset-0 scale-[1.03] bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/images/aboutfooter.jpg')" }}
+            style={{ backgroundImage: "url('https://images.dhirago.com/ecommerce/banner/aboutfooter.webp')" }}
           />
 
           <div className="inset-0 bg-gradient-to-b from-[rgba(8,12,18,0.45)] to-[rgba(8,12,18,0.6)]" />

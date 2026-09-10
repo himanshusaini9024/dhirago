@@ -89,6 +89,7 @@ function PlayIcon({ className = "w-8 h-8" }) {
 export default function InstagramFeed() {
   const [posts, setPosts] = useState([]);
   const [username, setUsername] = useState(IG_HANDLE);
+  const [userprofile, setUserprofile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(null);
   const [slideIndex, setSlideIndex] = useState(0);
@@ -108,6 +109,7 @@ export default function InstagramFeed() {
         const data = await response.json();
         setPosts(data.posts || []);
         if (data.profile?.username) setUsername(data.profile.username);
+        if (data.profile?.profilepic) setUserprofile(data.profile.profilepic);
       } catch (error) {
         console.error("Instagram Feed Error:", error);
       } finally {
@@ -315,8 +317,9 @@ export default function InstagramFeed() {
       absolute inset-0
       flex
       transition-transform
-      duration-[1200ms]
-      ease-[cubic-bezier(0.22,1,0.36,1)]
+      duration-[1600ms]
+      ease-[cubic-bezier(0.1, -0.6, 0.2, 0)
+]
     "
                   style={{
                     transform: `translateX(-${slideIndex * 100}%)`,
@@ -489,9 +492,20 @@ export default function InstagramFeed() {
               {/* Caption panel */}
               <div className="md:w-[42%] flex flex-col min-h-0 bg-white max-h-[42vh] md:max-h-[85vh]">
                 <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#efefef] shrink-0">
-                  <span className="w-8 h-8 rounded-full bg-[#111] text-white text-[10px] tracking-wide flex items-center justify-center uppercase">
-                    D
-                  </span>
+                  <div className="w-8 h-8 rounded-full overflow-hidden bg-[#111] shrink-0">
+                    {userprofile ? (
+                      <img
+                        src={userprofile}
+                        alt={`${username} profile`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="w-full h-full text-white text-[10px] tracking-wide flex items-center justify-center uppercase">
+                        {username?.charAt(0) || "I"}
+                      </span>
+                    )}
+                  </div>
+
                   <a
                     href={IG_URL}
                     target="_blank"

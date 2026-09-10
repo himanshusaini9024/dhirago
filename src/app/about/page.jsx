@@ -379,7 +379,7 @@ export default function AboutPage() {
                   <h3
                     className={`${josefin.className} uppercase leading-[1.90] text-[clamp(11px,1.3vw,1.01rem)] text-[#333333] tracking-[0.03em] mb-6`}
                   >
-                    The Heron a reflection of Dhirago
+                    The Heron - a reflection of Dhirago
                   </h3>
                 </Reveal>
 

@@ -30,7 +30,7 @@ export async function GET() {
 
     const profileUrl =
       `https://graph.instagram.com/v26.0/me` +
-      `?fields=username,account_type,media_count` +
+      `?fields=username,account_type,media_count,profile_picture_url` +
       `&access_token=${accessToken}`;
 
     const [mediaRes, profileRes] = await Promise.all([
@@ -54,6 +54,7 @@ export async function GET() {
       posts: data.data || [],
       profile: {
         username: profile.username || "dhirago_",
+        profilepic: profile.profile_picture_url || "dhirago_",
       },
     });
   } catch (error) {

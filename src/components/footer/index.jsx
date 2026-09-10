@@ -336,7 +336,7 @@ export default function UltraPremiumFooter() {
                 <Facebook size={17} />
               </a>
               <a
-                href="https://wa.me/918905524932"
+                href="https://wa.me/917742711543"
                 aria-label="WhatsApp"
                 target="_blank"
                 rel="noopener noreferrer"

@@ -156,6 +156,7 @@ const Header = () => {
 
               <Link
                 href="/cart"
+                prefetch={false}
                 className={`${iconBtn} relative`}
                 aria-label={`Shopping cart (${cartCount} items)`}
                 title="Shopping Cart"
@@ -255,6 +256,7 @@ const Header = () => {
 
                       <Link
                         href="/cart"
+                        prefetch={false}
                         onClick={() => setMenuOpen(false)}
                         className="py-4 text-[13px] tracking-[0.18em] uppercase text-black border-b border-[#ece8e2]"
                       >

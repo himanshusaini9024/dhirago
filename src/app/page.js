@@ -1,14 +1,21 @@
+import dynamic from "next/dynamic";
 import PageIntro from "../components/page-intro";
 import Homecontent from "../components/page-intro/home";
 import Bestsellers from "../components/page-intro/bestseller";
 import Luxurypage from "../components/page-intro/luxury";
 import LuxuryHero from "../components/page-intro/luxuryHero";
-import EditorialGrid from "../components/page-intro/editorialGrid";
 import CrawlSeo from "../components/seo/CrawlSeo";
 import { generateSEO } from "../utils/seo";
 import { SITE_LINKS } from "../lib/pageSeo";
 import Marquee from "../components/page-intro/marque";
-import InstagramFeed from "../components/InstagramFeed"
+
+const EditorialGrid = dynamic(
+  () => import("../components/page-intro/editorialGrid"),
+);
+
+const InstagramFeed = dynamic(
+  () => import("../components/InstagramFeed"),
+);
 
 export const metadata = generateSEO({
   title: "Buy Premium Men's Shirts Online in India | Dhirago",
@@ -33,7 +40,7 @@ export default function Home() {
       <Bestsellers />
       <Luxurypage />
       <EditorialGrid />
-      <InstagramFeed/>
+      <InstagramFeed />
     </main>
   );
 }

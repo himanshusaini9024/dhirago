@@ -1,26 +1,25 @@
-
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+const v = process.env.NEXT_PUBLIC_IMAGE_VERSION || "";
+
 const slides = [
   {
-    image:
-      `https://images.dhirago.com/ecommerce/Home/bstnew.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
-    alt: "banner1",
+    image: `https://images.dhirago.com/ecommerce/Home/bstnew.png?${v}`,
+    alt: "Sandstone ombre classic shirt",
     href: "/product/sandstone-ombre-classic-shirt",
   },
   {
-    image:
-      `https://images.dhirago.com/ecommerce/Home/bts1.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
-    alt: "banner2",
+    image: `https://images.dhirago.com/ecommerce/Home/bts1.png?${v}`,
+    alt: "Jet black hand stitched seam shirt",
     href: "/product/jet-black-hand-stitched-seam-shirt",
   },
   {
-    image:
-      `https://images.dhirago.com/ecommerce/Home/bts.png?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`,
-    alt: "banner3",
+    image: `https://images.dhirago.com/ecommerce/Home/bts.png?${v}`,
+    alt: "Blue ombre kantha detailed shirt",
     href: "/product/blue-ombre-kantha-detailed-shirt",
   },
 ];
@@ -28,7 +27,7 @@ const slides = [
 const DURATION = 6000;
 const FADE_MS = 900;
 
-function CrossfadeImage({ src, alt }) {
+function CrossfadeImage({ src, alt, priority = false }) {
   const [displayed, setDisplayed] = useState(src);
   const [incoming, setIncoming] = useState(null);
   const [fading, setFading] = useState(false);
@@ -57,17 +56,24 @@ function CrossfadeImage({ src, alt }) {
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <img
+      <Image
         src={displayed}
         alt={alt}
-        className="absolute inset-0 h-full w-full object-cover"
+        fill
+        priority={priority}
+        sizes="100vw"
+        quality={70}
+        className="object-cover"
       />
 
       {incoming && (
-        <img
+        <Image
           src={incoming}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          sizes="100vw"
+          quality={70}
+          className="object-cover"
           style={{
             opacity: fading ? 1 : 0,
             transition: `opacity ${FADE_MS}ms ease-out`,
@@ -113,19 +119,14 @@ export default function Hero() {
                  md:max-h-none md:min-h-[640px]"
       aria-label="Home banner"
     >
-      {/* Clickable Banner */}
       <Link
         href={slide.href}
         className="absolute inset-0 z-10 block cursor-pointer"
         aria-label={`View ${slide.alt}`}
       >
-        <CrossfadeImage
-          src={slide.image}
-          alt={slide.alt}
-        />
+        <CrossfadeImage src={slide.image} alt={slide.alt} priority={idx === 0} />
       </Link>
 
-      {/* Slider Dots */}
       <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 md:bottom-8">
         {slides.map((_, i) => (
           <button

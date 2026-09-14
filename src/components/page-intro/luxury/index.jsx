@@ -55,11 +55,9 @@ export default function Hero() {
               
               alt="A young man wearing a handwoven muslin shirt by a lakeside"
               fill
-              priority
               sizes="(min-width: 768px) 32vw, 50vw"
-              unoptimized
               className="object-cover"
-              quality={85}
+              quality={75}
 
             />
           </div>
@@ -72,9 +70,8 @@ export default function Hero() {
               alt="A young man wearing a handwoven muslin shirt, alternate view"
               fill
               sizes="(min-width: 768px) 32vw, 50vw"
-              unoptimized
               className="object-cover"
-              quality={85}
+              quality={75}
             />
           </div>
         </div>

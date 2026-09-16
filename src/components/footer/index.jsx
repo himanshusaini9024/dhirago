@@ -40,6 +40,7 @@ const makingLinks = [
 const houseLinks = [
   { label: "Contact Us", href: "/contact" },
   { label: "Care Guide", href: "/product-care" },
+  { label: "Site Map", href: "/sitemap" },
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Shipping & Returns", href: "/shipping-and-return" },
   { label: "FAQ", href: "/faq" },

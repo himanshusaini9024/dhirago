@@ -39,11 +39,11 @@ export const metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   ),
   title: {
-    default: "Dhirago — Premium Menswear",
+    default: "Dhirago | Premium Men's Shirts & Luxury Indian Menswear",
     template: "%s | Dhirago",
   },
   description:
-    "Discover Dhirago, a luxury Indian menswear brand offering handcrafted shirts with contemporary designs and considered detailing.",
+    "Dhirago is a luxury Indian menswear brand from Udaipur. Shop handcrafted premium men's shirts with natural fabrics, hand embroidery, and timeless design.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
@@ -89,18 +89,46 @@ export default function RootLayout({ children }) {
                 "@type": "Organization",
                 "@id": "https://www.dhirago.com/#organization",
                 name: "Dhirago Fashion Private Limited",
+                legalName: "Dhirago Fashion Private Limited",
+                alternateName: ["Dhirago", "Dhirago Menswear", "Dhirago Fashion"],
                 url: "https://www.dhirago.com/",
                 logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+                image: "https://images.dhirago.com/ecommerce/dhirago-og.webp",
                 description:
-                  "Dhirago is a luxury Indian menswear brand offering handcrafted shirts with contemporary designs and considered detailing.",
+                  "Dhirago is a luxury Indian menswear brand based in Udaipur, offering handcrafted premium men's shirts with natural fabrics, hand embroidery, and timeless design.",
+                foundingLocation: {
+                  "@type": "Place",
+                  name: "Udaipur, Rajasthan, India",
+                },
+                areaServed: {
+                  "@type": "Country",
+                  name: "India",
+                },
                 sameAs: [
-                  "https://www.instagram.com/dhirago_/"
+                  "https://www.instagram.com/dhirago_/",
+                  "https://wa.me/917742711543",
                 ],
                 contactPoint: {
                   "@type": "ContactPoint",
                   telephone: "+91-8905524932",
                   contactType: "customer service",
                   email: "contact@dhirago.com",
+                  areaServed: "IN",
+                  availableLanguage: ["English", "Hindi"],
+                },
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Brand",
+                "@id": "https://www.dhirago.com/#brand",
+                name: "Dhirago",
+                alternateName: ["Dhirago Menswear", "Dhirago Fashion"],
+                url: "https://www.dhirago.com/",
+                logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+                description:
+                  "Dhirago — premium men's shirts and luxury Indian menswear rooted in craft and time.",
+                parentOrganization: {
+                  "@id": "https://www.dhirago.com/#organization",
                 },
               },
               {
@@ -109,9 +137,13 @@ export default function RootLayout({ children }) {
                 "@id": "https://www.dhirago.com/#website",
                 url: "https://www.dhirago.com/",
                 name: "Dhirago",
+                alternateName: "Dhirago Menswear",
+                description:
+                  "Official website of Dhirago — buy premium men's shirts online in India.",
                 publisher: {
                   "@id": "https://www.dhirago.com/#organization",
                 },
+                inLanguage: "en-IN",
               },
             ]),
           }}

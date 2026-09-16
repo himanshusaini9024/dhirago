@@ -1,24 +1,22 @@
+import {
+  fetchProductSlugs,
+  getSiteUrl,
+  sitemapXmlResponse,
+  urlEntry,
+} from "../../lib/sitemap";
+
 export async function GET() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
-  let products = [];
-
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
-      { cache: "no-store" }
-    );
-    products = await res.json();
-  } catch (e) {}
+  const baseUrl = getSiteUrl();
+  const products = await fetchProductSlugs();
 
   const urls = products
-    .map(
-      (p) => `
-  <url>
-    <loc>${baseUrl}/product/${p.slug}</loc>
-    <lastmod>${new Date(p.updated_at).toISOString()}</lastmod>
-  </url>`
+    .map((p) =>
+      urlEntry({
+        loc: `${baseUrl}/product/${p.slug}`,
+        lastmod: p.updated_at || p.updatedAt,
+        changefreq: "weekly",
+        priority: "0.8",
+      }),
     )
     .join("");
 
@@ -27,7 +25,5 @@ export async function GET() {
 ${urls}
 </urlset>`;
 
-  return new Response(xml, {
-    headers: { "Content-Type": "application/xml" },
-  });
+  return sitemapXmlResponse(xml);
 }

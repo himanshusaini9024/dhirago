@@ -1,11 +1,19 @@
-import Breadcrumb from "../../../components/breadcrumb";
+import { notFound } from "next/navigation";
 import ProductGrid from "../../../components/product-single/ProductGrid";
 import ProductsFeatured from "../../../components/products-featured";
 import RecentlyViewedTracker from "../../../components/recentlyviewtracker";
-import HeroCarousel from "../../../components/product-single/HeroCarousel";
-import ProductTabs from "../../../components/product-single/producttab";
 import { generateSEO } from "../../../utils/seo";
 import { sortProductImages } from "../../../utils/sortProductImages";
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.dhirago.com";
+const IMG_URL = process.env.NEXT_PUBLIC_IMG_URL || "";
+
+function absoluteImageUrl(url) {
+  if (!url) return null;
+  if (url.startsWith("http")) return url;
+  return `${IMG_URL}${url}`;
+}
 
 async function getProduct(pid) {
   try {
@@ -19,6 +27,7 @@ async function getProduct(pid) {
       },
     );
     if (res.status === 404) return null;
+    if (!res.ok) return null;
     const product = await res.json();
     return {
       ...product,
@@ -32,30 +41,30 @@ async function getProduct(pid) {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/product/${slug}`,
-    {
-      next: {
-        revalidate: 30,
-        tags: ["products", `product-${slug}`],
-      },
-    },
-  );
-  if (!res.ok)
+  const product = await getProduct(slug);
+
+  if (!product) {
     return generateSEO({
       title: "Product Not Found",
-      description: "This product does not exist",
+      description: "This Dhirago product does not exist.",
       noIndex: true,
     });
-  const product = await res.json();
-  const images = sortProductImages(product.images);
-  const s3url = process.env.NEXT_PUBLIC_IMG_URL;
-  const imageUrl = images[0]?.url
-    ? `${s3url}${images[0].url}`
-    : "/og-image.jpg";
+  }
+
+  const imageUrl =
+    absoluteImageUrl(product.images?.[0]?.url) ||
+    "https://images.dhirago.com/ecommerce/dhirago-og.webp";
+
+  const plainDesc = String(product.description || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
   return generateSEO({
-    title: `Buy ${product.name} `,
-    description: `Buy ${product.name} online at best price. ${product.description?.slice(0, 120)}`,
+    title: `${product.name} | Dhirago Men's Shirt`,
+    description:
+      plainDesc.slice(0, 150) ||
+      `Buy ${product.name} online at Dhirago — premium men's shirts and luxury Indian menswear.`,
     path: `/product/${slug}`,
     image: imageUrl,
   });
@@ -65,56 +74,102 @@ export default async function ProductPage({ params }) {
   const { slug } = await params;
   const product = await getProduct(slug);
 
-  if (!product) {
-    return (
-      <div
-        style={{
-          textAlign: "center",
-          padding: "80px 20px",
-          color: "#aaa",
-          letterSpacing: "0.1em",
-          fontFamily: "'Josefin Sans', sans-serif",
-        }}
-      >
-        Product not found
-      </div>
-    );
-  }
+  if (!product) notFound();
+
+  const imageUrls = (product.images || [])
+    .map((i) => absoluteImageUrl(i.url))
+    .filter(Boolean);
+
+  const selling =
+    Number(product.currentPrice ?? product.special_price ?? product.price) ||
+    0;
+  const mrp = Number(product.mrp ?? product.price) || selling;
+
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      image: imageUrls,
+      description: product.description || product.name,
+      sku: product.sku || String(product.id),
+      brand: {
+        "@type": "Brand",
+        name: "Dhirago",
+      },
+      offers: {
+        "@type": "Offer",
+        url: `${SITE_URL}/product/${slug}`,
+        priceCurrency: "INR",
+        price: selling,
+        priceValidUntil: new Date(
+          Date.now() + 1000 * 60 * 60 * 24 * 60,
+        )
+          .toISOString()
+          .slice(0, 10),
+        availability:
+          Number(product.quantityAvailable) > 0
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+        itemCondition: "https://schema.org/NewCondition",
+        seller: {
+          "@type": "Organization",
+          name: "Dhirago Fashion Private Limited",
+        },
+      },
+      ...(mrp > selling
+        ? {
+            additionalProperty: [
+              {
+                "@type": "PropertyValue",
+                name: "MRP",
+                value: mrp,
+              },
+            ],
+          }
+        : {}),
+      ...(product.punctuation?.countOpinions > 0 && {
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: product.punctuation.punctuation,
+          reviewCount: product.punctuation.countOpinions,
+        },
+      }),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: SITE_URL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Shirts",
+          item: `${SITE_URL}/collections/shirts`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: product.name,
+          item: `${SITE_URL}/product/${slug}`,
+        },
+      ],
+    },
+  ];
 
   return (
     <>
-      {/* <Breadcrumb product={product} /> */}
       <RecentlyViewedTracker product={product} />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: product.name,
-            image: product.images?.map((i) => i.url),
-            description: product.description || product.name,
-            sku: product.id,
-
-            offers: {
-              "@type": "Offer",
-              priceCurrency: "INR",
-              price: product.currentPrice,
-              availability:
-                product.quantityAvailable > 0
-                  ? "https://schema.org/InStock"
-                  : "https://schema.org/OutOfStock",
-            },
-
-            ...(product.punctuation?.countOpinions > 0 && {
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: product.punctuation.punctuation,
-                reviewCount: product.punctuation.countOpinions,
-              },
-            }),
-          }),
+          __html: JSON.stringify(jsonLd),
         }}
       />
 

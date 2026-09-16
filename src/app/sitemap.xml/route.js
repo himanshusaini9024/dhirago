@@ -1,11 +1,13 @@
+import { getSiteUrl, sitemapXmlResponse, toIsoDate } from "../../lib/sitemap";
+
 export async function GET() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = getSiteUrl();
+  const now = toIsoDate();
 
   const sitemaps = [
-    `${baseUrl}/sitemap-products.xml`,
-    `${baseUrl}/sitemap-collections.xml`,
     `${baseUrl}/sitemap-pages.xml`,
+    `${baseUrl}/sitemap-collections.xml`,
+    `${baseUrl}/sitemap-products.xml`,
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -15,14 +17,11 @@ ${sitemaps
     (url) => `
   <sitemap>
     <loc>${url}</loc>
-  </sitemap>`
+    <lastmod>${now}</lastmod>
+  </sitemap>`,
   )
   .join("")}
 </sitemapindex>`;
 
-  return new Response(xml, {
-    headers: {
-      "Content-Type": "application/xml",
-    },
-  });
+  return sitemapXmlResponse(xml);
 }

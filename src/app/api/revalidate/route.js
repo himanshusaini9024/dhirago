@@ -31,8 +31,41 @@ export async function POST(request) {
 
     revalidatePath("/");
     revalidatePath("/collections", "layout");
+    revalidatePath("/sitemap");
+    revalidatePath("/sitemap.xml");
+    revalidatePath("/sitemap-pages.xml");
+    revalidatePath("/sitemap-products.xml");
+    revalidatePath("/sitemap-collections.xml");
     if (slug) {
       revalidatePath(`/product/${slug}`);
+    }
+
+    // Notify Bing/Yandex via IndexNow when key is configured (Google uses GSC)
+    const indexNowKey = process.env.INDEXNOW_KEY;
+    if (indexNowKey) {
+      const siteUrl = (
+        process.env.NEXT_PUBLIC_SITE_URL || "https://www.dhirago.com"
+      ).replace(/\/$/, "");
+      const urls = [
+        `${siteUrl}/`,
+        `${siteUrl}/collections/shirts`,
+        `${siteUrl}/sitemap.xml`,
+        ...(slug ? [`${siteUrl}/product/${slug}`] : []),
+      ];
+      try {
+        await fetch("https://api.indexnow.org/indexnow", {
+          method: "POST",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: JSON.stringify({
+            host: new URL(siteUrl).host,
+            key: indexNowKey,
+            keyLocation: `${siteUrl}/${indexNowKey}.txt`,
+            urlList: urls,
+          }),
+        });
+      } catch {
+        /* non-blocking */
+      }
     }
 
     return NextResponse.json({

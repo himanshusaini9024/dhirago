@@ -7,6 +7,7 @@ import LuxuryHero from "../components/page-intro/luxuryHero";
 import CrawlSeo from "../components/seo/CrawlSeo";
 import { generateSEO } from "../utils/seo";
 import { SITE_LINKS } from "../lib/pageSeo";
+import { fetchProductSlugs } from "../lib/sitemap";
 import Marquee from "../components/page-intro/marque";
 
 const EditorialGrid = dynamic(
@@ -18,20 +19,28 @@ const InstagramFeed = dynamic(
 );
 
 export const metadata = generateSEO({
-  title: "Buy Premium Men's Shirts Online in India | Dhirago",
+  title: "Dhirago | Premium Men's Shirts Online India — Luxury Menswear",
   description:
-    "Shop premium men's shirts online at Dhirago. Timeless designer shirts in quality fabrics, with refined details and effortless style.",
+    "Dhirago is a luxury Indian menswear brand. Shop premium men's shirts online — natural fabrics, hand embroidery, and timeless design from Udaipur.",
   path: "/",
 });
 
-export default function Home() {
+export default async function Home() {
+  const products = await fetchProductSlugs();
+  const productLinks = products.slice(0, 12).map((p) => ({
+    href: `/product/${p.slug}`,
+    label:
+      p.name ||
+      p.slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+  }));
+
   return (
     <main>
       <CrawlSeo
-        h1="Buy Premium Men's Shirts Online in India | Dhirago"
-        h2="Premium menswear rooted in craft and time"
-        description="Dhirago offers premium men's shirts crafted with natural fabrics, hand embroidery, and timeless design."
-        links={SITE_LINKS}
+        h1="Dhirago — Premium Men's Shirts & Luxury Indian Menswear"
+        h2="Buy handcrafted menswear online in India"
+        description="Dhirago Fashion is a luxury Indian menswear brand from Udaipur. We craft premium men's shirts with natural fabrics, hand embroidery, block printing, and timeless design."
+        links={[...SITE_LINKS, ...productLinks]}
       />
       <PageIntro />
       <LuxuryHero />

@@ -31,6 +31,7 @@ export function generateSEO({
       description: safeDescription,
       url: `${SITE_URL}${path}`,
       siteName: SITE_NAME,
+      locale: "en_IN",
       images: [
         {
           url: image,

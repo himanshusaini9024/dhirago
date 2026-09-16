@@ -1,42 +1,27 @@
+import {
+  getSiteUrl,
+  sitemapXmlResponse,
+  urlEntry,
+  SITEMAP_PAGES,
+} from "../../lib/sitemap";
+
 export async function GET() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = getSiteUrl();
+  const now = new Date().toISOString();
 
-  const pages = [
-    "",
-    "/about",
-    "/handwork",
-    "/timeless",
-    "/linen",
-    "/essence",
-    "/pages/better-materials",
-    "/product-care",
-    "/contact",
-    "/faq",
-    "/privacy",
-    "/shipping-and-return",
-    "/terms-conditions",
-    "/collections/shirts",
-  ];
-
-  const urls = pages
-    .map(
-      (p) => `
-  <url>
-    <loc>${baseUrl}${p}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>${p === "" ? "1.0" : "0.7"}</priority>
-  </url>`,
-    )
-    .join("");
+  const urls = SITEMAP_PAGES.map((page) =>
+    urlEntry({
+      loc: `${baseUrl}${page.path}`,
+      lastmod: now,
+      changefreq: page.changefreq,
+      priority: page.priority,
+    }),
+  ).join("");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls}
 </urlset>`;
 
-  return new Response(xml, {
-    headers: { "Content-Type": "application/xml" },
-  });
+  return sitemapXmlResponse(xml);
 }

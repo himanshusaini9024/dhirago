@@ -17,7 +17,7 @@ const COLLECTION_COPY = {
 
 const COLLECTION_META = {
   shirts:
-    "Shop premium men’s shirts online at Dhirago. Natural fabrics, hand embroidery, and timeless design—crafted to last.",
+    "Shop Dhirago premium men’s shirts online in India. Natural fabrics, hand embroidery, and timeless design—crafted to last.",
 };
 
 function collectionDescription(slug, displayName) {
@@ -37,7 +37,10 @@ export async function generateMetadata({ params }) {
   const name = formatName(slug);
 
   return generateSEO({
-    title: `Buy ${name} Online in India | Dhirago`,
+    title:
+      slug === "shirts"
+        ? "Dhirago Men's Shirts | Buy Premium Shirts Online in India"
+        : `Dhirago ${name} | Buy Online in India`,
     description: collectionMetaDescription(slug, name),
     path: `/collections/${slug}`,
   });
@@ -66,7 +69,8 @@ export default async function ProductsPage({ params }) {
       />
 
       <CrawlSeo
-        h2={`${name} collection`}
+        h1={`Dhirago ${name} Collection`}
+        h2={`Buy premium ${name.toLowerCase()} online in India`}
         description={intro}
         links={SITE_LINKS}
       />
@@ -81,9 +85,18 @@ export default async function ProductsPage({ params }) {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            name,
+            name: `Dhirago ${name}`,
             url: `${siteUrl}/collections/${slug}`,
             description: intro,
+            isPartOf: {
+              "@type": "WebSite",
+              name: "Dhirago",
+              url: siteUrl,
+            },
+            about: {
+              "@type": "Brand",
+              name: "Dhirago",
+            },
           }),
         }}
       />

@@ -12,30 +12,33 @@ export const SITE_LINKS = [
   { href: "/contact", label: "Contact" },
   { href: "/faq", label: "FAQ" },
   { href: "/product-care", label: "Product Care" },
+  { href: "/sitemap", label: "Sitemap" },
 ];
 
 export const PAGE_SEO = {
   about: {
-    title: "About Dhirago | Luxury Indian Menswear",
+    title: "About Dhirago | Luxury Indian Menswear Brand from Udaipur",
     description:
-      "Discover Dhirago—a luxury Indian menswear label rooted in traditional textiles, hand embroidery, and a quieter way of living.",
+      "About Dhirago Fashion — a luxury Indian menswear brand from Udaipur making premium men's shirts with traditional textiles, hand embroidery, and timeless craft.",
     path: "/about",
     crawl: {
+      h1: "About Dhirago — Luxury Indian Menswear Brand",
       h2: "Our story and craft philosophy",
       description:
-        "DHIRAGO crafts menswear that celebrates simplicity, comfort, and well-considered details—shaped in stillness and refined through time.",
+        "Dhirago (Dhirago Fashion Private Limited) is a luxury Indian menswear brand based in Udaipur. We craft premium men's shirts that celebrate simplicity, comfort, and well-considered details—shaped in stillness and refined through time.",
       links: SITE_LINKS,
     },
   },
   contact: {
-    title: "Contact Dhirago | Customer Support",
+    title: "Contact Dhirago Menswear | Customer Support India",
     description:
-      "Contact Dhirago for orders, product questions, and support. We’re here to help with your menswear enquiry.",
+      "Contact Dhirago menswear for orders, product questions, and support. Email contact@dhirago.com or WhatsApp for help with premium men's shirts.",
     path: "/contact",
     crawl: {
+      h1: "Contact Dhirago Menswear",
       h2: "Get in touch with Dhirago",
       description:
-        "Reach the Dhirago team for product details, orders, shipping, and care guidance.",
+        "Reach the Dhirago Fashion team for product details, orders, shipping, and care guidance for premium men's shirts in India.",
       links: SITE_LINKS,
     },
   },

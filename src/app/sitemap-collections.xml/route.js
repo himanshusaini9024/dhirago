@@ -1,16 +1,21 @@
-export async function GET() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+import {
+  getSiteUrl,
+  sitemapXmlResponse,
+  urlEntry,
+} from "../../lib/sitemap";
 
-  const categories = ["shirts",];
+export async function GET() {
+  const baseUrl = getSiteUrl();
+  const categories = ["shirts"];
 
   const urls = categories
-    .map(
-      (c) => `
-  <url>
-    <loc>${baseUrl}/collections/${c}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
-  </url>`
+    .map((c) =>
+      urlEntry({
+        loc: `${baseUrl}/collections/${c}`,
+        lastmod: new Date().toISOString(),
+        changefreq: "daily",
+        priority: "0.9",
+      }),
     )
     .join("");
 
@@ -19,7 +24,5 @@ export async function GET() {
 ${urls}
 </urlset>`;
 
-  return new Response(xml, {
-    headers: { "Content-Type": "application/xml" },
-  });
+  return sitemapXmlResponse(xml);
 }

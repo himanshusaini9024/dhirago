@@ -53,11 +53,13 @@ const ProductsCarousel = ({ products }) => {
             <ProductItem
               id={item.id}
               name={item.name}
-              price={item.price}
+              price={item.mrp ?? item.price}
+              mrp={item.mrp ?? item.price}
               sku={item.sku}
+              slug={item.slug}
               color={item.color}
               discount={item.discount}
-              currentPrice={item.currentPrice}
+              currentPrice={item.currentPrice ?? item.special_price}
               images={item.images}
             />
           </SwiperSlide>

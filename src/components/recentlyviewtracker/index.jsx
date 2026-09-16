@@ -10,7 +10,12 @@ const addToRecentlyViewed = (product) => {
   // remove duplicate
   items = items.filter((item) => item.id !== product.id);
 
-  // minimal data (IMPORTANT)
+  const mrp = Number(product.mrp ?? product.price) || 0;
+  const selling =
+    Number(product.currentPrice ?? product.special_price ?? product.price) ||
+    0;
+
+  // minimal data (IMPORTANT) — store selling price, not MRP
   const minimalProduct = {
     id: product.id,
     name: product.name,
@@ -21,7 +26,11 @@ const addToRecentlyViewed = (product) => {
     slug: product.slug,
     sku: product.sku,
     color: product.colors,
-    currentPrice: product.price,
+    price: mrp,
+    mrp,
+    special_price: selling,
+    discount: Number(product.discount) || 0,
+    currentPrice: selling,
   };
 
   items.unshift(minimalProduct);

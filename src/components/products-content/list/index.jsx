@@ -252,6 +252,9 @@ export default function ProductList({ initialProducts, slug }) {
             color={item.color}
             name={item.name}
             currentPrice={item.currentPrice}
+            price={item.price ?? item.mrp}
+            mrp={item.mrp ?? item.price}
+            discount={item.discount}
             images={item.image}
             category={item.category || slug}
             priority={index < 4}

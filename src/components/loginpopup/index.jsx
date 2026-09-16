@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { CheckCircle2, XCircle, Timer } from "lucide-react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
+import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../lib/firstOrderDiscount";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -321,11 +322,15 @@ export default function LoginPopup({ isOpen, onClose }) {
               <p className="text-center text-[26px] leading-none tracking-[0.28em] text-[#111]">
                 DHIRAGO
               </p>
-              <p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
-                get 10% off on your first order
-              </p>
+              {FIRST_ORDER_DISCOUNT_ENABLED && (
+                <p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
+                  get 10% off on your first order
+                </p>
+              )}
 
-              <h3 className="mt-4 text-center text-lg font-bold text-[#111]">
+              <h3
+                className={`${FIRST_ORDER_DISCOUNT_ENABLED ? "mt-4" : "mt-6"} text-center text-lg font-bold text-[#111]`}
+              >
                 Login / Sign up
               </h3>
               <p className="mt-1 text-center text-sm text-[#111]">

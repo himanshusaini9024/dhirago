@@ -11,7 +11,10 @@ import { useRouter } from "next/navigation";
 import "../../assets/css/checkout.scss";
 import AddressAutocomplete from "../../components/AddressAutocomplete";
 import Script from "next/script";
-import { fetchFirstOrderQuote } from "../../lib/firstOrderDiscount";
+import {
+  FIRST_ORDER_DISCOUNT_ENABLED,
+  fetchFirstOrderQuote,
+} from "../../lib/firstOrderDiscount";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
    ───────────────────────────────────────────── */
@@ -94,7 +97,7 @@ const CheckoutPage = () => {
     let cancelled = false;
 
     const loadQuote = async () => {
-      if (!cartItems?.length || !customer_id) {
+      if (!FIRST_ORDER_DISCOUNT_ENABLED || !cartItems?.length || !customer_id) {
         if (!cancelled) {
           setFirstOrder({
             eligible: false,
@@ -123,8 +126,14 @@ const CheckoutPage = () => {
     };
   }, [cartItems, customer_id, priceTotal]);
 
-  const firstOrderDiscount = firstOrder.eligible ? firstOrder.discount : 0;
-  const payableTotal = firstOrder.eligible ? firstOrder.total : priceTotal;
+  const firstOrderDiscount =
+    FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
+      ? firstOrder.discount
+      : 0;
+  const payableTotal =
+    FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
+      ? firstOrder.total
+      : priceTotal;
 
   // ── create order ───────────────────────────
   const createOrder = async (payment_status, payment_id, razorpay_order_id) => {

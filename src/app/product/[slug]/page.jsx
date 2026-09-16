@@ -11,7 +11,12 @@ async function getProduct(pid) {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/product/${pid}`,
-      { next: { revalidate: 60 } },
+      {
+        next: {
+          revalidate: 30,
+          tags: ["products", `product-${pid}`],
+        },
+      },
     );
     if (res.status === 404) return null;
     const product = await res.json();
@@ -29,7 +34,12 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/product/${slug}`,
-    { next: { revalidate: 60 } },
+    {
+      next: {
+        revalidate: 30,
+        tags: ["products", `product-${slug}`],
+      },
+    },
   );
   if (!res.ok)
     return generateSEO({

@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import LoginPopup from "../../components/loginpopup/index";
 import RelatedProduct from "./relatedproduct";
-import { fetchFirstOrderQuote } from "../../lib/firstOrderDiscount";
+import {
+  FIRST_ORDER_DISCOUNT_ENABLED,
+  fetchFirstOrderQuote,
+} from "../../lib/firstOrderDiscount";
 
 function formatINR(value) {
   const amount = Number(value) || 0;
@@ -54,7 +57,11 @@ export default function ShoppingCart() {
     let cancelled = false;
 
     const loadQuote = async () => {
-      if (!cartItems.length || !(isLoggedIn || user)) {
+      if (
+        !FIRST_ORDER_DISCOUNT_ENABLED ||
+        !cartItems.length ||
+        !(isLoggedIn || user)
+      ) {
         if (!cancelled) {
           setFirstOrder({
             eligible: false,
@@ -83,8 +90,14 @@ export default function ShoppingCart() {
     };
   }, [cartItems, isLoggedIn, user, productTotal]);
 
-  const firstOrderDiscount = firstOrder.eligible ? firstOrder.discount : 0;
-  const total = firstOrder.eligible ? firstOrder.total : productTotal;
+  const firstOrderDiscount =
+    FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
+      ? firstOrder.discount
+      : 0;
+  const total =
+    FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
+      ? firstOrder.total
+      : productTotal;
 
   const handleCheckout = () => {
     if (user || localStorage.getItem("isLoggedIn")) {
@@ -197,11 +210,14 @@ export default function ShoppingCart() {
               </div>
             )}
 
-            {!firstOrder.eligible && !(isLoggedIn || user) && cartItems.length > 0 && (
-              <p className="text-[12px] text-[#666] leading-snug pt-1">
-                Login to unlock 10% off on your first order
-              </p>
-            )}
+            {FIRST_ORDER_DISCOUNT_ENABLED &&
+              !firstOrder.eligible &&
+              !(isLoggedIn || user) &&
+              cartItems.length > 0 && (
+                <p className="text-[12px] text-[#666] leading-snug pt-1">
+                  Login to unlock 10% off on your first order
+                </p>
+              )}
 
             <div className="flex justify-between gap-4">
               <span>Shipping</span>
@@ -233,16 +249,6 @@ export default function ShoppingCart() {
             }`}
           >
             {/* <span>Gift Wrap This Order</span> */}
-            {/* <span
-              className={`w-4 h-4 border flex items-center justify-center text-[10px] ${
-                giftWrap
-                  ? "border-[#1a1a1a] bg-[#1a1a1a] text-white"
-                  : "border-[#999] bg-white"
-              }`}
-              aria-hidden
-            >
-              {giftWrap ? "✓" : ""}
-            </span> */}
           </button>
 
           {cartItems.length > 0 && (

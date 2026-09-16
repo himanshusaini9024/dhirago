@@ -21,6 +21,9 @@ const ProductItem = ({
   slug,
   color,
   currentPrice,
+  price,
+  mrp,
+  discount,
   category,
   hideQuickAdd = false,
   priority = false,
@@ -38,6 +41,9 @@ const ProductItem = ({
   const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
   const [hovered, setHovered] = useState(false);
+  const selling = Number(currentPrice) || 0;
+  const listMrp = Number(mrp ?? price) || 0;
+  const off = Number(discount) || 0;
 
   // 🔥 AUTO SLIDE ALWAYS
   // useEffect(() => {
@@ -134,7 +140,10 @@ const ProductItem = ({
           sku,
           images: imageList,
           color,
-          currentPrice,
+          currentPrice: selling,
+          mrp: listMrp,
+          price: listMrp,
+          discount: off,
           category,
           sizes: productsSizes, // ⚠️ pass real sizes if available
         }}
@@ -147,9 +156,21 @@ const ProductItem = ({
         <h6 className="text-xs md:text-sm uppercase text-black text-center">
           {name}
         </h6>
-        <p className="mt-2 text-[0.911rem] text-gray-500 mt-1 text-center">
-          ₹ {currentPrice}
-        </p>
+        <div className="mt-2 flex flex-wrap items-baseline justify-center gap-2">
+          <p className="text-[0.911rem] text-[#1a1a1a]">
+            ₹ {selling.toLocaleString("en-IN")}
+          </p>
+          {listMrp > selling && (
+            <p className="text-[0.8rem] text-gray-400 line-through">
+              ₹ {listMrp.toLocaleString("en-IN")}
+            </p>
+          )}
+          {off > 0 && listMrp > selling && (
+            <p className="text-[0.75rem] text-[#1f8a4c]">
+              {Math.round(off)}% Off
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

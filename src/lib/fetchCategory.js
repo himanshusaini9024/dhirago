@@ -15,7 +15,10 @@ async function fetchWithTimeout(url, options = {}) {
 export async function getCategoryProducts(slug) {
   try {
     const res = await fetchWithTimeout(`${API_URL}/api/category/${slug}`, {
-      next: { revalidate: 120 },
+      next: {
+        revalidate: 30,
+        tags: ["products", "categories", `category-${slug}`],
+      },
     });
 
     if (!res.ok) {

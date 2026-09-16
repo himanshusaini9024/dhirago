@@ -12,6 +12,7 @@ import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
 import { fbEvent } from "../../../lib/facebookPixel";
 import { sendMetaEvent } from "../../../lib/meta";
+import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../../lib/firstOrderDiscount";
 const F = "'Josefin Sans', sans-serif";
 
 function useIsMobile() {
@@ -113,6 +114,7 @@ export default function Content({ product }) {
       currency: "INR",
     });
   }, []);
+  console.log('productdata',product)
 
   const dispatch = useDispatch();
   const isMobile = useIsMobile();
@@ -126,9 +128,13 @@ export default function Content({ product }) {
   // single open accordion: null | "care" | "shipment" | "returns"
   const [openAccordion, setOpenAccordion] = useState("details");
 
-  const basePrice = Number(product.price) || 0;
-  const firstOrderOff = Math.round((basePrice * 10) / 100);
-  const firstOrderTotal = Math.max(0, basePrice - firstOrderOff);
+  const basePrice = Number(product.mrp ?? product.price) || 0;
+  const sellingPrice =
+    Number(product.currentPrice ?? product.special_price ?? product.price) ||
+    0;
+  const discountPercent = Number(product.discount) || 0;
+  const firstOrderOff = Math.round((sellingPrice * 10) / 100);
+  const firstOrderTotal = Math.max(0, sellingPrice - firstOrderOff);
 
   const formatINR = (value) =>
     `₹ ${Number(value || 0).toLocaleString("en-IN")}`;
@@ -188,7 +194,7 @@ export default function Content({ product }) {
   }, [sizeGuide]);
 
   const addToCart = async () => {
-    const eventID = crypto.randomUUID();
+    // const eventID = crypto.randomUUID();
 
     if (!itemSize) {
       setSizeError("Please select your size");
@@ -202,13 +208,13 @@ export default function Content({ product }) {
         value: product.currentPrice,
         currency: "INR",
       },
-      eventID,
+      // eventID,
     );
 
     await sendMetaEvent({
       event_name: "AddToCart",
       event_time: Math.floor(Date.now() / 1000),
-      event_id: eventID,
+      // event_id: eventID,
       action_source: "website",
       custom_data: {
         content_ids: [product.id],
@@ -223,8 +229,12 @@ export default function Content({ product }) {
       action: "add_to_cart",
       category: product.category,
       label: product.name,
-      value: product.price,
+      value: product.currentPrice ?? product.special_price ?? product.price,
     });
+    const sellingPrice =
+      Number(product.currentPrice ?? product.special_price ?? product.price) ||
+      0;
+    const mrp = Number(product.mrp ?? product.price) || sellingPrice;
     dispatch(
       addProduct({
         count: 1,
@@ -233,7 +243,10 @@ export default function Content({ product }) {
           name: product.name,
           sku: product.sku,
           thumb: product.images?.[0] || "",
-          price: product.price,
+          price: sellingPrice,
+          mrp,
+          originalPrice: mrp,
+          discount: product.discount || 0,
           slug: product.slug,
           category: product.category || null,
           color: color.toLowerCase(),
@@ -424,94 +437,121 @@ export default function Content({ product }) {
           className="lg:!mt-6 mt-4"
           style={{
             display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            marginBottom: "10px",
+            alignItems: "baseline",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginBottom: FIRST_ORDER_DISCOUNT_ENABLED ? "10px" : "18px",
+            justifyContent: isMobile ? "center" : "flex-start",
           }}
         >
           <span
             style={{
-              fontSize: isMobile ? "17px" : "19px",
-              color: "rgb(28,28,28,0.65)",
+              fontSize: isMobile ? "19px" : "22px",
+              color: "rgb(28,28,28)",
               letterSpacing: "0.01em",
-              fontWeight: 480,
-              position: isMobile ? "relative" : "relative",
-              left: isMobile ? "30%" : "0",
-
+              fontWeight: 500,
               fontFamily: F,
             }}
           >
-            MRP ₹ {product.price?.toLocaleString("en-IN")}.00
+            ₹ {sellingPrice.toLocaleString("en-IN")}
           </span>
-        </div>
-        <div
-          data-price-tip
-          className="relative flex items-center justify-center md:justify-start gap-1.5 py-3 md:py-0 pt-1 md:pt-0 mb-2"
-          onMouseLeave={() => !isMobile && setPriceTipOpen(false)}
-        >
-          <p className="text-[10px] uppercase md:text-sm text-[#333] font-medium m-0">
-            Flat 10% Off On your First order
-          </p>
-          <button
-            type="button"
-            aria-label="View first order price breakdown"
-            aria-expanded={priceTipOpen}
-            onMouseEnter={() => setPriceTipOpen(true)}
-            onFocus={() => setPriceTipOpen(true)}
-            onBlur={() => setPriceTipOpen(false)}
-            onClick={(e) => {
-              e.preventDefault();
-              setPriceTipOpen((v) => !v);
-            }}
-            className="inline-flex items-center justify-center shrink-0 w-[16px] h-[16px] md:w-[20px] md:h-[18px] rounded-full border border-solid text-[#666] text-[10px] md:text-[13px] leading-none font-medium hover:border-[#333] hover:text-[#333] transition-colors bg-white"
-            style={{ fontFamily: F }}
-          >
-            i
-          </button>
-
-          {priceTipOpen && (
-            <div
-              role="tooltip"
-              className="absolute z-30 left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 top-full mt-2 w-[240px] bg-white border border-[#e5e5e5] shadow-[0_8px_24px_rgba(0,0,0,0.12)] p-3.5 text-left"
-              onMouseEnter={() => setPriceTipOpen(true)}
-            >
-              <p
-                className="m-0 mb-2.5 text-[11px] tracking-[0.14em] uppercase text-[#888]"
-                style={{ fontFamily: F }}
+          {basePrice > sellingPrice && (
+            <>
+              <span
+                style={{
+                  fontSize: isMobile ? "14px" : "15px",
+                  color: "rgb(28,28,28,0.45)",
+                  textDecoration: "line-through",
+                  fontFamily: F,
+                }}
               >
-                Price 
-              </p>
-              <div
-                className="flex justify-between gap-3 text-[13px] text-[#333] mb-1.5"
-                style={{ fontFamily: F }}
-              >
-                <span>Product price</span>
-                <span>{formatINR(basePrice)}</span>
-              </div>
-              <div
-                className="flex justify-between gap-3 text-[13px] text-[#1f8a4c] mb-2.5"
-                style={{ fontFamily: F }}
-              >
-                <span>you saved</span>
-                <span>-{formatINR(firstOrderOff)}</span>
-              </div>
-              <div className="border-t border-[#eee] pt-2.5 flex justify-between gap-3 items-baseline">
+                MRP ₹ {basePrice.toLocaleString("en-IN")}
+              </span>
+              {discountPercent > 0 && (
                 <span
-                  className="text-[13px] font-semibold text-[#1a1a1a]"
-                  style={{ fontFamily: F }}
+                  style={{
+                    fontSize: isMobile ? "12px" : "13px",
+                    color: "#1f8a4c",
+                    fontFamily: F,
+                    fontWeight: 500,
+                  }}
                 >
-                  Total
+                  {Math.round(discountPercent)}% Off
                 </span>
-                <span
-                  className="text-[15px] font-semibold text-[#1a1a1a]"
-                  style={{ fontFamily: F }}
-                >
-                  {formatINR(firstOrderTotal)}
-                </span>
-              </div>
-            </div>
+              )}
+            </>
           )}
         </div>
+        {FIRST_ORDER_DISCOUNT_ENABLED && (
+          <div
+            data-price-tip
+            className="relative flex items-center justify-center md:justify-start gap-1.5 py-3 md:py-0 pt-1 md:pt-0 mb-2"
+            onMouseLeave={() => !isMobile && setPriceTipOpen(false)}
+          >
+            <p className="text-[10px] uppercase md:text-sm text-[#333] font-medium m-0">
+              Flat 10% Off On your First order
+            </p>
+            <button
+              type="button"
+              aria-label="View first order price breakdown"
+              aria-expanded={priceTipOpen}
+              onMouseEnter={() => setPriceTipOpen(true)}
+              onFocus={() => setPriceTipOpen(true)}
+              onBlur={() => setPriceTipOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setPriceTipOpen((v) => !v);
+              }}
+              className="inline-flex items-center justify-center shrink-0 w-[16px] h-[16px] md:w-[20px] md:h-[18px] rounded-full border border-solid text-[#666] text-[10px] md:text-[13px] leading-none font-medium hover:border-[#333] hover:text-[#333] transition-colors bg-white"
+              style={{ fontFamily: F }}
+            >
+              i
+            </button>
+
+            {priceTipOpen && (
+              <div
+                role="tooltip"
+                className="absolute z-30 left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 top-full mt-2 w-[240px] bg-white border border-[#e5e5e5] shadow-[0_8px_24px_rgba(0,0,0,0.12)] p-3.5 text-left"
+                onMouseEnter={() => setPriceTipOpen(true)}
+              >
+                <p
+                  className="m-0 mb-2.5 text-[11px] tracking-[0.14em] uppercase text-[#888]"
+                  style={{ fontFamily: F }}
+                >
+                  Price breakdown
+                </p>
+                <div
+                  className="flex justify-between gap-3 text-[13px] text-[#333] mb-1.5"
+                  style={{ fontFamily: F }}
+                >
+                  <span>Product price</span>
+                  <span>{formatINR(sellingPrice)}</span>
+                </div>
+                <div
+                  className="flex justify-between gap-3 text-[13px] text-[#1f8a4c] mb-2.5"
+                  style={{ fontFamily: F }}
+                >
+                  <span>First order 10% off</span>
+                  <span>-{formatINR(firstOrderOff)}</span>
+                </div>
+                <div className="border-t border-[#eee] pt-2.5 flex justify-between gap-3 items-baseline">
+                  <span
+                    className="text-[13px] font-semibold text-[#1a1a1a]"
+                    style={{ fontFamily: F }}
+                  >
+                    Total
+                  </span>
+                  <span
+                    className="text-[15px] font-semibold text-[#1a1a1a]"
+                    style={{ fontFamily: F }}
+                  >
+                    {formatINR(firstOrderTotal)}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
         {/* COLOUR */}
         {availableColors.length > 1 && (
           <div style={{ marginBottom: "16px" }}>

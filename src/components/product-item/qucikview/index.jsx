@@ -108,7 +108,13 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
           sku: product.sku,
           slug: product.slug,
           thumb: images[0] || "",
-          price: product.currentPrice,
+          price: Number(product.currentPrice) || 0,
+          mrp: Number(product.mrp ?? product.price) || Number(product.currentPrice) || 0,
+          originalPrice:
+            Number(product.mrp ?? product.price) ||
+            Number(product.currentPrice) ||
+            0,
+          discount: product.discount || 0,
           category: product.category || null,
           size: size.toLowerCase(),
           color: product.color,
@@ -240,8 +246,21 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
                     {product.sku}
                   </p>
                 )}
-                <p className="mt-6 text-[17px] tracking-[0.01em]">
-                  {formatPrice(product?.currentPrice)}
+                <p className="mt-6 flex flex-wrap items-baseline gap-2 text-[17px] tracking-[0.01em]">
+                  <span>{formatPrice(product?.currentPrice)}</span>
+                  {Number(product?.mrp ?? product?.price) >
+                    Number(product?.currentPrice) && (
+                    <span className="text-[13px] text-black/40 line-through">
+                      {formatPrice(product?.mrp ?? product?.price)}
+                    </span>
+                  )}
+                  {Number(product?.discount) > 0 &&
+                    Number(product?.mrp ?? product?.price) >
+                      Number(product?.currentPrice) && (
+                      <span className="text-[12px] text-[#1f8a4c]">
+                        {Math.round(Number(product.discount))}% Off
+                      </span>
+                    )}
                 </p>
               </div>
 

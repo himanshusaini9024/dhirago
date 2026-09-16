@@ -13,9 +13,41 @@ const josefin = Josefin_Sans({
   weight: ["300", "400", "500"],
 });
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const getRecentlyViewed = () => {
-  return JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+  try {
+    return JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+  } catch {
+    return [];
+  }
 };
+
+async function refreshProductPricing(item) {
+  if (!item?.slug || !API_URL) return item;
+  try {
+    const res = await fetch(`${API_URL}/api/product/${item.slug}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return item;
+    const product = await res.json();
+    const mrp = Number(product.mrp ?? product.price) || 0;
+    const selling =
+      Number(product.currentPrice ?? product.special_price ?? product.price) ||
+      0;
+    return {
+      ...item,
+      name: product.name || item.name,
+      price: mrp,
+      mrp,
+      special_price: selling,
+      discount: Number(product.discount) || 0,
+      currentPrice: selling,
+    };
+  } catch {
+    return item;
+  }
+}
 
 export default function RecentlyViewed() {
   const [items, setItems] = useState([]);
@@ -23,7 +55,27 @@ export default function RecentlyViewed() {
   const nextRef = useRef(null);
 
   useEffect(() => {
-    setItems(getRecentlyViewed());
+    let cancelled = false;
+    const stored = getRecentlyViewed();
+    if (!stored.length) return;
+
+    // Show cached items immediately, then refresh live prices from API
+    setItems(stored);
+
+    (async () => {
+      const refreshed = await Promise.all(stored.map(refreshProductPricing));
+      if (cancelled) return;
+      setItems(refreshed);
+      try {
+        localStorage.setItem("recentlyViewed", JSON.stringify(refreshed));
+      } catch {
+        /* ignore quota errors */
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (!items || items.length < 2) return null;
@@ -83,6 +135,9 @@ export default function RecentlyViewed() {
                 slug={item.slug}
                 images={item.images}
                 currentPrice={item.currentPrice || 0}
+                price={item.mrp ?? item.price}
+                mrp={item.mrp ?? item.price}
+                discount={item.discount}
                 color={item.color || []}
                 hideQuickAdd
               />

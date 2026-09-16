@@ -12,6 +12,7 @@ import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
 import API from "../../lib/api";
 import { Josefin_Sans } from "next/font/google";
+import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../lib/firstOrderDiscount";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -80,19 +81,20 @@ const Header = () => {
 
   return (
     <>
-      {/* Announcement — 11-11 style top strip */}
-      <div className="fixed top-0 left-0 w-full z-[60] bg-black text-white">
-        <p
-          className={`font-fuutra text-center text-[10px] font-semibold sm:text-[12px] lg:tracking-[0.122rem] uppercase py-2.5 px-4`}
-        >
-          Flat <em style={{ fontWeight: "900px" }}>10%-Off</em> On Your First
-          order
-        </p>
-      </div>
+      {/* Announcement — shown only when first-order discount is enabled */}
+      {/* {FIRST_ORDER_DISCOUNT_ENABLED ? ( */}
+        <div className="fixed top-0 left-0 w-full z-[60] bg-black text-white">
+          <p
+            className={`font-fuutra text-center text-[10px] font-semibold sm:text-[12px] lg:tracking-[0.122rem] uppercase py-2.5 px-4`}
+          >
+            Flat <em style={{ fontWeight: "900px" }}>15%-Off</em> On MRP
+          </p>
+        </div>
+      {/* ) : null} */}
 
       <header
         className={`
-          fixed left-0 w-full z-50 top-[30px]
+          fixed left-0 w-full z-50 ${FIRST_ORDER_DISCOUNT_ENABLED ? "top-[30px]" : "top-[30px]"}
           bg-white text-black
           transition-shadow duration-300 p-2
           ${scrolled ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}

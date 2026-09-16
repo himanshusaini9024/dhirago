@@ -45,13 +45,21 @@ async function fetchProductCategory(slug) {
 }
 
 function normalizeProduct(item) {
+  const mrp = Number(item.mrp ?? item.price) || 0;
+  const selling =
+    Number(item.currentPrice ?? item.special_price ?? item.price) || 0;
+
   return {
     id: item.id,
     name: item.name,
     sku: item.sku,
     slug: item.slug,
     images: item.images || item.image || [],
-    currentPrice: item.currentPrice ?? item.price ?? 0,
+    price: mrp,
+    mrp,
+    special_price: selling,
+    discount: Number(item.discount) || 0,
+    currentPrice: selling,
     color: item.color || item.colors || [],
     category: item.category || null,
   };
@@ -212,6 +220,9 @@ export default function RelatedProduct() {
                 slug={item.slug}
                 images={item.images}
                 currentPrice={item.currentPrice || 0}
+                price={item.mrp ?? item.price}
+                mrp={item.mrp ?? item.price}
+                discount={item.discount}
                 color={item.color || []}
                 category={item.category || null}
                 hideQuickAdd

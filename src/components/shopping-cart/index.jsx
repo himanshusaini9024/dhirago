@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Item from "./item";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -11,16 +11,15 @@ import {
   FIRST_ORDER_DISCOUNT_ENABLED,
   fetchFirstOrderQuote,
 } from "../../lib/firstOrderDiscount";
-
-function formatINR(value) {
-  const amount = Number(value) || 0;
-  return `₹ ${amount.toLocaleString("en-IN", {
-    maximumFractionDigits: 0,
-  })}`;
-}
+import {
+  formatINR,
+  summarizeCart,
+} from "../../lib/cartPricing";
+import { setCart } from "../../store/reducers/cart";
 
 export default function ShoppingCart() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [showLogin, setShowLogin] = useState(false);
   const [giftWrap, setGiftWrap] = useState(false);
   const [firstOrder, setFirstOrder] = useState({
@@ -33,25 +32,73 @@ export default function ShoppingCart() {
   const { user, isLoggedIn } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
 
-  const productTotal = useMemo(
-    () =>
-      cartItems.reduce(
-        (sum, item) => sum + (Number(item.price) || 0) * (item.quantity || 0),
-        0,
-      ),
+  // Refresh live selling/MRP prices from API so admin price changes show in cart
+  useEffect(() => {
+    if (!cartItems.length) return;
+    let cancelled = false;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+    (async () => {
+      try {
+        const updated = await Promise.all(
+          cartItems.map(async (item) => {
+            if (!item.slug) return item;
+            try {
+              const res = await fetch(`${API_URL}/api/product/${item.slug}`, {
+                cache: "no-store",
+              });
+              if (!res.ok) return item;
+              const product = await res.json();
+              const mrp = Number(product.mrp ?? product.price) || 0;
+              const selling =
+                Number(
+                  product.currentPrice ??
+                    product.special_price ??
+                    product.price,
+                ) || 0;
+              return {
+                ...item,
+                price: selling,
+                mrp,
+                originalPrice: mrp,
+                special_price: selling,
+                currentPrice: selling,
+                discount: Number(product.discount) || 0,
+              };
+            } catch {
+              return item;
+            }
+          }),
+        );
+
+        if (cancelled) return;
+        const changed = updated.some((item, i) => {
+          const prev = cartItems[i];
+          return (
+            Number(item.price) !== Number(prev.price) ||
+            Number(item.mrp) !== Number(prev.mrp ?? prev.originalPrice) ||
+            Number(item.discount) !== Number(prev.discount || 0)
+          );
+        });
+        if (changed) dispatch(setCart(updated));
+      } catch {
+        /* ignore */
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+    // only on mount / cart identity change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems.map((i) => i.slug).join("|")]);
+
+  const { originalTotal, payableTotal, savings } = useMemo(
+    () => summarizeCart(cartItems),
     [cartItems],
   );
 
-  const savings = useMemo(
-    () =>
-      cartItems.reduce((sum, item) => {
-        const mrp = Number(item.mrp || item.originalPrice || item.price) || 0;
-        const price = Number(item.price) || 0;
-        const qty = item.quantity || 0;
-        return sum + Math.max(0, (mrp - price) * qty);
-      }, 0),
-    [cartItems],
-  );
+  const productTotal = payableTotal;
 
   useEffect(() => {
     let cancelled = false;
@@ -192,14 +239,23 @@ export default function ShoppingCart() {
         <aside className="bg-[#f5f5f5] p-5 sm:p-6 lg:p-7 h-fit lg:sticky lg:top-24 w-full">
           <div className="space-y-3.5 text-[14px] text-[#333]">
             <div className="flex justify-between gap-4">
-              <span>Product Total</span>
-              <span>{formatINR(productTotal)}</span>
+              <span>MRP</span>
+              <span >
+                {formatINR(originalTotal)}
+              </span>
             </div>
 
-            <div className="flex justify-between gap-4">
-              <span>Your Savings</span>
-              <span className="text-[#1f8a4c]">{formatINR(savings)}</span>
-            </div>
+            {savings > 0 && (
+              <div className="flex justify-between gap-4">
+                <span>Discount</span>
+                <span className="text-[#1f8a4c]">-{formatINR(savings)}</span>
+              </div>
+            )}
+
+            {/* <div className="flex justify-between gap-4">
+              <span>Product Total</span>
+              <span>{formatINR(productTotal)}</span>
+            </div> */}
 
             {firstOrderDiscount > 0 && (
               <div className="flex justify-between gap-4">
@@ -230,13 +286,13 @@ export default function ShoppingCart() {
           <div className="border-t border-[#ddd] mt-5 pt-5">
             <div className="flex justify-between items-baseline gap-4">
               <span className="text-[18px] md:text-[20px] font-semibold text-[#1a1a1a]">
-                Total
+                Total Payable
               </span>
               <span className="text-[18px] md:text-[20px] font-semibold text-[#1a1a1a]">
                 {formatINR(total)}
               </span>
             </div>
-            <p className="text-[11px] text-[#888] mt-1">(MRP inclusive of taxes)</p>
+            <p className="text-[11px] text-[#888] mt-1">(Inclusive of taxes)</p>
           </div>
 
           <button

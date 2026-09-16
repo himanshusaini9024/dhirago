@@ -327,7 +327,9 @@ export default function LoginPopup({ isOpen, onClose }) {
                   get 10% off on your first order
                 </p>
               )}
-
+<p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
+                  Flat 15% off on MRP
+                </p>
               <h3
                 className={`${FIRST_ORDER_DISCOUNT_ENABLED ? "mt-4" : "mt-6"} text-center text-lg font-bold text-[#111]`}
               >

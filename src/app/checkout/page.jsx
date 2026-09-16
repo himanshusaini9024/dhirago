@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import API from "../../lib/api";
 import { handleOnlinePayment, handleCOD } from "../../lib/payment";
 import CheckoutItems from "../../components/checkout/items";
-import { clearCart } from "../../store/reducers/cart";
+import { clearCart, setCart } from "../../store/reducers/cart";
 import { useRouter } from "next/navigation";
 // import "@/assets/css/checkout.scss";
 import "../../assets/css/checkout.scss";
@@ -15,6 +15,7 @@ import {
   FIRST_ORDER_DISCOUNT_ENABLED,
   fetchFirstOrderQuote,
 } from "../../lib/firstOrderDiscount";
+import { formatINR, summarizeCart } from "../../lib/cartPricing";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
    ───────────────────────────────────────────── */
@@ -79,11 +80,11 @@ const CheckoutPage = () => {
   };
 
   // ── cart ───────────────────────────────────
-  const priceTotal = useSelector((state) => {
-    const { cartItems } = state.cart;
-    return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  });
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const { originalTotal, payableTotal: productTotal, savings } = useMemo(
+    () => summarizeCart(cartItems),
+    [cartItems],
+  );
   const userdata = useSelector((state) => state.auth.user);
   const customer_id = userdata?.customer_id;
   const [firstOrder, setFirstOrder] = useState({
@@ -92,6 +93,66 @@ const CheckoutPage = () => {
     total: 0,
     label: null,
   });
+
+  // Refresh live selling/MRP so checkout matches current catalog prices
+  useEffect(() => {
+    if (!cartItems?.length) return;
+    let cancelled = false;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+    (async () => {
+      try {
+        const updated = await Promise.all(
+          cartItems.map(async (item) => {
+            if (!item.slug) return item;
+            try {
+              const res = await fetch(`${API_URL}/api/product/${item.slug}`, {
+                cache: "no-store",
+              });
+              if (!res.ok) return item;
+              const product = await res.json();
+              const mrp = Number(product.mrp ?? product.price) || 0;
+              const selling =
+                Number(
+                  product.currentPrice ??
+                    product.special_price ??
+                    product.price,
+                ) || 0;
+              return {
+                ...item,
+                price: selling,
+                mrp,
+                originalPrice: mrp,
+                special_price: selling,
+                currentPrice: selling,
+                discount: Number(product.discount) || 0,
+              };
+            } catch {
+              return item;
+            }
+          }),
+        );
+
+        if (cancelled) return;
+        const changed = updated.some((item, i) => {
+          const prev = cartItems[i];
+          return (
+            Number(item.price) !== Number(prev.price) ||
+            Number(item.mrp) !== Number(prev.mrp ?? prev.originalPrice) ||
+            Number(item.discount) !== Number(prev.discount || 0)
+          );
+        });
+        if (changed) dispatch(setCart(updated));
+      } catch {
+        /* ignore */
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems.map((i) => i.slug).join("|")]);
 
   useEffect(() => {
     let cancelled = false;
@@ -102,7 +163,7 @@ const CheckoutPage = () => {
           setFirstOrder({
             eligible: false,
             discount: 0,
-            total: priceTotal,
+            total: productTotal,
             label: null,
           });
         }
@@ -124,7 +185,7 @@ const CheckoutPage = () => {
     return () => {
       cancelled = true;
     };
-  }, [cartItems, customer_id, priceTotal]);
+  }, [cartItems, customer_id, productTotal]);
 
   const firstOrderDiscount =
     FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
@@ -133,14 +194,14 @@ const CheckoutPage = () => {
   const payableTotal =
     FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
       ? firstOrder.total
-      : priceTotal;
+      : productTotal;
 
   // ── create order ───────────────────────────
   const createOrder = async (payment_status, payment_id, razorpay_order_id) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!validateEmail()) return;
     const orderData = {
-      sub_total: priceTotal,
+      sub_total: productTotal,
       customer_id: customer_id,
       total_amount: payableTotal,
       coupon: firstOrderDiscount > 0 ? firstOrderDiscount : null,
@@ -590,13 +651,33 @@ const CheckoutPage = () => {
 
               <div className="price-details">
                 <div className="price-row">
-                  <span>Product total</span>
-                  <span style={{ color: "var(--ink)" }}>₹{priceTotal}</span>
+                  <span>MRP</span>
+                  <span
+                    style={{
+                      color: savings > 0 ? "#888" : "var(--ink)",
+                    }}
+                  >
+                    {formatINR(originalTotal)}
+                  </span>
                 </div>
+                {savings > 0 && (
+                  <div className="price-row">
+                    <span>Discount</span>
+                    <span className="free-badge">-{formatINR(savings)}</span>
+                  </div>
+                )}
+                {/* <div className="price-row">
+                  <span>Product Total</span>
+                  <span style={{ color: "var(--ink)" }}>
+                    {formatINR(productTotal)}
+                  </span>
+                </div> */}
                 {firstOrderDiscount > 0 && (
                   <div className="price-row">
                     <span>{firstOrder.label || "First order 10% off"}</span>
-                    <span className="free-badge">-₹{firstOrderDiscount}</span>
+                    <span className="free-badge">
+                      -{formatINR(firstOrderDiscount)}
+                    </span>
                   </div>
                 )}
                 <div className="price-row">
@@ -604,8 +685,8 @@ const CheckoutPage = () => {
                   <span className="free-badge">Free</span>
                 </div>
                 <div className="price-row-total">
-                  <span>Total</span>
-                  <span className="total-figure">₹{payableTotal}</span>
+                  <span>Total Payable</span>
+                  <span className="total-figure">{formatINR(payableTotal)}</span>
                 </div>
               </div>
 
@@ -668,8 +749,10 @@ const CheckoutPage = () => {
         <div className="co-mobile-bar" aria-label="Checkout actions">
           <div className="co-mobile-bar-inner">
             <div className="co-mobile-bar-total">
-              <span className="co-mobile-bar-label">Total</span>
-              <span className="co-mobile-bar-amount">₹{payableTotal}</span>
+              <span className="co-mobile-bar-label">Total Payable</span>
+              <span className="co-mobile-bar-amount">
+                {formatINR(payableTotal)}
+              </span>
             </div>
             <div className="co-mobile-bar-actions">
               <button

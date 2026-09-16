@@ -205,16 +205,7 @@ export default function MensSizeChart({ sizeGuide, productName, productSizes }) 
         </div>
       </div>
 
-      <div
-        className={`mt-4 mx-3 md:mx-4 mb-4 border rounded bg-gray-100 p-3 md:p-4 text-[11px] md:text-sm text-gray-600 ${josefin.className}`}
-      >
-        <p>
-          <strong>Note:</strong> If you prefer a neater look → size down.
-        </p>
-        <p className="mt-2 ml-0 md:ml-10">
-          If you prefer the intended volume → take your regular size.
-        </p>
-      </div>
+    
     </div>
   );
 }

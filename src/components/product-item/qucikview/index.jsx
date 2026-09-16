@@ -109,6 +109,8 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
           slug: product.slug,
           thumb: images[0] || "",
           price: Number(product.currentPrice) || 0,
+          special_price: Number(product.currentPrice) || 0,
+          currentPrice: Number(product.currentPrice) || 0,
           mrp: Number(product.mrp ?? product.price) || Number(product.currentPrice) || 0,
           originalPrice:
             Number(product.mrp ?? product.price) ||

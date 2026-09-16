@@ -3,6 +3,11 @@
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { removeProduct, setCount } from "../../../store/reducers/cart";
+import {
+  formatINR as defaultFormatINR,
+  getItemMrp,
+  getItemSellingPrice,
+} from "../../../lib/cartPricing";
 
 const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
@@ -30,6 +35,10 @@ export default function Item({
   size,
   fit,
   price,
+  mrp,
+  originalPrice,
+  special_price,
+  currentPrice,
   formatINR,
 }) {
   const dispatch = useDispatch();
@@ -49,12 +58,7 @@ export default function Item({
   };
 
   const format =
-    typeof formatINR === "function"
-      ? formatINR
-      : (value) =>
-          `₹ ${Number(value || 0).toLocaleString("en-IN", {
-            maximumFractionDigits: 0,
-          })}`;
+    typeof formatINR === "function" ? formatINR : defaultFormatINR;
 
   const meta = [color, size, fit || "Regular"]
     .filter(Boolean)
@@ -65,7 +69,11 @@ export default function Item({
     )
     .join(", ");
 
-  const lineTotal = (Number(price) || 0) * (quantity || 0);
+  const item = { price, mrp, originalPrice, special_price, currentPrice, quantity };
+  const selling = getItemSellingPrice(item);
+  const listMrp = getItemMrp(item);
+  const lineTotal = selling * (quantity || 0);
+  const showMrp = listMrp > selling;
 
   return (
     <div className="border-b border-[#e8e8e8] py-5 md:py-6">
@@ -87,7 +95,14 @@ export default function Item({
             {name}
           </Link>
           <p className="text-[12px] text-[#888] mt-1">{meta}</p>
-          <p className="text-[14px] text-[#1a1a1a] mt-2">{format(price)}</p>
+          <div className="mt-2 flex flex-wrap items-baseline gap-2">
+            <p className="text-[14px] text-[#1a1a1a]">{format(selling)}</p>
+            {showMrp && (
+              <p className="text-[12px] text-[#999] line-through">
+                {format(listMrp)}
+              </p>
+            )}
+          </div>
 
           <div className="mt-3 flex items-center justify-between gap-3">
             <div className="inline-flex items-center border border-[#cfcfcf]">
@@ -150,9 +165,14 @@ export default function Item({
           </div>
         </div>
 
-        <p className="text-center text-[14px] text-[#1a1a1a]">
-          {format(price)}
-        </p>
+        <div className="text-center text-[14px] text-[#1a1a1a]">
+          <p>{format(selling)}</p>
+          {showMrp && (
+            <p className="text-[12px] text-[#999] line-through mt-0.5">
+              {format(listMrp)}
+            </p>
+          )}
+        </div>
 
         <div className="flex justify-center">
           <div className="inline-flex items-center border border-[#cfcfcf]">

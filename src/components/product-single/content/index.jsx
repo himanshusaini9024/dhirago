@@ -246,6 +246,8 @@ export default function Content({ product }) {
           price: sellingPrice,
           mrp,
           originalPrice: mrp,
+          special_price: sellingPrice,
+          currentPrice: sellingPrice,
           discount: product.discount || 0,
           slug: product.slug,
           category: product.category || null,

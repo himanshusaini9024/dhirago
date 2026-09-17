@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const v = process.env.NEXT_PUBLIC_IMAGE_VERSION || "";
-const POSTER = `https://images.dhirago.com/ecommerce/banner/dsc06401.webp?${v}`;
+const POSTER = `https://images.dhirago.com/ecommerce/dhirago-og.webp?${v}`;
 const VIDEO = `https://images.dhirago.com/ecommerce/Home/homefooter.mp4?${v}`;
 
 export default function ProductsFeatured() {

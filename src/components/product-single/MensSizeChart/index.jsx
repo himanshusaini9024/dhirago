@@ -170,11 +170,11 @@ export default function MensSizeChart({ sizeGuide, productName, productSizes }) 
       </div>
 
       <div className="overflow-x-auto mt-4 px-3 md:px-4">
-        <div className="min-w-[520px]">
+        <div className="min-w-[350px]">
           <table className="w-full border border-solid border-gray-300 text-[11px] md:text-sm">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border px-2 md:px-4 py-2 md:py-3 text-left min-w-[120px] md:min-w-[160px]" />
+                <th className="border px-2 md:px-4 py-2 md:py-3 text-left min-w-[10px] md:min-w-[0px]" />
                 {sizeLabels.map((sz) => (
                   <th key={sz} className="border px-3 md:px-4 py-2 md:py-3">
                     {sz}

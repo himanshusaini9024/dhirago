@@ -811,7 +811,7 @@ export default function Content({ product }) {
               Complimentary shipping across India.
             </p>
             <p style={{ margin: "0 0 1px" }}>
-              Orders are dispatched within 1–2 business days.
+              Orders are dispatched within 2-3 business days.
             </p>
             <p style={{ margin: " 0 0 1px" }}>
               Delivery usually takes 5–8 business days from the date of dispatch
@@ -866,7 +866,7 @@ w-full
 md:w-[41%]
 max-w-[820px]
 relative
-h-[90vh]
+h-[40vh]
 md:h-[83vh]
 overflow-y-auto
 rounded-t-lg

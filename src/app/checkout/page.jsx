@@ -16,6 +16,7 @@ import {
   fetchFirstOrderQuote,
 } from "../../lib/firstOrderDiscount";
 import { formatINR, summarizeCart } from "../../lib/cartPricing";
+import { savePendingPurchase } from "../../lib/trackPurchase";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
    ───────────────────────────────────────────── */
@@ -222,7 +223,22 @@ const CheckoutPage = () => {
       items: cartItems,
     };
     try {
-      await API.post("/orders", orderData);
+      const { data } = await API.post("/orders", orderData);
+      const created = data?.order || data || {};
+      const orderNumber =
+        created.order_number ||
+        created.id ||
+        razorpay_order_id ||
+        `tmp_${Date.now()}`;
+
+      savePendingPurchase({
+        ...orderData,
+        order_number: orderNumber,
+        id: created.id || orderNumber,
+        total_amount: payableTotal,
+        items: cartItems,
+      });
+
       localStorage.removeItem("cartItems");
       router.replace("/success");
       setTimeout(() => {

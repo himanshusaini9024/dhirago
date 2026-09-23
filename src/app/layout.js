@@ -8,7 +8,6 @@ import {
 import { Suspense } from "react";
 import "./globals.css";
 import "../assets/css/styles.scss";
-import GoogleAnalytics from "../components/GoogleAnalytics";
 import PageTracker from "../components/PageTracker";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -171,7 +170,6 @@ export default function RootLayout({ children }) {
 
               {children}
 
-              {/* <GoogleAnalytics /> */}
               <Analytics />
               <SpeedInsights />
             </LayoutWrapper>

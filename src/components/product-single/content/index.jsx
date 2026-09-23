@@ -114,7 +114,6 @@ export default function Content({ product }) {
       currency: "INR",
     });
   }, []);
-  console.log('productdata',product)
 
   const dispatch = useDispatch();
   const isMobile = useIsMobile();

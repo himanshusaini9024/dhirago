@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const POSTER = `https://images.dhirago.com/ecommerce/dhirago-og.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION || ""}`;
-const VIDEO = `https://images.dhirago.com/ecommerce/Home/video-1-1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION || ""}`;
+const VIDEO = `https://images.dhirago.com/ecommerce/Home/hometop.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION || ""}`;
 
 const PageIntro = () => {
   const videoRef = useRef(null);

@@ -280,6 +280,164 @@
 }
 .total-figure { font-family: "Century Gothic", Futura, "Trebuchet MS", sans-serif; font-size: 18px; font-weight: 400; @media (min-width: 480px) { font-size: 20px; } }
 
+/* ── PROMO / COUPON (premium) ── */
+.co-promo {
+  padding: 20px 20px 18px;
+  border-bottom: 0.5px solid var(--border);
+  background: linear-gradient(180deg, #FBF9F6 0%, var(--white) 100%);
+
+  @media (min-width: 480px) {
+    padding: 24px 28px 22px;
+  }
+}
+
+.co-promo-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.co-promo-label::after {
+  content: "";
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
+}
+
+.co-promo-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.25s ease;
+}
+
+.co-promo-form:focus-within {
+  border-bottom-color: var(--ink);
+}
+
+.co-promo-form.is-applied {
+  border-bottom-color: var(--gold);
+}
+
+.co-promo-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px 0 12px;
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.co-promo-input::placeholder {
+  color: #A8A29A;
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+
+.co-promo-input:disabled {
+  color: var(--ink-soft);
+  opacity: 0.85;
+}
+
+.co-promo-action {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 10px 0 12px 16px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.co-promo-action:hover:not(:disabled) {
+  color: var(--gold);
+}
+
+.co-promo-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.co-promo-action.is-remove {
+  color: var(--muted);
+}
+
+.co-promo-action.is-remove:hover:not(:disabled) {
+  color: var(--error);
+}
+
+.co-promo-hint {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.co-promo-hint.is-success {
+  color: var(--success-text);
+}
+
+.co-promo-hint.is-error {
+  color: var(--error);
+}
+
+.co-promo-applied {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--gold-pale);
+  border: 0.5px solid rgba(201, 169, 110, 0.35);
+}
+
+.co-promo-applied-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.co-promo-applied-code {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.co-promo-applied-label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.co-promo-applied-save {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--success-text);
+}
+
 /* ── CTA ── */
 .cta-area {
   padding: 16px 20px; border-top: 0.5px solid var(--border);

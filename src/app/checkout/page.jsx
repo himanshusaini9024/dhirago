@@ -17,6 +17,7 @@ import {
 } from "../../lib/firstOrderDiscount";
 import { formatINR, summarizeCart } from "../../lib/cartPricing";
 import { savePendingPurchase } from "../../lib/trackPurchase";
+import { fetchCouponQuote } from "../../lib/coupon";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
    ───────────────────────────────────────────── */
@@ -94,6 +95,15 @@ const CheckoutPage = () => {
     total: 0,
     label: null,
   });
+  const [couponInput, setCouponInput] = useState("");
+  const [coupon, setCoupon] = useState({
+    valid: false,
+    code: null,
+    label: null,
+    discount: 0,
+    message: null,
+  });
+  const [couponLoading, setCouponLoading] = useState(false);
 
   // Refresh live selling/MRP so checkout matches current catalog prices
   useEffect(() => {
@@ -192,10 +202,65 @@ const CheckoutPage = () => {
     FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
       ? firstOrder.discount
       : 0;
-  const payableTotal =
-    FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
+  const couponDiscount = coupon.valid ? Number(coupon.discount) || 0 : 0;
+  const payableTotal = Math.max(
+    0,
+    (FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
       ? firstOrder.total
-      : productTotal;
+      : productTotal) - couponDiscount,
+  );
+
+  const applyCoupon = async () => {
+    const code = couponInput.trim();
+    if (!code) {
+      setCoupon({
+        valid: false,
+        code: null,
+        label: null,
+        discount: 0,
+        message: "Enter a coupon code",
+      });
+      return;
+    }
+    if (!customer_id) {
+      setCoupon({
+        valid: false,
+        code: null,
+        label: null,
+        discount: 0,
+        message: "Please login to apply a coupon",
+      });
+      return;
+    }
+
+    setCouponLoading(true);
+    try {
+      const quote = await fetchCouponQuote(cartItems, code);
+      setCoupon({
+        valid: quote.valid,
+        code: quote.code,
+        label: quote.label,
+        discount: quote.discount,
+        message: quote.message,
+      });
+      if (quote.valid) {
+        setCouponInput(quote.code || code.toUpperCase());
+      }
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setCoupon({
+      valid: false,
+      code: null,
+      label: null,
+      discount: 0,
+      message: null,
+    });
+    setCouponInput("");
+  };
 
   // ── create order ───────────────────────────
   const createOrder = async (payment_status, payment_id, razorpay_order_id) => {
@@ -205,7 +270,11 @@ const CheckoutPage = () => {
       sub_total: productTotal,
       customer_id: customer_id,
       total_amount: payableTotal,
-      coupon: firstOrderDiscount > 0 ? firstOrderDiscount : null,
+      coupon:
+        firstOrderDiscount + couponDiscount > 0
+          ? firstOrderDiscount + couponDiscount
+          : null,
+      coupon_code: coupon.valid ? coupon.code : null,
       quantity: cartItems.reduce((a, c) => a + c.quantity, 0),
       payment_method: payment_status === "paid" ? "online" : "cod",
       payment_status,
@@ -246,7 +315,13 @@ const CheckoutPage = () => {
         localStorage.removeItem("cartItems");
       }, 100);
     } catch (err) {
-      console.log(err.response?.data);
+      const message =
+        err?.response?.data?.message || "Unable to place order. Please try again.";
+      alert(message);
+      if (coupon.valid) {
+        // Re-check coupon in case it was already used
+        removeCoupon();
+      }
     }
   };
 
@@ -447,6 +522,7 @@ const CheckoutPage = () => {
           cartItems,
           createOrder,
           email,
+          couponCode: coupon.valid ? coupon.code : null,
         });
       } else {
         await new Promise((r) => setTimeout(r, 1200));
@@ -657,6 +733,77 @@ const CheckoutPage = () => {
 
             {/* ── RIGHT COLUMN (SUMMARY) ── */}
             <div className="summary-box">
+              <div className="co-promo">
+                <p className="co-promo-label">COUPON code</p>
+
+                <div
+                  className={`co-promo-form${coupon.valid ? " is-applied" : ""}`}
+                >
+                  <input
+                    type="text"
+                    className="co-promo-input"
+                    value={couponInput}
+                    onChange={(e) =>
+                      setCouponInput(e.target.value.toUpperCase())
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        if (!coupon.valid) applyCoupon();
+                      }
+                    }}
+                    placeholder="Enter your code"
+                    disabled={coupon.valid || couponLoading}
+                    aria-label="Promo code"
+                    autoComplete="off"
+                  />
+                  {coupon.valid ? (
+                    <button
+                      type="button"
+                      className="co-promo-action is-remove"
+                      onClick={removeCoupon}
+                    >
+                      Remove
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="co-promo-action"
+                      onClick={applyCoupon}
+                      disabled={couponLoading || !couponInput.trim()}
+                    >
+                      {couponLoading ? "Applying" : "Apply"}
+                    </button>
+                  )}
+                </div>
+
+                {coupon.valid ? (
+                  <div className="co-promo-applied">
+                    <div className="co-promo-applied-meta">
+                      <span className="co-promo-applied-code">
+                        {coupon.code}
+                      </span>
+                      <span className="co-promo-applied-label">
+                        {coupon.label || "Additional 5% off applied"}
+                      </span>
+                    </div>
+                    <span className="co-promo-applied-save">
+                      −{formatINR(couponDiscount)}
+                    </span>
+                  </div>
+                ) : coupon.message ? (
+                  <p
+                    className={`co-promo-hint${coupon.message ? " is-error" : ""}`}
+                  >
+                    {coupon.message}
+                  </p>
+                ) : (
+                  <p className="co-promo-hint">
+                     Additional savings on your order.
+                  </p>
+                )}
+              </div>
+
               <div className="summary-header">
                 <h2 className="summary-title">Order Summary</h2>
               </div>
@@ -682,17 +829,19 @@ const CheckoutPage = () => {
                     <span className="free-badge">-{formatINR(savings)}</span>
                   </div>
                 )}
-                {/* <div className="price-row">
-                  <span>Product Total</span>
-                  <span style={{ color: "var(--ink)" }}>
-                    {formatINR(productTotal)}
-                  </span>
-                </div> */}
                 {firstOrderDiscount > 0 && (
                   <div className="price-row">
                     <span>{firstOrder.label || "First order 10% off"}</span>
                     <span className="free-badge">
                       -{formatINR(firstOrderDiscount)}
+                    </span>
+                  </div>
+                )}
+                {couponDiscount > 0 && (
+                  <div className="price-row">
+                    <span>Coupon (DHIRAGO5)</span>
+                    <span className="free-badge">
+                      -{formatINR(couponDiscount)}
                     </span>
                   </div>
                 )}

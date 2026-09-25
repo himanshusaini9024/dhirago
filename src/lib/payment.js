@@ -9,10 +9,12 @@ export const handleOnlinePayment = async ({
   cartItems,
   createOrder,
   email,
+  couponCode = null,
 }) => {
   if (!selectedAddress) return alert("Select address");
   const { data } = await API.post("/razorpay/create-order", {
     amount: priceTotal,
+    coupon_code: couponCode || undefined,
     items: (cartItems || []).map((item) => ({
       price: item.price,
       quantity: item.quantity,

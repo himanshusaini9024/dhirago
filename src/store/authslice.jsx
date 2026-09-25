@@ -20,6 +20,9 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isLoggedIn = false;
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("popupCount");
+      }
     },
 
     loadUserFromStorage: (state) => {

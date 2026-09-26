@@ -263,9 +263,31 @@ const CheckoutPage = () => {
   };
 
   // ── create order ───────────────────────────
-  const createOrder = async (payment_status, payment_id, razorpay_order_id) => {
-    const user = JSON.parse(localStorage.getItem("user"));
+  const orderSubmittingRef = useRef(false);
+  const cartItemsRef = useRef(cartItems);
+  cartItemsRef.current = cartItems;
+
+  const createOrder = async (
+    payment_status,
+    payment_id,
+    razorpay_order_id,
+    itemsSnapshot,
+  ) => {
+    if (orderSubmittingRef.current) return;
     if (!validateEmail()) return;
+
+    const items = Array.isArray(itemsSnapshot)
+      ? itemsSnapshot
+      : cartItemsRef.current;
+    const qty = (items || []).reduce((a, c) => a + (c.quantity || 0), 0);
+
+    if (!items?.length || qty < 1) {
+      alert("Your cart is empty. Please add items before placing an order.");
+      return;
+    }
+
+    orderSubmittingRef.current = true;
+
     const orderData = {
       sub_total: productTotal,
       customer_id: customer_id,
@@ -275,7 +297,7 @@ const CheckoutPage = () => {
           ? firstOrderDiscount + couponDiscount
           : null,
       coupon_code: coupon.valid ? coupon.code : null,
-      quantity: cartItems.reduce((a, c) => a + c.quantity, 0),
+      quantity: qty,
       payment_method: payment_status === "paid" ? "online" : "cod",
       payment_status,
       payment_id,
@@ -289,7 +311,7 @@ const CheckoutPage = () => {
       state: selectedAddress.state,
       city: selectedAddress.city,
       pincode: selectedAddress.pincode,
-      items: cartItems,
+      items,
     };
     try {
       const { data } = await API.post("/orders", orderData);
@@ -305,7 +327,7 @@ const CheckoutPage = () => {
         order_number: orderNumber,
         id: created.id || orderNumber,
         total_amount: payableTotal,
-        items: cartItems,
+        items,
       });
 
       localStorage.removeItem("cartItems");
@@ -315,6 +337,7 @@ const CheckoutPage = () => {
         localStorage.removeItem("cartItems");
       }, 100);
     } catch (err) {
+      orderSubmittingRef.current = false;
       const message =
         err?.response?.data?.message || "Unable to place order. Please try again.";
       alert(message);
@@ -511,7 +534,11 @@ const CheckoutPage = () => {
 
   const handlePlaceOrder = async () => {
     if (!validateBeforePay()) return;
-    if (processing) return;
+    if (!cartItems?.length) {
+      alert("Your cart is empty. Please add items before placing an order.");
+      return;
+    }
+    if (processing || orderSubmittingRef.current) return;
     setProcessing(true);
 
     try {
@@ -525,8 +552,12 @@ const CheckoutPage = () => {
           couponCode: coupon.valid ? coupon.code : null,
         });
       } else {
-        await new Promise((r) => setTimeout(r, 1200));
-        await handleCOD({ createOrder, email, priceTotal: payableTotal });
+        await handleCOD({
+          createOrder,
+          email,
+          priceTotal: payableTotal,
+          cartItems,
+        });
       }
     } finally {
       setProcessing(false);

@@ -62,6 +62,8 @@ function normalizeProduct(item) {
     currentPrice: selling,
     color: item.color || item.colors || [],
     category: item.category || null,
+    inStock: item.inStock,
+    sizeStock: item.sizeStock,
   };
 }
 
@@ -225,6 +227,8 @@ export default function RelatedProduct() {
                 discount={item.discount}
                 color={item.color || []}
                 category={item.category || null}
+                inStock={item.inStock}
+                sizeStock={item.sizeStock}
                 hideQuickAdd
               />
             </SwiperSlide>

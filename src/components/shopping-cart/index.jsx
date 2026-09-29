@@ -16,6 +16,7 @@ import {
   summarizeCart,
 } from "../../lib/cartPricing";
 import { setCart } from "../../store/reducers/cart";
+import { lineFor, useCartStock } from "../../lib/cartStock";
 
 export default function ShoppingCart() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function ShoppingCart() {
 
   const { user, isLoggedIn } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
+  const { stock, checking, blocked, recheck } = useCartStock(cartItems);
 
   // Refresh live selling/MRP prices from API so admin price changes show in cart
   useEffect(() => {
@@ -146,7 +148,10 @@ export default function ShoppingCart() {
       ? firstOrder.total
       : productTotal;
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
+    const latest = await recheck();
+    if (latest && !latest.ok) return;
+
     if (user || localStorage.getItem("isLoggedIn")) {
       router.push("/checkout");
     } else {
@@ -199,6 +204,7 @@ export default function ShoppingCart() {
                   <Item
                     key={`${item.id}-${item.color}-${item.size}`}
                     {...item}
+                    stock={lineFor(stock, item)}
                     formatINR={formatINR}
                   />
                 ))}
@@ -307,13 +313,21 @@ export default function ShoppingCart() {
             {/* <span>Gift Wrap This Order</span> */}
           </button>
 
+          {cartItems.length > 0 && blocked && (
+            <p className="mt-4 border border-[#e5b4b4] bg-[#fdf3f3] px-4 py-3 text-[12px] leading-snug text-[#a12828]">
+              Some items in your bag are out of stock. Remove them or reduce
+              the quantity to continue.
+            </p>
+          )}
+
           {cartItems.length > 0 && (
             <button
               type="button"
               onClick={handleCheckout}
-              className="mt-4 w-full bg-[#1a1a1a] text-white py-3.5 text-[12px] tracking-[0.14em] uppercase hover:bg-black transition-colors"
+              disabled={blocked || checking}
+              className="mt-4 w-full bg-[#1a1a1a] text-white py-3.5 text-[12px] tracking-[0.14em] uppercase hover:bg-black transition-colors disabled:cursor-not-allowed disabled:bg-[#9a9a9a]"
             >
-              Checkout - {formatINR(total)}
+              {blocked ? "Unavailable items in bag" : `Checkout - ${formatINR(total)}`}
             </button>
           )}
 

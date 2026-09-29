@@ -77,7 +77,7 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
     if (!isOpen) return;
     setImgIndex(0);
     setError("");
-    setSize(sizes[0]?.label || "");
+    setSize(sizes.find((s) => s.inStock !== false)?.label || "");
   }, [isOpen, product?.id, sizes]);
 
   useEffect(() => {
@@ -96,6 +96,10 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
   const handleAdd = () => {
     if (!size) {
       setError("Please select a size");
+      return;
+    }
+    if (sizes.find((s) => s.label === size)?.inStock === false) {
+      setError("This size is out of stock");
       return;
     }
 
@@ -282,18 +286,23 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
                 <div className="flex flex-wrap gap-2">
                   {sizes.map((item) => {
                     const selected = size === item.label;
+                    const soldOut = item.inStock === false;
                     return (
                       <button
                         key={item.id || item.label}
                         type="button"
+                        disabled={soldOut}
+                        title={soldOut ? "Out of stock" : undefined}
                         onClick={() => {
                           setSize(item.label);
                           setError("");
                         }}
                         className={`flex h-11 min-w-[48px] items-center justify-center border px-4 text-[11px] uppercase tracking-[0.12em] transition ${
-                          selected
-                            ? "border-[#1b1b1b] bg-[#1b1b1b] text-white"
-                            : "border-black/20 bg-transparent text-[#1b1b1b] hover:border-black"
+                          soldOut
+                            ? "cursor-not-allowed border-black/10 text-black/30 line-through"
+                            : selected
+                              ? "border-[#1b1b1b] bg-[#1b1b1b] text-white"
+                              : "border-black/20 bg-transparent text-[#1b1b1b] hover:border-black"
                         }`}
                       >
                         {item.label}

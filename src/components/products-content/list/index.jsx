@@ -257,6 +257,8 @@ export default function ProductList({ initialProducts, slug }) {
             discount={item.discount}
             images={item.image}
             category={item.category || slug}
+            inStock={item.inStock}
+            sizeStock={item.sizeStock}
             priority={index < 4}
           />
         ))}

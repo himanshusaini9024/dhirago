@@ -8,6 +8,7 @@ import {
   getItemMrp,
   getItemSellingPrice,
 } from "../../../lib/cartPricing";
+import { stockProblem } from "../../../lib/cartStock";
 
 const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
@@ -39,9 +40,15 @@ export default function Item({
   originalPrice,
   special_price,
   currentPrice,
+  stock,
   formatINR,
 }) {
   const dispatch = useDispatch();
+  const problem = stockProblem(stock);
+  const atMax = Boolean(stock) && quantity >= stock.available;
+  const problemNote = problem && (
+    <p className="mt-2 text-[12px] leading-snug text-[#a12828]">{problem}</p>
+  );
 
   const updateQty = (newQty) => {
     if (newQty <= 0) {
@@ -95,6 +102,7 @@ export default function Item({
             {name}
           </Link>
           <p className="text-[12px] text-[#888] mt-1">{meta}</p>
+          {problemNote}
           <div className="mt-2 flex flex-wrap items-baseline gap-2">
             <p className="text-[14px] text-[#1a1a1a]">{format(selling)}</p>
             {showMrp && (
@@ -118,7 +126,8 @@ export default function Item({
               <button
                 type="button"
                 onClick={() => updateQty(quantity + 1)}
-                className="w-9 h-9 text-[16px] text-[#333]"
+                disabled={atMax}
+                className="w-9 h-9 text-[16px] text-[#333] disabled:text-[#ccc] disabled:cursor-not-allowed"
                 aria-label="Increase quantity"
               >
                 +
@@ -155,6 +164,7 @@ export default function Item({
               {name}
             </Link>
             <p className="text-[13px] text-[#8a8a8a] mt-1.5">{meta}</p>
+            {problemNote}
             <button
               type="button"
               onClick={() => dispatch(removeProduct({ id, color, size }))}
@@ -188,7 +198,8 @@ export default function Item({
             <button
               type="button"
               onClick={() => updateQty(quantity + 1)}
-              className="w-10 h-9 text-[16px] text-[#333] hover:bg-[#f7f7f7]"
+              disabled={atMax}
+              className="w-10 h-9 text-[16px] text-[#333] hover:bg-[#f7f7f7] disabled:text-[#ccc] disabled:cursor-not-allowed disabled:hover:bg-transparent"
               aria-label="Increase quantity"
             >
               +

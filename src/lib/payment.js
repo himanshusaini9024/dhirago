@@ -23,6 +23,9 @@ export const handleOnlinePayment = async ({
       amount: priceTotal,
       coupon_code: couponCode || undefined,
       items: itemsSnapshot.map((item) => ({
+        id: item.id,
+        name: item.name,
+        size: item.size,
         price: item.price,
         quantity: item.quantity,
       })),

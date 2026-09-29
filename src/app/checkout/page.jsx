@@ -18,6 +18,7 @@ import {
 import { formatINR, summarizeCart } from "../../lib/cartPricing";
 import { savePendingPurchase } from "../../lib/trackPurchase";
 import { fetchCouponQuote } from "../../lib/coupon";
+import { useCartStock } from "../../lib/cartStock";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
    ───────────────────────────────────────────── */
@@ -83,6 +84,11 @@ const CheckoutPage = () => {
 
   // ── cart ───────────────────────────────────
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const { stock, blocked: stockBlocked, recheck: recheckStock } =
+    useCartStock(cartItems);
+  const stockIssues = (stock?.lines ? Object.values(stock.lines) : []).filter(
+    (line) => !line.ok,
+  );
   const { originalTotal, payableTotal: productTotal, savings } = useMemo(
     () => summarizeCart(cartItems),
     [cartItems],
@@ -542,6 +548,12 @@ const CheckoutPage = () => {
     setProcessing(true);
 
     try {
+      const latestStock = await recheckStock();
+      if (latestStock && !latestStock.ok) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
       if (paymentMethod === "online") {
         await handleOnlinePayment({
           priceTotal: payableTotal,
@@ -608,6 +620,28 @@ const CheckoutPage = () => {
               <span>Confirmation</span>
             </div>
           </div>
+
+          {stockBlocked && (
+            <div className="mb-6 border border-[#e5b4b4] bg-[#fdf3f3] px-4 py-3 text-[13px] leading-snug text-[#a12828]">
+              <p className="font-medium">
+                Some items in your bag are no longer available:
+              </p>
+              <ul className="mt-1.5 list-disc pl-5">
+                {stockIssues.map((line) => (
+                  <li key={`${line.product_id}-${line.size}`}>
+                    {line.name}
+                    {line.size ? ` (size ${line.size})` : ""} —{" "}
+                    {line.missing || line.available <= 0
+                      ? "out of stock"
+                      : `only ${line.available} left`}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/cart" className="mt-2 inline-block underline underline-offset-2">
+                Update your bag to continue
+              </Link>
+            </div>
+          )}
 
           <div className="co-grid">
             {/* ── LEFT COLUMN ── */}
@@ -889,7 +923,7 @@ const CheckoutPage = () => {
               <div className="cta-area co-desktop-cta">
                 <button
                   className="btn-primary"
-                  disabled={processing}
+                  disabled={processing || stockBlocked}
                   onClick={handlePlaceOrder}
                 >
                   {processing ? (
@@ -961,7 +995,7 @@ const CheckoutPage = () => {
               <button
                 type="button"
                 className="co-mobile-bar-primary"
-                disabled={processing}
+                disabled={processing || stockBlocked}
                 onClick={handlePlaceOrder}
               >
                 {processing ? (

@@ -43,6 +43,8 @@ async function refreshProductPricing(item) {
       special_price: selling,
       discount: Number(product.discount) || 0,
       currentPrice: selling,
+      inStock: product.inStock,
+      sizeStock: product.sizeStock,
     };
   } catch {
     return item;
@@ -139,6 +141,8 @@ export default function RecentlyViewed() {
                 mrp={item.mrp ?? item.price}
                 discount={item.discount}
                 color={item.color || []}
+                inStock={item.inStock}
+                sizeStock={item.sizeStock}
                 hideQuickAdd
               />
             </SwiperSlide>

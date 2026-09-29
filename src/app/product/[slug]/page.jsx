@@ -19,12 +19,7 @@ async function getProduct(pid) {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/product/${pid}`,
-      {
-        next: {
-          revalidate: 30,
-          tags: ["products", `product-${pid}`],
-        },
-      },
+      { cache: "no-store" },
     );
     if (res.status === 404) return null;
     if (!res.ok) return null;

@@ -26,7 +26,7 @@ export async function POST(request) {
     ]);
 
     for (const tag of tagSet) {
-      if (tag) revalidateTag(tag);
+      if (tag) revalidateTag(tag, { expire: 0 });
     }
 
     revalidatePath("/");

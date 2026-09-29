@@ -4,9 +4,9 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavProduct } from "../../store/reducers/user";
-import { useState } from "react";
-import productsSizes from "../../utils/data/products-sizes";
+import { useMemo, useState } from "react";
 import { sortProductImages } from "../../utils/sortProductImages";
+import { hasSizeStock, isOneSize, isOutOfStock, sizeOptions } from "../../utils/stock";
 import Image from "next/image";
 
 const QuickAddModal = dynamic(() => import("./qucikview"), { ssr: false });
@@ -25,10 +25,15 @@ const ProductItem = ({
   mrp,
   discount,
   category,
+  inStock,
+  sizeStock,
   hideQuickAdd = false,
   priority = false,
   imageSizes = GRID_IMAGE_SIZES,
 }) => {
+  const soldOut = isOutOfStock({ inStock, sizeStock });
+  const sizes = useMemo(() => sizeOptions(sizeStock), [sizeStock]);
+  const showSizes = hasSizeStock(sizeStock) && !isOneSize(sizeStock);
   const dispatch = useDispatch();
   const favProducts = useSelector((state) => state.user?.favProducts || []);
   const isFavourite = favProducts.includes(id);
@@ -119,8 +124,14 @@ const ProductItem = ({
           ♥
         </button> */}
 
+        {soldOut && (
+          <span className="pointer-events-none absolute left-2 top-2 z-[4] bg-white/90 px-2 py-1 text-[9px] md:text-[10px] uppercase tracking-[0.18em] text-[#1b1b1b]">
+            Out of stock
+          </span>
+        )}
+
         {/* ADD TO CART */}
-        {!hideQuickAdd && (
+        {!hideQuickAdd && !soldOut && (
           <div className="absolute bottom-2 right-2 translate-y-full group-hover:translate-y-0 transition duration-500 z-[5]">
             <button
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpenModal(true); }}
@@ -145,7 +156,7 @@ const ProductItem = ({
           price: listMrp,
           discount: off,
           category,
-          sizes: productsSizes, // ⚠️ pass real sizes if available
+          sizes,
         }}
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
@@ -171,6 +182,21 @@ const ProductItem = ({
             </p>
           )}
         </div>
+        {showSizes && !soldOut && (
+          <div className="mt-3 hidden md:flex justify-center gap-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {sizes.map((s) => (
+              <span
+                key={s.label}
+                title={s.inStock ? undefined : "Out of stock"}
+                className={`text-[12px] uppercase tracking-[0.12em] ${
+                  s.inStock ? "text-[#111111] font-medium" : "text-[#888] font-medium  line-through "
+                }`}
+              >
+                {s.label}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

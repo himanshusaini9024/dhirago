@@ -8,7 +8,7 @@ import { addProduct } from "../../../store/reducers/cart";
 import { toggleFavProduct } from "../../../store/reducers/user";
 import { event } from "../../../lib/gtag";
 import productsColors from "../../../utils/data/products-colors";
-import productsSizes from "../../../utils/data/products-sizes";
+import { isOneSize, isOutOfStock, isSizeInStock, sizeOptions } from "../../../utils/stock";
 import MensSizeChart from "../MensSizeChart";
 import { fbEvent } from "../../../lib/facebookPixel";
 import { sendMetaEvent } from "../../../lib/meta";
@@ -151,6 +151,10 @@ export default function Content({ product }) {
   const toggleAccordion = (key) =>
     setOpenAccordion((prev) => (prev === key ? null : key));
 
+  const sizeList = useMemo(() => sizeOptions(product.sizeStock), [product.sizeStock]);
+  const oneSize = isOneSize(product.sizeStock);
+  const soldOut = isOutOfStock(product);
+
   const variants = useMemo(() => {
     const sizes = product.sizes?.split(",") || [];
     const colors = product.colors?.split(",") || [];
@@ -195,8 +199,13 @@ export default function Content({ product }) {
   const addToCart = async () => {
     // const eventID = crypto.randomUUID();
 
-    if (!itemSize) {
+    if (soldOut) return;
+    if (!oneSize && !itemSize) {
       setSizeError("Please select your size");
+      return;
+    }
+    if (!isSizeInStock(product.sizeStock, itemSize)) {
+      setSizeError("This size is out of stock");
       return;
     }
     fbEvent(
@@ -595,6 +604,7 @@ export default function Content({ product }) {
         )}
 
         {/* SIZE */}
+        {!oneSize && (
         <div className="lg:!mt-8" style={{ marginBottom: "12px" }}>
           <div
             style={{
@@ -651,9 +661,14 @@ export default function Content({ product }) {
               }}
             >
               <option value="">Select Size</option>
-              {productsSizes.map((type) => (
-                <option key={type.id} value={type.label.toLowerCase()}>
+              {sizeList.map((type) => (
+                <option
+                  key={type.id}
+                  value={type.label.toLowerCase()}
+                  disabled={!type.inStock}
+                >
                   {type.label}
+                  {!type.inStock ? " — Out of stock" : ""}
                 </option>
               ))}
             </select>
@@ -684,6 +699,7 @@ export default function Content({ product }) {
             </p>
           )}
         </div>
+        )}
 
         <br />
         <br />
@@ -691,25 +707,30 @@ export default function Content({ product }) {
         {/* ADD TO CART */}
         <button
           onClick={addToCart}
+          disabled={soldOut}
           style={{
             width: "100%",
             height: isMobile ? "50px" : "46px",
-            background: "#1a1a1a",
+            background: soldOut ? "#bdb8b0" : "#1a1a1a",
             color: "#fff",
             border: "none",
             fontSize: "11px",
             letterSpacing: "0.32em",
             textTransform: "uppercase",
-            cursor: "pointer",
+            cursor: soldOut ? "not-allowed" : "pointer",
             fontFamily: F,
             fontWeight: 600,
             marginBottom: "7px",
             transition: "background 0.18s",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "#333")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "#1a1a1a")}
+          onMouseEnter={(e) => {
+            if (!soldOut) e.currentTarget.style.background = "#333";
+          }}
+          onMouseLeave={(e) => {
+            if (!soldOut) e.currentTarget.style.background = "#1a1a1a";
+          }}
         >
-          Add to Cart
+          {soldOut ? "Out of stock" : "Add to Cart"}
         </button>
 
         <br />

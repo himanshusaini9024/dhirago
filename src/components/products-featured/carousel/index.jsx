@@ -61,6 +61,8 @@ const ProductsCarousel = ({ products }) => {
               discount={item.discount}
               currentPrice={item.currentPrice ?? item.special_price}
               images={item.images}
+              inStock={item.inStock}
+              sizeStock={item.sizeStock}
             />
           </SwiperSlide>
         ))}

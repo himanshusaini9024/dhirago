@@ -4,7 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavProduct } from "../../store/reducers/user";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { sortProductImages } from "../../utils/sortProductImages";
 import { hasSizeStock, isOneSize, isOutOfStock, sizeOptions } from "../../utils/stock";
 import Image from "next/image";
@@ -46,6 +46,20 @@ const ProductItem = ({
   const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
   const [hovered, setHovered] = useState(false);
+  const [touched, setTouched] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    if (!touched) return;
+    const handleOutside = (e) => {
+      if (cardRef.current && !cardRef.current.contains(e.target)) {
+        setTouched(false);
+      }
+    };
+    document.addEventListener("touchstart", handleOutside);
+    return () => document.removeEventListener("touchstart", handleOutside);
+  }, [touched]);
+
   const selling = Number(currentPrice) || 0;
   const listMrp = Number(mrp ?? price) || 0;
   const off = Number(discount) || 0;
@@ -62,7 +76,11 @@ const ProductItem = ({
   // }, [imageList.length]);
 
   return (
-    <div className="group cursor-pointer mt-4 md:mt-0">
+    <div
+      ref={cardRef}
+      className="group cursor-pointer mt-4 md:mt-0"
+      onTouchStart={() => setTouched(true)}
+    >
       {/* IMAGE */}
 
       <div
@@ -132,7 +150,7 @@ const ProductItem = ({
 
         {/* ADD TO CART */}
         {!hideQuickAdd && !soldOut && (
-          <div className="absolute bottom-2 right-2 translate-y-full group-hover:translate-y-0 transition duration-500 z-[5]">
+          <div className="absolute bottom-2 right-2 translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition duration-500 z-[5]">
             <button
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpenModal(true); }}
               className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center bg-white text-black text-lg md:text-xl shadow-md hover:bg-black hover:text-white transition-colors duration-200"
@@ -183,16 +201,28 @@ const ProductItem = ({
           )}
         </div>
         {showSizes && !soldOut && (
-          <div className="mt-3 hidden md:flex justify-center gap-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div
+            className={`mt-3 flex flex-wrap justify-center gap-1.5 md:gap-2 transition-all duration-300 ease-out ${
+              touched ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+            } md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0`}
+          >
             {sizes.map((s) => (
               <span
                 key={s.label}
                 title={s.inStock ? undefined : "Out of stock"}
-                className={`text-[12px] uppercase tracking-[0.12em] ${
-                  s.inStock ? "text-[#111111] font-medium" : "text-[#888] font-medium  line-through "
+                className={`relative inline-flex min-w-[30px] md:min-w-[34px] h-[26px] md:h-[28px] items-center justify-center overflow-hidden px-2 text-[10px] md:text-[11px] font-medium uppercase tracking-[0.14em] transition-all duration-200 ${
+                  s.inStock
+                    ? "border border-[#e4e0da] bg-white text-[#111] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_-4px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 hover:border-[#111] hover:shadow-[0_6px_16px_-6px_rgba(0,0,0,0.25)]"
+                    : "border border-dashed border-[#e6e3de] bg-[#faf9f7] text-[#b5b0a8]"
                 }`}
               >
                 {s.label}
+                {!s.inStock && (
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute left-1/2 top-1/2 h-px w-[140%] -translate-x-1/2 -translate-y-1/2 -rotate-[24deg] bg-[#cfc9c0]"
+                  />
+                )}
               </span>
             ))}
           </div>

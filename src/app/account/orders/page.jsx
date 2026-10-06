@@ -6,6 +6,13 @@ import API from "../../../lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, Circle, ChevronDown } from "lucide-react";
 import OrderDetailsUI from "../../../components/orders";
+import OrderExceptionBanner from "../../../components/orders/OrderExceptionBanner";
+import {
+  EXCEPTION_TONE_CLASSES,
+  ORDER_STEPS,
+  getOrderException,
+  getStepIndex,
+} from "../../../lib/orderStatus";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Josefin_Sans } from "next/font/google";
@@ -17,28 +24,10 @@ const josefin = Josefin_Sans({
 
 const IMGURL = process.env.NEXT_PUBLIC_IMG_URL;
 
-// Statuses that come *after* delivery but should still render the timeline
-// as fully complete (otherwise findIndex returns -1 and every step shows
-// as incomplete even though the order was delivered before being exchanged
-// or refunded).
-const TERMINAL_AFTER_DELIVERY = ["exchanged", "refunded", "delivered"];
-
 const getSteps = (status) => {
-  const steps = [
-    { key: "new", label: "Order Placed" },
-    { key: "process", label: "Processing" },
-    { key: "shipped", label: "Shipped" },
-    { key: "out_for_delivery", label: "Out for Delivery" },
-    { key: "delivered", label: "Delivered" },
-  ];
+  const currentIndex = getStepIndex(status);
 
-  const effectiveStatus = TERMINAL_AFTER_DELIVERY.includes(status)
-    ? "delivered"
-    : status;
-
-  const currentIndex = steps.findIndex((s) => s.key === effectiveStatus);
-
-  return steps.map((step, index) => ({
+  return ORDER_STEPS.map((step, index) => ({
     ...step,
     completed: index <= currentIndex,
   }));
@@ -150,6 +139,7 @@ export default function OrdersPage() {
           {!loading &&
             orders.map((order, i) => {
               const steps = getSteps(order.status);
+              const exception = getOrderException(order);
               const isOpen = openId === order.id;
               const requestType =
                 order.return_request?.type === "exchange"
@@ -201,7 +191,15 @@ export default function OrdersPage() {
 
                       {/* Status Badge */}
                       <div>
-                        {order.status === "delivered" && deliveredLabel ? (
+                        {exception ? (
+                          <div
+                            className={`inline-flex items-center rounded-2xl border px-3 md:px-4 py-2 md:py-3 ${EXCEPTION_TONE_CLASSES[exception.tone]}`}
+                          >
+                            <p className="text-xs font-semibold uppercase tracking-wide">
+                              {exception.title}
+                            </p>
+                          </div>
+                        ) : order.status === "delivered" && deliveredLabel ? (
                           <div className="inline-flex items-center gap-2 md:gap-3 rounded-2xl border border-green-200 bg-green-50 px-3 md:px-4 py-2 md:py-3">
                             <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-green-100 shrink-0">
                               <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
@@ -295,6 +293,11 @@ export default function OrdersPage() {
                           exit={{ height: 0, opacity: 0 }}
                           className="border-t overflow-hidden"
                         >
+                          <OrderExceptionBanner
+                            order={order}
+                            className="mx-4 md:mx-8 mt-5"
+                          />
+
                           {/* Timeline */}
                           <div className="px-4 md:px-8 py-5 md:py-6 flex justify-between items-start overflow-x-auto">
                             {steps.map((step, idx) => (

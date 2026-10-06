@@ -2,28 +2,35 @@
 import { useMemo, useState } from "react";
 import { CheckCircle, Circle } from "lucide-react";
 import UpdateOrderAddress from "./UpdateOrderAddress";
+import OrderExceptionBanner from "./OrderExceptionBanner";
+import {
+  ORDER_STEPS,
+  getOrderException,
+  getStepIndex,
+} from "../../lib/orderStatus";
 
 const IMGURL = process.env.NEXT_PUBLIC_IMG_URL;
 
-const STATUS_STEPS = [
-  { key: "new", label: "Confirmed" },
-  { key: "process", label: "Processing" },
-  { key: "shipped", label: "Shipped" },
-  { key: "out_for_delivery", label: "Out for Delivery" },
-  { key: "delivered", label: "Delivered" },
-];
+const STATUS_STEPS = ORDER_STEPS.map((s) =>
+  s.key === "new" ? { ...s, label: "Confirmed" } : s,
+);
 
-const TERMINAL_AFTER_DELIVERY = ["exchanged", "refunded", "delivered"];
-
-const getCurrentIndex = (status) => {
-  const effective = TERMINAL_AFTER_DELIVERY.includes(status)
-    ? "delivered"
-    : status;
-  const idx = STATUS_STEPS.findIndex((s) => s.key === effective);
-  return idx < 0 ? 0 : idx;
+const getItemStatus = (order) => {
+  if (["delivered", "exchanged", "refunded"].includes(order.status)) {
+    return { label: "Delivered", className: "text-green-600" };
+  }
+  const exception = getOrderException(order);
+  if (exception) {
+    return {
+      label: exception.title,
+      className: exception.tone === "amber" ? "text-amber-600" : "text-red-600",
+    };
+  }
+  return { label: "In progress", className: "text-orange-500" };
 };
 
 const getArrivalLabel = (order) => {
+  if (getOrderException(order)) return null;
   if (order.delivered_at) {
     return `Delivered on ${new Date(order.delivered_at).toDateString()}`;
   }
@@ -60,7 +67,9 @@ export default function OrderDetailsUI({
   onOrderUpdated,
 }) {
   const [showAddressModal, setShowAddressModal] = useState(false);
-  const currentIndex = getCurrentIndex(order.status);
+  const currentIndex = getStepIndex(order.status);
+  const itemStatus = getItemStatus(order);
+  const arrivalLabel = getArrivalLabel(order);
   const customerName = [order.first_name]
     .filter(Boolean)
     .join(" ");
@@ -80,6 +89,8 @@ export default function OrderDetailsUI({
               <p className="text-sm font-light text-gray-500 mb-5 md:mb-6">
                 Items Ordered &amp; Delivery Details
               </p>
+
+              <OrderExceptionBanner order={order} className="mb-5" />
 
               {/* Desktop timeline */}
               <div className="hidden sm:flex items-center justify-between relative">
@@ -164,20 +175,14 @@ export default function OrderDetailsUI({
                   </div>
 
                   <div className="sm:text-right shrink-0">
-                    <p
-                      className={`text-xs font-medium ${
-                        order.status === "delivered"
-                          ? "text-green-600"
-                          : "text-orange-500"
-                      }`}
-                    >
-                      {order.status === "delivered"
-                        ? "Delivered"
-                        : "In progress"}
+                    <p className={`text-xs font-medium ${itemStatus.className}`}>
+                      {itemStatus.label}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {getArrivalLabel(order)}
-                    </p>
+                    {arrivalLabel && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        {arrivalLabel}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

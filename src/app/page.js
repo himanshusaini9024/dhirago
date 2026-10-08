@@ -1,22 +1,8 @@
-import dynamic from "next/dynamic";
-import PageIntro from "../components/page-intro";
-import Homecontent from "../components/page-intro/home";
-import Bestsellers from "../components/page-intro/bestseller";
-import Luxurypage from "../components/page-intro/luxury";
-import LuxuryHero from "../components/page-intro/luxuryHero";
 import CrawlSeo from "../components/seo/CrawlSeo";
+import HomeNew from "../components/home-new";
 import { generateSEO } from "../utils/seo";
 import { SITE_LINKS } from "../lib/pageSeo";
-import { fetchProductSlugs } from "../lib/sitemap";
-import Marquee from "../components/page-intro/marque";
-
-const EditorialGrid = dynamic(
-  () => import("../components/page-intro/editorialGrid"),
-);
-
-const InstagramFeed = dynamic(
-  () => import("../components/InstagramFeed"),
-);
+import { getCategoryProducts } from "../lib/fetchCategory";
 
 export const metadata = generateSEO({
   title: "Dhirago | Premium Men's Shirts Online India — Luxury Menswear",
@@ -26,7 +12,9 @@ export const metadata = generateSEO({
 });
 
 export default async function Home() {
-  const products = await fetchProductSlugs();
+  const data = await getCategoryProducts("shirts");
+  const products = Array.isArray(data?.category) ? data.category : [];
+
   const productLinks = products.slice(0, 12).map((p) => ({
     href: `/product/${p.slug}`,
     label:
@@ -42,14 +30,7 @@ export default async function Home() {
         description="Dhirago Fashion is a luxury Indian menswear brand from Udaipur. We craft premium men's shirts with natural fabrics, hand embroidery, block printing, and timeless design."
         links={[...SITE_LINKS, ...productLinks]}
       />
-      <PageIntro />
-      <LuxuryHero />
-      <Homecontent />
-      <Marquee />
-      <Bestsellers />
-      <Luxurypage />
-      <EditorialGrid />
-      <InstagramFeed />
+      <HomeNew products={products} />
     </main>
   );
 }

@@ -86,7 +86,7 @@ function PlayIcon({ className = "w-8 h-8" }) {
   );
 }
 
-export default function InstagramFeed() {
+export default function InstagramFeed({ heading, className = "bg-white pb-16 md:pb-1" }) {
   const [posts, setPosts] = useState([]);
   const [username, setUsername] = useState(IG_HANDLE);
   const [userprofile, setUserprofile] = useState(null);
@@ -177,19 +177,19 @@ export default function InstagramFeed() {
     };
   }, [activeIndex, closePost, goPost, goSlide, slides.length]);
 
-  if (loading) return <InstagramSkeleton />;
+  if (loading) return <InstagramSkeleton className={className} />;
   if (!visiblePosts.length) return null;
 
-  const currentSlide = slides[slideIndex] || slides[0];
-
   return (
-    <section className="w-full bg-white pt-14 md:pt-20 pb-16 md:pb-1">
+    <section className={`w-full pt-14 md:pt-20 ${className}`}>
       <div className="max-w-[1820px] mx-auto px-3 sm:px-5 md:px-8">
-        <h2
-          className={`${josefin.className} text-center text-[13px] font-semibold md:text-[1.5em] uppercase font-normal text-[#575757] mb-8 md:mb-12`}
-        >
-          Instagram
-        </h2>
+        {heading || (
+          <h2
+            className={`${josefin.className} text-center text-[13px] font-semibold md:text-[1.5em] uppercase font-normal text-[#575757] mb-8 md:mb-12`}
+          >
+            Instagram
+          </h2>
+        )}
 
         <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-[2px] sm:gap-1">
           {visiblePosts.map((post, index) => {
@@ -544,9 +544,9 @@ export default function InstagramFeed() {
   );
 }
 
-function InstagramSkeleton() {
+function InstagramSkeleton({ className = "bg-white" }) {
   return (
-    <section className="w-full bg-white pt-14 md:pt-20 pb-16 md:pb-24">
+    <section className={`w-full pt-14 md:pt-20 pb-16 md:pb-24 ${className}`}>
       <div className="max-w-[1820px] mx-auto px-3 sm:px-5 md:px-8">
         <div className="w-36 h-4 bg-neutral-200 animate-pulse mx-auto mb-10" />
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-[2px] sm:gap-1">

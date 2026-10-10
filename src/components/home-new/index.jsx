@@ -12,7 +12,8 @@ import BrandNote from "./BrandNote";
 import { OrnamentHeading } from "./Ornament";
 import InstagramFeed from "../InstagramFeed";
 import { PAPER_BG, cdn, productImage } from "./theme";
-import ProductsFeatured from "../../components/page-intro/editorialGrid"
+import ProductsFeatured from "../../components/page-intro/editorialGrid";
+import Hero from "../../components/page-intro/luxury";
 const bySlug = (list, slug) => list.find((p) => p.slug === slug);
 
 const MOODS = [
@@ -136,12 +137,13 @@ export default function HomeNew({ products = [] }) {
         priority
       />
 
-      <EditorialBanner
+      {/* <EditorialBanner
         src={cdn("Home/wi2.webp")}
         alt="Artisan embroidering a Dhirago shirt by hand"
         href="/handwork"
         position="object-[center_45%]"
-      />
+      /> */}
+      <Hero/>
 
       <div className="h-14 md:h-20" />
 

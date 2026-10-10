@@ -12,7 +12,7 @@ import BrandNote from "./BrandNote";
 import { OrnamentHeading } from "./Ornament";
 import InstagramFeed from "../InstagramFeed";
 import { PAPER_BG, cdn, productImage } from "./theme";
-
+import ProductsFeatured from "../../components/page-intro/editorialGrid"
 const bySlug = (list, slug) => list.find((p) => p.slug === slug);
 
 const MOODS = [
@@ -50,9 +50,9 @@ export default function HomeNew({ products = [] }) {
 
   return (
     <div style={PAPER_BG} className="text-[#2b241c]">
-      <CinematicHero />
+      {/* <CinematicHero /> */}
 
-      <TwoUp
+      {/* <TwoUp
         panels={[
           {
             src: cdn("Home/dsc06295.webp"),
@@ -69,7 +69,54 @@ export default function HomeNew({ products = [] }) {
             position: "object-top",
           },
         ]}
-      />
+      /> */}
+
+      {/* <TwoUp
+  panels={[
+    {
+      // src: cdn("Home/dsc06295.webp"),
+      src: "/images/bnw.png",
+      alt: "Natural linen shirt with hand embroidery",
+      href: "/collections/shirts",
+      caption: "Linen",
+      position: "object-[center_20%]",
+    },
+  ]}
+/> */}
+
+ <TwoUp
+  panels={[
+    {
+      src: "/images/bnw.png",
+      alt: "Dhirago monochrome collection",
+      href: "/collections/shirts",
+      caption: "Timeless Elegance",
+      position: "object-center",
+    },
+       {
+      src: "/images/cpp1.png",
+      alt: "Dhirago linen shirt collection",
+      href: "/collections/shirts",
+      caption: "Natural Linen",
+      position: "object-[center_20%]",
+    },
+    {
+      src: "/images/cp.png",
+      alt: "Dhirago linen shirt collection",
+      href: "/collections/shirts",
+      caption: "Natural Linen",
+      position: "object-top",
+    },
+  
+    {
+      src: "/images/cpp.png",
+      alt: "Dhirago indigo shirt collection",
+      href: "/collections/shirts",
+      caption: "The Art of Indigo",
+      position: "object-center",
+    },
+  ]}
+/>
 
       <Ticker
         items={[
@@ -83,7 +130,7 @@ export default function HomeNew({ products = [] }) {
       <IntroStatement />
 
       <ProductGrid
-        title="New Arrivals"
+        title="Shop Our collection"
         products={newArrivals}
         cta={{ label: "View all shirts", href: "/collections/shirts" }}
         priority
@@ -110,7 +157,7 @@ export default function HomeNew({ products = [] }) {
 
       <MoodCarousel title="Shop by Mood" items={moods} />
 
-      <ScriptCampaign
+      {/* <ScriptCampaign
         src={cdn("Home/bts1.png")}
         alt="Jet black hand-stitched seam shirt"
         href="/product/jet-black-hand-stitched-seam-shirt"
@@ -118,9 +165,10 @@ export default function HomeNew({ products = [] }) {
         title="Seam"
         sub="Hand stitched, by design"
         position="object-[22%_center] md:object-center"
-      />
+      /> */}
 
-      <Spotlight items={spotlight} />
+        <ProductsFeatured/>
+      {/* <Spotlight items={spotlight} /> */}
 
       <InstagramFeed
         className="bg-transparent pb-16 md:pb-20"

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 const v = process.env.NEXT_PUBLIC_IMAGE_VERSION || "";
 const POSTER = `https://images.dhirago.com/ecommerce/dhirago-og.webp?${v}`;
-const VIDEO = `https://images.dhirago.com/ecommerce/Home/homefooter-new.mp4?${v}`;
+const VIDEO = `/videos/color.mp4`;
 
 export default function ProductsFeatured() {
   const sectionRef = useRef(null);
@@ -41,7 +41,7 @@ export default function ProductsFeatured() {
       className="
         relative w-full overflow-hidden text-white
         aspect-[3/4] md:aspect-[16/9]
-        mt-12 lg:mt-16 md:mt-0 md:px-10 md:pt-10
+        mt-12 lg:mt-1 md:mt-0 md:px-10 md:pt-10
       "
       aria-label="Home editorial video"
     >

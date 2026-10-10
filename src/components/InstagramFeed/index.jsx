@@ -86,7 +86,10 @@ function PlayIcon({ className = "w-8 h-8" }) {
   );
 }
 
-export default function InstagramFeed({ heading, className = "bg-white pb-16 md:pb-1" }) {
+export default function InstagramFeed({
+  heading,
+  className = "bg-white pb-16 md:pb-1",
+}) {
   const [posts, setPosts] = useState([]);
   const [username, setUsername] = useState(IG_HANDLE);
   const [userprofile, setUserprofile] = useState(null);

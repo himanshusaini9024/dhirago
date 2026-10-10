@@ -76,7 +76,7 @@ export default function HomeNew({ products = [] }) {
   panels={[
     {
       // src: cdn("Home/dsc06295.webp"),
-      src: "/images/bnw.png",
+      src: "/images/cp.jpeg",
       alt: "Natural linen shirt with hand embroidery",
       href: "/collections/shirts",
       caption: "Linen",
@@ -87,46 +87,26 @@ export default function HomeNew({ products = [] }) {
 
  <TwoUp
   panels={[
-    {
-      src: "/images/bnw.png",
-      alt: "Dhirago monochrome collection",
-      href: "/collections/shirts",
-      caption: "Timeless Elegance",
-      position: "object-center",
-    },
+   
        {
-      src: "/images/cpp1.png",
+      src: "/images/cppp1.png",
       alt: "Dhirago linen shirt collection",
       href: "/collections/shirts",
       caption: "Natural Linen",
       position: "object-[center_20%]",
-    },
-    {
-      src: "/images/cp.png",
-      alt: "Dhirago linen shirt collection",
-      href: "/collections/shirts",
-      caption: "Natural Linen",
-      position: "object-top",
-    },
+    }
   
-    {
-      src: "/images/cpp.png",
-      alt: "Dhirago indigo shirt collection",
-      href: "/collections/shirts",
-      caption: "The Art of Indigo",
-      position: "object-center",
-    },
   ]}
 />
 
-      <Ticker
+      {/* <Ticker
         items={[
           "New shirts now live",
           "Flat 15% off on MRP",
           "Hand embroidered in India",
           "Natural linen & kala cotton",
         ]}
-      />
+      /> */}
 
       <IntroStatement />
 

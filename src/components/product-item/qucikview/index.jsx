@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../../store/reducers/cart";
+import { openCartDrawer } from "../../../lib/cartDrawer";
 import { Josefin_Sans } from "next/font/google";
 
 const josefin = Josefin_Sans({
@@ -124,6 +125,7 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
       }),
     );
     onClose();
+    openCartDrawer();
   };
 
   const changeImage = (direction) => {

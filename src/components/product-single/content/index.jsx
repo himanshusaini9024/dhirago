@@ -5,6 +5,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { addProduct } from "../../../store/reducers/cart";
+import { openCartDrawer } from "../../../lib/cartDrawer";
 import { toggleFavProduct } from "../../../store/reducers/user";
 import { event } from "../../../lib/gtag";
 import productsColors from "../../../utils/data/products-colors";
@@ -255,6 +256,7 @@ export default function Content({ product }) {
         },
       }),
     );
+    openCartDrawer();
   };
 
   const prose = {

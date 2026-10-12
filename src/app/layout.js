@@ -13,6 +13,7 @@ import PageTracker from "../components/PageTracker";
 const inter = Inter({ subsets: ["latin"] });
 import { futura } from "./font";
 import Header from "../components/header";
+import CartDrawer from "../components/cart-drawer";
 import ReduxProvider from "../store/provider";
 import Script from "next/script";
 import PopupProvider from "../components/loginpopup/PopupProvider";
@@ -156,6 +157,7 @@ export default function RootLayout({ children }) {
             <AuthLoader />
             <PopupProvider>
             <Header />
+            <CartDrawer />
             <AutoPushPrompt />
 
             <LayoutWrapper>

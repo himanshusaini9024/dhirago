@@ -14,6 +14,8 @@ import InstagramFeed from "../InstagramFeed";
 import { PAPER_BG, cdn, productImage } from "./theme";
 import ProductsFeatured from "../../components/page-intro/editorialGrid";
 import Hero from "../../components/page-intro/luxury";
+import PageIntro from "../../components/page-intro";
+
 const bySlug = (list, slug) => list.find((p) => p.slug === slug);
 
 const MOODS = [
@@ -84,8 +86,8 @@ export default function HomeNew({ products = [] }) {
     },
   ]}
 /> */}
-
- <TwoUp
+<PageIntro/>
+ {/* <TwoUp
   panels={[
    
        {
@@ -97,7 +99,7 @@ export default function HomeNew({ products = [] }) {
     }
   
   ]}
-/>
+/> */}
 
       {/* <Ticker
         items={[
@@ -117,13 +119,13 @@ export default function HomeNew({ products = [] }) {
         priority
       />
 
-      {/* <EditorialBanner
+      <EditorialBanner
         src={cdn("Home/wi2.webp")}
         alt="Artisan embroidering a Dhirago shirt by hand"
         href="/handwork"
         position="object-[center_45%]"
-      /> */}
-      <Hero/>
+      />
+      {/* <Hero/> */}
 
       <div className="h-14 md:h-20" />
 

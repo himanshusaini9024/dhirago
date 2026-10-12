@@ -46,11 +46,11 @@ export default function MoodCarousel({ title, items = [] }) {
                   />
                 )}
                 <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/25" />
-                <span
+                {/* <span
                   className={`${serif.className} absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-[24px] italic text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.35)] md:text-[28px]`}
                 >
                   {item.title}
-                </span>
+                </span> */}
               </Link>
             </motion.div>
           ))}

@@ -1,4 +1,4 @@
-import { serif } from "./theme";
+import { josefin } from "./theme";
 
 export function OrnamentDivider({ className = "" }) {
   return (
@@ -16,13 +16,13 @@ export function OrnamentHeading({ children, className = "", light = false }) {
   return (
     <div className={`flex flex-col items-center gap-2 ${className}`}>
       <h2
-        className={`${serif.className} text-center text-[18px] font-medium uppercase tracking-[0.18em] md:text-[22px] ${
+        className={`${josefin.className} text-center text-[18px] font-medium uppercase tracking-[0.18em] md:text-[18px] ${
           light ? "text-white" : "text-[#3d342a]"
         }`}
       >
         {children}
       </h2>
-      <OrnamentDivider className={light ? "text-white/80" : ""} />
+      {/* <OrnamentDivider className={light ? "text-white/80" : ""} /> */}
     </div>
   );
 }

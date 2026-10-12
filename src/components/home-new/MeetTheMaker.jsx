@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import BotanicalArt from "./BotanicalArt";
 import { OrnamentDivider } from "./Ornament";
-import { serif } from "./theme";
+import { josefin, serif } from "./theme";
 import Reveal from "./Reveal";
 
 const INTERVAL = 5000;
@@ -55,20 +55,20 @@ export default function MeetTheMaker({ portrait, slides = [] }) {
             </h2>
             <OrnamentDivider className="mt-2" />
             <p
-              className={`${serif.className} mt-6 text-[17px] italic font-light leading-[1.75] text-[#4a3f33] md:text-[19px]`}
+              className={`${josefin.className} mt-6 text-[17px] italic font-light leading-[1.75] text-[#4a3f33] md:text-[17px]`}
             >
               In the hands of our artisans, a simple thread becomes something
               lasting. Each stitch carries generations of skill, patience and
               instinct — no two pieces are ever quite the same.
             </p>
             <p
-              className={`${serif.className} mt-4 text-[17px] italic font-light leading-[1.75] text-[#4a3f33] md:text-[19px]`}
+              className={`${josefin.className} mt-4 text-[17px] italic font-light leading-[1.75] text-[#4a3f33] md:text-[17px]`}
             >
               Worked slowly, these details reveal themselves over time.
             </p>
             <Link
               href="/handwork"
-              className={`${serif.className} mt-7 text-[17px] italic text-[#3d342a] underline decoration-[#3d342a]/30 underline-offset-[6px] transition-colors hover:decoration-[#3d342a]`}
+              className={`${josefin.className} mt-7 text-[15px] italic text-[#3d342a] underline decoration-[#3d342a]/30 underline-offset-[6px] transition-colors hover:decoration-[#3d342a]`}
             >
               Read more…
             </Link>

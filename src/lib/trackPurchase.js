@@ -1,5 +1,4 @@
 import { fbEvent } from "./facebookPixel";
-import { sendMetaEvent } from "./meta";
 
 const PURCHASE_KEY = "dhirago_purchase_tracked";
 const PENDING_KEY = "dhirago_pending_purchase";
@@ -63,7 +62,7 @@ function alreadyTracked(orderId) {
 }
 
 /**
- * Fire Purchase once for GTM/GA4 (dataLayer) + Meta Pixel/CAPI.
+ * Fire Purchase once for GTM/GA4 (dataLayer) + Meta Pixel.
  * Google Ads should import the GA4 purchase key event — no AW- snippet needed.
  */
 export async function trackPurchase(order) {
@@ -82,10 +81,8 @@ export async function trackPurchase(order) {
   const items = normalizeItems(order.items || order.cartItems || []);
   const contents = metaContents(order.items || order.cartItems || []);
   const numItems = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
-  const eventID =
-    typeof crypto !== "undefined" && crypto.randomUUID
-      ? crypto.randomUUID()
-      : `purchase_${orderId}_${Date.now()}`;
+  // Same id the backend uses for its server-side Purchase, so Meta counts it once.
+  const eventID = `purchase_${orderId}`;
 
   // GTM → GA4 - purchase tag
   window.dataLayer = window.dataLayer || [];
@@ -100,7 +97,7 @@ export async function trackPurchase(order) {
     },
   });
 
-  // Meta Pixel
+  // Meta Pixel. The Conversions API copy is sent by the backend when the order is saved.
   fbEvent(
     "Purchase",
     {
@@ -113,31 +110,6 @@ export async function trackPurchase(order) {
     },
     eventID,
   );
-
-  // Meta Conversions API (deduped via eventID)
-  try {
-    await sendMetaEvent({
-      event_name: "Purchase",
-      event_time: Math.floor(Date.now() / 1000),
-      event_id: eventID,
-      action_source: "website",
-      event_source_url: window.location.href,
-      user_data: {
-        em: order.email ? [order.email] : undefined,
-        ph: order.phone ? [String(order.phone)] : undefined,
-      },
-      custom_data: {
-        value,
-        currency,
-        contents,
-        content_type: "product",
-        order_id: String(orderId),
-        num_items: numItems,
-      },
-    });
-  } catch {
-    /* non-blocking */
-  }
 
   markTracked(orderId);
   return true;

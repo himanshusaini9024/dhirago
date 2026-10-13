@@ -1,7 +1,5 @@
 // lib/payment.js
 import API from "./api";
-import { event } from "./gtag";
-
 export const handleOnlinePayment = async ({
   priceTotal,
   selectedAddress,
@@ -28,13 +26,6 @@ export const handleOnlinePayment = async ({
       })),
     });
     const rzpkey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-
-    event({
-      action: "checkout",
-      category: "online",
-      label: email,
-      value: priceTotal,
-    });
 
     const options = {
       key: rzpkey,
@@ -107,11 +98,5 @@ export const handleCOD = async ({
     return alert("Your cart is empty. Please add items before checkout.");
   }
 
-  event({
-    action: "checkout",
-    category: "unpaid",
-    label: email,
-    value: priceTotal,
-  });
   await createOrder("unpaid", null, null, cartItems);
 };

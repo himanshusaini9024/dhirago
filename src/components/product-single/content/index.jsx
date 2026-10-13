@@ -7,11 +7,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { addProduct } from "../../../store/reducers/cart";
 import { openCartDrawer } from "../../../lib/cartDrawer";
 import { toggleFavProduct } from "../../../store/reducers/user";
-import { event } from "../../../lib/gtag";
 import productsColors from "../../../utils/data/products-colors";
 import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
-import { fbEvent } from "../../../lib/facebookPixel";
+import { fbEvent, newEventId } from "../../../lib/facebookPixel";
 import { sendMetaEvent } from "../../../lib/meta";
 import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../../lib/firstOrderDiscount";
 const F = "'Josefin Sans', sans-serif";
@@ -107,13 +106,16 @@ function AccordionRow({ title, children, isOpen, onToggle }) {
 
 export default function Content({ product }) {
   useEffect(() => {
-    fbEvent("ViewContent", {
-      content_ids: [product.id],
+    const eventID = newEventId("view");
+    const data = {
+      content_ids: [String(product.id)],
       content_name: product.name,
       content_type: "product",
-      value: product.currentPrice,
+      value: Number(product.currentPrice) || 0,
       currency: "INR",
-    });
+    };
+    fbEvent("ViewContent", data, eventID);
+    sendMetaEvent({ event_name: "ViewContent", event_id: eventID, custom_data: data });
   }, []);
 
   const dispatch = useDispatch();
@@ -194,46 +196,46 @@ export default function Content({ product }) {
   }, [sizeGuide]);
 
   const addToCart = async () => {
-    // const eventID = crypto.randomUUID();
-
     if (!itemSize) {
       setSizeError("Please select your size");
       return;
     }
-    fbEvent(
-      "AddToCart",
-      {
-        content_ids: [product.id],
-        content_name: product.name,
-        value: product.currentPrice,
-        currency: "INR",
-      },
-      // eventID,
-    );
-
-    await sendMetaEvent({
-      event_name: "AddToCart",
-      event_time: Math.floor(Date.now() / 1000),
-      // event_id: eventID,
-      action_source: "website",
-      custom_data: {
-        content_ids: [product.id],
-        content_name: product.name,
-        currency: "INR",
-        value: product.currentPrice,
-      },
-    });
-
     setSizeError("");
-    event({
-      action: "add_to_cart",
-      category: product.category,
-      label: product.name,
-      value: product.currentPrice ?? product.special_price ?? product.price,
-    });
     const sellingPrice =
       Number(product.currentPrice ?? product.special_price ?? product.price) ||
       0;
+
+    const eventID = newEventId("atc");
+    const metaData = {
+      content_ids: [String(product.id)],
+      content_name: product.name,
+      content_type: "product",
+      value: sellingPrice,
+      currency: "INR",
+    };
+    fbEvent("AddToCart", metaData, eventID);
+    sendMetaEvent({ event_name: "AddToCart", event_id: eventID, custom_data: metaData });
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        currency: "INR",
+        value: sellingPrice,
+        items: [
+          {
+            item_id: String(product.id),
+            item_name: product.name,
+            item_brand: "Dhirago",
+            item_category: product.category || "shirts",
+            item_variant: itemSize,
+            price: sellingPrice,
+            quantity: 1,
+          },
+        ],
+      },
+    });
     const mrp = Number(product.mrp ?? product.price) || sellingPrice;
     dispatch(
       addProduct({

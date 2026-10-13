@@ -17,6 +17,12 @@ import {
 } from "../../lib/firstOrderDiscount";
 import { formatINR, summarizeCart } from "../../lib/cartPricing";
 import { savePendingPurchase } from "../../lib/trackPurchase";
+import {
+  fbEvent,
+  getMetaBrowserIds,
+  newEventId,
+} from "../../lib/facebookPixel";
+import { sendMetaEvent } from "../../lib/meta";
 import { fetchCouponQuote } from "../../lib/coupon";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
@@ -314,7 +320,10 @@ const CheckoutPage = () => {
       items,
     };
     try {
-      const { data } = await API.post("/orders", orderData);
+      const { data } = await API.post("/orders", {
+        ...orderData,
+        meta: getMetaBrowserIds(),
+      });
       const created = data?.order || data || {};
       const orderNumber =
         created.order_number ||
@@ -532,6 +541,51 @@ const CheckoutPage = () => {
     return true;
   };
 
+  const trackInitiateCheckout = () => {
+    const items = cartItems || [];
+    const numItems = items.reduce((a, c) => a + (c.quantity || 0), 0);
+    const eventID = newEventId("checkout");
+    const metaData = {
+      content_ids: items.map((i) => String(i.id)),
+      contents: items.map((i) => ({
+        id: String(i.id),
+        quantity: i.quantity || 1,
+        item_price: Number(i.price) || 0,
+      })),
+      content_type: "product",
+      num_items: numItems,
+      value: payableTotal,
+      currency: "INR",
+    };
+    fbEvent("InitiateCheckout", metaData, eventID);
+    sendMetaEvent({
+      event_name: "InitiateCheckout",
+      event_id: eventID,
+      custom_data: metaData,
+    });
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+      event: "begin_checkout",
+      ecommerce: {
+        currency: "INR",
+        value: payableTotal,
+        coupon: coupon.valid ? coupon.code : undefined,
+        payment_type: paymentMethod === "online" ? "online" : "cod",
+        items: items.map((i) => ({
+          item_id: String(i.id),
+          item_name: i.name,
+          item_brand: "Dhirago",
+          item_category: i.category || "shirts",
+          item_variant: i.size,
+          price: Number(i.price) || 0,
+          quantity: i.quantity || 1,
+        })),
+      },
+    });
+  };
+
   const handlePlaceOrder = async () => {
     if (!validateBeforePay()) return;
     if (!cartItems?.length) {
@@ -540,6 +594,7 @@ const CheckoutPage = () => {
     }
     if (processing || orderSubmittingRef.current) return;
     setProcessing(true);
+    trackInitiateCheckout();
 
     try {
       if (paymentMethod === "online") {

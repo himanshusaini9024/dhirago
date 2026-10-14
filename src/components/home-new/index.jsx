@@ -15,6 +15,8 @@ import { PAPER_BG, cdn, productImage } from "./theme";
 import ProductsFeatured from "../../components/page-intro/editorialGrid";
 import Hero from "../../components/page-intro/luxury";
 import PageIntro from "../../components/page-intro";
+import Homecontent from "../../components/page-intro/home";
+import Bestsellers from "../../components/page-intro/bestseller";
 
 const bySlug = (list, slug) => list.find((p) => p.slug === slug);
 
@@ -119,15 +121,19 @@ export default function HomeNew({ products = [] }) {
         priority
       />
 
-      <EditorialBanner
+      {/* <EditorialBanner
         src={cdn("Home/wi2.webp")}
         alt="Artisan embroidering a Dhirago shirt by hand"
         href="/handwork"
         position="object-[center_45%]"
-      />
+      /> */}
+      <Homecontent />
+
       {/* <Hero/> */}
 
       <div className="h-14 md:h-20" />
+        <ProductsFeatured/>
+
 
       <MeetTheMaker
         portrait={cdn("Home/wi.webp")}
@@ -139,7 +145,7 @@ export default function HomeNew({ products = [] }) {
         ]}
       />
 
-      <MoodCarousel title="Shop by Mood" items={moods} />
+      {/* <MoodCarousel title="Shop by Mood" items={moods} /> */}
 
       {/* <ScriptCampaign
         src={cdn("Home/bts1.png")}
@@ -151,15 +157,15 @@ export default function HomeNew({ products = [] }) {
         position="object-[22%_center] md:object-center"
       /> */}
 
-        <ProductsFeatured/>
       {/* <Spotlight items={spotlight} /> */}
+      {/* <Bestsellers /> */}
 
       <InstagramFeed
         className="bg-transparent pb-16 md:pb-20"
         
       />
 
-      <BrandNote />
+      {/* <BrandNote /> */}
     </div>
   );
 }

@@ -25,7 +25,7 @@ export default function MeetTheMaker({ portrait, slides = [] }) {
 
   return (
     <Reveal delay={0.06} y={16}>
-      <section className="grid md:grid-cols-2">
+      <section className="grid md:grid-cols-2 mt-14">
         <div className="relative flex items-center justify-center overflow-hidden px-6 py-16 md:px-14 md:py-20">
           {/* <BotanicalArt className="pointer-events-none absolute -left-6 top-0 h-full w-auto text-[#6b5d4a] opacity-[0.12]" />
         <BotanicalArt flip className="pointer-events-none absolute -right-6 top-0 h-full w-auto text-[#6b5d4a] opacity-[0.12]" /> */}

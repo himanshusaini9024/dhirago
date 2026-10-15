@@ -2,34 +2,150 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import BotanicalArt from "./BotanicalArt";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { OrnamentDivider } from "./Ornament";
 import { josefin, serif } from "./theme";
-import Reveal from "./Reveal";
 
-const INTERVAL = 5000;
+const AUTOPLAY_MS = 2700;
+const SWIPE_THRESHOLD = 50;
+const RATIO_STYLE = { aspectRatio: "600 / 637" };
+const DOT_IDLE = "#914c37";
+const DOT_ACTIVE = "#fff";
 
-export default function MeetTheMaker({ portrait, slides = [] }) {
-  const [index, setIndex] = useState(0);
+function LoopSlider({ slides, href, sizes, className = "", dotSize = 8 }) {
+  const total = slides.length;
+  // Track holds [last clone, ...slides, first clone] so the loop wraps seamlessly.
+  const track = total > 1 ? [slides[total - 1], ...slides, slides[0]] : slides;
+  const [current, setCurrent] = useState(total > 1 ? 1 : 0);
+  const [animate, setAnimate] = useState(true);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const drag = useRef({ active: false, startX: 0, offset: 0 });
+
+  const go = useCallback((next) => {
+    setAnimate(true);
+    setCurrent(next);
+  }, []);
 
   useEffect(() => {
-    if (slides.length < 2) return;
-    const t = setTimeout(
-      () => setIndex((i) => (i + 1) % slides.length),
-      INTERVAL,
-    );
+    if (total < 2 || dragging) return;
+    const t = setTimeout(() => go(current + 1), AUTOPLAY_MS);
     return () => clearTimeout(t);
-  }, [index, slides.length]);
+  }, [current, dragging, total, go]);
+
+  const onTransitionEnd = (e) => {
+    if (e.propertyName !== "transform") return;
+    if (current === total + 1) {
+      setAnimate(false);
+      setCurrent(1);
+    } else if (current === 0) {
+      setAnimate(false);
+      setCurrent(total);
+    }
+  };
+
+  const startDrag = (x) => {
+    if (total < 2) return;
+    drag.current = { active: true, startX: x, offset: 0 };
+    setDragging(true);
+    setAnimate(false);
+  };
+
+  const moveDrag = (x) => {
+    if (!drag.current.active) return;
+    drag.current.offset = x - drag.current.startX;
+    setDragOffset(drag.current.offset);
+  };
+
+  const endDrag = () => {
+    if (!drag.current.active) return;
+    const { offset } = drag.current;
+    drag.current.active = false;
+    setDragging(false);
+    setDragOffset(0);
+    if (Math.abs(offset) > SWIPE_THRESHOLD) go(offset < 0 ? current + 1 : current - 1);
+    else setAnimate(true);
+  };
+
+  const activeDot = total > 1 ? (current - 1 + total) % total : 0;
 
   return (
-    <Reveal delay={0.06} y={16}>
-      <section className="grid md:grid-cols-2 mt-0">
-        <div className="relative flex items-center justify-center overflow-hidden px-6 py-16 md:px-14 md:py-20">
-          {/* <BotanicalArt className="pointer-events-none absolute -left-6 top-0 h-full w-auto text-[#6b5d4a] opacity-[0.12]" />
-        <BotanicalArt flip className="pointer-events-none absolute -right-6 top-0 h-full w-auto text-[#6b5d4a] opacity-[0.12]" /> */}
+    <div
+      className={`relative select-none overflow-hidden ${className}`}
+      onTouchStart={(e) => startDrag(e.touches[0].clientX)}
+      onTouchMove={(e) => moveDrag(e.touches[0].clientX)}
+      onTouchEnd={endDrag}
+      onMouseDown={(e) => e.button === 0 && startDrag(e.clientX)}
+      onMouseMove={(e) => moveDrag(e.clientX)}
+      onMouseUp={endDrag}
+      onMouseLeave={endDrag}
+    >
+      <div
+        className="flex w-full will-change-transform"
+        style={{
+          transform: `translate3d(calc(-${current * 100}% + ${dragOffset}px), 0, 0)`,
+          transition: animate ? "transform 700ms ease" : "none",
+        }}
+        onTransitionEnd={onTransitionEnd}
+      >
+        {track.map((slide, i) => (
+          <Link
+            key={`${slide.src}-${i}`}
+            href={href}
+            draggable={false}
+            onClick={(e) => Math.abs(drag.current.offset) > 5 && e.preventDefault()}
+            style={{ ...RATIO_STYLE, flex: "0 0 100%" }}
+            className="relative block w-full overflow-hidden"
+          >
+            <Image
+              src={slide.src}
+              alt={slide.alt}
+              fill
+              sizes={sizes}
+              quality={80}
+              draggable={false}
+              className={`object-cover ${slide.position || ""}`}
+            />
+            
+          </Link>
+        ))}
+      </div>
 
+      {total > 1 && (
+        <div
+          className="absolute left-1/2 z-[1] flex -translate-x-1/2 items-center justify-center"
+          style={{ bottom: dotSize === 8 ? 22 : 15, gap: 5 }}
+        >
+          {slides.map((s, i) => (
+            <button
+              key={`${s.src}-dot-${i}`}
+              type="button"
+              aria-label={`Show image ${i + 1}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                go(i + 1);
+              }}
+              className="cursor-pointer rounded-full border-0 p-0"
+              style={{
+                width: dotSize,
+                height: dotSize,
+                background: i === activeDot ? DOT_ACTIVE : DOT_IDLE,
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function MeetTheMaker({ portrait, slides = [], href = "/handwork" }) {
+  return (
+    <section className="w-full overflow-hidden" aria-label="Meet the makers">
+      <div className="flex w-full flex-col md:flex-row">
+        <div className="relative flex items-center justify-center overflow-hidden px-6 py-16 md:w-1/2 md:px-14 md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -67,7 +183,7 @@ export default function MeetTheMaker({ portrait, slides = [] }) {
               Worked slowly, these details reveal themselves over time.
             </p>
             <Link
-              href="/handwork"
+              href={href}
               className={`${josefin.className} mt-7 text-[15px] italic text-[#3d342a] underline decoration-[#3d342a]/30 underline-offset-[6px] transition-colors hover:decoration-[#3d342a]`}
             >
               Read more…
@@ -75,45 +191,14 @@ export default function MeetTheMaker({ portrait, slides = [] }) {
           </motion.div>
         </div>
 
-        <div className="relative aspect-[4/5] overflow-hidden bg-[#e7dfd1] md:aspect-auto md:min-h-[640px]">
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={index}
-              className="absolute inset-0"
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{
-                opacity: { duration: 1.2 },
-                scale: { duration: 6, ease: "linear" },
-              }}
-            >
-              {slides[index]?.src && (
-                <Image
-                  src={slides[index].src}
-                  alt={slides[index].alt}
-                  fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  quality={78}
-                  className={`object-cover ${slides[index].position || ""}`}
-                />
-              )}
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-            {slides.map((s, i) => (
-              <button
-                key={s.alt}
-                type="button"
-                aria-label={`Show image ${i + 1}`}
-                onClick={() => setIndex(i)}
-                className={`h-[6px] rounded-full transition-all duration-500 ${i === index ? "w-6 bg-white" : "w-[6px] bg-white/50"}`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-    </Reveal>
+        <LoopSlider
+          slides={slides}
+          href={href}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="hidden w-1/2 md:block"
+        />
+        <LoopSlider slides={slides} href={href} sizes="100vw" dotSize={6} className="w-full md:hidden" />
+      </div>
+    </section>
   );
 }

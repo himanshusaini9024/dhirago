@@ -8,12 +8,17 @@ const v = process.env.NEXT_PUBLIC_IMAGE_VERSION || "";
 
 const slides = [
   {
-    image: `https://images.dhirago.com/ecommerce/Home/bstnew.png?${v}`,
-    alt: "Sandstone ombre classic shirt",
+    image: `https://images.dhirago.com/ecommerce/Home/banner1.webp?${v}`,
+    alt: "green-shirt",
     href: "/product/sandstone-ombre-classic-shirt",
   },
   {
-    image: `https://images.dhirago.com/ecommerce/Home/bts1.png?${v}`,
+    image: `https://images.dhirago.com/ecommerce/Home/banner2.webp?${v}`,
+    alt: "Jet black hand stitched seam shirt",
+    href: "/product/jet-black-hand-stitched-seam-shirt",
+  },
+   {
+    image: `https://images.dhirago.com/ecommerce/Home/banner3.webp?${v}`,
     alt: "Jet black hand stitched seam shirt",
     href: "/product/jet-black-hand-stitched-seam-shirt",
   },

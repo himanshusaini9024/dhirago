@@ -127,8 +127,8 @@ export default function HomeNew({ products = [] }) {
         href="/handwork"
         position="object-[center_45%]"
       /> */}
-      {/* <Homecontent /> */}
-      <Bestsellers />
+      <Homecontent />
+      {/* <Bestsellers /> */}
 
       {/* <Hero/> */}
 
@@ -136,12 +136,14 @@ export default function HomeNew({ products = [] }) {
 
 
       <MeetTheMaker
-        portrait={cdn("Home/wi.webp")}
+        portrait={ cdn("Home/wi.webp")}
         slides={[
-          { src: cdn("Home/wi2.webp"), alt: "Hand embroidery on linen", position: "object-[center_40%]" },
-          { src: productImage(grey, 3) || cdn("Home/wi.webp"), alt: "Embroidered collar detail" },
-          { src: cdn("Home/wi.webp"), alt: "Kantha stitches being worked by hand" },
-          { src: productImage(rust, 4) || cdn("Home/wi2.webp"), alt: "Hand detailing on a rust shirt" },
+          { src: cdn("Home/story1.webp"), alt: "Hand embroidery on linen", position: "object-[center_40%]" },
+          { src: cdn("Home/wi2.webp") , alt: "Embroidered collar detail" },
+          { src: cdn("Home/story2.webp"), alt: "Kantha stitches being worked by hand" },
+          { src: cdn("Home/story6.webp") , alt: "Hand detailing on a rust shirt" },
+          
+          
         ]}
       />
         <ProductsFeatured/>

@@ -41,7 +41,7 @@ export default function ProductsFeatured() {
       className="
         relative w-full overflow-hidden text-white
         aspect-[3/4] md:aspect-[16/9]
-        mt-0 lg:mt-0 md:mt-0 md:px-0 md:pt-0
+        mt-0 lg:mt-0 md:mt-0 md:px-10 md:pt-10
       "
       aria-label="Home editorial video"
     >

@@ -127,12 +127,12 @@ export default function HomeNew({ products = [] }) {
         href="/handwork"
         position="object-[center_45%]"
       /> */}
-      <Homecontent />
+      {/* <Homecontent /> */}
+      <Bestsellers />
 
       {/* <Hero/> */}
 
       <div className="h-14 md:h-20" />
-        <ProductsFeatured/>
 
 
       <MeetTheMaker
@@ -144,6 +144,8 @@ export default function HomeNew({ products = [] }) {
           { src: productImage(rust, 4) || cdn("Home/wi2.webp"), alt: "Hand detailing on a rust shirt" },
         ]}
       />
+        <ProductsFeatured/>
+
 
       {/* <MoodCarousel title="Shop by Mood" items={moods} /> */}
 
@@ -158,7 +160,6 @@ export default function HomeNew({ products = [] }) {
       /> */}
 
       {/* <Spotlight items={spotlight} /> */}
-      {/* <Bestsellers /> */}
 
       <InstagramFeed
         className="bg-transparent pb-16 md:pb-20"

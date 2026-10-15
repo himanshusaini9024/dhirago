@@ -28,6 +28,7 @@ import MetaPixel from "../components/MetaPixel";
 import MetaPageTracker from "../components/MetaPageTracker";
 import AutoPushPrompt from "../components/AutoPushPrompt";
 import { GoogleTagManager } from "@next/third-parties/google";
+import MicrosoftClarity from "../components/MicrosoftClarity";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -169,7 +170,7 @@ export default function RootLayout({ children }) {
               <Suspense fallback={null}>
                 <MetaPageTracker />
               </Suspense>
-
+            <MicrosoftClarity />
               {children}
 
               <Analytics />

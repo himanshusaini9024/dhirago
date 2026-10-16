@@ -8,25 +8,22 @@ const v = process.env.NEXT_PUBLIC_IMAGE_VERSION || "";
 
 const slides = [
   {
-    image: `https://images.dhirago.com/ecommerce/Home/banner1.webp?${v}`,
-    alt: "green-shirt",
+    image: `https://images.dhirago.com/ecommerce/Home/bstnew.png?${v}`,
+    alt: "sandstone-ombre-classic-shirt",
     href: "/product/sandstone-ombre-classic-shirt",
   },
-  {
-    image: `https://images.dhirago.com/ecommerce/Home/banner2.webp?${v}`,
-    alt: "Jet black hand stitched seam shirt",
-    href: "/product/jet-black-hand-stitched-seam-shirt",
-  },
    {
-    image: `https://images.dhirago.com/ecommerce/Home/banner3.webp?${v}`,
-    alt: "Jet black hand stitched seam shirt",
-    href: "/product/jet-black-hand-stitched-seam-shirt",
-  },
-  {
     image: `https://images.dhirago.com/ecommerce/Home/bts.png?${v}`,
     alt: "Blue ombre kantha detailed shirt",
     href: "/product/blue-ombre-kantha-detailed-shirt",
   },
+  
+  {
+    image: `https://images.dhirago.com/ecommerce/Home/banner3.webp?${v}`,
+    alt: "ecru-dotwork-shirt",
+    href: "/product/ecru-dotwork-shirt",
+  }
+ 
 ];
 
 const DURATION = 6000;

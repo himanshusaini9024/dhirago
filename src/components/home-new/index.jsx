@@ -141,7 +141,7 @@ export default function HomeNew({ products = [] }) {
         slides={[
           { src: cdn("Home/img2.webp"), alt: "Hand embroidery on linen", position: "object-[center_40%]" },
           { src: cdn("Home/wi2.webp") , alt: "Embroidered collar detail" },
-          { src: cdn("Home/img1.webp"), alt: "Kantha stitches being worked by hand" },
+          { src: cdn("Home/aunty.jpg"), alt: "Kantha stitches being worked by hand" },
           { src: cdn("Home/maker.webp") , alt: "Hand detailing on a rust shirt" },
   
  

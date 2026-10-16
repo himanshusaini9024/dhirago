@@ -17,6 +17,7 @@ import Hero from "../../components/page-intro/luxury";
 import PageIntro from "../../components/page-intro";
 import Homecontent from "../../components/page-intro/home";
 import Bestsellers from "../../components/page-intro/bestseller";
+import shopCollection from "../../data/shop-our-collection.json";
 
 const bySlug = (list, slug) => list.find((p) => p.slug === slug);
 
@@ -38,7 +39,7 @@ const SPOTLIGHT = [
 
 export default function HomeNew({ products = [] }) {
   const active = products.filter((p) => p.status !== "inactive");
-  const newArrivals = active.slice(0, 8);
+  const newArrivals = shopCollection.products;
 
   const indigo = bySlug(active, "deep-indigo-embroidered-neckline-shirt") || active[2];
   const grey = bySlug(active, "natural-grey-hand-embroidered-shirt");
@@ -115,9 +116,9 @@ export default function HomeNew({ products = [] }) {
       <IntroStatement />
 
       <ProductGrid
-        title="Shop Our collection"
+        title={shopCollection.title}
         products={newArrivals}
-        cta={{ label: "View all shirts", href: "/collections/shirts" }}
+        cta={shopCollection.cta}
         priority
       />
 

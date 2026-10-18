@@ -70,20 +70,34 @@ const Header = () => {
     }
   };
 
+  const [pastTop, setPastTop] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 8);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 8);
+      setPastTop(window.scrollY > 60);
+    };
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const iconBtn =
-    "inline-flex items-center justify-center w-9 h-9 text-black hover:opacity-60 transition-opacity";
+  // On the home page the header floats transparently over the banner until the user scrolls.
+  const overlay = pathname === "/" && !pastTop && !menuOpen;
+  const tone = overlay ? "text-white" : "text-black";
+  const bar = overlay ? "bg-white" : "bg-black";
+
+  const iconBtn = `inline-flex items-center justify-center w-9 h-9 ${tone} hover:opacity-60 transition-[opacity,color] duration-500`;
 
   return (
     <>
       {/* Announcement — shown only when first-order discount is enabled */}
       {/* {FIRST_ORDER_DISCOUNT_ENABLED ? ( */}
-        <div className="fixed top-0 left-0 w-full z-[60] bg-black text-white">
+        <div
+          className={`fixed left-0 w-full z-[60] bg-black text-white transition-[top] duration-500 ease-out ${
+            overlay ? "-top-[60px]" : "top-0"
+          }`}
+        >
           <p
             className={`font-fuutra text-center text-[10px] font-semibold sm:text-[12px] lg:tracking-[0.122rem] uppercase py-2.5 px-4`}
           >
@@ -94,12 +108,13 @@ const Header = () => {
 
       <header
         className={`
-          fixed left-0 w-full z-50 ${FIRST_ORDER_DISCOUNT_ENABLED ? "top-[30px]" : "top-[30px]"}
-          bg-white text-black
-          transition-shadow duration-300 p-2
-          ${scrolled ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}
+          fixed left-0 w-full z-50 p-2 ${tone}
+          transition-[top,background-color,border-color,box-shadow,color] duration-500 ease-out
+          ${overlay
+            ? "top-0 bg-gradient-to-b from-black/30 to-transparent border-b border-transparent"
+            : "top-[30px] bg-white border-b border-[#ddd]"}
+          ${scrolled && !overlay ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}
         `}
-        style={{ borderBottom: "1px solid rgb(221, 221, 221)" }}
       >
         <div className="relative w-full">
           {/* Top row: menu | logo | icons */}
@@ -110,17 +125,17 @@ const Header = () => {
               onClick={() => setMenuOpen(!menuOpen)}
             >
               <span
-                className={`w-5 h-[1.5px] absolute bg-black transition-all duration-300 ${
+                className={`w-5 h-[1.5px] absolute ${bar} transition-all duration-300 ${
                   menuOpen ? "rotate-45" : "-translate-y-1.5"
                 }`}
               />
               <span
-                className={`w-5 h-[1.5px] absolute bg-black transition-all duration-300 ${
+                className={`w-5 h-[1.5px] absolute ${bar} transition-all duration-300 ${
                   menuOpen ? "opacity-0" : ""
                 }`}
               />
               <span
-                className={`w-5 h-[1.5px] absolute bg-black transition-all duration-300 ${
+                className={`w-5 h-[1.5px] absolute ${bar} transition-all duration-300 ${
                   menuOpen ? "-rotate-45" : "translate-y-1.5"
                 }`}
               />
@@ -128,7 +143,7 @@ const Header = () => {
 
             <Link
               href="/"
-              className={`${josefin.className} absolute z-[1] left-[3.75rem] sm:left-1/2 sm:-translate-x-1/2 text-[1.2rem] sm:text-[1.55rem] md:text-[1.65rem] lg:text-[1.85rem] tracking-[0.18em] sm:tracking-[0.28em] uppercase font-normal text-black hover:opacity-70 transition-opacity`}
+              className={`${josefin.className} absolute z-[1] left-[3.75rem] sm:left-1/2 sm:-translate-x-1/2 text-[1.2rem] sm:text-[1.55rem] md:text-[1.65rem] lg:text-[1.85rem] tracking-[0.18em] sm:tracking-[0.28em] uppercase font-normal ${tone} hover:opacity-70 transition-[opacity,color] duration-500`}
             >
               Dhirago
             </Link>
@@ -144,7 +159,9 @@ const Header = () => {
                   <i aria-hidden="true" className="icon-avatar text-[17px]" />
                 </button>
               ) : (
-                <LoginDropdown user={user} handleLogout={handleLogout} />
+                <div className={tone}>
+                  <LoginDropdown user={user} handleLogout={handleLogout} />
+                </div>
               )}
 
               <button
@@ -165,7 +182,11 @@ const Header = () => {
               >
                 <i aria-hidden="true" className="icon-cart text-[17px]" />
                 {cartCount > 0 && (
-                  <span className="absolute top-0.5 right-0.5 min-w-[14px] h-[14px] flex items-center justify-center bg-black text-white text-[9px] px-0.5 rounded-full">
+                  <span
+                    className={`absolute top-0.5 right-0.5 min-w-[14px] h-[14px] flex items-center justify-center text-[9px] px-0.5 rounded-full ${
+                      overlay ? "bg-white text-black" : "bg-black text-white"
+                    }`}
+                  >
                     {cartCount}
                   </span>
                 )}

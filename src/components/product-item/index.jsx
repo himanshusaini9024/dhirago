@@ -158,11 +158,11 @@ const ProductItem = ({
         </h6>
         <div className="mt-2 flex flex-wrap items-baseline justify-center gap-2">
           <p className="text-[0.911rem] text-[#1a1a1a]">
-            ₹ {selling.toLocaleString("en-IN")}
+            ₹ {Math.round(selling).toLocaleString("en-IN")}
           </p>
           {listMrp > selling && (
             <p className="text-[0.8rem] text-gray-400 line-through">
-              ₹ {listMrp.toLocaleString("en-IN")}
+              ₹ {Math.round(listMrp).toLocaleString("en-IN")}
             </p>
           )}
           {off > 0 && listMrp > selling && (

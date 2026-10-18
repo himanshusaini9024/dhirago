@@ -458,7 +458,7 @@ export default function Content({ product }) {
               fontFamily: F,
             }}
           >
-            ₹ {sellingPrice.toLocaleString("en-IN")}
+            ₹ {Math.round(sellingPrice).toLocaleString("en-IN")}
           </span>
           {basePrice > sellingPrice && (
             <>
@@ -470,7 +470,7 @@ export default function Content({ product }) {
                   fontFamily: F,
                 }}
               >
-                MRP ₹ {basePrice.toLocaleString("en-IN")}
+                MRP ₹ {Math.round(basePrice).toLocaleString("en-IN")}
               </span>
               {discountPercent > 0 && (
                 <span

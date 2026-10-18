@@ -62,56 +62,6 @@
       ]
     },
     {
-      "id": "11",
-      "name": "Soft lilac Hand detailed button shirt",
-      "slug": "soft-lilac-hand-detailed-button-shirt",
-      "sku": "DF202611",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 7000,
-      "mrp": 7000,
-      "special_price": 5950,
-      "currentPrice": 5950,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/Soft-lilac-Hand-detailed-button-shirt/dsc03618.webp?v=1789410600",
-          "alt": "Soft lilac Hand detailed button shirt",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/Soft-lilac-Hand-detailed-button-shirt/desk-dsc03613-1-low.webp?v=1789410600",
-          "alt": "Soft lilac Hand detailed button shirt",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/Soft-lilac-Hand-detailed-button-shirt/dsc03601.webp?v=1789410600",
-          "alt": "Soft lilac Hand detailed button shirt",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/Soft-lilac-Hand-detailed-button-shirt/dsc03619.webp?v=1789410600",
-          "alt": "Soft lilac Hand detailed button shirt",
-          "type": "Front Image",
-          "sort_order": "4"
-        },
-        {
-          "url": "/ecommerce/Product/Soft-lilac-Hand-detailed-button-shirt/dsc03622.webp?v=1789410600",
-          "alt": "Soft lilac Hand detailed button shirt",
-          "type": "Front Image",
-          "sort_order": "5"
-        }
-      ]
-    },
-    {
       "id": "10",
       "name": "Deep Indigo embroidered neckline shirt",
       "slug": "deep-indigo-embroidered-neckline-shirt",
@@ -312,62 +262,6 @@
       ]
     },
     {
-      "id": "5",
-      "name": "Jet black hand-stitched seam shirt",
-      "slug": "jet-black-hand-stitched-seam-shirt",
-      "sku": "DF202605",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6500,
-      "mrp": 6500,
-      "special_price": 5525,
-      "currentPrice": 5525,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/Jet-black-hand-stitched-seam-shirt/dsc03786-1.webp?v=1789410600",
-          "alt": "Jet black hand-stitched seam shirt",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/Jet-black-hand-stitched-seam-shirt/dsc03796.webp?v=1789410600",
-          "alt": "Jet black hand-stitched seam shirt",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/Jet-black-hand-stitched-seam-shirt/dsc03794.webp?v=1789410600",
-          "alt": "Jet black hand-stitched seam shirt",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/Jet-black-hand-stitched-seam-shirt/dsc03783.webp?v=1789410600",
-          "alt": "Jet black hand-stitched seam shirt",
-          "type": "Front Image",
-          "sort_order": "4"
-        },
-        {
-          "url": "/ecommerce/Product/Jet-black-hand-stitched-seam-shirt/dsc03787.webp?v=1789410600",
-          "alt": "Jet black hand-stitched seam shirt",
-          "type": "Front Image",
-          "sort_order": "5"
-        },
-        {
-          "url": "/ecommerce/Product/Jet-black-hand-stitched-seam-shirt/dsc03785.webp?v=1789410600",
-          "alt": "Jet black hand-stitched seam shirt",
-          "type": "Front Image",
-          "sort_order": "6"
-        }
-      ]
-    },
-    {
       "id": "4",
       "name": "Light Yellow block printed shirt",
       "slug": "light-yellow-block-printed-shirt",
@@ -418,168 +312,6 @@
       ]
     },
     {
-      "id": "3",
-      "name": "Hand -detailed rust Shirt",
-      "slug": "hand-detailed-rust-shirt",
-      "sku": "DF202603",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 7000,
-      "mrp": 7000,
-      "special_price": 5950,
-      "currentPrice": 5950,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/Hand--detailed-rust-Shirt/dsc03598.webp?v=1789410600",
-          "alt": "Hand -detailed rust Shirt",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/Hand--detailed-rust-Shirt/dsc03590.webp?v=1789410600",
-          "alt": "Hand -detailed rust Shirt",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/Hand--detailed-rust-Shirt/dsc03593.webp?v=1789410600",
-          "alt": "Hand -detailed rust Shirt",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/Hand--detailed-rust-Shirt/dsc03588.webp?v=1789410600",
-          "alt": "Hand -detailed rust Shirt",
-          "type": "Front Image",
-          "sort_order": "4"
-        },
-        {
-          "url": "/ecommerce/Product/Hand--detailed-rust-Shirt/dsc03586.webp?v=1789410600",
-          "alt": "Hand -detailed rust Shirt",
-          "type": "Front Image",
-          "sort_order": "5"
-        },
-        {
-          "url": "/ecommerce/Product/Hand--detailed-rust-Shirt/dsc03596.webp?v=1789410600",
-          "alt": "Hand -detailed rust Shirt",
-          "type": "Front Image",
-          "sort_order": "6"
-        }
-      ]
-    },
-    {
-      "id": "9",
-      "name": "Ivory- Beige classic shirt",
-      "slug": "ivory-beige-classic-shirt",
-      "sku": "DF202609",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6500,
-      "mrp": 6500,
-      "special_price": 5525,
-      "currentPrice": 5525,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/Ivory--Beige-classic-shirt/ivory.webp?v=1789410600",
-          "alt": "Ivory- Beige classic shirt",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/Ivory--Beige-classic-shirt/dsc03764.webp?v=1789410600",
-          "alt": "Ivory- Beige classic shirt",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/Ivory--Beige-classic-shirt/dsc03763.webp?v=1789410600",
-          "alt": "Ivory- Beige classic shirt",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/Ivory--Beige-classic-shirt/dsc03761.webp?v=1789410600",
-          "alt": "Ivory- Beige classic shirt",
-          "type": "Front Image",
-          "sort_order": "4"
-        },
-        {
-          "url": "/ecommerce/Product/Ivory--Beige-classic-shirt/dsc03759.webp?v=1789410600",
-          "alt": "Ivory- Beige classic shirt",
-          "type": "Front Image",
-          "sort_order": "5"
-        }
-      ]
-    },
-    {
-      "id": "8",
-      "name": "Amber blush stripe shirt",
-      "slug": "amber-blush-stripe-shirt",
-      "sku": "DF202608",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6500,
-      "mrp": 6500,
-      "special_price": 5525,
-      "currentPrice": 5525,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/Amber-blush-stripe-shirt/dsc03723.webp?v=1790399234",
-          "alt": "Amber blush stripe shirt",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/Soft-lilac-Hand-detailed-button-shirt/desk-pinkshirt.webp?v=1790399234",
-          "alt": "Amber blush stripe shirt",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/Amber-blush-stripe-shirt/dsc03731.webp?v=1790399234",
-          "alt": "Amber blush stripe shirt",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/Amber-blush-stripe-shirt/dsc03725.webp?v=1790399234",
-          "alt": "Amber blush stripe shirt",
-          "type": "Front Image",
-          "sort_order": "4"
-        },
-        {
-          "url": "/ecommerce/Product/Amber-blush-stripe-shirt/dsc03716.webp?v=1790399234",
-          "alt": "Amber blush stripe shirt",
-          "type": "Front Image",
-          "sort_order": "5"
-        },
-        {
-          "url": "/ecommerce/Product/Amber-blush-stripe-shirt/dsc03727.webp?v=1790399234",
-          "alt": "Amber blush stripe shirt",
-          "type": "Front Image",
-          "sort_order": "6"
-        }
-      ]
-    },
-    {
       "id": "12",
       "name": "Ecru Dotwork Shirt",
       "slug": "ecru-dotwork-shirt",
@@ -598,260 +330,28 @@
       "quantityAvailable": 1,
       "image": [
         {
-          "url": "/ecommerce/Product/ecru-dotwork-shirt/desk-dsc05775.webp?v=1792086946",
-          "alt": "Ecru Dotwork Shirt-1",
+          "url": "/ecommerce/Product/ecru-dotwork-shirt/desk-dotwork1.webp?v=1792218833",
+          "alt": "ecru-dotwork-shirt-1",
           "type": "Front Image",
           "sort_order": "1"
         },
         {
-          "url": "/ecommerce/Product/ecru-dotwork-shirt/desk-dot.webp?v=1792086949",
-          "alt": "Ecru Dotwork Shirt-2",
+          "url": "/ecommerce/Product/ecru-dotwork-shirt/desk-dotwork2.webp?v=1792218833",
+          "alt": "ecru-dotwork-shirt-2",
           "type": "Front Image",
           "sort_order": "2"
         },
         {
-          "url": "/ecommerce/Product/ecru-dotwork-shirt/desk-dsc05806.webp?v=1792086946",
-          "alt": "Ecru Dotwork Shirt-3",
+          "url": "/ecommerce/Product/ecru-dotwork-shirt/desk-dotwork3.webp?v=1792218833",
+          "alt": "ecru-dotwork-shirt-3",
           "type": "Front Image",
           "sort_order": "3"
         },
         {
-          "url": "/ecommerce/Product/ecru-dotwork-shirt/desk-dsc05831-2.webp?v=1792086946",
-          "alt": "Ecru Dotwork Shirt-4",
+          "url": "/ecommerce/Product/ecru-dotwork-shirt/desk-dsc05800.webp?v=1792218833",
+          "alt": "ecru-dotwork-shirt-4",
           "type": "Front Image",
           "sort_order": "4"
-        }
-      ]
-    },
-    {
-      "id": "13",
-      "name": "Sage Green Illustrated Shirt",
-      "slug": "sage-green-illustrated-shirt",
-      "sku": "DF202613",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6001,
-      "mrp": 6001,
-      "special_price": 5100.85,
-      "currentPrice": 5100.85,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/sage-green-illustrated-shirt/desk-dsc06020.webp?v=1792086889",
-          "alt": "Sage Green Illustrated Shirt-1",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/sage-green-illustrated-shirt/desk-dsc06023.webp?v=1792086889",
-          "alt": "Sage Green Illustrated Shirt-2",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/sage-green-illustrated-shirt/desk-dsc06025.webp?v=1792086889",
-          "alt": "Sage Green Illustrated Shirt-3",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/sage-green-illustrated-shirt/desk-dsc06030-2.webp?v=1792086889",
-          "alt": "Sage Green Illustrated Shirt-4",
-          "type": "Front Image",
-          "sort_order": "4"
-        },
-        {
-          "url": "/ecommerce/Product/sage-green-illustrated-shirt/desk-dsc06030.webp?v=1792086889",
-          "alt": "Sage Green Illustrated Shirt-5",
-          "type": "Front Image",
-          "sort_order": "5"
-        }
-      ]
-    },
-    {
-      "id": "14",
-      "name": "Mid-Blue Block Printed Shirt",
-      "slug": "mid-blue-block-printed-shirt",
-      "sku": "DF202614",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6002,
-      "mrp": 6002,
-      "special_price": 5101.7,
-      "currentPrice": 5101.7,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/mid-blue-block-printed-shirt/desk-dsc06209.webp?v=1792086837",
-          "alt": "Mid-Blue Block Printed Shirt-1",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/mid-blue-block-printed-shirt/desk-dsc06216.webp?v=1792086837",
-          "alt": "Mid-Blue Block Printed Shirt-2",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/mid-blue-block-printed-shirt/desk-dsc06219.webp?v=1792086837",
-          "alt": "Mid-Blue Block Printed Shirt-3",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/mid-blue-block-printed-shirt/desk-dsc06239.webp?v=1792086837",
-          "alt": "Mid-Blue Block Printed Shirt-4",
-          "type": "Front Image",
-          "sort_order": "4"
-        }
-      ]
-    },
-    {
-      "id": "15",
-      "name": "Deep Brown Linen Tunic",
-      "slug": "deep-brown-linen-tunic",
-      "sku": "DF202615",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6003,
-      "mrp": 6003,
-      "special_price": 5102.55,
-      "currentPrice": 5102.55,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/deep-brown-linen-tunic/desk-dsc05718-2.webp?v=1792086766",
-          "alt": "Deep Brown Linen Tunic-1",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/deep-brown-linen-tunic/desk-dsc05721-2.webp?v=1792086766",
-          "alt": "Deep Brown Linen Tunic-2",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/deep-brown-linen-tunic/desk-dsc05723-2.webp?v=1792086766",
-          "alt": "Deep Brown Linen Tunic-3",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/deep-brown-linen-tunic/desk-dsc05725-2.webp?v=1792086766",
-          "alt": "Deep Brown Linen Tunic-4",
-          "type": "Front Image",
-          "sort_order": "4"
-        },
-        {
-          "url": "/ecommerce/Product/deep-brown-linen-tunic/desk-dsc05762-2.webp?v=1792086766",
-          "alt": "Deep Brown Linen Tunic-5",
-          "type": "Front Image",
-          "sort_order": "5"
-        }
-      ]
-    },
-    {
-      "id": "16",
-      "name": "Blue-Grey Illustrated Sleeve Shirt",
-      "slug": "blue-grey-illustrated-sleeve-shirt",
-      "sku": "DF202616",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6004,
-      "mrp": 6004,
-      "special_price": 5103.4,
-      "currentPrice": 5103.4,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/blue-grey-illustrated-sleeve-shirt/desk-dsc06067.webp?v=1792083479",
-          "alt": "Blue-Grey Illustrated Sleeve Shirt-1",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/blue-grey-illustrated-sleeve-shirt/desk-dsc06076.webp?v=1792083479",
-          "alt": "Blue-Grey Illustrated Sleeve Shirt-2",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/blue-grey-illustrated-sleeve-shirt/desk-dsc06081.webp?v=1792083479",
-          "alt": "Blue-Grey Illustrated Sleeve Shirt-3",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/blue-grey-illustrated-sleeve-shirt/desk-dsc06089.webp?v=1792083479",
-          "alt": "Blue-Grey Illustrated Sleeve Shirt-4",
-          "type": "Front Image",
-          "sort_order": "4"
-        },
-        {
-          "url": "/ecommerce/Product/blue-grey-illustrated-sleeve-shirt/desk-dsc06092.webp?v=1792083479",
-          "alt": "Blue-Grey Illustrated Sleeve Shirt-5",
-          "type": "Front Image",
-          "sort_order": "5"
-        }
-      ]
-    },
-    {
-      "id": "17",
-      "name": "Meadow Green Chambray Shirt",
-      "slug": "meadow-green-chambray-shirt",
-      "sku": "DF202617",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6005,
-      "mrp": 6005,
-      "special_price": 5104.25,
-      "currentPrice": 5104.25,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/meadow-green-chambray-shirt/desk-dsc06357.webp?v=1792086693",
-          "alt": "Meadow Green Chambray Shirt-1",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/meadow-green-chambray-shirt/desk-dsc06359.webp?v=1792086693",
-          "alt": "Meadow Green Chambray Shirt-2",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/meadow-green-chambray-shirt/desk-dsc06361.webp?v=1792086693",
-          "alt": "Meadow Green Chambray Shirt-3",
-          "type": "Front Image",
-          "sort_order": "3"
         }
       ]
     },
@@ -874,122 +374,34 @@
       "quantityAvailable": 1,
       "image": [
         {
-          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-dsc05931.webp?v=1792086613",
+          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-grey1.webp?v=1792218329",
           "alt": "Ochre Grey Mandarin Shirt-1",
           "type": "Front Image",
           "sort_order": "1"
         },
         {
-          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-dsc05957.webp?v=1792086613",
+          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-grey2.webp?v=1792218329",
           "alt": "Ochre Grey Mandarin Shirt-2",
           "type": "Front Image",
           "sort_order": "2"
         },
         {
-          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-dsc05968.webp?v=1792086613",
+          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-grey3.webp?v=1792218329",
           "alt": "Ochre Grey Mandarin Shirt-3",
           "type": "Front Image",
           "sort_order": "3"
         },
         {
-          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-dsc05972.webp?v=1792086613",
+          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-grey4.webp?v=1792218329",
           "alt": "Ochre Grey Mandarin Shirt-4",
           "type": "Front Image",
           "sort_order": "4"
         },
         {
-          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-dsc05989.webp?v=1792086613",
+          "url": "/ecommerce/Product/ochre-grey-mandarin-shirt/desk-grey5.webp?v=1792218329",
           "alt": "Ochre Grey Mandarin Shirt-5",
           "type": "Front Image",
           "sort_order": "5"
-        }
-      ]
-    },
-    {
-      "id": "19",
-      "name": "Classic Checked Shirt",
-      "slug": "classic-checked-shirt",
-      "sku": "DF202619",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6007,
-      "mrp": 6007,
-      "special_price": 5105.95,
-      "currentPrice": 5105.95,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-        {
-          "url": "/ecommerce/Product/classic-checked-shirt/desk-dsc05864.webp?v=1792086444",
-          "alt": "Classic Checked Shirt-1",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/classic-checked-shirt/desk-dsc05884.webp?v=1792086444",
-          "alt": "Classic Checked Shirt-2",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/classic-checked-shirt/desk-dsc05908.webp?v=1792086444",
-          "alt": "Classic Checked Shirt-3",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/classic-checked-shirt/desk-dsc05914.webp?v=1792086444",
-          "alt": "Classic Checked Shirt-4",
-          "type": "Front Image",
-          "sort_order": "4"
-        }
-      ]
-    },
-    {
-      "id": "20",
-      "name": "Earth Green Check Shirt",
-      "slug": "earth-green-check-shirt",
-      "sku": "DF202620",
-      "cat_id": null,
-      "category": "shirts",
-      "price": 6008,
-      "mrp": 6008,
-      "special_price": 5106.8,
-      "currentPrice": 5106.8,
-      "discount": 15,
-      "status": "active",
-      "size": "S,M,L,XL",
-      "color": null,
-      "sort_order": null,
-      "quantityAvailable": 1,
-      "image": [
-         {
-          "url": "/ecommerce/Product/earth-green-check-shirt/desk-dsc06132.webp?v=1792086356",
-          "alt": "Earth Green Check Shirt-1",
-          "type": "Front Image",
-          "sort_order": "1"
-        },
-        {
-          "url": "/ecommerce/Product/earth-green-check-shirt/desk-dsc06134.webp?v=1792086356",
-          "alt": "Earth Green Check Shirt-2",
-          "type": "Front Image",
-          "sort_order": "2"
-        },
-        {
-          "url": "/ecommerce/Product/earth-green-check-shirt/desk-dsc06160.webp?v=1792086356",
-          "alt": "Earth Green Check Shirt-3",
-          "type": "Front Image",
-          "sort_order": "3"
-        },
-        {
-          "url": "/ecommerce/Product/earth-green-check-shirt/desk-dsc06145.webp?v=1792086356",
-          "alt": "Earth Green Check Shirt-4",
-          "type": "Front Image",
-          "sort_order": "4"
         }
       ]
     }

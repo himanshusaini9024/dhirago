@@ -285,14 +285,14 @@ export default function Gallery({ images: rawImages }) {
                 <div
                   key={i}
                   onClick={() => openLightbox(i)}
-                  className="relative  w-full shrink-0 cursor-zoom-in overflow-hidden"
+                  className="relative flex aspect-[2/3] w-full shrink-0 cursor-zoom-in items-center justify-center overflow-hidden bg-[#edeae3]"
                 >
                   <img
                     src={img.url ? BASE + img.url : "/placeholder.jpg"}
                     alt={img.alt || `Product ${i + 1}`}
                     loading={i === 0 ? "eager" : "lazy"}
                     onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
-                    className="block h-full w-full object-cover object-top"
+                    className="block max-h-full max-w-full object-contain object-center"
                   />
                   {!loaded[i] && (
                     <div
@@ -378,7 +378,7 @@ export default function Gallery({ images: rawImages }) {
                 imgRefs.current[i] = el;
               }}
               onClick={() => openLightbox(i)}
-              className="relative h-[calc(100vh-155px)] min-h-[1000px] w-[full] shrink-0 cursor-zoom-in overflow-hidden bg-[#edeae3]"
+              className="relative flex h-[calc(100vh-155px)] min-h-[1000px] w-full shrink-0 cursor-zoom-in items-center justify-center overflow-hidden "
             >
               <motion.img
                 src={img.url ? BASE + img.url : "/placeholder.jpg"}
@@ -388,7 +388,7 @@ export default function Gallery({ images: rawImages }) {
                 onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
                 whileHover={{ scale: 1.008 }}
                 // transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="block h-full w-full object-cover object-top"
+                className="block max-h-full max-w-full object-contain object-center"
               />
               {!loaded[i] && (
                 <div

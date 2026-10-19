@@ -269,45 +269,51 @@ export default function Gallery({ images: rawImages }) {
   if (count === 0) return null;
 
   if (isMobile) {
+    const mobileImg = images[active];
     return (
       <>
         <div className="w-full bg-[#edeae3]">
           <div
-            className="w-full overflow-hidden touch-pan-y"
+            className="relative w-full touch-pan-y"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
+            onClick={() => openLightbox(active)}
           >
-            <div
-              className="flex will-change-transform transition-transform duration-[380ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-              style={{ transform: `translateX(-${active * 100}%)` }}
-            >
-              {images.map((img, i) => (
-                <div
-                  key={i}
-                  onClick={() => openLightbox(i)}
-                  className="relative flex aspect-[2/3] w-full shrink-0 cursor-zoom-in items-center justify-center overflow-hidden bg-[#edeae3]"
-                >
-                  <img
-                    src={img.url ? BASE + img.url : "/placeholder.jpg"}
-                    alt={img.alt || `Product ${i + 1}`}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
-                    className="block max-h-full max-w-full object-contain object-center"
-                  />
-                  {!loaded[i] && (
-                    <div
-                      className="absolute inset-0 z-[1]"
-                      style={{
-                        background:
-                          "linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
-                        backgroundSize: "200% 100%",
-                        animation: "dhgsk5 1.6s ease infinite",
-                      }}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
+            <img
+              key={active}
+              src={mobileImg?.url ? BASE + mobileImg.url : "/placeholder.jpg"}
+              alt={mobileImg?.alt || `Product ${active + 1}`}
+              loading="eager"
+              decoding="async"
+              sizes="100vw"
+              onLoad={() => setLoaded((p) => ({ ...p, [active]: true }))}
+              className="block h-auto w-full select-none bg-[#edeae3]"
+              draggable={false}
+              style={{ imageRendering: "auto" }}
+            />
+            {!loaded[active] && (
+              <div
+                className="absolute inset-0 z-[1]"
+                style={{
+                  background:
+                    "linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
+                  backgroundSize: "200% 100%",
+                  animation: "dhgsk5 1.6s ease infinite",
+                }}
+              />
+            )}
+            {/* Preload neighbors for swipe — kept off-screen, no CSS transform */}
+            {images.map((img, i) =>
+              Math.abs(i - active) === 1 && img.url ? (
+                <img
+                  key={`preload-${i}`}
+                  src={BASE + img.url}
+                  alt=""
+                  aria-hidden
+                  className="pointer-events-none absolute h-px w-px opacity-0"
+                />
+              ) : null,
+            )}
           </div>
 
           <div className="flex justify-center gap-1.5 bg-white px-0 py-2.5 pb-3">
@@ -491,7 +497,11 @@ function Lightbox({
               animate={{ opacity: 1, scale: zoomed ? (mobile ? 2.2 : 2.4) : 1 }}
               exit={{ opacity: 0, scale: 0.97 }}
               transition={{ duration: mobile ? 0.2 : 0.22 }}
-              className="block max-h-[90vh] max-w-[88vw] object-contain"
+              className={
+                mobile
+                  ? "block h-auto w-full max-h-[100dvh] object-contain"
+                  : "block max-h-[90vh] max-w-[88vw] object-contain"
+              }
               style={{
                 cursor: zoomed ? "zoom-out" : "zoom-in",
                 transformOrigin: `${origin.x}% ${origin.y}%`,

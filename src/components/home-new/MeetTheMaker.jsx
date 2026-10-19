@@ -21,32 +21,75 @@ function LoopSlider({ slides, href, sizes, className = "", dotSize = 8 }) {
   const [animate, setAnimate] = useState(true);
   const [dragOffset, setDragOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [width, setWidth] = useState(0);
   const drag = useRef({ active: false, startX: 0, offset: 0 });
+  const viewportRef = useRef(null);
+  const wrapping = useRef(false);
 
-  const go = useCallback((next) => {
-    setAnimate(true);
-    setCurrent(next);
+  // Measure viewport so translate uses px (avoids % / track-width bugs).
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const measure = () => setWidth(el.clientWidth);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
+  const jumpTo = useCallback((index) => {
+    wrapping.current = true;
+    setAnimate(false);
+    setCurrent(index);
+    // Re-enable animation on the next frame after the silent jump paints.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        wrapping.current = false;
+        setAnimate(true);
+      });
+    });
+  }, []);
+
+  const go = useCallback((next) => {
+    if (wrapping.current || total < 2) return;
+    setAnimate(true);
+    setCurrent(next);
+  }, [total]);
+
+  // Autoplay
   useEffect(() => {
-    if (total < 2 || dragging) return;
+    if (total < 2 || dragging || wrapping.current) return;
     const t = setTimeout(() => go(current + 1), AUTOPLAY_MS);
     return () => clearTimeout(t);
   }, [current, dragging, total, go]);
 
+  // When we land on a clone, snap back to the real slide.
+  // Timer fallback covers browsers that skip transitionend (tab blur, etc.).
+  useEffect(() => {
+    if (total < 2) return;
+    if (current !== total + 1 && current !== 0) return;
+
+    const snap = () => jumpTo(current === 0 ? total : 1);
+    const t = setTimeout(snap, animate ? 720 : 0);
+    return () => clearTimeout(t);
+  }, [current, total, animate, jumpTo]);
+
+  // Safety: if index ever drifts past the track, pull it back.
+  useEffect(() => {
+    if (total < 2) return;
+    if (current > total + 1) jumpTo(1);
+    else if (current < 0) jumpTo(total);
+  }, [current, total, jumpTo]);
+
   const onTransitionEnd = (e) => {
+    if (e.target !== e.currentTarget) return;
     if (e.propertyName !== "transform") return;
-    if (current === total + 1) {
-      setAnimate(false);
-      setCurrent(1);
-    } else if (current === 0) {
-      setAnimate(false);
-      setCurrent(total);
-    }
+    if (current === total + 1) jumpTo(1);
+    else if (current === 0) jumpTo(total);
   };
 
   const startDrag = (x) => {
-    if (total < 2) return;
+    if (total < 2 || wrapping.current) return;
     drag.current = { active: true, startX: x, offset: 0 };
     setDragging(true);
     setAnimate(false);
@@ -68,10 +111,12 @@ function LoopSlider({ slides, href, sizes, className = "", dotSize = 8 }) {
     else setAnimate(true);
   };
 
-  const activeDot = total > 1 ? (current - 1 + total) % total : 0;
+  const activeDot = total > 1 ? ((current - 1) % total + total) % total : 0;
+  const tx = width ? -(current * width) + dragOffset : 0;
 
   return (
     <div
+      ref={viewportRef}
       className={`relative select-none overflow-hidden ${className}`}
       onTouchStart={(e) => startDrag(e.touches[0].clientX)}
       onTouchMove={(e) => moveDrag(e.touches[0].clientX)}
@@ -82,10 +127,10 @@ function LoopSlider({ slides, href, sizes, className = "", dotSize = 8 }) {
       onMouseLeave={endDrag}
     >
       <div
-        className="flex w-full will-change-transform"
+        className="flex h-full"
         style={{
-          transform: `translate3d(calc(-${current * 100}% + ${dragOffset}px), 0, 0)`,
-          transition: animate ? "transform 700ms ease" : "none",
+          transform: `translate3d(${tx}px, 0, 0)`,
+          transition: animate && width ? "transform 700ms ease" : "none",
         }}
         onTransitionEnd={onTransitionEnd}
       >
@@ -95,8 +140,12 @@ function LoopSlider({ slides, href, sizes, className = "", dotSize = 8 }) {
             href={href}
             draggable={false}
             onClick={(e) => Math.abs(drag.current.offset) > 5 && e.preventDefault()}
-            style={{ ...RATIO_STYLE, flex: "0 0 100%" }}
-            className="relative block w-full overflow-hidden"
+            style={{
+              ...RATIO_STYLE,
+              flex: "0 0 auto",
+              width: width ? `${width}px` : "100%",
+            }}
+            className="relative block overflow-hidden bg-[#ece9e4]"
           >
             <Image
               src={slide.src}
@@ -104,10 +153,10 @@ function LoopSlider({ slides, href, sizes, className = "", dotSize = 8 }) {
               fill
               sizes={sizes}
               quality={80}
+              priority={i <= 2}
               draggable={false}
               className={`object-cover ${slide.position || ""}`}
             />
-            
           </Link>
         ))}
       </div>

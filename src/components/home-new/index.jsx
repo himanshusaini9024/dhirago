@@ -18,6 +18,7 @@ import PageIntro from "../../components/page-intro";
 import Homecontent from "../../components/page-intro/home";
 import Bestsellers from "../../components/page-intro/bestseller";
 import shopCollection from "../../data/shop-our-collection.json";
+import Marqueequoto from "../../components/page-intro/marque";
 
 const bySlug = (list, slug) => list.find((p) => p.slug === slug);
 
@@ -143,11 +144,12 @@ export default function HomeNew({ products = [] }) {
           { src: cdn("Home/wi2.webp") , alt: "Embroidered collar detail" },
           { src: cdn("Home/aunty.jpg"), alt: "Kantha stitches being worked by hand" },
           { src: cdn("Home/maker.webp") , alt: "Hand detailing on a rust shirt" },
-  
+          // { src: "/images/img9172.jpg" , alt: "Hand detailing on a rust shirt" },
  
           
         ]}
       />
+      <Marqueequoto/>
         <ProductsFeatured/>
 
 

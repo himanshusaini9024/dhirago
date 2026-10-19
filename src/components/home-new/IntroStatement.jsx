@@ -4,16 +4,23 @@ import { josefin } from "./theme";
 
 export default function IntroStatement() {
   return (
-    <section className="px-6 py-12 md:py-24">
-      <Reveal className="mx-auto max-w-[760px] text-center">
-        <p className={`${josefin.className} text-[14px] italic font-light leading-[1.5] md:leading-[1.7] text-[#3d342a] md:text-[20px]`}>
-          Our debut collection begins in indigo and unfolds into mustard, greens
-          and shadowed neutrals. Linen and kala cotton meet Kantha embroidery,
-          hand block printing and Tangaliya-inspired detail — made in limited
-          numbers, meant to gather character as they are worn.
+    <section className="px-6 py-12 md:py-24 bg-[#ffffff]">
+      <Reveal className="mx-auto max-w-[1160px] text-justify ">
+        <p
+          className={`${josefin.className} text-[14px]  font-light leading-[1.5] md:leading-[2.2] text-[#111111] md:text-[20px]`}
+        >
+          A life in details It is often the smallest things that give us an
+          experience—the comfort of a well-worn object, the warmth of afternoon
+          sunlight, or the beauty of imperfections. These everyday details stay
+          with us, becoming part of our memories. Our collection reflects the
+          beauty found in the smallest details of life, looking at dressing
+          beyond simply what we wear. It is an appreciation of the ordinary
+          things that gain beauty with time.
         </p>
         <div className="mt-4">
-          <FramedButton href="/collections/shirts">Discover collection</FramedButton>
+          <FramedButton href="/about">
+            Discover More
+          </FramedButton>
         </div>
       </Reveal>
     </section>

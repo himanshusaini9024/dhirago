@@ -65,7 +65,7 @@ const Categorybaner = ({ catbanner, catbannerMobile, slug }) => {
       />
 
       {/* Dark overlay for text legibility */}
-      <div className="absolute inset-0 bg-black/35" />
+      {/* <div className="absolute inset-0 bg-black/15" /> */}
 
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-[1200px] px-[clamp(1.5rem,5vw,5rem)]">

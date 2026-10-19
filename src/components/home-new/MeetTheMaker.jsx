@@ -173,14 +173,12 @@ export default function MeetTheMaker({ portrait, slides = [], href = "/handwork"
             <p
               className={`${josefin.className} mt-6 text-[17px] italic font-light leading-[1.75] text-[#4a3f33] md:text-[17px]`}
             >
-              In the hands of our artisans, a simple thread becomes something
-              lasting. Each stitch carries generations of skill, patience and
-              instinct — no two pieces are ever quite the same.
+              Each piece crafted at Dhirago is a result of value chain that nurtures artisans around India. Preserving the knowledge and practices passed down through generations. Every stitch reflects there craftsmanship and patience.
             </p>
             <p
               className={`${josefin.className} mt-4 text-[17px] italic font-light leading-[1.75] text-[#4a3f33] md:text-[17px]`}
             >
-              Worked slowly, these details reveal themselves over time.
+              No two hands leave quite the same impression.
             </p>
             <Link
               href={href}

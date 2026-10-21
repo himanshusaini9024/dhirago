@@ -325,19 +325,17 @@ const CheckoutPage = () => {
         meta: getMetaBrowserIds(),
       });
       const created = data?.order || data || {};
-      const orderNumber =
-        created.order_number ||
-        created.id ||
-        razorpay_order_id ||
-        `tmp_${Date.now()}`;
-
-      savePendingPurchase({
-        ...orderData,
-        order_number: orderNumber,
-        id: created.id || orderNumber,
-        total_amount: payableTotal,
-        items,
-      });
+      // Only the store order_number matches Laravel's Meta event_id (purchase_<order_number>).
+      // Never use DB id / Razorpay id / tmp_ — that breaks Pixel ↔ CAPI dedupe.
+      if (created.order_number) {
+        savePendingPurchase({
+          ...orderData,
+          order_number: created.order_number,
+          id: created.id,
+          total_amount: created.total_amount ?? payableTotal,
+          items,
+        });
+      }
 
       localStorage.removeItem("cartItems");
       router.replace("/success");

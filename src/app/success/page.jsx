@@ -24,23 +24,34 @@ export default function SuccessPage() {
       try {
         const res = await API.get("/orders/latest");
         const latest = res.data?.order || null;
-        const merged = latest
-          ? {
-              ...pending,
-              ...latest,
-              items: latest.items || pending?.items || [],
-            }
-          : pending;
 
-        if (merged) {
+        // Prefer the confirmed API order. Only fire Purchase when order_number exists
+        // (same id Laravel uses for CAPI). Do not track from pending alone if latest failed.
+        if (latest?.order_number) {
+          const merged = {
+            ...pending,
+            ...latest,
+            order_number: latest.order_number,
+            items: latest.items || pending?.items || [],
+          };
           setOrder(merged);
           await trackPurchase(merged);
+        } else if (pending?.order_number) {
+          // API returned nothing useful; pending only exists after a successful POST /orders.
+          setOrder(pending);
+          await trackPurchase(pending);
+        } else if (latest || pending) {
+          setOrder(latest || pending);
         }
       } catch (err) {
         console.log(err);
+        // Show UI from pending if we have it, but only track when order_number is real
+        // (saved after a successful create). Never invent Purchase from cart-only data.
         if (pending) {
           setOrder(pending);
-          await trackPurchase(pending);
+          if (pending.order_number) {
+            await trackPurchase(pending);
+          }
         }
       } finally {
         setLoading(false);

@@ -27,8 +27,22 @@ function metaContents(items = []) {
   }));
 }
 
+/**
+ * Same value Laravel uses: purchase_<order_number>.
+ * Never fall back to DB id / Razorpay id — that breaks Meta dedupe.
+ */
+export function purchaseOrderNumber(order) {
+  if (!order) return null;
+  const n = order.order_number;
+  if (n === null || n === undefined || n === "") return null;
+  const s = String(n).trim();
+  if (!s || s.startsWith("tmp_")) return null;
+  return s;
+}
+
 export function savePendingPurchase(payload) {
   try {
+    if (!purchaseOrderNumber(payload)) return;
     sessionStorage.setItem(PENDING_KEY, JSON.stringify(payload));
   } catch {
     /* ignore */
@@ -44,18 +58,18 @@ export function readPendingPurchase() {
   }
 }
 
-function markTracked(orderId) {
+function markTracked(orderNumber) {
   try {
-    sessionStorage.setItem(PURCHASE_KEY, String(orderId));
+    sessionStorage.setItem(PURCHASE_KEY, String(orderNumber));
     sessionStorage.removeItem(PENDING_KEY);
   } catch {
     /* ignore */
   }
 }
 
-function alreadyTracked(orderId) {
+function alreadyTracked(orderNumber) {
   try {
-    return sessionStorage.getItem(PURCHASE_KEY) === String(orderId);
+    return sessionStorage.getItem(PURCHASE_KEY) === String(orderNumber);
   } catch {
     return false;
   }
@@ -63,41 +77,33 @@ function alreadyTracked(orderId) {
 
 /**
  * Fire Purchase once for GTM/GA4 (dataLayer) + Meta Pixel.
- * Google Ads should import the GA4 purchase key event — no AW- snippet needed.
+ * Requires order_number so event_id matches Laravel MetaPurchaseJob.
  */
 export async function trackPurchase(order) {
   if (typeof window === "undefined" || !order) return false;
 
-  const orderId =
-    order.order_number ||
-    order.id ||
-    order.transaction_id ||
-    order.razorpay_order_id;
-
-  if (!orderId || alreadyTracked(orderId)) return false;
+  const orderNumber = purchaseOrderNumber(order);
+  if (!orderNumber || alreadyTracked(orderNumber)) return false;
 
   const value = toNumber(order.total_amount ?? order.value ?? order.priceTotal);
   const currency = "INR";
   const items = normalizeItems(order.items || order.cartItems || []);
   const contents = metaContents(order.items || order.cartItems || []);
   const numItems = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
-  // Same id the backend uses for its server-side Purchase, so Meta counts it once.
-  const eventID = `purchase_${orderId}`;
+  const eventID = `purchase_${orderNumber}`;
 
-  // GTM → GA4 - purchase tag
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ ecommerce: null });
   window.dataLayer.push({
     event: "purchase",
     ecommerce: {
-      transaction_id: String(orderId),
+      transaction_id: String(orderNumber),
       value,
       currency,
       items,
     },
   });
 
-  // Meta Pixel. The Conversions API copy is sent by the backend when the order is saved.
   fbEvent(
     "Purchase",
     {
@@ -106,11 +112,11 @@ export async function trackPurchase(order) {
       contents,
       content_type: "product",
       num_items: numItems,
-      order_id: String(orderId),
+      order_id: String(orderNumber),
     },
     eventID,
   );
 
-  markTracked(orderId);
+  markTracked(orderNumber);
   return true;
 }

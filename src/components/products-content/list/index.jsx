@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useMemo, useSyncExternalStore, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Josefin_Sans, Cormorant_Garamond } from "next/font/google";
@@ -46,6 +46,60 @@ const CheckIcon = () => (
   </svg>
 );
 
+/** Fewer columns — larger cards (slider left) */
+const GridSparseIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+    <rect x="1" y="1" width="5.5" height="5.5" stroke="currentColor" strokeWidth="1.2" />
+    <rect x="7.5" y="1" width="5.5" height="5.5" stroke="currentColor" strokeWidth="1.2" />
+    <rect x="1" y="7.5" width="5.5" height="5.5" stroke="currentColor" strokeWidth="1.2" />
+    <rect x="7.5" y="7.5" width="5.5" height="5.5" stroke="currentColor" strokeWidth="1.2" />
+  </svg>
+);
+
+/** More columns — denser grid (slider right) */
+const GridDenseIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+    <rect x="1" y="1" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+    <rect x="5.4" y="1" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+    <rect x="9.8" y="1" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+    <rect x="1" y="5.4" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+    <rect x="5.4" y="5.4" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+    <rect x="9.8" y="5.4" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+    <rect x="1" y="9.8" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+    <rect x="5.4" y="9.8" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+    <rect x="9.8" y="9.8" width="3.2" height="3.2" stroke="currentColor" strokeWidth="1.1" />
+  </svg>
+);
+
+const COL_OPTIONS = [3, 4, 5];
+const COLS_STORAGE_KEY = "dhirago.collection.cols";
+const COLS_EVENT = "dhirago-collection-cols";
+
+const COL_IMAGE_SIZES = {
+  3: "(max-width: 768px) 50vw, 33vw",
+  4: "(max-width: 768px) 50vw, 25vw",
+  5: "(max-width: 768px) 50vw, 20vw",
+};
+
+function readStoredCols() {
+  try {
+    const saved = Number(window.localStorage.getItem(COLS_STORAGE_KEY));
+    return COL_OPTIONS.includes(saved) ? saved : 4;
+  } catch {
+    return 4;
+  }
+}
+
+function subscribeCols(onStoreChange) {
+  const handler = () => onStoreChange();
+  window.addEventListener(COLS_EVENT, handler);
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(COLS_EVENT, handler);
+    window.removeEventListener("storage", handler);
+  };
+}
+
 export default function ProductList({ initialProducts, slug }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -55,6 +109,7 @@ export default function ProductList({ initialProducts, slug }) {
   const [openSort, setOpenSort] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const cols = useSyncExternalStore(subscribeCols, readStoredCols, () => 4);
   const [filters, setFilters] = useState({ size: [], color: [], maxPrice: 10000 });
   const [debouncedPrice, setDebouncedPrice] = useState(10000);
   const [touchStartY, setTouchStartY] = useState(0);
@@ -66,6 +121,41 @@ export default function ProductList({ initialProducts, slug }) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const setColumnCount = useCallback(
+    (value) => {
+      const next = Number(value);
+      if (!COL_OPTIONS.includes(next) || next === cols) return;
+
+      try {
+        window.localStorage.setItem(COLS_STORAGE_KEY, String(next));
+      } catch {
+        /* ignore */
+      }
+      window.dispatchEvent(new Event(COLS_EVENT));
+
+      // Analytics: track density-slider usage (GTM/GA4 + gtag)
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "grid_density_change",
+          grid_columns: next,
+          collection_slug: slug || "",
+        });
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "grid_density_change", {
+            event_category: "collection",
+            event_label: `${slug || "collection"}:${next}`,
+            value: next,
+            grid_columns: next,
+          });
+        }
+      } catch {
+        /* ignore analytics errors */
+      }
+    },
+    [cols, slug],
+  );
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedPrice(filters.maxPrice), 300);
@@ -146,65 +236,141 @@ export default function ProductList({ initialProducts, slug }) {
   const activeCount = filters.size.length + filters.color.length;
   const pricePct = Math.round((filters.maxPrice / 10000) * 100);
 
-  const bannerRef = useRef(null);
-  const [stickyBar, setStickyBar] = useState(false);
+  // 11-11 style: bar lives below the banner, then becomes fixed under the site header.
+  const [barFixed, setBarFixed] = useState(false);
+  const [barHeight, setBarHeight] = useState(52);
+  const sentinelRef = useRef(null);
+  const barRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setStickyBar(window.innerWidth >= 1024 ? window.scrollY > window.innerHeight - 80 : window.scrollY > 240);
+    const headerOffset = () => (window.innerWidth >= 1024 ? 120 : 72);
+
+    const update = () => {
+      const sentinel = sentinelRef.current;
+      const bar = barRef.current;
+      if (bar) setBarHeight(bar.offsetHeight);
+      if (!sentinel) return;
+      setBarFixed(sentinel.getBoundingClientRect().top <= headerOffset());
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
   return (
     <div className={`${josefin.className} bg-white min-h-screen`}>
-      {stickyBar && <div className="h-[70px]" />}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            .dhg-cols-slider { height: 18px; }
+            .dhg-cols-slider::-webkit-slider-runnable-track { height: 1px; background: #1c1814; }
+            .dhg-cols-slider::-moz-range-track { height: 1px; background: #1c1814; border: none; }
+            .dhg-cols-slider::-webkit-slider-thumb {
+              -webkit-appearance: none; appearance: none;
+              width: 12px; height: 12px; margin-top: -5.5px;
+              border-radius: 9999px; background: #1c1814; border: none; cursor: pointer;
+            }
+            .dhg-cols-slider::-moz-range-thumb {
+              width: 12px; height: 12px; border-radius: 9999px;
+              background: #1c1814; border: none; cursor: pointer;
+            }
+          `,
+        }}
+      />
 
-      {/* ── TOP BAR ────────────────────────────────────────── */}
+      {/* Marks the natural place of the bar (always under the banner). */}
+      <div ref={sentinelRef} className="h-0 w-full" aria-hidden />
+      {barFixed && <div style={{ height: barHeight }} aria-hidden />}
+
+      {/* ── PRODUCT COUNT BAR (like 11-11 "167 PRODUCTS") ── */}
       <div
-        className={`flex items-center justify-center w-full z-40 bg-white/90 backdrop-blur-[14px] px-8 py-4 border-y border-[#C4A882]/25 transition-shadow duration-500 ${
-          stickyBar
-            ? `fixed ${isDesktop ? "top-20" : "top-[60px]"} left-0 right-0 shadow-[0_8px_30px_-12px_rgba(28,24,20,0.18)]`
-            : "relative top-0"
+        ref={barRef}
+        className={`z-40 grid w-full grid-cols-[1fr_auto_1fr] items-center gap-3 bg-[#f7f7f5] px-4 md:px-10 py-3 border-y border-black/10 ${
+          barFixed
+            ? "fixed left-0 right-0 top-[100px] lg:top-[150px]"
+            : "relative"
         }`}
       >
-        <div className="flex items-center gap-[0.6rem] flex-wrap">
-          <span className="text-sm tracking-[0.1em] text-[#4a4036] font-normal">{filteredProducts.length} Products</span>
-          {[...filters.size, ...filters.color].map((item) => (
-            <span
-              key={item}
-              className="inline-flex items-center gap-2 px-[0.85rem] py-[0.3rem] border border-[#C4A882]/50 bg-gradient-to-b from-[#FBF9F4] to-[#F5F0E6] text-[10px] tracking-[0.15em] uppercase text-[#1C1814] whitespace-nowrap shadow-[0_1px_3px_rgba(28,24,20,0.06)] transition-all duration-300 hover:border-[#1C1814]/40 hover:shadow-[0_2px_8px_rgba(28,24,20,0.1)]"
-            >
-              {item}
-              <button
-                onClick={() =>
-                  setFilters({
-                    ...filters,
-                    size: filters.size.filter((s) => s !== item),
-                    color: filters.color.filter((c) => c !== item),
-                  })
-                }
-                className="bg-transparent border-none cursor-pointer text-[#8a7a63] hover:text-[#1C1814] p-0 flex transition-colors duration-200"
-              >
-                <CloseIcon />
-              </button>
-            </span>
-          ))}
+        {/* Left — grid density slider (desktop) */}
+        <div className="hidden md:flex items-center gap-3 justify-self-start" title={`${cols} products per row`}>
+          <button
+            type="button"
+            aria-label="Show 3 products per row"
+            onClick={() => setColumnCount(3)}
+            className={`p-0.5 transition-colors ${cols === 3 ? "text-[#1C1814]" : "text-[#1C1814]/35 hover:text-[#1C1814]/70"}`}
+          >
+            <GridSparseIcon />
+          </button>
+          <input
+            type="range"
+            min={3}
+            max={5}
+            step={1}
+            value={cols}
+            onChange={(e) => setColumnCount(e.target.value)}
+            aria-label="Products per row"
+            aria-valuetext={`${cols} products per row`}
+            className="dhg-cols-slider w-[110px] lg:w-[140px] cursor-pointer appearance-none bg-transparent outline-none"
+          />
+          <button
+            type="button"
+            aria-label="Show 5 products per row"
+            onClick={() => setColumnCount(5)}
+            className={`p-0.5 transition-colors ${cols === 5 ? "text-[#1C1814]" : "text-[#1C1814]/35 hover:text-[#1C1814]/70"}`}
+          >
+            <GridDenseIcon />
+          </button>
+        </div>
+        <div className="md:hidden" />
+
+        {/* Center — product count */}
+        <div className="flex flex-col items-center justify-center gap-1.5 justify-self-center text-center">
+          <span className="text-[11px] md:text-[12px] tracking-[0.22em] uppercase text-[#1a1a1a] font-normal whitespace-nowrap">
+            {filteredProducts.length} Products
+          </span>
+          {(filters.size.length > 0 || filters.color.length > 0) && (
+            <div className="flex flex-wrap items-center justify-center gap-1.5">
+              {[...filters.size, ...filters.color].map((item) => (
+                <span
+                  key={item}
+                  className="inline-flex items-center gap-2 px-[0.85rem] py-[0.3rem] border border-[#C4A882]/50 bg-gradient-to-b from-[#FBF9F4] to-[#F5F0E6] text-[10px] tracking-[0.15em] uppercase text-[#1C1814] whitespace-nowrap"
+                >
+                  {item}
+                  <button
+                    onClick={() =>
+                      setFilters({
+                        ...filters,
+                        size: filters.size.filter((s) => s !== item),
+                        color: filters.color.filter((c) => c !== item),
+                      })
+                    }
+                    className="bg-transparent border-none cursor-pointer text-[#8a7a63] hover:text-[#1C1814] p-0 flex"
+                  >
+                    <CloseIcon />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="relative lg:left-[44%] hidden md:block">
+        {/* Right — sort */}
+        <div className="relative hidden md:flex items-center justify-self-end gap-4">
+          <span className="hidden lg:block h-4 w-px bg-black/15" aria-hidden />
           <button
-            className={`flex items-center gap-2 px-[1.2rem] py-[0.6rem] border bg-transparent text-[11px] tracking-[0.12em] uppercase cursor-pointer whitespace-nowrap transition-all duration-300 ${
-              openSort
-                ? "border-[#1C1814] text-[#1C1814] shadow-[0_2px_10px_rgba(28,24,20,0.08)]"
-                : "border-[#1C1814]/20 text-[#1C1814] hover:border-[#C4A882] hover:text-[#8a6a3f]"
+            className={`flex items-center gap-2 bg-transparent text-[11px] tracking-[0.14em] uppercase cursor-pointer whitespace-nowrap transition-opacity duration-200 hover:opacity-60 ${
+              openSort ? "text-[#1C1814]" : "text-[#1C1814]"
             }`}
             aria-label="Sort products"
             aria-expanded={openSort}
             onClick={() => setOpenSort(!openSort)}
           >
-            <span className={BODY_FONT}>{sortLabels[sort]}</span>
+            <span className={BODY_FONT}>Sort by{sort !== "popular" ? `: ${sortLabels[sort]}` : ""}</span>
             <span className={`transition-transform duration-300 ${openSort ? "rotate-180" : ""}`}>
               <ChevronDown />
             </span>
@@ -216,22 +382,19 @@ export default function ProductList({ initialProducts, slug }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: 0.98 }}
                 transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute right-0 top-[calc(100%+8px)] bg-[#FDFCFA] border border-[#C4A882]/30 min-w-[210px] z-[100] shadow-[0_16px_40px_-8px_rgba(28,24,20,0.18)]"
+                className="absolute right-0 top-[calc(100%+8px)] bg-white border border-black/10 min-w-[210px] z-[100] shadow-[0_12px_30px_-10px_rgba(0,0,0,0.18)]"
               >
                 {Object.entries(sortLabels).map(([key, label], i) => (
                   <div
                     key={key}
-                    className={`${BODY_FONT} relative px-5 py-3 text-[11px] tracking-[0.12em] uppercase cursor-pointer transition-colors duration-200 hover:bg-[#C4A882]/[0.08] ${
-                      i !== 0 ? "border-t border-[#C4A882]/15" : ""
+                    className={`${BODY_FONT} relative px-5 py-3 text-[11px] tracking-[0.12em] uppercase cursor-pointer transition-colors duration-200 hover:bg-black/[0.03] ${
+                      i !== 0 ? "border-t border-black/5" : ""
                     } ${sort === key ? "text-[#9A7B4F]" : "text-[#1C1814]"}`}
                     onClick={() => {
                       setSort(key);
                       setOpenSort(false);
                     }}
                   >
-                    {sort === key && (
-                      <span className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#C4A882]" />
-                    )}
                     {label}
                   </div>
                 ))}
@@ -239,10 +402,18 @@ export default function ProductList({ initialProducts, slug }) {
             )}
           </AnimatePresence>
         </div>
+        <div className="md:hidden" />
       </div>
 
       {/* ── PRODUCT GRID ───────────────────────────────────── */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-14 gap-3 md:px-12 px-2 md:py-6 py-0">
+      <div
+        className="grid grid-cols-2 gap-3 px-2 py-0 transition-[gap] duration-300 md:gap-8 md:px-12 md:py-6 lg:gap-10"
+        style={
+          isDesktop
+            ? { gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }
+            : undefined
+        }
+      >
         {filteredProducts.map((item, index) => (
           <ProductItem
             key={item.id}
@@ -257,7 +428,8 @@ export default function ProductList({ initialProducts, slug }) {
             discount={item.discount}
             images={item.image}
             category={item.category || slug}
-            priority={index < 4}
+            priority={index < cols}
+            imageSizes={COL_IMAGE_SIZES[cols] || COL_IMAGE_SIZES[4]}
           />
         ))}
       </div>

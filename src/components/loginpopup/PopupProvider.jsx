@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import LoginPopup from "../../components/loginpopup/index";
 
 const POPUP_COUNT_KEY = "popupCount";
-const MAX_POPUP_SHOWS = 2;
+const MAX_POPUP_SHOWS = 1;
 const SCROLL_TRIGGER_Y = 300;
 const OPEN_DELAY_MS = 500;
 

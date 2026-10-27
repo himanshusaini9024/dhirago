@@ -13,11 +13,11 @@ export default function IntroStatement() {
             className={`font-normal lg:text-justify text-[13px]  md:text-[clamp(0.7rem,1.35vw,1rem)] md:leading-[1.4] leading-[1.7] font-futura`}
             style={{ color: "#555555" }}
           >
-          A life in details It is often the smallest things that give us an
+          A life in details <br /><br /> It is often the smallest things that give us an
           experience—the comfort of a well-worn object, the warmth of afternoon
-          sunlight, or the beauty of imperfections.
-          <br /><br /> These everyday details stay
-          with us, becoming part of our memories. <br /><br />
+          sunlight, or the beauty of imperfections.These everyday details stay
+          with us, becoming part of our memories.
+           <br /><br />
           Our collection reflects the
           beauty found in the smallest details of life, looking at dressing
           beyond simply what we wear. It is an appreciation of the ordinary

@@ -7,7 +7,7 @@ import { getCategoryProducts } from "../lib/fetchCategory";
 export const metadata = generateSEO({
   title: "Dhirago | Premium Men's Shirts Online India — Luxury Menswear",
   description:
-    "Dhirago is a luxury Indian menswear brand. Shop premium men's shirts online — natural fabrics, hand embroidery, and timeless design from Udaipur.",
+    "Discover Dhirago, a luxury Indian menswear brand offering premium men's shirts crafted with natural fabrics, hand embroidery and timeless design.",
   path: "/",
 });
 

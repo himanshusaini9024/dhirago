@@ -36,8 +36,18 @@ const MOBILE_NAV_LINKS = [
   { label: "Timeless", href: "/timeless" },
 ];
 
+const ANNOUNCEMENTS = [
+  <>
+    Flat 15% Off this Festive season
+  </>,
+  <>
+    Free Shipping on all products
+  </>,
+];
+
 const Header = () => {
   const dispatch = useDispatch();
+  const [announceIndex, setAnnounceIndex] = useState(0);
   const pathname = usePathname();
   const cartItems = useSelector((state) => state.cart?.cartItems || []);
   const router = useRouter();
@@ -87,24 +97,40 @@ const Header = () => {
   const tone = overlay ? "text-white" : "text-black";
   const bar = overlay ? "bg-white" : "bg-black";
 
+  useEffect(() => {
+    if (ANNOUNCEMENTS.length < 2) return;
+    const t = setInterval(
+      () => setAnnounceIndex((i) => (i + 1) % ANNOUNCEMENTS.length),
+      3500,
+    );
+    return () => clearInterval(t);
+  }, []);
+
   const iconBtn = `inline-flex items-center justify-center w-9 h-9 ${tone} hover:opacity-60 transition-[opacity,color] duration-500`;
 
   return (
     <>
-      {/* Announcement — shown only when first-order discount is enabled */}
-      {/* {FIRST_ORDER_DISCOUNT_ENABLED ? ( */}
+      {/* Announcement slider */}
         <div
-          className={`fixed left-0 w-full z-[60] bg-black text-white transition-[top] duration-500 ease-out ${
+          className={`fixed left-0 w-full z-[60] bg-black text-white transition-[top] duration-500 ease-in ${
             overlay ? "-top-[60px]" : "top-0"
           }`}
         >
-          <p
-            className={`font-fuutra text-center text-[10px] font-semibold sm:text-[12px] lg:tracking-[0.122rem] uppercase py-2.5 px-4`}
-          >
-            Flat <em style={{ fontWeight: "900px" }}>15%-Off</em> On MRP
-          </p>
+          <div className="relative h-[36px] overflow-hidden">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p
+                key={announceIndex}
+                initial={{ y: 14, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -14, opacity: 0 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 flex items-center justify-center font-fuutra text-center text-[10px] font-semibold sm:text-[12px] lg:tracking-[0.122rem] uppercase px-4"
+              >
+                {ANNOUNCEMENTS[announceIndex]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
         </div>
-      {/* ) : null} */}
 
       <header
         className={`

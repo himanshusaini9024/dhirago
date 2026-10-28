@@ -330,7 +330,7 @@ export default function UltraPremiumFooter() {
                 <Instagram size={17} strokeWidth={1.4} />
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/profile.php?id=61592629269278"
                 aria-label="Pinterest"
                 className="text-[#2b2620] hover:text-[#8a7f6d] transition-colors duration-200"
               >

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { cdn, serif } from "./theme";
 
-const POSTER = cdn("dhirago-og.webp");
+const POSTER = cdn("Home/banner1.webp");
 const VIDEO = cdn("Home/hometop.mp4");
 
 const fade = (delay) => ({

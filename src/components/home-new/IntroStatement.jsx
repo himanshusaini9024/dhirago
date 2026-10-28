@@ -10,7 +10,7 @@ export default function IntroStatement() {
           className={`${josefin.className} text-[14px]  font-light leading-[1.5] md:leading-[1.1] text-[#111111] md:text-[18px]`}
         > */}
            <p
-            className={`font-normal lg:text-justify text-[13px]  md:text-[clamp(0.7rem,1.35vw,1rem)] md:leading-[1.4] leading-[1.7] font-futura`}
+            className={`font-normal lg:text-justify tracking-[1px] text-[13px]  md:text-[clamp(0.7rem,1.35vw,1rem)] md:leading-[1.4] leading-[1.7] font-futura`}
             style={{ color: "#555555" }}
           >
           A life in details <br /><br /> It is often the smallest things that give us an

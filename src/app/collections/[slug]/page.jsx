@@ -39,7 +39,7 @@ export async function generateMetadata({ params }) {
   return generateSEO({
     title:
       slug === "shirts"
-        ? "Dhirago Men's Shirts | Buy Premium Shirts Online in India"
+        ? "Men's Shirts | Buy Premium Shirts Online in India"
         : `Dhirago ${name} | Buy Online in India`,
     description: collectionMetaDescription(slug, name),
     path: `/collections/${slug}`,
@@ -69,7 +69,7 @@ export default async function ProductsPage({ params }) {
       />
 
       <CrawlSeo
-        h1={`Dhirago ${name} Collection`}
+        // h1={`Dhirago ${name} Collection`}
         h2={`Buy premium ${name.toLowerCase()} online in India`}
         description={intro}
         links={SITE_LINKS}

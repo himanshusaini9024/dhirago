@@ -14,7 +14,7 @@ export default function CrawlSeo({
 
   return (
     <section className="sr-only">
-      {h1 ? <h1>{h1}</h1> : null}
+      {/* {h1 ? <h1>{h1}</h1> : null} */}
       {h2 ? <h2>{h2}</h2> : null}
       {description ? <p>{description}</p> : null}
       {links.length > 0 ? (

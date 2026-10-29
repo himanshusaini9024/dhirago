@@ -55,18 +55,25 @@ export async function generateMetadata({ params }) {
     absoluteImageUrl(product.images?.[0]?.url) ||
     "https://images.dhirago.com/ecommerce/dhirago-og.webp";
 
-  const plainDesc = String(product.description || "")
+  const plainDesc = String(
+    product.meta_description || product.description || "",
+  )
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
   return generateSEO({
-    title: `${product.name} | Dhirago Men's Shirt`,
+    title:
+      product.meta_title ||
+      `${product.name} | Dhirago Men's Shirt`,
     description:
-      plainDesc.slice(0, 150) ||
+      plainDesc.slice(0, 160) ||
       `Buy ${product.name} online at Dhirago — premium men's shirts and luxury Indian menswear.`,
     path: `/product/${slug}`,
     image: imageUrl,
+    type: "product",
+    imageWidth: 2000,
+    imageHeight: 3000,
   });
 }
 
@@ -91,7 +98,12 @@ export default async function ProductPage({ params }) {
       "@type": "Product",
       name: product.name,
       image: imageUrls,
-      description: product.description || product.name,
+      description:
+        product.meta_description ||
+        String(product.description || product.name)
+          .replace(/<[^>]+>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim(),
       sku: product.sku || String(product.id),
       brand: {
         "@type": "Brand",

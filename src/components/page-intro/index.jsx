@@ -4,8 +4,10 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 // Dedicated hero poster — keep OG share image (dhirago-og.webp) separate for social cards.
+// Cache-bust query is for browsers only; sitemap/schema use the clean CDN URL.
 const POSTER = `https://images.dhirago.com/ecommerce/Home/banner1.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION || ""}`;
 const VIDEO = `https://images.dhirago.com/ecommerce/Home/video-1-1.mp4?${process.env.NEXT_PUBLIC_IMAGE_VERSION || ""}`;
+const VIDEO_INDEX_URL = "https://images.dhirago.com/ecommerce/Home/video-1-1.mp4";
 
 const PageIntro = () => {
   const videoRef = useRef(null);
@@ -72,6 +74,18 @@ const PageIntro = () => {
           <source src={VIDEO} type="video/mp4" />
         </video>
       )}
+
+      {/* Crawlable markup: hero video is JS-deferred for LCP, so expose a stable URL for indexers. */}
+      <noscript>
+        <video
+          muted
+          playsInline
+          poster={POSTER}
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        >
+          <source src={VIDEO_INDEX_URL} type="video/mp4" />
+        </video>
+      </noscript>
     </section>
   );
 };

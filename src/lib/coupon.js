@@ -1,5 +1,12 @@
 import API from "./api";
 
+/** Featured checkout coupon shown in the Apply card */
+export const FEATURED_COUPON_CODE = "DHIRAGO5";
+
+function isAlreadyUsedMessage(message) {
+  return /already used/i.test(String(message || ""));
+}
+
 /**
  * Apply / preview a coupon against the current cart via checkout quote API.
  */
@@ -20,6 +27,7 @@ export async function fetchCouponQuote(cartItems = [], couponCode = "") {
       total: subTotal,
       message: null,
       sub_total: subTotal,
+      alreadyUsed: false,
     };
   }
 
@@ -34,6 +42,7 @@ export async function fetchCouponQuote(cartItems = [], couponCode = "") {
     });
 
     const coupon = data?.coupon || {};
+    const message = coupon.message || data?.message || null;
 
     return {
       valid: Boolean(coupon.valid),
@@ -41,21 +50,24 @@ export async function fetchCouponQuote(cartItems = [], couponCode = "") {
       label: coupon.label || null,
       discount: Number(coupon.discount ?? data?.coupon_discount ?? 0) || 0,
       total: Number(data?.total ?? subTotal) || subTotal,
-      message: coupon.message || data?.message || null,
+      message,
       sub_total: Number(data?.sub_total ?? subTotal) || subTotal,
       first_order_discount: Number(data?.discount ?? 0) || 0,
+      alreadyUsed: isAlreadyUsedMessage(message),
     };
   } catch (err) {
+    const message =
+      err?.response?.data?.message ||
+      "Unable to apply coupon. Please try again.";
     return {
       valid: false,
       code,
       label: null,
       discount: 0,
       total: subTotal,
-      message:
-        err?.response?.data?.message ||
-        "Unable to apply coupon. Please try again.",
+      message,
       sub_total: subTotal,
+      alreadyUsed: isAlreadyUsedMessage(message),
     };
   }
 }

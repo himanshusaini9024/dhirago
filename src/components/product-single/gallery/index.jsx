@@ -4,7 +4,13 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sortProductImages } from "../../../utils/sortProductImages";
 
-const BASE = process.env.NEXT_PUBLIC_IMG_URL;
+const BASE = process.env.NEXT_PUBLIC_IMG_URL || "";
+
+function imgSrc(url) {
+  if (!url) return "/images/placeholder.png";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `${BASE}${url.startsWith("/") ? url : `/${url}`}`;
+}
 
 function injectCSS() {
   const CSS_ID = "dhg-pdp";
@@ -28,7 +34,6 @@ export default function Gallery({ images: rawImages }) {
   const [isOpen, setIsOpen] = useState(false);
   const [openIdx, setOpenIdx] = useState(0);
   const [loaded, setLoaded] = useState({});
-  const [isMobile, setIsMobile] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const [origin, setOrigin] = useState({ x: 50, y: 50 });
 
@@ -46,11 +51,17 @@ export default function Gallery({ images: rawImages }) {
 
   useEffect(() => {
     injectCSS();
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
   }, []);
+
+  // Mark first image loaded if it was restored from cache (onLoad may not fire)
+  useEffect(() => {
+    if (!images[0]?.url) return;
+    const probe = new window.Image();
+    probe.src = imgSrc(images[0].url);
+    if (probe.complete) {
+      setLoaded((p) => ({ ...p, 0: true }));
+    }
+  }, [images]);
 
   useEffect(() => {
     const fn = (e) => {
@@ -70,9 +81,11 @@ export default function Gallery({ images: rawImages }) {
     if (!isOpen) setZoomed(false);
   }, [isOpen, openIdx]);
 
-  // Desktop: wheel anywhere scrolls gallery; content column scrolls on its own
+  // Desktop wheel → gallery scroll (md+ only; checked inside handlers)
   useEffect(() => {
-    if (isMobile || count === 0) return;
+    if (count === 0) return;
+
+    const isDesktop = () => window.matchMedia("(min-width: 768px)").matches;
 
     const applyScroll = (delta) => {
       const stack = stackRef.current;
@@ -98,7 +111,7 @@ export default function Gallery({ images: rawImages }) {
 
     const setupObserver = () => {
       const col = stackRef.current;
-      if (!col) return;
+      if (!col || !isDesktop()) return;
       if (observerRef.current) observerRef.current.disconnect();
       const obs = new IntersectionObserver(
         (entries) => {
@@ -142,7 +155,7 @@ export default function Gallery({ images: rawImages }) {
     };
 
     const onWheel = (e) => {
-      if (isOpen) return;
+      if (!isDesktop() || isOpen) return;
       if (
         e.target?.closest?.(
           "[data-radix-dialog-content], .size-chart, .MensSizeChart",
@@ -168,7 +181,6 @@ export default function Gallery({ images: rawImages }) {
         document.documentElement.scrollHeight - window.innerHeight,
       );
 
-      // Page has already moved past the product block — keep scrolling the page
       if (e.deltaY < 0 && pageY > 2) {
         e.preventDefault();
         e.stopPropagation();
@@ -185,7 +197,6 @@ export default function Gallery({ images: rawImages }) {
         return;
       }
 
-      // Gallery + content finished — continue the page so the section below can show
       if (
         (e.deltaY > 0 && pageY < pageMax - 1) ||
         (e.deltaY < 0 && pageY > 1)
@@ -206,7 +217,7 @@ export default function Gallery({ images: rawImages }) {
       stackEl?.removeEventListener("scroll", syncFromStack);
       if (observerRef.current) observerRef.current.disconnect();
     };
-  }, [isMobile, count, images, isOpen]);
+  }, [count, images, isOpen]);
 
   const goTo = useCallback(
     (i) => {
@@ -268,90 +279,66 @@ export default function Gallery({ images: rawImages }) {
 
   if (count === 0) return null;
 
-  if (isMobile) {
-    const mobileImg = images[active];
-    return (
-      <>
-        <div className="w-full bg-[#edeae3]">
-          <div
-            className="relative w-full touch-pan-y"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            onClick={() => openLightbox(active)}
-          >
-            <img
-              key={active}
-              src={mobileImg?.url ? BASE + mobileImg.url : "/placeholder.jpg"}
-              alt={mobileImg?.alt || `Product ${active + 1}`}
-              loading="eager"
-              decoding="async"
-              sizes="100vw"
-              onLoad={() => setLoaded((p) => ({ ...p, [active]: true }))}
-              className="block h-auto w-full select-none bg-[#edeae3]"
-              draggable={false}
-              style={{ imageRendering: "auto" }}
-            />
-            {!loaded[active] && (
-              <div
-                className="absolute inset-0 z-[1]"
-                style={{
-                  background:
-                    "linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
-                  backgroundSize: "200% 100%",
-                  animation: "dhgsk5 1.6s ease infinite",
-                }}
-              />
-            )}
-            {/* Preload neighbors for swipe — kept off-screen, no CSS transform */}
-            {images.map((img, i) =>
-              Math.abs(i - active) === 1 && img.url ? (
-                <img
-                  key={`preload-${i}`}
-                  src={BASE + img.url}
-                  alt=""
-                  aria-hidden
-                  className="pointer-events-none absolute h-px w-px opacity-0"
-                />
-              ) : null,
-            )}
-          </div>
-
-          <div className="flex justify-center gap-1.5 bg-white px-0 py-2.5 pb-3">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setActive(i)}
-                className="h-1.5 rounded-sm border-0 p-0 transition-all duration-[250ms]"
-                style={{
-                  width: i === active ? 18 : 6,
-                  background: i === active ? "#1a1a1a" : "#ccc9c2",
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        <Lightbox
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          openIdx={openIdx}
-          setOpenIdx={setOpenIdx}
-          count={count}
-          images={images}
-          zoomed={zoomed}
-          origin={origin}
-          onImgClick={handleLightboxImgClick}
-          onImgMove={handleLightboxImgMove}
-          mobile
-        />
-      </>
-    );
-  }
-
   return (
     <>
-      {/* 11-11 desktop: sticky viewport, internal image scroll */}
+      {/* Mobile: reserve aspect ratio so page doesn't open on the footer while the image loads */}
+      <div
+        className="w-full bg-[#edeae3] md:hidden"
+        style={{ overflowAnchor: "none" }}
+      >
+        <div
+          className="relative w-full touch-pan-y aspect-[3/4] overflow-hidden"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onClick={() => openLightbox(active)}
+        >
+          {images.map((img, i) => (
+            <img
+              key={img.url || i}
+              src={imgSrc(img.url)}
+              alt={img.alt || `Product ${i + 1}`}
+              loading={i === 0 ? "eager" : "lazy"}
+              fetchPriority={i === 0 ? "high" : "auto"}
+              decoding={i === 0 ? "sync" : "async"}
+              sizes="100vw"
+              onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
+              draggable={false}
+              className={`absolute inset-0 h-full w-full select-none object-cover object-top bg-[#edeae3] transition-opacity duration-200 ${
+                i === active ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            />
+          ))}
+
+          {!loaded[active] && (
+            <div
+              className="pointer-events-none absolute inset-0 z-[1]"
+              style={{
+                background:
+                  "linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
+                backgroundSize: "200% 100%",
+                animation: "dhgsk5 1.6s ease infinite",
+              }}
+            />
+          )}
+        </div>
+
+        <div className="flex justify-center gap-1.5 bg-white px-0 py-2.5 pb-3">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setActive(i)}
+              className="h-1.5 rounded-sm border-0 p-0 transition-all duration-[250ms]"
+              style={{
+                width: i === active ? 18 : 6,
+                background: i === active ? "#1a1a1a" : "#ccc9c2",
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop gallery */}
       <div className="hidden w-full md:flex md:h-[calc(100vh-135px)] md:sticky md:top-32 md:items-start md:gap-5 md:overflow-hidden lg:gap-20">
         <div className="dhg-ns flex h-full w-[61px] shrink-0 flex-col gap-2 overflow-y-auto pb-3">
           {images.map((img, i) => (
@@ -365,7 +352,7 @@ export default function Gallery({ images: rawImages }) {
               }`}
             >
               <img
-                src={BASE + img.url}
+                src={imgSrc(img.url)}
                 alt=""
                 className="block h-full w-full object-cover object-top"
               />
@@ -384,23 +371,23 @@ export default function Gallery({ images: rawImages }) {
                 imgRefs.current[i] = el;
               }}
               onClick={() => openLightbox(i)}
-              className="relative flex h-[calc(100vh-155px)] min-h-[1000px] w-full shrink-0 cursor-zoom-in items-center justify-center overflow-hidden "
+              className="relative flex h-[calc(100vh-155px)] min-h-[1000px] w-full shrink-0 cursor-zoom-in items-center justify-center overflow-hidden"
             >
               <motion.img
-                src={img.url ? BASE + img.url : "/placeholder.jpg"}
-                // src="/images/p1.jpg"
+                src={imgSrc(img.url)}
                 alt={img.alt || `Product ${i + 1}`}
                 loading={i === 0 ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : "auto"}
                 onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
                 whileHover={{ scale: 1.008 }}
-                // transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 className="block max-h-full max-w-full object-contain object-center"
               />
               {!loaded[i] && (
                 <div
-                  className="absolute inset-0 z-[1]"
+                  className="pointer-events-none absolute inset-0 z-[1]"
                   style={{
-                    // background:"linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
+                    background:
+                      "linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
                     backgroundSize: "200% 100%",
                     animation: "dhgsk5 1.6s ease infinite",
                   }}
@@ -438,7 +425,6 @@ function Lightbox({
   origin,
   onImgClick,
   onImgMove,
-  mobile,
 }) {
   return (
     <AnimatePresence>
@@ -447,7 +433,7 @@ function Lightbox({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: mobile ? 0.2 : 0.17 }}
+          transition={{ duration: 0.2 }}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(5,5,5,0.97)]"
           onClick={() => setIsOpen(false)}
         >
@@ -459,49 +445,41 @@ function Lightbox({
             ✕
           </button>
 
-          {!mobile && (
-            <>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setOpenIdx((p) => Math.max(0, p - 1));
-                }}
-                disabled={openIdx === 0}
-                className="absolute left-4 top-1/2 -translate-y-1/2 border-0 bg-transparent text-[32px] text-white disabled:cursor-default disabled:opacity-10"
-                style={{ opacity: openIdx === 0 ? 0.1 : 0.38 }}
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setOpenIdx((p) => Math.min(count - 1, p + 1));
-                }}
-                disabled={openIdx === count - 1}
-                className="absolute right-4 top-1/2 -translate-y-1/2 border-0 bg-transparent text-[32px] text-white disabled:cursor-default"
-                style={{ opacity: openIdx === count - 1 ? 0.1 : 0.38 }}
-              >
-                ›
-              </button>
-            </>
-          )}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenIdx((p) => Math.max(0, p - 1));
+            }}
+            disabled={openIdx === 0}
+            className="absolute left-4 top-1/2 -translate-y-1/2 border-0 bg-transparent text-[32px] text-white disabled:cursor-default disabled:opacity-10"
+            style={{ opacity: openIdx === 0 ? 0.1 : 0.38 }}
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenIdx((p) => Math.min(count - 1, p + 1));
+            }}
+            disabled={openIdx === count - 1}
+            className="absolute right-4 top-1/2 -translate-y-1/2 border-0 bg-transparent text-[32px] text-white disabled:cursor-default"
+            style={{ opacity: openIdx === count - 1 ? 0.1 : 0.38 }}
+          >
+            ›
+          </button>
 
           <AnimatePresence mode="wait">
             <motion.img
               key={openIdx}
-              src={BASE + images[openIdx].url}
+              src={imgSrc(images[openIdx].url)}
               alt={images[openIdx].alt || "Product"}
               initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: zoomed ? (mobile ? 2.2 : 2.4) : 1 }}
+              animate={{ opacity: 1, scale: zoomed ? 2.2 : 1 }}
               exit={{ opacity: 0, scale: 0.97 }}
-              transition={{ duration: mobile ? 0.2 : 0.22 }}
-              className={
-                mobile
-                  ? "block h-auto w-full max-h-[100dvh] object-contain"
-                  : "block max-h-[90vh] max-w-[88vw] object-contain"
-              }
+              transition={{ duration: 0.2 }}
+              className="block h-auto max-h-[100dvh] w-full max-w-[88vw] object-contain md:max-h-[90vh]"
               style={{
                 cursor: zoomed ? "zoom-out" : "zoom-in",
                 transformOrigin: `${origin.x}% ${origin.y}%`,
@@ -512,41 +490,37 @@ function Lightbox({
             />
           </AnimatePresence>
 
-          <div
-            className="absolute bottom-3.5 left-1/2 -translate-x-1/2 font-['Josefin_Sans',sans-serif] text-[9.5px] tracking-[0.24em] text-white/20"
-          >
+          <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 font-['Josefin_Sans',sans-serif] text-[9.5px] tracking-[0.24em] text-white/20">
             {openIdx + 1} / {count}
           </div>
 
-          {!mobile && (
-            <div className="dhg-ns absolute bottom-[38px] left-1/2 flex max-w-[80vw] -translate-x-1/2 gap-1 overflow-x-auto">
-              {images.map((img, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpenIdx(i);
-                  }}
-                  className="h-[46px] w-9 shrink-0 cursor-pointer border-0 bg-[#181818] p-0 transition-opacity duration-[180ms]"
-                  style={{
-                    outline:
-                      i === openIdx
-                        ? "1.5px solid rgba(255,255,255,0.65)"
-                        : "none",
-                    outlineOffset: "2px",
-                    opacity: i === openIdx ? 1 : 0.2,
-                  }}
-                >
-                  <img
-                    src={BASE + img.url}
-                    alt=""
-                    className="block h-full w-full object-cover object-top"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
+          <div className="dhg-ns absolute bottom-[38px] left-1/2 hidden max-w-[80vw] -translate-x-1/2 gap-1 overflow-x-auto md:flex">
+            {images.map((img, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenIdx(i);
+                }}
+                className="h-[46px] w-9 shrink-0 cursor-pointer border-0 bg-[#181818] p-0 transition-opacity duration-[180ms]"
+                style={{
+                  outline:
+                    i === openIdx
+                      ? "1.5px solid rgba(255,255,255,0.65)"
+                      : "none",
+                  outlineOffset: "2px",
+                  opacity: i === openIdx ? 1 : 0.2,
+                }}
+              >
+                <img
+                  src={imgSrc(img.url)}
+                  alt=""
+                  className="block h-full w-full object-cover object-top"
+                />
+              </button>
+            ))}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

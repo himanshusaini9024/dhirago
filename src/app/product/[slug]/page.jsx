@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import ProductGrid from "../../../components/product-single/ProductGrid";
 import ProductsFeatured from "../../../components/products-featured";
 import RecentlyViewedTracker from "../../../components/recentlyviewtracker";
+import ScrollToTop from "../../../components/product-single/ScrollToTop";
 import { generateSEO } from "../../../utils/seo";
 import { sortProductImages } from "../../../utils/sortProductImages";
 
@@ -174,8 +175,21 @@ export default async function ProductPage({ params }) {
     },
   ];
 
+  const firstImage = imageUrls[0] || null;
+
   return (
     <>
+      <ScrollToTop />
+
+      {firstImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={firstImage}
+          fetchPriority="high"
+        />
+      )}
+
       <RecentlyViewedTracker product={product} />
 
       <script

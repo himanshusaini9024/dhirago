@@ -33,46 +33,74 @@ const ProductItem = ({
   const favProducts = useSelector((state) => state.user?.favProducts || []);
   const isFavourite = favProducts.includes(id);
 
-  const toggleFav = () => {
-    dispatch(toggleFavProduct({ id }));
-  };
   const [openModal, setOpenModal] = useState(false);
+  // Hover swap only for devices with a real mouse — touch "hover" was eating the first tap
+  // and sometimes blocking navigation to the product page on mobile.
+  const [hovered, setHovered] = useState(false);
   const imageList = sortProductImages(images);
   const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
-  const [hovered, setHovered] = useState(false);
   const selling = Number(currentPrice) || 0;
   const listMrp = Number(mrp ?? price) || 0;
   const off = Number(discount) || 0;
+  const href = slug ? `/product/${slug}` : null;
 
-  // 🔥 AUTO SLIDE ALWAYS
-  // useEffect(() => {
-  //   if (imageList.length <= 1) return;
-
-  //   const interval = setInterval(() => {
-  //     setIndex((prev) => (prev + 1) % imageList.length);
-  //   }, 3000); // ⏱️ speed (change if needed)
-
-  //   return () => clearInterval(interval);
-  // }, [imageList.length]);
+  const onMouseEnter = () => setHovered(true);
+  const onMouseLeave = () => setHovered(false);
 
   return (
-    <div className="group cursor-pointer mt-4 md:mt-0">
-      {/* IMAGE */}
-
+    <div className="group mt-4 cursor-pointer md:mt-0">
       <div
-        className="relative w-full aspect-[4/6] md:aspect-[4/6] overflow-hidden bg-[#f5f5f5]"
-        onMouseEnter={() => setHovered(true)}
-        onTouchStart={() => setHovered(true)}
-        onMouseLeave={() => {
-          setHovered(false);
-        }}
-        onTouchEnd={() => setHovered(false)}
+        className="relative aspect-[4/6] w-full overflow-hidden bg-[#f5f5f5] md:aspect-[4/6]"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onTouchStart={onMouseEnter}
+        onTouchEnd={onMouseLeave}
       >
-        <Link href={`/product/${slug}`}>
-          <div className="relative w-full h-full overflow-hidden">
-            {/* First Image */}
+        {href ? (
+          <Link
+            href={href}
+            className="absolute inset-0 z-0 block"
+            aria-label={name}
+          >
+            <span className="relative block h-full w-full overflow-hidden">
+              <Image
+                src={
+                  imageList?.[0]?.url
+                    ? baseURL + imageList[0].url
+                    : "/images/placeholder.png"
+                }
+                alt={name}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                  hovered && imageList?.[1] ? "opacity-0" : "opacity-100"
+                }`}
+                width={600}
+                height={900}
+                sizes={imageSizes}
+                quality={70}
+                priority={priority}
+              />
 
+              {/* Second image only on mouse hover (desktop). Not on touch. */}
+              {hovered && imageList?.[1] && (
+                <Image
+                  src={
+                    imageList[1].url
+                      ? baseURL + imageList[1].url
+                      : "/images/placeholder.png"
+                  }
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover opacity-100"
+                  width={600}
+                  height={900}
+                  sizes={imageSizes}
+                  quality={70}
+                />
+              )}
+            </span>
+          </Link>
+        ) : (
+          <div className="relative h-full w-full overflow-hidden">
             <Image
               src={
                 imageList?.[0]?.url
@@ -80,51 +108,28 @@ const ProductItem = ({
                   : "/images/placeholder.png"
               }
               alt={name}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-                hovered ? "opacity-0" : "opacity-100"
-              }`}
+              className="absolute inset-0 h-full w-full object-cover"
               width={600}
               height={900}
               sizes={imageSizes}
               quality={70}
               priority={priority}
             />
-
-            {/* Second Image — only mount after hover to avoid loading 22 images upfront */}
-            {hovered && imageList?.[1] && (
-              <Image
-                src={
-                  imageList?.[1]?.url
-                    ? baseURL + imageList[1].url
-                    : "/images/placeholder.png"
-                }
-                alt={name}
-                className="absolute inset-0 w-full h-full object-cover opacity-100"
-                width={600}
-                height={900}
-                sizes={imageSizes}
-                quality={70}
-              />
-            )}
           </div>
-        </Link>
+        )}
 
-        {/* HEART */}
-        {/* <button
-          onClick={toggleFav}
-          className={`absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-md ${
-            isFavourite ? "text-red-500" : "text-black"
-          }`}
-        >
-          ♥
-        </button> */}
-
-        {/* ADD TO CART */}
+        {/* Quick add: always visible on mobile; hover-reveal on desktop */}
         {!hideQuickAdd && (
-          <div className="absolute bottom-2 right-2 translate-y-full group-hover:translate-y-0 transition duration-500 z-[5]">
+          <div className="absolute bottom-2 right-2 z-[5] translate-y-0 transition duration-300 md:translate-y-full md:group-hover:translate-y-0 md:group-focus-within:translate-y-0">
             <button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpenModal(true); }}
-              className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center bg-white text-black text-lg md:text-xl shadow-md hover:bg-black hover:text-white transition-colors duration-200"
+              type="button"
+              aria-label={`Quick add ${name}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setOpenModal(true);
+              }}
+              className="flex h-9 w-9 items-center justify-center bg-white text-lg text-black shadow-md transition-colors duration-200 hover:bg-black hover:text-white md:h-10 md:w-10 md:text-xl"
             >
               +
             </button>
@@ -145,17 +150,24 @@ const ProductItem = ({
           price: listMrp,
           discount: off,
           category,
-          sizes: productsSizes, // ⚠️ pass real sizes if available
+          sizes: productsSizes,
         }}
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
       />
 
-      {/* DETAILS */}
-      <div className="mt-[1.1rem] ">
-        <h6 className="text-xs md:text-sm uppercase text-black text-center">
-          {name}
-        </h6>
+      <div className="mt-[1.1rem]">
+        {href ? (
+          <Link href={href} className="block">
+            <h6 className="text-center text-xs uppercase text-black md:text-sm">
+              {name}
+            </h6>
+          </Link>
+        ) : (
+          <h6 className="text-center text-xs uppercase text-black md:text-sm">
+            {name}
+          </h6>
+        )}
         <div className="mt-2 flex flex-wrap items-baseline justify-center gap-2">
           <p className="text-[0.911rem] text-[#1a1a1a]">
             ₹ {Math.round(selling).toLocaleString("en-IN")}

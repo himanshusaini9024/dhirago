@@ -1,34 +1,46 @@
-import FramedButton from "./FramedButton";
+import Link from "next/link";
 import Reveal from "./Reveal";
-import { josefin } from "./theme";
 
 export default function IntroStatement() {
   return (
-    <section className="px-6 py-8 md:py-24 bg-[#ffffff]">
-      <Reveal className="mx-auto max-w-[1160px] text-justify ">
-        {/* <p
-          className={`${josefin.className} text-[14px]  font-light leading-[1.5] md:leading-[1.1] text-[#111111] md:text-[18px]`}
-        > */}
-           <p
-            className={`font-normal lg:text-justify tracking-[1px] text-[13px]  md:text-[clamp(0.7rem,1.35vw,1rem)] md:leading-[1.4] leading-[1.5] font-futura`}
-            style={{ color: "#555555" }}
-          >
-          A life in details <br /><br /> It is often the smallest things that give us an
+    <section
+      className="bordered-section section-spacing bg-white"
+      aria-label="Collection introduction"
+    >
+      <div className="mx-auto max-w-[1020px] px-6 py-12 md:px-8 md:py-16">
+        <Reveal>
+          <div className="font-futura prose-intro text-start font-futura text-[13px] leading-[1.7] tracking-[0.02em] text-[#555555] md:text-[15px] md:leading-[1.75]">
+            <p className="m-0">A life in details.</p>
+            <p className="m-0 mt-[1.15em]">
+              It is often the smallest things that give us an
           experience—the comfort of a well-worn object, the warmth of afternoon
           sunlight, or the beauty of imperfections.These everyday details stay
           with us, becoming part of our memories.
-           <br /><br />
-          Our collection reflects the
+            </p>
+            <p className="m-0 mt-[1.15em]">
+              Our collection reflects the
           beauty found in the smallest details of life, looking at dressing
           beyond simply what we wear. It is an appreciation of the ordinary
           things that gain beauty with time.
-        </p>
-        <div className="mt-4">
-          <FramedButton href="/about">
-            Discover More
-          </FramedButton>
-        </div>
-      </Reveal>
+            </p>
+
+            <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <Link
+                href="/collections/shirts"
+                className="intro-link font-futura text-[12px] uppercase tracking-[0.18em] text-[#111111] md:text-[13px]"
+              >
+                Shop
+              </Link>
+              <Link
+                href="/about"
+                className="intro-link font-futura text-[12px] uppercase tracking-[0.18em] text-[#111111] md:text-[13px]"
+              >
+                About
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+      </div>
     </section>
   );
 }

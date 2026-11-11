@@ -1,22 +1,30 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { sortProductImages } from "../../../utils/sortProductImages";
 
 const BASE = process.env.NEXT_PUBLIC_IMG_URL || "";
 
-/** Display size matching 11-11 (intrinsic ~800×1200 from 2000×3000 sources). */
+/**
+ * Match 11-11 product media:
+ * Intrinsic 800×1200 (2:3) from 2000×3000 sources,
+ * CSS: display:block; width:100%; height:auto.
+ */
 const DISPLAY_W = 800;
 const DISPLAY_H = 1200;
-const MAIN_SIZES =
-  "(max-width: 767px) 100vw, (max-width: 1280px) 55vw, 640px";
 
 function imgSrc(url) {
   if (!url) return "/images/placeholder.png";
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
   return `${BASE}${url.startsWith("/") ? url : `/${url}`}`;
+}
+
+/** Force Next image optimizer to serve exactly w=800 so DevTools intrinsic = 800×1200. */
+function optimizedSrc(url, width = DISPLAY_W, quality = 90) {
+  const src = imgSrc(url);
+  if (!src || src.startsWith("/images/")) return src;
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
 }
 
 function injectCSS() {
@@ -27,6 +35,14 @@ function injectCSS() {
   s.textContent = `
     .dhg-ns::-webkit-scrollbar { display: none; }
     .dhg-ns { -ms-overflow-style: none; scrollbar-width: none; }
+    .product-gallery__media { width: 100%; }
+    .product-gallery__media img,
+    .product-gallery__image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+    }
     @keyframes dhgsk5 {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -278,37 +294,38 @@ export default function Gallery({ images: rawImages }) {
 
   return (
     <>
-      {/* Mobile — 2:3 like 11-11 */}
-      <div
-        className="product-media w-full md:hidden"
-        style={{ overflowAnchor: "none" }}
-      >
+      {/* Mobile — 2:3, intrinsic 800×1200 */}
+      <div className="w-full bg-[#f7f7f5] md:hidden" style={{ overflowAnchor: "none" }}>
         <div
-          className="relative w-full touch-pan-y aspect-[2/3] overflow-hidden"
+          className="relative w-full touch-pan-y overflow-hidden"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           onClick={() => openLightbox(active)}
         >
           {images.map((img, i) => (
-            <Image
+            <img
               key={img.url || i}
-              src={imgSrc(img.url)}
+              src={optimizedSrc(img.url)}
               alt={img.alt || `Product ${i + 1}`}
-              fill
-              sizes="100vw"
-              quality={90}
-              priority={i === 0}
+              width={DISPLAY_W}
+              height={DISPLAY_H}
+              loading={i === 0 ? "eager" : "lazy"}
+              fetchPriority={i === 0 ? "high" : "auto"}
+              decoding={i === 0 ? "sync" : "async"}
               onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
               draggable={false}
-              className={`product-media-img select-none object-cover object-top transition-opacity duration-200 ${
-                i === active ? "opacity-100" : "pointer-events-none opacity-0"
+              className={`product-gallery__image select-none transition-opacity duration-200 ${
+                i === active
+                  ? "relative opacity-100"
+                  : "pointer-events-none absolute inset-0 opacity-0"
               }`}
+              style={{ display: "block", width: "100%", height: "auto" }}
             />
           ))}
 
           {!loaded[active] && (
             <div
-              className="pointer-events-none absolute inset-0 z-[1]"
+              className="pointer-events-none absolute inset-0 z-[1] aspect-[2/3]"
               style={{
                 background:
                   "linear-gradient(90deg,#f7f7f5 25%,#efefed 50%,#f7f7f5 75%)",
@@ -335,8 +352,8 @@ export default function Gallery({ images: rawImages }) {
         </div>
       </div>
 
-      {/* Desktop — thumbs + natural 2:3 stack (width 100%, height auto) */}
-      <div className="hidden w-full md:flex md:h-[calc(100vh-135px)] md:sticky md:top-32 md:items-start md:gap-4 md:overflow-hidden lg:gap-6">
+      {/* Desktop — left thumbs + main stack (same CSS as 11-11) */}
+      <div className="hidden w-full md:flex md:h-[calc(100vh-135px)] md:sticky md:top-32 md:items-start md:gap-4 md:overflow-hidden lg:gap-5">
         <div className="dhg-ns flex h-full w-[64px] shrink-0 flex-col gap-2 overflow-y-auto pb-3">
           {images.map((img, i) => (
             <button
@@ -344,17 +361,16 @@ export default function Gallery({ images: rawImages }) {
               type="button"
               onClick={() => goTo(i)}
               aria-label={`View image ${i + 1}`}
-              className={`product-media relative aspect-[2/3] w-full shrink-0 cursor-pointer overflow-hidden border p-0 outline-none ${
+              className={`relative aspect-[2/3] w-full shrink-0 cursor-pointer overflow-hidden border bg-[#f7f7f5] p-0 outline-none ${
                 i === active ? "border-[#1c1c1c]" : "border-transparent"
               }`}
             >
-              <Image
-                src={imgSrc(img.url)}
+              <img
+                src={optimizedSrc(img.url, 256, 75)}
                 alt=""
-                fill
-                sizes="64px"
-                quality={75}
-                className="product-media-img object-cover object-top"
+                width={64}
+                height={96}
+                className="block h-full w-full object-cover object-top"
               />
             </button>
           ))}
@@ -371,18 +387,17 @@ export default function Gallery({ images: rawImages }) {
                 imgRefs.current[i] = el;
               }}
               onClick={() => openLightbox(i)}
-              className="product-gallery__media product-media relative w-full shrink-0 cursor-zoom-in"
+              className="product-gallery__media relative w-full shrink-0 cursor-zoom-in bg-[#f7f7f5]"
             >
-              <Image
-                src={imgSrc(img.url)}
+              <img
+                src={optimizedSrc(img.url)}
                 alt={img.alt || `Product ${i + 1}`}
                 width={DISPLAY_W}
                 height={DISPLAY_H}
-                sizes={MAIN_SIZES}
-                quality={90}
-                priority={i === 0}
+                loading={i === 0 ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : "auto"}
                 onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
-                className="product-media-img block h-auto w-full"
+                className="product-gallery__image"
                 style={{ display: "block", width: "100%", height: "auto" }}
               />
               {!loaded[i] && (
@@ -516,13 +531,12 @@ function Lightbox({
                   opacity: i === openIdx ? 1 : 0.2,
                 }}
               >
-                <Image
-                  src={imgSrc(img.url)}
+                <img
+                  src={optimizedSrc(img.url, 128, 70)}
                   alt=""
-                  fill
-                  sizes="36px"
-                  quality={70}
-                  className="object-cover object-top"
+                  width={36}
+                  height={54}
+                  className="block h-full w-full object-cover object-top"
                 />
               </button>
             ))}

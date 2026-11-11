@@ -199,13 +199,13 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
             </div>
 
             {/* ---------- Gallery ---------- */}
-            <div className="relative flex min-h-0 w-full flex-col bg-[#f4f4f4] md:w-[52%]">
+            <div className="product-media relative flex min-h-0 w-full flex-col md:w-[52%]">
               <div className="relative aspect-[3/4] w-full overflow-hidden md:aspect-auto md:min-h-0 md:flex-1">
                 {activeImage ? (
                   <img
                     src={imageUrl(activeImage)}
                     alt={product?.name || "Product preview"}
-                    className="h-full w-full object-cover object-top"
+                    className="product-media-img h-full w-full object-cover object-top"
                   />
                 ) : (
                   <div className="flex h-full min-h-[280px] items-center justify-center text-xs uppercase tracking-[0.16em] text-black/40">

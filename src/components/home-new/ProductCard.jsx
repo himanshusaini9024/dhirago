@@ -12,7 +12,7 @@ export default function ProductCard({ product, priority = false }) {
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">
-      <div className="relative aspect-[3/4] overflow-hidden bg-[#ece9e4]">
+      <div className="product-media relative aspect-[3/4] overflow-hidden">
         {front && (
           <Image
             src={front}
@@ -20,8 +20,8 @@ export default function ProductCard({ product, priority = false }) {
             fill
             priority={priority}
             sizes="(min-width: 1024px) 24vw, 50vw"
-            quality={75}
-            className="object-cover transition-opacity duration-700 group-hover:opacity-0"
+            quality={90}
+            className="product-media-img object-cover object-top transition-opacity duration-500 group-hover:opacity-0"
           />
         )}
         {back && (
@@ -30,8 +30,8 @@ export default function ProductCard({ product, priority = false }) {
             alt=""
             fill
             sizes="(min-width: 1024px) 24vw, 50vw"
-            quality={75}
-            className="object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+            quality={90}
+            className="product-media-img object-cover object-top opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           />
         )}
       </div>

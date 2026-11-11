@@ -283,7 +283,7 @@ export default function Gallery({ images: rawImages }) {
     <>
       {/* Mobile: reserve aspect ratio so page doesn't open on the footer while the image loads */}
       <div
-        className="w-full bg-[#edeae3] md:hidden"
+        className="product-media w-full md:hidden"
         style={{ overflowAnchor: "none" }}
       >
         <div
@@ -303,7 +303,7 @@ export default function Gallery({ images: rawImages }) {
               sizes="100vw"
               onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
               draggable={false}
-              className={`absolute inset-0 h-full w-full select-none object-cover object-top bg-[#edeae3] transition-opacity duration-200 ${
+              className={`product-media-img absolute inset-0 h-full w-full select-none object-cover object-top transition-opacity duration-200 ${
                 i === active ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             />
@@ -314,7 +314,7 @@ export default function Gallery({ images: rawImages }) {
               className="pointer-events-none absolute inset-0 z-[1]"
               style={{
                 background:
-                  "linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
+                  "linear-gradient(90deg,#f7f7f5 25%,#efefed 50%,#f7f7f5 75%)",
                 backgroundSize: "200% 100%",
                 animation: "dhgsk5 1.6s ease infinite",
               }}
@@ -347,14 +347,14 @@ export default function Gallery({ images: rawImages }) {
               type="button"
               onClick={() => goTo(i)}
               aria-label={`View image ${i + 1}`}
-              className={`h-[87px] w-[61px] shrink-0 cursor-pointer overflow-hidden border bg-[#edeae3] p-0 outline-none ${
+              className={`product-media h-[87px] w-[61px] shrink-0 cursor-pointer overflow-hidden border p-0 outline-none ${
                 i === active ? "border-[#1c1c1c]" : "border-transparent"
               }`}
             >
               <img
                 src={imgSrc(img.url)}
                 alt=""
-                className="block h-full w-full object-cover object-top"
+                className="product-media-img block h-full w-full object-cover object-top"
               />
             </button>
           ))}
@@ -371,23 +371,22 @@ export default function Gallery({ images: rawImages }) {
                 imgRefs.current[i] = el;
               }}
               onClick={() => openLightbox(i)}
-              className="relative flex h-[calc(100vh-155px)] min-h-[1000px] w-full shrink-0 cursor-zoom-in items-center justify-center overflow-hidden"
+              className="product-media relative flex h-[calc(100vh-155px)] min-h-[1000px] w-full shrink-0 cursor-zoom-in items-center justify-center overflow-hidden"
             >
-              <motion.img
+              <img
                 src={imgSrc(img.url)}
                 alt={img.alt || `Product ${i + 1}`}
                 loading={i === 0 ? "eager" : "lazy"}
                 fetchPriority={i === 0 ? "high" : "auto"}
                 onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
-                whileHover={{ scale: 1.008 }}
-                className="block max-h-full max-w-full object-contain object-center"
+                className="product-media-img block max-h-full max-w-full object-contain object-center"
               />
               {!loaded[i] && (
                 <div
                   className="pointer-events-none absolute inset-0 z-[1]"
                   style={{
                     background:
-                      "linear-gradient(90deg,#edeae3 25%,#e5e1d9 50%,#edeae3 75%)",
+                      "linear-gradient(90deg,#f7f7f5 25%,#efefed 50%,#f7f7f5 75%)",
                     backgroundSize: "200% 100%",
                     animation: "dhgsk5 1.6s ease infinite",
                   }}
@@ -479,7 +478,7 @@ function Lightbox({
               animate={{ opacity: 1, scale: zoomed ? 2.2 : 1 }}
               exit={{ opacity: 0, scale: 0.97 }}
               transition={{ duration: 0.2 }}
-              className="block h-auto max-h-[100dvh] w-full max-w-[88vw] object-contain md:max-h-[90vh]"
+              className="product-media-img block h-auto max-h-[100dvh] w-full max-w-[88vw] object-contain md:max-h-[90vh]"
               style={{
                 cursor: zoomed ? "zoom-out" : "zoom-in",
                 transformOrigin: `${origin.x}% ${origin.y}%`,

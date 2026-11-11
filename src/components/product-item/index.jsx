@@ -12,6 +12,9 @@ import Image from "next/image";
 const QuickAddModal = dynamic(() => import("./qucikview"), { ssr: false });
 
 const GRID_IMAGE_SIZES = "(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw";
+const GRID_IMAGE_QUALITY = 90;
+const GRID_IMAGE_WIDTH = 900;
+const GRID_IMAGE_HEIGHT = 1350;
 
 const ProductItem = ({
   images,
@@ -51,7 +54,7 @@ const ProductItem = ({
   return (
     <div className="group mt-4 cursor-pointer md:mt-0">
       <div
-        className="relative aspect-[4/6] w-full overflow-hidden bg-[#f5f5f5] md:aspect-[4/6]"
+        className="product-media relative aspect-[4/6] w-full overflow-hidden md:aspect-[4/6]"
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onTouchStart={onMouseEnter}
@@ -71,13 +74,13 @@ const ProductItem = ({
                     : "/images/placeholder.png"
                 }
                 alt={name}
-                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                className={`product-media-img absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-300 ${
                   hovered && imageList?.[1] ? "opacity-0" : "opacity-100"
                 }`}
-                width={600}
-                height={900}
+                width={GRID_IMAGE_WIDTH}
+                height={GRID_IMAGE_HEIGHT}
                 sizes={imageSizes}
-                quality={70}
+                quality={GRID_IMAGE_QUALITY}
                 priority={priority}
               />
 
@@ -90,11 +93,11 @@ const ProductItem = ({
                       : "/images/placeholder.png"
                   }
                   alt=""
-                  className="absolute inset-0 h-full w-full object-cover opacity-100"
-                  width={600}
-                  height={900}
+                  className="product-media-img absolute inset-0 h-full w-full object-cover object-top opacity-100"
+                  width={GRID_IMAGE_WIDTH}
+                  height={GRID_IMAGE_HEIGHT}
                   sizes={imageSizes}
-                  quality={70}
+                  quality={GRID_IMAGE_QUALITY}
                 />
               )}
             </span>
@@ -108,11 +111,11 @@ const ProductItem = ({
                   : "/images/placeholder.png"
               }
               alt={name}
-              className="absolute inset-0 h-full w-full object-cover"
-              width={600}
-              height={900}
+              className="product-media-img absolute inset-0 h-full w-full object-cover object-top"
+              width={GRID_IMAGE_WIDTH}
+              height={GRID_IMAGE_HEIGHT}
               sizes={imageSizes}
-              quality={70}
+              quality={GRID_IMAGE_QUALITY}
               priority={priority}
             />
           </div>

@@ -22,7 +22,7 @@ export default function ProductGrid({ product }) {
   return (
     <div
       data-pdp-grid
-      className="flex w-full flex-col md:mx-auto md:grid md:max-w-[1120px] md:grid-cols-[minmax(0,1fr)_320px] md:items-start md:justify-center md:gap-8 md:px-6 md:pt-16 lg:grid-cols-[minmax(0,640px)_340px] lg:gap-12"
+      className="flex w-full flex-col md:mx-auto md:grid md:max-w-[1200px] md:grid-cols-[minmax(0,1fr)_340px] md:items-start md:justify-center md:gap-8 md:px-6 md:pt-16 lg:grid-cols-[minmax(0,680px)_360px] lg:gap-14"
     >
       <div className="w-full min-w-0">
         <Gallery images={product.images} />

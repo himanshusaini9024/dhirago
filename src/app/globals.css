@@ -102,13 +102,12 @@ video {
   opacity: 0.55;
 }
 
-/* Product media — Andamen-like clarity (sharp, bright, clean studio feel) */
-.product-media {
-  background-color: #f7f7f5;
-}
+/* .product-media {
+  background-color: #f7f7f5; 
+} */
 
 .product-media-img {
-  filter: brightness(1.05) contrast(1.08) saturate(1.04);
+  filter: brightness(1.03) contrast(1.02) saturate(1.02);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translateZ(0);

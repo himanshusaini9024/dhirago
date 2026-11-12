@@ -110,6 +110,7 @@ video {
   filter: brightness(1.03) contrast(1.02) saturate(1.02);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  
   transform: translateZ(0);
   image-rendering: auto;
 }

@@ -21,6 +21,7 @@ export default function ProductCard({ product, priority = false }) {
             priority={priority}
             sizes="(min-width: 1024px) 24vw, 50vw"
             quality={75}
+            unoptimized
             className="object-cover transition-opacity duration-700 group-hover:opacity-0"
           />
         )}
@@ -31,6 +32,7 @@ export default function ProductCard({ product, priority = false }) {
             fill
             sizes="(min-width: 1024px) 24vw, 50vw"
             quality={75}
+            unoptimized
             className="object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
           />
         )}

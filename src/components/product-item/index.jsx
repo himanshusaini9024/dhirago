@@ -79,6 +79,7 @@ const ProductItem = ({
                 sizes={imageSizes}
                 quality={70}
                 priority={priority}
+                unoptimized
               />
 
               {/* Second image only on mouse hover (desktop). Not on touch. */}
@@ -95,6 +96,7 @@ const ProductItem = ({
                   height={900}
                   sizes={imageSizes}
                   quality={70}
+                  unoptimized
                 />
               )}
             </span>
@@ -114,6 +116,7 @@ const ProductItem = ({
               sizes={imageSizes}
               quality={70}
               priority={priority}
+              unoptimized
             />
           </div>
         )}

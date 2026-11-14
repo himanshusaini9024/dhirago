@@ -298,6 +298,7 @@ export default function Gallery({ images: rawImages }) {
               sizes="100vw"
               quality={90}
               priority={i === 0}
+              unoptimized
               onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
               draggable={false}
               className={`product-media-img select-none object-cover object-top transition-opacity duration-200 ${
@@ -354,6 +355,7 @@ export default function Gallery({ images: rawImages }) {
                 fill
                 sizes="64px"
                 quality={75}
+                unoptimized
                 className="product-media-img object-cover object-top"
               />
             </button>
@@ -381,6 +383,7 @@ export default function Gallery({ images: rawImages }) {
                 sizes={MAIN_SIZES}
                 quality={90}
                 priority={i === 0}
+                unoptimized
                 onLoad={() => setLoaded((p) => ({ ...p, [i]: true }))}
                 className="product-media-img block h-auto w-full"
                 style={{ display: "block", width: "100%", height: "auto" }}
@@ -522,6 +525,7 @@ function Lightbox({
                   fill
                   sizes="36px"
                   quality={70}
+                  unoptimized
                   className="object-cover object-top"
                 />
               </button>

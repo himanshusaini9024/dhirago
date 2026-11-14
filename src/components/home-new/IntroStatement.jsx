@@ -8,7 +8,7 @@ export default function IntroStatement() {
       aria-label="Collection introduction"
     >
       <div className="mx-auto max-w-[1020px] px-6 py-12 md:px-8 md:py-16">
-          <div className="font-futura prose-intro text-start font-futura text-[13px] leading-[1.7] tracking-[0.02em] text-[#555555] md:text-[15px] md:leading-[1.75]">
+          <div className="font-futura prose-intro text-start font-futura text-[13px] leading-[1.7] tracking-[0.1em] text-[#555555] md:text-[15px] md:leading-[1.75]">
             <p className="m-0">A life in details.</p>
             <p className="m-0 mt-[1.15em]">
               It is often the smallest things that give us an

@@ -4,8 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { serif } from "./theme";
-import Reveal from "./Reveal";
 
+/**
+ * Full-bleed home banner / carousel.
+ * Uses intrinsic image ratio (width 100%, height auto) — no stretch/crop box.
+ * panels[].src, .alt, .href, .caption?, .width?, .height?
+ */
 export default function TwoUp({ panels = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -21,52 +25,66 @@ export default function TwoUp({ panels = [] }) {
 
   if (!panels.length) return null;
 
-  const activePanel = panels[activeIndex];
-
   const goTo = (index) => {
     setActiveIndex((index + panels.length) % panels.length);
   };
 
+  const active = panels[activeIndex];
+  const activeW = active.width || 2400;
+  const activeH = active.height || 1600;
+
   return (
-    <section className="relative w-full overflow-hidden">
-      <div className="relative aspect-[4/5] w-full md:aspect-[16/9]">
-        {panels.map((panel, i) => (
-          <div
-            key={panel.alt || i}
-            className={`absolute inset-0  ${
-              i === activeIndex
-                ? "z-10 opacity-100"
-                : "z-0 opacity-0 pointer-events-none"
-            }`}
-            aria-hidden={i !== activeIndex}
-          >
-            <Link
-              href={panel.href || "/collections/shirts"}
-              tabIndex={i === activeIndex ? 0 : -1}
-              className="group absolute inset-0 block"
+    <section
+      className="relative w-full overflow-hidden bg-[#1d1a15]"
+      aria-label="Home banner"
+    >
+      {/* Height follows the active slide’s natural aspect ratio */}
+      <div
+        className="relative w-full"
+        style={{ aspectRatio: `${activeW} / ${activeH}` }}
+      >
+        {panels.map((panel, i) => {
+          const w = panel.width || 2400;
+          const h = panel.height || 1600;
+          return (
+            <div
+              key={panel.src || panel.alt || i}
+              className={`absolute inset-0 transition-opacity duration-700 ${
+                i === activeIndex
+                  ? "z-10 opacity-100"
+                  : "pointer-events-none z-0 opacity-0"
+              }`}
+              aria-hidden={i !== activeIndex}
             >
-              <Image
-                src={panel.src}
-                alt={panel.alt || "Dhirago collection"}
-                fill
-                priority={i === 0}
-                sizes="100vw"
-                quality={85}
-               className={`object-cover `}
-              />
+              <Link
+                href={panel.href || "/collections/shirts"}
+                tabIndex={i === activeIndex ? 0 : -1}
+                className="absolute inset-0 block"
+              >
+                <Image
+                  src={panel.src}
+                  alt={panel.alt || "Dhirago"}
+                  width={w}
+                  height={h}
+                  priority={i === 0}
+                  sizes="100vw"
+                  quality={90}
+                  className="h-full w-full object-contain object-center"
+                  style={{ width: "100%", height: "100%" }}
+                />
 
-              {panel.caption && (
-                <span
-                  className={`${serif.className} pointer-events-none absolute bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-xl italic text-white drop-shadow-lg md:bottom-16 md:text-3xl`}
-                >
-                  {panel.caption}
-                </span>
-              )}
-            </Link>
-          </div>
-        ))}
+                {panel.caption ? (
+                  <span
+                    className={`${serif.className} pointer-events-none absolute bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-xl italic text-white drop-shadow-lg md:bottom-16 md:text-3xl`}
+                  >
+                    {panel.caption}
+                  </span>
+                ) : null}
+              </Link>
+            </div>
+          );
+        })}
 
-        {/* Previous / Next buttons */}
         {panels.length > 1 && (
           <>
             <button
@@ -87,11 +105,10 @@ export default function TwoUp({ panels = [] }) {
               &#8594;
             </button>
 
-            {/* Slide indicators */}
             <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
               {panels.map((panel, i) => (
                 <button
-                  key={panel.alt || i}
+                  key={panel.src || panel.alt || i}
                   type="button"
                   onClick={() => goTo(i)}
                   aria-label={`Go to banner ${i + 1}`}

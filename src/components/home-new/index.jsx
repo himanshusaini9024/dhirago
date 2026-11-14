@@ -62,48 +62,35 @@ export default function HomeNew({ products = [] }) {
       {/* <TwoUp
         panels={[
           {
-            src: cdn("Home/dsc06295.webp"),
-            alt: "Natural linen shirt with hand embroidery",
+            src: "/images/b1.jpeg",
+            alt: "Dhirago collection banner",
             href: "/collections/shirts",
-            caption: "Linen",
-            position: "object-[center_20%]",
+            width: 3600,
+            height: 2600,
           },
           {
-            src: productImage(indigo, 0) || cdn("Home/wi.webp"),
-            alt: indigo?.name || "Indigo shirt",
+            src: "/images/b2.jpeg",
+            alt: indigo?.name || "Dhirago indigo shirt",
             href: indigo ? `/product/${indigo.slug}` : "/collections/shirts",
-            caption: "Indigo",
-            position: "object-top",
+            width: 3000,
+            height: 2000,
           },
         ]}
       /> */}
 
-      {/* <TwoUp
-  panels={[
-    {
-      // src: cdn("Home/dsc06295.webp"),
-      src: "/images/cp.jpeg",
-      alt: "Natural linen shirt with hand embroidery",
-      href: "/collections/shirts",
-      caption: "Linen",
-      position: "object-[center_20%]",
-    },
-  ]}
-/> */}
-<PageIntro/>
- {/* <TwoUp
-  panels={[
-   
-       {
-      src: "/images/cppp1.png",
-      alt: "Dhirago linen shirt collection",
-      href: "/collections/shirts",
-      caption: "Natural Linen",
-      position: "object-[center_20%]",
-    }
-  
-  ]}
-/> */}
+      {/* Image banner in place of PageIntro video hero */}
+      <TwoUp
+        panels={[
+          {
+            src: "/images/b4.png",
+            alt: "Dhirago Black Friday offer",
+            href: "/collections/shirts",
+            width: 1920,
+            height: 1080,
+          },
+        ]}
+      />
+      {/* <PageIntro/> */}
 
       {/* <Ticker
         items={[

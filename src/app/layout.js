@@ -81,72 +81,97 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${futura.variable} `}>
+        {/*
+          Use @graph with FULL nested objects (not @id-only links).
+          Schema.org validator hides nodes that are only referenced by @id,
+          which made Organization/Brand disappear from the top-level list.
+        */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "@id": "https://www.dhirago.com/#organization",
-                name: "Dhirago Fashion Private Limited",
-                legalName: "Dhirago Fashion Private Limited",
-                alternateName: ["Dhirago", "Dhirago Menswear", "Dhirago Fashion"],
-                url: "https://www.dhirago.com/",
-                logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
-                image: "https://images.dhirago.com/ecommerce/dhirago-og.webp",
-                description:
-                  "Dhirago is a luxury Indian menswear brand based in Udaipur, offering handcrafted premium men's shirts with natural fabrics, hand embroidery, and timeless design.",
-                foundingLocation: {
-                  "@type": "Place",
-                  name: "Udaipur, Rajasthan, India",
-                },
-                areaServed: {
-                  "@type": "Country",
-                  name: "India",
-                },
-                sameAs: [
-                  "https://www.instagram.com/dhirago_/",
-                  "https://wa.me/917742711543",
-                ],
-                contactPoint: {
-                  "@type": "ContactPoint",
-                  telephone: "+91-8905524932",
-                  contactType: "customer service",
-                  email: "contact@dhirago.com",
-                  areaServed: "IN",
-                  availableLanguage: ["English", "Hindi"],
-                },
-                brand: {
-                  "@id": "https://www.dhirago.com/#brand",
-                },
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Brand",
-                "@id": "https://www.dhirago.com/#brand",
-                name: "Dhirago",
-                alternateName: ["Dhirago Menswear", "Dhirago Fashion"],
-                url: "https://www.dhirago.com/",
-                logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
-                description:
-                  "Dhirago — premium men's shirts and luxury Indian menswear rooted in craft and time.",
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "@id": "https://www.dhirago.com/#website",
-                url: "https://www.dhirago.com/",
-                name: "Dhirago",
-                alternateName: "Dhirago Menswear",
-                description:
-                  "Official website of Dhirago — buy premium men's shirts online in India.",
-                publisher: {
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
                   "@id": "https://www.dhirago.com/#organization",
+                  name: "Dhirago Fashion Private Limited",
+                  legalName: "Dhirago Fashion Private Limited",
+                  alternateName: [
+                    "Dhirago",
+                    "Dhirago Menswear",
+                    "Dhirago Fashion",
+                  ],
+                  url: "https://www.dhirago.com/",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+                  },
+                  image: "https://images.dhirago.com/ecommerce/dhirago-og.webp",
+                  description:
+                    "Dhirago is a luxury Indian menswear brand based in Udaipur, offering handcrafted premium men's shirts with natural fabrics, hand embroidery, and timeless design.",
+                  foundingLocation: {
+                    "@type": "Place",
+                    name: "Udaipur, Rajasthan, India",
+                  },
+                  areaServed: {
+                    "@type": "Country",
+                    name: "India",
+                  },
+                  sameAs: [
+                    "https://www.instagram.com/dhirago_/",
+                    "https://wa.me/917742711543",
+                  ],
+                  contactPoint: {
+                    "@type": "ContactPoint",
+                    telephone: "+91-8905524932",
+                    contactType: "customer service",
+                    email: "contact@dhirago.com",
+                    areaServed: "IN",
+                    availableLanguage: ["English", "Hindi"],
+                  },
+                  brand: {
+                    "@type": "Brand",
+                    "@id": "https://www.dhirago.com/#brand",
+                    name: "Dhirago",
+                    alternateName: ["Dhirago Menswear", "Dhirago Fashion"],
+                    url: "https://www.dhirago.com/",
+                    logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+                    description:
+                      "Dhirago - premium men's shirts and luxury Indian menswear rooted in craft and time.",
+                  },
                 },
-                inLanguage: "en-IN",
-              },
-            ]),
+                {
+                  "@type": "Brand",
+                  "@id": "https://www.dhirago.com/#brand",
+                  name: "Dhirago",
+                  alternateName: ["Dhirago Menswear", "Dhirago Fashion"],
+                  url: "https://www.dhirago.com/",
+                  logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+                  description:
+                    "Dhirago - premium men's shirts and luxury Indian menswear rooted in craft and time.",
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.dhirago.com/#website",
+                  url: "https://www.dhirago.com/",
+                  name: "Dhirago",
+                  alternateName: "Dhirago Menswear",
+                  description:
+                    "Official website of Dhirago - buy premium men's shirts online in India.",
+                  publisher: {
+                    "@type": "Organization",
+                    name: "Dhirago Fashion Private Limited",
+                    url: "https://www.dhirago.com/",
+                    logo: {
+                      "@type": "ImageObject",
+                      url: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+                    },
+                  },
+                  inLanguage: "en-IN",
+                },
+              ],
+            }),
           }}
         />
         <GoogleTagManager gtmId="GTM-5TDSXPBS" />

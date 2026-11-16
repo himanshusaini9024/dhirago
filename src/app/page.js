@@ -35,7 +35,13 @@ export default async function Home() {
     isFamilyFriendly: true,
     inLanguage: "en",
     publisher: {
-      "@id": "https://www.dhirago.com/#organization",
+      "@type": "Organization",
+      name: "Dhirago Fashion Private Limited",
+      url: "https://www.dhirago.com/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+      },
     },
   };
 

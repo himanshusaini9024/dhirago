@@ -117,6 +117,9 @@ export default function RootLayout({ children }) {
                   areaServed: "IN",
                   availableLanguage: ["English", "Hindi"],
                 },
+                brand: {
+                  "@id": "https://www.dhirago.com/#brand",
+                },
               },
               {
                 "@context": "https://schema.org",
@@ -128,9 +131,6 @@ export default function RootLayout({ children }) {
                 logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
                 description:
                   "Dhirago — premium men's shirts and luxury Indian menswear rooted in craft and time.",
-                parentOrganization: {
-                  "@id": "https://www.dhirago.com/#organization",
-                },
               },
               {
                 "@context": "https://schema.org",

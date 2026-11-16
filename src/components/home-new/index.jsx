@@ -59,37 +59,43 @@ export default function HomeNew({ products = [] }) {
     <div style={PAPER_BG} className="text-[#2b241c]">
       {/* <CinematicHero /> */}
 
-      {/* <TwoUp
-        panels={[
-          {
-            src: "/images/b1.jpeg",
-            alt: "Dhirago collection banner",
-            href: "/collections/shirts",
-            width: 3600,
-            height: 2600,
-          },
-          {
-            src: "/images/b2.jpeg",
-            alt: indigo?.name || "Dhirago indigo shirt",
-            href: indigo ? `/product/${indigo.slug}` : "/collections/shirts",
-            width: 3000,
-            height: 2000,
-          },
-        ]}
-      /> */}
-
-      {/* Image banner in place of PageIntro video hero */}
       <TwoUp
         panels={[
           {
-            src: "/images/b4.png",
+            src: "https://images.dhirago.com/ecommerce/Home/hombanner11.webp?v=22",
+            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobile1.webp",
+            alt: "Dhirago Black Friday sale",
+            href: "/collections/shirts",
+            width: 1920,
+            height: 1080,
+            mobileWidth: 1080,
+            mobileHeight: 1440,
+          },
+          {
+            src: "https://images.dhirago.com/ecommerce/Home/hombanner2.webp",
+            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobile2.webp",
+            alt: indigo?.name || "Dhirago rare moment",
+            href: indigo ? `/product/${indigo.slug}` : "/collections/shirts",
+            width: 1920,
+            height: 1080,
+            mobileWidth: 1080,
+            mobileHeight: 1440,
+          },
+        ]}
+      />
+
+      {/* Image banner in place of PageIntro video hero */}
+      {/* <TwoUp
+        panels={[
+          {
+            src: "/images/b4.jpg",
             alt: "Dhirago Black Friday offer",
             href: "/collections/shirts",
             width: 1920,
             height: 1080,
           },
         ]}
-      />
+      /> */}
       {/* <PageIntro/> */}
 
       {/* <Ticker

@@ -59,44 +59,51 @@ export default function HomeNew({ products = [] }) {
     <div style={PAPER_BG} className="text-[#2b241c]">
       {/* <CinematicHero /> */}
 
-      <TwoUp
-        panels={[
-          {
-            src: "https://images.dhirago.com/ecommerce/Home/hombanner11.webp?v=22",
-            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobile1.webp",
-            alt: "Dhirago Black Friday sale",
-            href: "/collections/shirts",
-            width: 1920,
-            height: 1080,
-            mobileWidth: 1080,
-            mobileHeight: 1440,
-          },
-          {
-            src: "https://images.dhirago.com/ecommerce/Home/hombanner2.webp",
-            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobile2.webp",
-            alt: indigo?.name || "Dhirago rare moment",
-            href: indigo ? `/product/${indigo.slug}` : "/collections/shirts",
-            width: 1920,
-            height: 1080,
-            mobileWidth: 1080,
-            mobileHeight: 1440,
-          },
-        ]}
-      />
-
-      {/* Image banner in place of PageIntro video hero */}
       {/* <TwoUp
         panels={[
           {
-            src: "/images/b4.jpg",
-            alt: "Dhirago Black Friday offer",
+            src: cdn("Home/dsc06295.webp"),
+            alt: "Natural linen shirt with hand embroidery",
             href: "/collections/shirts",
-            width: 1920,
-            height: 1080,
+            caption: "Linen",
+            position: "object-[center_20%]",
+          },
+          {
+            src: productImage(indigo, 0) || cdn("Home/wi.webp"),
+            alt: indigo?.name || "Indigo shirt",
+            href: indigo ? `/product/${indigo.slug}` : "/collections/shirts",
+            caption: "Indigo",
+            position: "object-top",
           },
         ]}
       /> */}
-      {/* <PageIntro/> */}
+
+      {/* <TwoUp
+  panels={[
+    {
+      // src: cdn("Home/dsc06295.webp"),
+      src: "/images/cp.jpeg",
+      alt: "Natural linen shirt with hand embroidery",
+      href: "/collections/shirts",
+      caption: "Linen",
+      position: "object-[center_20%]",
+    },
+  ]}
+/> */}
+<PageIntro/>
+ {/* <TwoUp
+  panels={[
+   
+       {
+      src: "/images/cppp1.png",
+      alt: "Dhirago linen shirt collection",
+      href: "/collections/shirts",
+      caption: "Natural Linen",
+      position: "object-[center_20%]",
+    }
+  
+  ]}
+/> */}
 
       {/* <Ticker
         items={[

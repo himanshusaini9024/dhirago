@@ -7,6 +7,7 @@ import { toggleFavProduct } from "../../store/reducers/user";
 import { useState } from "react";
 import productsSizes from "../../utils/data/products-sizes";
 import { sortProductImages } from "../../utils/sortProductImages";
+import { resolveProductPrice } from "../../lib/festiveSale";
 import Image from "next/image";
 
 const QuickAddModal = dynamic(() => import("./qucikview"), { ssr: false });
@@ -40,9 +41,17 @@ const ProductItem = ({
   const imageList = sortProductImages(images);
   const baseURL = process.env.NEXT_PUBLIC_IMG_URL;
 
-  const selling = Number(currentPrice) || 0;
-  const listMrp = Number(mrp ?? price) || 0;
-  const off = Number(discount) || 0;
+  const {
+    selling,
+    mrp: listMrp,
+    discount: off,
+  } = resolveProductPrice({
+    currentPrice,
+    special_price: currentPrice,
+    mrp,
+    price,
+    discount,
+  });
   const href = slug ? `/product/${slug}` : null;
 
   const onMouseEnter = () => setHovered(true);

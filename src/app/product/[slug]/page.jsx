@@ -5,6 +5,7 @@ import RecentlyViewedTracker from "../../../components/recentlyviewtracker";
 import ScrollToTop from "../../../components/product-single/ScrollToTop";
 import { generateSEO } from "../../../utils/seo";
 import { sortProductImages } from "../../../utils/sortProductImages";
+import { resolveProductPrice } from "../../../lib/festiveSale";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.dhirago.com";
@@ -88,10 +89,7 @@ export default async function ProductPage({ params }) {
     .map((i) => absoluteImageUrl(i.url))
     .filter(Boolean);
 
-  const selling =
-    Number(product.currentPrice ?? product.special_price ?? product.price) ||
-    0;
-  const mrp = Number(product.mrp ?? product.price) || selling;
+  const { selling, mrp } = resolveProductPrice(product);
 
   const jsonLd = [
     {

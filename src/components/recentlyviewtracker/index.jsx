@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { resolveProductPrice } from "../../lib/festiveSale";
 
 const addToRecentlyViewed = (product) => {
   if (!product || !product.id) return;
@@ -10,10 +11,7 @@ const addToRecentlyViewed = (product) => {
   // remove duplicate
   items = items.filter((item) => item.id !== product.id);
 
-  const mrp = Number(product.mrp ?? product.price) || 0;
-  const selling =
-    Number(product.currentPrice ?? product.special_price ?? product.price) ||
-    0;
+  const { selling, mrp, discount } = resolveProductPrice(product);
 
   // minimal data (IMPORTANT) — store selling price, not MRP
   const minimalProduct = {
@@ -29,7 +27,7 @@ const addToRecentlyViewed = (product) => {
     price: mrp,
     mrp,
     special_price: selling,
-    discount: Number(product.discount) || 0,
+    discount,
     currentPrice: selling,
   };
 

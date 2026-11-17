@@ -6,6 +6,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import ProductItem from "../product-item";
+import { resolveProductPrice } from "../../lib/festiveSale";
 import { Josefin_Sans } from "next/font/google";
 
 const josefin = Josefin_Sans({
@@ -31,17 +32,14 @@ async function refreshProductPricing(item) {
     });
     if (!res.ok) return item;
     const product = await res.json();
-    const mrp = Number(product.mrp ?? product.price) || 0;
-    const selling =
-      Number(product.currentPrice ?? product.special_price ?? product.price) ||
-      0;
+    const { selling, mrp, discount } = resolveProductPrice(product);
     return {
       ...item,
       name: product.name || item.name,
       price: mrp,
       mrp,
       special_price: selling,
-      discount: Number(product.discount) || 0,
+      discount,
       currentPrice: selling,
     };
   } catch {

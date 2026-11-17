@@ -1,20 +1,16 @@
+import { resolveProductPrice } from "./festiveSale";
+
 /**
  * Cart line helpers for MRP / special (selling) price display.
  * Cart items store: price = selling, mrp|originalPrice = MRP.
+ * When festive sale is off, selling is forced to MRP via resolveProductPrice.
  */
 export function getItemMrp(item) {
-  return (
-    Number(item?.mrp ?? item?.originalPrice ?? item?.price) || 0
-  );
+  return resolveProductPrice(item).mrp;
 }
 
 export function getItemSellingPrice(item) {
-  // Prefer explicit selling fields; fall back to price
-  const selling = Number(
-    item?.special_price ?? item?.currentPrice ?? item?.price,
-  );
-  if (selling > 0) return selling;
-  return getItemMrp(item);
+  return resolveProductPrice(item).selling;
 }
 
 export function getItemLineMrp(item) {

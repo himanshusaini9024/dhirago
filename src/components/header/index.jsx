@@ -12,7 +12,7 @@ import LoginDropdown from "./logindroopdown";
 import { logout } from "../../store/authslice";
 import API from "../../lib/api";
 import { Josefin_Sans } from "next/font/google";
-import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../lib/firstOrderDiscount";
+import { FESTIVE_SALE_ENABLED } from "../../lib/festiveSale";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -37,12 +37,10 @@ const MOBILE_NAV_LINKS = [
 ];
 
 const ANNOUNCEMENTS = [
-  <>
-    Flat 15% Off this Festive season
-  </>,
-  <>
-    Free Shipping on all products
-  </>,
+  ...(FESTIVE_SALE_ENABLED
+    ? [<>Flat 15% Off this Festive season</>]
+    : []),
+  <>Free Shipping on all products</>,
 ];
 
 const Header = () => {

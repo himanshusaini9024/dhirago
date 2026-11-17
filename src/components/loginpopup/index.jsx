@@ -8,6 +8,7 @@ import { CheckCircle2, XCircle, Timer } from "lucide-react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../lib/firstOrderDiscount";
+import { FESTIVE_SALE_ENABLED } from "../../lib/festiveSale";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -326,11 +327,13 @@ export default function LoginPopup({ isOpen, onClose }) {
                   get 10% off on your first order
                 </p>
               )}
-              <p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
-                Flat 15% off This Festival season
-              </p>
+              {FESTIVE_SALE_ENABLED && (
+                <p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
+                  Flat 15% off This Festival season
+                </p>
+              )}
               <h3
-                className={`${FIRST_ORDER_DISCOUNT_ENABLED ? "mt-4" : "mt-6"} text-center text-lg font-bold text-[#111]`}
+                className={`${FIRST_ORDER_DISCOUNT_ENABLED || FESTIVE_SALE_ENABLED ? "mt-4" : "mt-6"} text-center text-lg font-bold text-[#111]`}
               >
                 Login / Sign up
               </h3>

@@ -15,6 +15,7 @@ import {
   formatINR,
   summarizeCart,
 } from "../../lib/cartPricing";
+import { resolveProductPrice } from "../../lib/festiveSale";
 import { setCart } from "../../store/reducers/cart";
 
 export default function ShoppingCart() {
@@ -49,13 +50,7 @@ export default function ShoppingCart() {
               });
               if (!res.ok) return item;
               const product = await res.json();
-              const mrp = Number(product.mrp ?? product.price) || 0;
-              const selling =
-                Number(
-                  product.currentPrice ??
-                    product.special_price ??
-                    product.price,
-                ) || 0;
+              const { selling, mrp, discount } = resolveProductPrice(product);
               return {
                 ...item,
                 price: selling,
@@ -63,7 +58,7 @@ export default function ShoppingCart() {
                 originalPrice: mrp,
                 special_price: selling,
                 currentPrice: selling,
-                discount: Number(product.discount) || 0,
+                discount,
               };
             } catch {
               return item;

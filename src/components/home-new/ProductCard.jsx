@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatPrice, label,josefin, productImage } from "./theme";
+import { resolveProductPrice } from "../../lib/festiveSale";
 
 export default function ProductCard({ product, priority = false }) {
   const front = productImage(product, 0);
   const back = productImage(product, 1);
-  const selling = Number(product.currentPrice ?? product.special_price ?? product.price) || 0;
-  const mrp = Number(product.mrp ?? product.price) || 0;
-  const listMrp = Number(mrp ?? price) || 0;
-  const off = Number(product.discount) || 0;
+  const { selling, mrp: listMrp, discount: off } = resolveProductPrice(product);
+  const mrp = listMrp;
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">

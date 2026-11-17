@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../../../store/reducers/cart";
 import { openCartDrawer } from "../../../lib/cartDrawer";
+import { resolveProductPrice } from "../../../lib/festiveSale";
 
 const BASE_URL = process.env.NEXT_PUBLIC_IMG_URL || "";
 
@@ -86,8 +87,7 @@ const QuickAddModal = ({ product, isOpen, onClose }) => {
   );
   const sizes = product?.sizes || [];
   const activeImage = images[imgIndex] || images[0];
-  const mrp = Number(product?.mrp ?? product?.price) || 0;
-  const selling = Number(product?.currentPrice) || mrp;
+  const { selling, mrp } = resolveProductPrice(product);
 
   useEffect(() => {
     if (!isOpen) return;

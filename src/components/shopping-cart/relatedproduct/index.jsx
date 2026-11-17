@@ -7,6 +7,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import ProductItem from "../../../components/product-item";
+import { resolveProductPrice } from "../../../lib/festiveSale";
 import { Josefin_Sans } from "next/font/google";
 
 const josefin = Josefin_Sans({
@@ -45,9 +46,7 @@ async function fetchProductCategory(slug) {
 }
 
 function normalizeProduct(item) {
-  const mrp = Number(item.mrp ?? item.price) || 0;
-  const selling =
-    Number(item.currentPrice ?? item.special_price ?? item.price) || 0;
+  const { selling, mrp, discount } = resolveProductPrice(item);
 
   return {
     id: item.id,
@@ -58,7 +57,7 @@ function normalizeProduct(item) {
     price: mrp,
     mrp,
     special_price: selling,
-    discount: Number(item.discount) || 0,
+    discount,
     currentPrice: selling,
     color: item.color || item.colors || [],
     category: item.category || null,

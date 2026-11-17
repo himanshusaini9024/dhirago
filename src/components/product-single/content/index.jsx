@@ -13,6 +13,7 @@ import MensSizeChart from "../MensSizeChart";
 import { fbEvent, newEventId } from "../../../lib/facebookPixel";
 import { sendMetaEvent } from "../../../lib/meta";
 import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../../lib/firstOrderDiscount";
+import { resolveProductPrice } from "../../../lib/festiveSale";
 const F = "'Josefin Sans', sans-serif";
 
 function useIsMobile() {
@@ -105,13 +106,19 @@ function AccordionRow({ title, children, isOpen, onToggle }) {
 }
 
 export default function Content({ product }) {
+  const {
+    selling: sellingPrice,
+    mrp: basePrice,
+    discount: discountPercent,
+  } = resolveProductPrice(product);
+
   useEffect(() => {
     const eventID = newEventId("view");
     const data = {
       content_ids: [String(product.id)],
       content_name: product.name,
       content_type: "product",
-      value: Number(product.currentPrice) || 0,
+      value: sellingPrice,
       currency: "INR",
     };
     fbEvent("ViewContent", data, eventID);
@@ -129,12 +136,6 @@ export default function Content({ product }) {
   const [priceTipOpen, setPriceTipOpen] = useState(false);
   // single open accordion: null | "care" | "shipment" | "returns"
   const [openAccordion, setOpenAccordion] = useState("details");
-
-  const basePrice = Number(product.mrp ?? product.price) || 0;
-  const sellingPrice =
-    Number(product.currentPrice ?? product.special_price ?? product.price) ||
-    0;
-  const discountPercent = Number(product.discount) || 0;
   const firstOrderOff = Math.round((sellingPrice * 10) / 100);
   const firstOrderTotal = Math.max(0, sellingPrice - firstOrderOff);
 
@@ -201,9 +202,6 @@ export default function Content({ product }) {
       return;
     }
     setSizeError("");
-    const sellingPrice =
-      Number(product.currentPrice ?? product.special_price ?? product.price) ||
-      0;
 
     const eventID = newEventId("atc");
     const metaData = {
@@ -236,7 +234,6 @@ export default function Content({ product }) {
         ],
       },
     });
-    const mrp = Number(product.mrp ?? product.price) || sellingPrice;
     dispatch(
       addProduct({
         count: 1,
@@ -246,11 +243,11 @@ export default function Content({ product }) {
           sku: product.sku,
           thumb: product.images?.[0] || "",
           price: sellingPrice,
-          mrp,
-          originalPrice: mrp,
+          mrp: basePrice,
+          originalPrice: basePrice,
           special_price: sellingPrice,
           currentPrice: sellingPrice,
-          discount: product.discount || 0,
+          discount: discountPercent,
           slug: product.slug,
           category: product.category || null,
           color: color.toLowerCase(),

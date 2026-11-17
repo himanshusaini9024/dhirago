@@ -16,6 +16,7 @@ import {
   fetchFirstOrderQuote,
 } from "../../lib/firstOrderDiscount";
 import { formatINR, summarizeCart } from "../../lib/cartPricing";
+import { resolveProductPrice } from "../../lib/festiveSale";
 import { savePendingPurchase } from "../../lib/trackPurchase";
 import {
   fbEvent,
@@ -139,13 +140,7 @@ const CheckoutPage = () => {
               });
               if (!res.ok) return item;
               const product = await res.json();
-              const mrp = Number(product.mrp ?? product.price) || 0;
-              const selling =
-                Number(
-                  product.currentPrice ??
-                    product.special_price ??
-                    product.price,
-                ) || 0;
+              const { selling, mrp, discount } = resolveProductPrice(product);
               return {
                 ...item,
                 price: selling,
@@ -153,7 +148,7 @@ const CheckoutPage = () => {
                 originalPrice: mrp,
                 special_price: selling,
                 currentPrice: selling,
-                discount: Number(product.discount) || 0,
+                discount,
               };
             } catch {
               return item;

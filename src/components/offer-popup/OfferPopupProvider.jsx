@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import OfferPopup from "./index";
+import { FESTIVE_SALE_ENABLED } from "../../lib/festiveSale";
 
 const OFFER_SEEN_KEY = "dhirago_offer_popup_seen";
 const SCROLL_TRIGGER_Y = 280;
@@ -38,7 +39,14 @@ export default function OfferPopupProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (pathBlocked || hasSeenOffer() || triggeredRef.current) return undefined;
+    if (
+      !FESTIVE_SALE_ENABLED ||
+      pathBlocked ||
+      hasSeenOffer() ||
+      triggeredRef.current
+    ) {
+      return undefined;
+    }
 
     const handleScroll = () => {
       if (
@@ -64,7 +72,9 @@ export default function OfferPopupProvider({ children }) {
   return (
     <>
       {children}
-      <OfferPopup isOpen={open} onClose={handleClose} />
+      {FESTIVE_SALE_ENABLED ? (
+        <OfferPopup isOpen={open} onClose={handleClose} />
+      ) : null}
     </>
   );
 }

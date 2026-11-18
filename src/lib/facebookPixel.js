@@ -3,15 +3,19 @@ export const newEventId = (prefix = "evt") =>
     ? crypto.randomUUID()
     : `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 
+import { shouldLoadMetaPixel } from "./metaEnv";
+
 export const fbEvent = (event, data = {}, eventID = null) => {
-  if (typeof window !== "undefined" && typeof window.fbq === "function") {
-    if (eventID) {
-      window.fbq("track", event, data, {
-        eventID,
-      });
-    } else {
-      window.fbq("track", event, data);
-    }
+  // MetaPixel is not mounted on local/LAN; still guard in case fbq exists from elsewhere.
+  if (typeof window === "undefined" || !shouldLoadMetaPixel()) return;
+  if (typeof window.fbq !== "function") return;
+
+  if (eventID) {
+    window.fbq("track", event, data, {
+      eventID,
+    });
+  } else {
+    window.fbq("track", event, data);
   }
 };
 

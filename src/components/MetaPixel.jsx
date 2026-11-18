@@ -1,11 +1,13 @@
 "use client";
 
 import Script from "next/script";
+import { shouldLoadMetaPixel } from "../lib/metaEnv";
 
 export default function MetaPixel() {
   const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
-  if (!pixelId) return null;
+  // Local / LAN must not load the production pixel — test_event_code is CAPI-only.
+  if (!pixelId || !shouldLoadMetaPixel()) return null;
 
   return (
     <>

@@ -6,6 +6,7 @@ import { CheckCircle } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useRouter } from "next/navigation";
 import {
+  purchaseOrderNumber,
   readPendingPurchase,
   trackPurchase,
 } from "../../lib/trackPurchase";
@@ -19,39 +20,40 @@ export default function SuccessPage() {
     confetti({ particleCount: 120, spread: 70 });
 
     const fetchOrder = async () => {
+      // Only track purchases that came from this checkout session.
+      // Never fire purchase from /orders/latest alone (re-visits / old orders).
       const pending = readPendingPurchase();
+      const pendingNumber = purchaseOrderNumber(pending);
 
       try {
         const res = await API.get("/orders/latest");
         const latest = res.data?.order || null;
+        const latestNumber = purchaseOrderNumber(latest);
 
-        // Prefer the confirmed API order. Only fire Purchase when order_number exists
-        // (same id Laravel uses for CAPI). Do not track from pending alone if latest failed.
-        if (latest?.order_number) {
+        if (pendingNumber && latestNumber && pendingNumber === latestNumber) {
           const merged = {
             ...pending,
             ...latest,
-            order_number: latest.order_number,
-            items: latest.items || pending?.items || [],
+            order_number: latestNumber,
+            items: latest.items || pending.items || [],
+            total_amount:
+              latest.total_amount ?? pending.total_amount ?? pending.value,
           };
           setOrder(merged);
           await trackPurchase(merged);
-        } else if (pending?.order_number) {
-          // API returned nothing useful; pending only exists after a successful POST /orders.
+        } else if (pendingNumber) {
           setOrder(pending);
           await trackPurchase(pending);
-        } else if (latest || pending) {
-          setOrder(latest || pending);
+        } else if (latest) {
+          // Show confirmation UI if API has an order, but do not track analytics
+          // without a pending checkout payload for this session.
+          setOrder(latest);
         }
       } catch (err) {
         console.log(err);
-        // Show UI from pending if we have it, but only track when order_number is real
-        // (saved after a successful create). Never invent Purchase from cart-only data.
-        if (pending) {
+        if (pendingNumber) {
           setOrder(pending);
-          if (pending.order_number) {
-            await trackPurchase(pending);
-          }
+          await trackPurchase(pending);
         }
       } finally {
         setLoading(false);

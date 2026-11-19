@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Instagram, Mail, Facebook } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import { useState } from "react";
@@ -320,7 +321,45 @@ export default function UltraPremiumFooter() {
               </p>
             )}
 
-            <div className="flex items-center gap-4 mt-6">
+            <div className="mt-8 space-y-5">
+              <div>
+                <p
+                  className={`font-futura text-[12px] tracking-[0.25em] uppercase text-[#2b2620]`}
+                >
+                  Address
+                </p>
+            <div className="w-6 h-px bg-[#2b2620] mt-3 mb-2" />
+
+                <p
+                  className={`${display.className} mt-2 text-[14px] md:text-[15px] leading-[1.6] text-[#111111]`}
+                >
+                  FLAT NO.502 ARCHI THE DIVINE, Udaipur,Rajasthan,313001
+                 
+                </p>
+              </div>
+              <div>
+                <p
+                  className={`font-futura text-[12px] tracking-[0.25em] uppercase text-[#2b2620]`}
+                >
+                  Contact Details
+                </p>
+            <div className="w-6 h-px bg-[#2b2620] mt-3 mb-2" />
+
+                <p
+                  className={`${display.className} mt-1 text-[14px] md:text-[15px] leading-[1.6] text-[#111111]`}
+                >
+                  EMAIL:-{" "}
+                  <a
+                    href="mailto:contact@dhirago.com"
+                    className="hover:text-[#8a7f6d] transition-colors duration-200"
+                  >
+                    contact@dhirago.com
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 mt-4">
               <a
                 href="https://instagram.com/dhirago_"
                 aria-label="Instagram"
@@ -365,12 +404,20 @@ export default function UltraPremiumFooter() {
       {/* ── BOTTOM BAR ─────────────────────────────────── */}
       <div className="max-w-[1280px] mx-auto px-8 md:px-14 pt-6 pb-[6rem]  flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <p 
-          
-            className={`${josefin.className}  text-[14px] md:text-[21px] tracking-[0.2em] text-[#111111]`}
-          >
-            DHIRAGO
-          </p>
+          <div className="flex items-center gap-2.5 md:gap-1">
+            <Image
+              src="https://images.dhirago.com/ecommerce/logo/footerlogo.webp?v=2"
+              alt="Dhirago"
+              width={36}
+              height={36}
+              className="h-7 w-7 md:h-10 md:w-10 object-contain opacity-90"
+            />
+            <p
+              className={`${josefin.className} text-[14px] md:text-[21px] tracking-[0.2em] text-[#111111]`}
+            >
+              DHIRAGO
+            </p>
+          </div>
           <p className={`${display.className} text-[14px] md:text-[15px] mt-3 text-[#111111]`}>
             The beauty of time, thoughtfully made.
           </p>

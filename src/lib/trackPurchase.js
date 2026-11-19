@@ -78,6 +78,7 @@ function alreadyTracked(orderNumber) {
 /**
  * Fire Purchase once for GTM/GA4 (dataLayer) + Meta Pixel.
  * Requires order_number so event_id matches Laravel MetaPurchaseJob.
+ * Always includes transaction_id at root + ecommerce so GTM/GA4 can map it.
  */
 export async function trackPurchase(order) {
   if (typeof window === "undefined" || !order) return false;
@@ -88,21 +89,40 @@ export async function trackPurchase(order) {
   const value = toNumber(order.total_amount ?? order.value ?? order.priceTotal);
   const currency = "INR";
   const items = normalizeItems(order.items || order.cartItems || []);
+  // Incomplete payload → skip. Prevents "purchase" with revenue but no transaction_id/items.
+  if (!value || !items.length) return false;
+
   const contents = metaContents(order.items || order.cartItems || []);
   const numItems = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
   const eventID = `purchase_${orderNumber}`;
+  const transactionId = String(orderNumber);
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ ecommerce: null });
+  // Root-level params help GTM Event Parameter variables; ecommerce is for GA4 ecommerce.
   window.dataLayer.push({
     event: "purchase",
+    transaction_id: transactionId,
+    value,
+    currency,
+    items,
     ecommerce: {
-      transaction_id: String(orderNumber),
+      transaction_id: transactionId,
       value,
       currency,
       items,
     },
   });
+
+  // Direct GA4 path when gtag is present (covers GTM tags that ignore ecommerce object).
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "purchase", {
+      transaction_id: transactionId,
+      value,
+      currency,
+      items,
+    });
+  }
 
   fbEvent(
     "Purchase",
@@ -112,7 +132,7 @@ export async function trackPurchase(order) {
       contents,
       content_type: "product",
       num_items: numItems,
-      order_id: String(orderNumber),
+      order_id: transactionId,
     },
     eventID,
   );

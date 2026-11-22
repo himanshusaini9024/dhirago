@@ -329,7 +329,8 @@ export default function LoginPopup({ isOpen, onClose }) {
               )}
               {FESTIVE_SALE_ENABLED && (
                 <p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
-                  Flat 30% off This Festival season
+                  Black Friday sale <br />
+                   Flat 30% off 
                 </p>
               )}
               <h3

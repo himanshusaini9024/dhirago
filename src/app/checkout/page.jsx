@@ -25,6 +25,7 @@ import {
 } from "../../lib/facebookPixel";
 import { sendMetaEvent } from "../../lib/meta";
 import {
+  COUPON_APPLY_ENABLED,
   FEATURED_COUPON_CODE,
   fetchCouponQuote,
 } from "../../lib/coupon";
@@ -123,6 +124,14 @@ const CheckoutPage = () => {
     loading: false,
   });
 
+  // ── payment ────────────────────────────────
+  const COD_CHARGE = 200;
+  const [paymentMethod, setPaymentMethod] = useState("online");
+  useEffect(() => {
+    const last = localStorage.getItem("paymentMethod");
+    setPaymentMethod(last || "online");
+  }, []);
+
   // Refresh live selling/MRP so checkout matches current catalog prices
   useEffect(() => {
     if (!cartItems?.length) return;
@@ -212,6 +221,8 @@ const CheckoutPage = () => {
 
   // Prefetch featured coupon savings + already-used state for Apply card
   useEffect(() => {
+    if (!COUPON_APPLY_ENABLED) return;
+
     let cancelled = false;
 
     const loadFeatured = async () => {
@@ -286,15 +297,19 @@ const CheckoutPage = () => {
     FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
       ? firstOrder.discount
       : 0;
-  const couponDiscount = coupon.valid ? Number(coupon.discount) || 0 : 0;
-  const payableTotal = Math.max(
+  const couponDiscount =
+    COUPON_APPLY_ENABLED && coupon.valid ? Number(coupon.discount) || 0 : 0;
+  const merchandiseTotal = Math.max(
     0,
     (FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
       ? firstOrder.total
       : productTotal) - couponDiscount,
   );
+  const codCharge = paymentMethod === "cod" ? COD_CHARGE : 0;
+  const payableTotal = merchandiseTotal + codCharge;
 
   const applyCoupon = async (codeOverride) => {
+    if (!COUPON_APPLY_ENABLED) return;
     const code = String(codeOverride || couponInput || "").trim();
     if (!code) {
       setCoupon({
@@ -404,15 +419,17 @@ const CheckoutPage = () => {
         firstOrderDiscount + couponDiscount > 0
           ? firstOrderDiscount + couponDiscount
           : null,
-      coupon_code: coupon.valid ? coupon.code : null,
+      coupon_code:
+        COUPON_APPLY_ENABLED && coupon.valid ? coupon.code : null,
       quantity: qty,
       payment_method: payment_status === "paid" ? "online" : "cod",
       payment_status,
       payment_id,
       razorpay_order_id,
+      cod_charge: payment_status === "paid" ? 0 : codCharge,
       first_name: selectedAddress.name,
       last_name: selectedAddress.name,
-      email,
+      email: selectedAddress.email || email,
       phone: selectedAddress.phone,
       address1: selectedAddress.address1,
       address2: selectedAddress.address2,
@@ -465,23 +482,37 @@ const CheckoutPage = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
 
+  const syncEmailFromAddress = (addr) => {
+    const nextEmail = (addr?.email || "").trim();
+    if (!nextEmail) return;
+    setEmail(nextEmail);
+    setEmailError("");
+    localStorage.setItem("user_email", nextEmail);
+  };
+
   const fetchAddresses = async (preferId) => {
     const res = await API.get("/addresses");
     const list = res.data || [];
     setAddresses(list);
 
     if (preferId) {
-      const found = list.find((a) => a.id === preferId);
-      setSelectedAddress(found || list[0] || null);
+      const found = list.find((a) => a.id === preferId) || list[0] || null;
+      setSelectedAddress(found);
+      if (found) syncEmailFromAddress(found);
       return;
     }
 
     setSelectedAddress((prev) => {
       if (prev?.id) {
         const found = list.find((a) => a.id === prev.id);
-        if (found) return found;
+        if (found) {
+          syncEmailFromAddress(found);
+          return found;
+        }
       }
-      return list[0] || null;
+      const first = list[0] || null;
+      if (first) syncEmailFromAddress(first);
+      return first;
     });
   };
 
@@ -493,6 +524,7 @@ const CheckoutPage = () => {
   const emptyForm = {
     name: "",
     phone: "",
+    email: "",
     address1: "",
     address2: "",
     city: "",
@@ -508,7 +540,7 @@ const CheckoutPage = () => {
 
   const openAddAddress = () => {
     setEditingAddress(null);
-    setForm(emptyForm);
+    setForm({ ...emptyForm, email: email || "" });
     setErrors({});
     setAddressError("");
     setShowAddressModal(false);
@@ -520,6 +552,7 @@ const CheckoutPage = () => {
     setForm({
       name: addr.name || "",
       phone: addr.phone || "",
+      email: addr.email || email || "",
       address1: addr.address1 || "",
       address2: addr.address2 || "",
       city: addr.city || "",
@@ -540,6 +573,9 @@ const CheckoutPage = () => {
     if (!form.phone) e.phone = "Phone is required";
     else if (!/^[6-9]\d{9}$/.test(form.phone))
       e.phone = "Enter valid 10-digit number";
+    if (!form.email.trim()) e.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
+      e.email = "Enter a valid email address";
     if (!form.address1.trim()) e.address1 = "Address is required";
     if (!form.city.trim()) e.city = "City is required";
     if (!form.state.trim()) e.state = "State is required";
@@ -554,14 +590,19 @@ const CheckoutPage = () => {
     if (!validateForm()) return;
     setLoading(true);
     try {
+      const payload = {
+        ...form,
+        email: form.email.trim(),
+      };
       let saved;
       if (editingAddress?.id) {
-        const res = await API.put(`/addresses/${editingAddress.id}`, form);
+        const res = await API.put(`/addresses/${editingAddress.id}`, payload);
         saved = res.data;
       } else {
-        const res = await API.post("/addresses", form);
+        const res = await API.post("/addresses", payload);
         saved = res.data;
       }
+      syncEmailFromAddress(saved || payload);
       await fetchAddresses(saved?.id || editingAddress?.id);
       setSelectedAddress(saved);
       setShowAddModal(false);
@@ -574,9 +615,10 @@ const CheckoutPage = () => {
       if (editingAddress?.id && e.response?.status === 405) {
         try {
           const res = await API.post(`/addresses/${editingAddress.id}`, {
-            ...form,
+            ...payload,
             _method: "PUT",
           });
+          syncEmailFromAddress(res.data || payload);
           await fetchAddresses(res.data?.id || editingAddress.id);
           setSelectedAddress(res.data);
           setShowAddModal(false);
@@ -592,18 +634,10 @@ const CheckoutPage = () => {
     }
   };
 
-  // ── payment ───────────────────────────────
-  const [paymentMethod, setPaymentMethod] = useState("online");
-  useEffect(() => {
-    const last = localStorage.getItem("paymentMethod");
-    setPaymentMethod(last || "online");
-  }, []);
-
   const [processing, setProcessing] = useState(false);
 
   // ── scroll-to-error (esp. mobile) ─────────
   const addressSectionRef = useRef(null);
-  const emailSectionRef = useRef(null);
   const emailInputRef = useRef(null);
 
   const scrollToField = (el, focusEl) => {
@@ -626,15 +660,17 @@ const CheckoutPage = () => {
     }
     setAddressError("");
 
-    // Then email
+    // Email is collected with the address — require it before placing order
     if (!email) {
-      setEmailError("Email is required");
-      scrollToField(emailSectionRef.current, emailInputRef.current);
+      setEmailError("Email is required — please edit your address and add email");
+      setAddressError("Please add an email in your delivery address");
+      scrollToField(addressSectionRef.current);
       return false;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError("Enter a valid email address");
-      scrollToField(emailSectionRef.current, emailInputRef.current);
+      setAddressError("Please update the email in your delivery address");
+      scrollToField(addressSectionRef.current);
       return false;
     }
     setEmailError("");
@@ -792,6 +828,14 @@ const CheckoutPage = () => {
                     <p className="addr-display-line" style={{ marginTop: 6 }}>
                       📞 {selectedAddress.phone}
                     </p>
+                    <p className="addr-display-line" style={{ marginTop: 4 }}>
+                      ✉ {selectedAddress.email || email || "Email not added — tap Edit"}
+                    </p>
+                    {(emailError || (!(selectedAddress.email || email))) && (
+                      <p className="fi-error" style={{ marginTop: 8 }}>
+                        {emailError || "Please add an email to this address"}
+                      </p>
+                    )}
                     <div className="addr-card-actions">
                       <button
                         type="button"
@@ -826,41 +870,10 @@ const CheckoutPage = () => {
                 )}
               </div>
 
-              {/* 2 — CONTACT */}
-              <div
-                className="co-section"
-                ref={emailSectionRef}
-                id="checkout-email"
-              >
-                <div className="co-section-label">
-                  <span className="co-section-num">2</span>
-                  Contact Information
-                </div>
-                <FloatInput
-                  id="checkout-email-input"
-                  inputRef={emailInputRef}
-                  label="Email Address"
-                  type="email"
-                  value={email}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    setEmail(v);
-                    v
-                      ? localStorage.setItem("user_email", v)
-                      : localStorage.removeItem("user_email");
-                    if (!v) setEmailError("Email is required");
-                    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))
-                      setEmailError("Enter a valid email address");
-                    else setEmailError("");
-                  }}
-                  error={emailError}
-                />
-              </div>
-
-              {/* 3 — PAYMENT */}
+              {/* 2 — PAYMENT */}
               <div className="co-section">
                 <div className="co-section-label">
-                  <span className="co-section-num">3</span>
+                  <span className="co-section-num">2</span>
                   Payment Method
                 </div>
                 <p
@@ -904,6 +917,7 @@ const CheckoutPage = () => {
 
                   {/* COD */}
                   <button
+                    type="button"
                     className={`pay-row${paymentMethod === "cod" ? " active" : ""}`}
                     onClick={() => {
                       setPaymentMethod("cod");
@@ -912,132 +926,64 @@ const CheckoutPage = () => {
                   >
                     <RadioDot active={paymentMethod === "cod"} />
                     <span className="pay-label">Cash on Delivery</span>
+                    <span className="pay-logo-tag">+₹{COD_CHARGE}</span>
                   </button>
+                  {paymentMethod === "cod" && (
+                    <div className="pay-desc pay-desc-cod" role="status">
+                      A Cash on Delivery fee of{" "}
+                      <strong>₹{COD_CHARGE}</strong> will be added to your
+                      order total. Please keep the exact amount ready at
+                      delivery.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* ── RIGHT COLUMN (SUMMARY) ── */}
             <div className="summary-box">
-              <div className="co-promo">
-                <div className="co-coupon-card">
-                  <div className="co-coupon-card-main">
-                    <span className="co-coupon-badge" aria-hidden>
-                      <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.6"
-                      >
-                        <path d="M12 2l1.4 2.8L16.5 5l-2.1 2.3.5 3.2L12 9.2 9.1 10.5l.5-3.2L7.5 5l3.1-.2L12 2z" />
-                        <circle cx="12" cy="13.5" r="6.5" />
-                        <path d="M10.2 15.2l3.6-3.6M10.2 11.6h.01M13.8 15.2h.01" />
-                      </svg>
-                    </span>
+              {COUPON_APPLY_ENABLED ? (
+                <div className="co-promo">
+                  <div className="co-coupon-card">
+                    <div className="co-coupon-card-main">
+                      <span className="co-coupon-badge" aria-hidden>
+                        <svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                        >
+                          <path d="M12 2l1.4 2.8L16.5 5l-2.1 2.3.5 3.2L12 9.2 9.1 10.5l.5-3.2L7.5 5l3.1-.2L12 2z" />
+                          <circle cx="12" cy="13.5" r="6.5" />
+                          <path d="M10.2 15.2l3.6-3.6M10.2 11.6h.01M13.8 15.2h.01" />
+                        </svg>
+                      </span>
 
-                    <div className="co-coupon-copy">
-                      <p className="co-coupon-title">
-                        {featuredApplied
-                          ? `Saved ${formatINR(couponDiscount)} with '${featuredOffer.code}'`
-                          : `Save ${formatINR(featuredOffer.discount || 0)} with '${featuredOffer.code}'`}
-                      </p>
-                      <button
-                        type="button"
-                        className="co-coupon-view-all"
-                        onClick={() => setShowAllCoupons((v) => !v)}
-                      >
-                        {showAllCoupons ? "Hide coupons" : "View all coupons"}{" "}
-                        <span aria-hidden>{showAllCoupons ? "▴" : "›"}</span>
-                      </button>
-                    </div>
-
-                    <div
-                      className={`co-coupon-apply-wrap${featuredApplyDisabled ? " is-disabled" : ""}`}
-                    >
-                      {featuredApplied ? (
+                      <div className="co-coupon-copy">
+                        <p className="co-coupon-title">
+                          {featuredApplied
+                            ? `Saved ${formatINR(couponDiscount)} with '${featuredOffer.code}'`
+                            : `Save ${formatINR(featuredOffer.discount || 0)} with '${featuredOffer.code}'`}
+                        </p>
                         <button
                           type="button"
-                          className="co-coupon-apply is-remove"
-                          onClick={removeCoupon}
+                          className="co-coupon-view-all"
+                          onClick={() => setShowAllCoupons((v) => !v)}
                         >
-                          Remove
+                          {showAllCoupons ? "Hide coupons" : "View all coupons"}{" "}
+                          <span aria-hidden>{showAllCoupons ? "▴" : "›"}</span>
                         </button>
-                      ) : (
-                        <button
-                          type="button"
-                          className="co-coupon-apply"
-                          onClick={() => applyCoupon(FEATURED_COUPON_CODE)}
-                          disabled={featuredApplyDisabled}
-                          aria-disabled={featuredApplyDisabled}
-                          title={applyDisabledReason || undefined}
-                        >
-                          {couponLoading ? "…" : "Apply"}
-                        </button>
-                      )}
-                      {featuredApplyDisabled && applyDisabledReason ? (
-                        <span className="co-coupon-tooltip" role="tooltip">
-                          {applyDisabledReason}
-                        </span>
-                      ) : null}
-                    </div>
-                  </div>
-
-                  {showAllCoupons ? (
-                    <div className="co-coupon-all">
-                      <div className="co-coupon-all-row">
-                        <div>
-                          <p className="co-coupon-all-code">
-                            {FEATURED_COUPON_CODE}
-                          </p>
-                          <p className="co-coupon-all-desc">
-                            Extra 5% off on eligible orders
-                          </p>
-                        </div>
-                        {featuredApplied ? (
-                          <span className="co-coupon-all-status">Applied</span>
-                        ) : featuredOffer.alreadyUsed ? (
-                          <span className="co-coupon-all-status is-used">
-                            Used
-                          </span>
-                        ) : (
-                          <button
-                            type="button"
-                            className="co-coupon-apply"
-                            onClick={() => applyCoupon(FEATURED_COUPON_CODE)}
-                            disabled={featuredApplyDisabled}
-                          >
-                            Apply
-                          </button>
-                        )}
                       </div>
 
                       <div
-                        className={`co-promo-form${coupon.valid ? " is-applied" : ""}`}
+                        className={`co-coupon-apply-wrap${featuredApplyDisabled ? " is-disabled" : ""}`}
                       >
-                        <input
-                          type="text"
-                          className="co-promo-input"
-                          value={couponInput}
-                          onChange={(e) =>
-                            setCouponInput(e.target.value.toUpperCase())
-                          }
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              e.preventDefault();
-                              if (!coupon.valid) applyCoupon();
-                            }
-                          }}
-                          placeholder="Enter coupon code"
-                          disabled={coupon.valid || couponLoading}
-                          aria-label="Promo code"
-                          autoComplete="off"
-                        />
-                        {coupon.valid ? (
+                        {featuredApplied ? (
                           <button
                             type="button"
-                            className="co-promo-action is-remove"
+                            className="co-coupon-apply is-remove"
                             onClick={removeCoupon}
                           >
                             Remove
@@ -1045,40 +991,119 @@ const CheckoutPage = () => {
                         ) : (
                           <button
                             type="button"
-                            className="co-promo-action"
-                            onClick={() => applyCoupon()}
-                            disabled={
-                              couponLoading || !couponInput.trim()
-                            }
+                            className="co-coupon-apply"
+                            onClick={() => applyCoupon(FEATURED_COUPON_CODE)}
+                            disabled={featuredApplyDisabled}
+                            aria-disabled={featuredApplyDisabled}
+                            title={applyDisabledReason || undefined}
                           >
-                            {couponLoading ? "Applying" : "Apply"}
+                            {couponLoading ? "…" : "Apply"}
                           </button>
                         )}
+                        {featuredApplyDisabled && applyDisabledReason ? (
+                          <span className="co-coupon-tooltip" role="tooltip">
+                            {applyDisabledReason}
+                          </span>
+                        ) : null}
                       </div>
                     </div>
-                  ) : null}
-                </div>
 
-                {coupon.valid ? (
-                  <div className="co-promo-applied">
-                    <div className="co-promo-applied-meta">
-                      <span className="co-promo-applied-code">
-                        {coupon.code}
-                      </span>
-                      <span className="co-promo-applied-label">
-                        {coupon.label || "Additional 5% off applied"}
+                    {showAllCoupons ? (
+                      <div className="co-coupon-all">
+                        <div className="co-coupon-all-row">
+                          <div>
+                            <p className="co-coupon-all-code">
+                              {FEATURED_COUPON_CODE}
+                            </p>
+                            <p className="co-coupon-all-desc">
+                              Extra 5% off on eligible orders
+                            </p>
+                          </div>
+                          {featuredApplied ? (
+                            <span className="co-coupon-all-status">Applied</span>
+                          ) : featuredOffer.alreadyUsed ? (
+                            <span className="co-coupon-all-status is-used">
+                              Used
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              className="co-coupon-apply"
+                              onClick={() => applyCoupon(FEATURED_COUPON_CODE)}
+                              disabled={featuredApplyDisabled}
+                            >
+                              Apply
+                            </button>
+                          )}
+                        </div>
+
+                        <div
+                          className={`co-promo-form${coupon.valid ? " is-applied" : ""}`}
+                        >
+                          <input
+                            type="text"
+                            className="co-promo-input"
+                            value={couponInput}
+                            onChange={(e) =>
+                              setCouponInput(e.target.value.toUpperCase())
+                            }
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault();
+                                if (!coupon.valid) applyCoupon();
+                              }
+                            }}
+                            placeholder="Enter coupon code"
+                            disabled={coupon.valid || couponLoading}
+                            aria-label="Promo code"
+                            autoComplete="off"
+                          />
+                          {coupon.valid ? (
+                            <button
+                              type="button"
+                              className="co-promo-action is-remove"
+                              onClick={removeCoupon}
+                            >
+                              Remove
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="co-promo-action"
+                              onClick={() => applyCoupon()}
+                              disabled={
+                                couponLoading || !couponInput.trim()
+                              }
+                            >
+                              {couponLoading ? "Applying" : "Apply"}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  {coupon.valid ? (
+                    <div className="co-promo-applied">
+                      <div className="co-promo-applied-meta">
+                        <span className="co-promo-applied-code">
+                          {coupon.code}
+                        </span>
+                        <span className="co-promo-applied-label">
+                          {coupon.label || "Additional 5% off applied"}
+                        </span>
+                      </div>
+                      <span className="co-promo-applied-save">
+                        −{formatINR(couponDiscount)}
                       </span>
                     </div>
-                    <span className="co-promo-applied-save">
-                      −{formatINR(couponDiscount)}
-                    </span>
-                  </div>
-                ) : coupon.message &&
-                  !featuredOffer.alreadyUsed &&
-                  coupon.message !== featuredOffer.message ? (
-                  <p className="co-promo-hint is-error">{coupon.message}</p>
-                ) : null}
-              </div>
+                  ) : coupon.message &&
+                    !featuredOffer.alreadyUsed &&
+                    coupon.message !== featuredOffer.message ? (
+                    <p className="co-promo-hint is-error">{coupon.message}</p>
+                  ) : null}
+                </div>
+              ) : null}
 
               <div className="summary-header">
                 <h2 className="summary-title">Order Summary</h2>
@@ -1125,6 +1150,12 @@ const CheckoutPage = () => {
                   <span>Shipping</span>
                   <span className="free-badge">Free</span>
                 </div>
+                {codCharge > 0 && (
+                  <div className="price-row price-row-cod">
+                    <span>COD Charges</span>
+                    <span>+{formatINR(codCharge)}</span>
+                  </div>
+                )}
                 <div className="price-row-total">
                   <span>Total Payable</span>
                   <span className="total-figure">{formatINR(payableTotal)}</span>
@@ -1251,6 +1282,7 @@ const CheckoutPage = () => {
                       className="addr-option-main"
                       onClick={() => {
                         setSelectedAddress(addr);
+                        syncEmailFromAddress(addr);
                         setShowAddressModal(false);
                       }}
                     >
@@ -1323,6 +1355,17 @@ const CheckoutPage = () => {
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   error={errors.phone}
                   maxLength={10}
+                />
+                <FloatInput
+                  id="checkout-email-input"
+                  inputRef={emailInputRef}
+                  label="Email Address"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) =>
+                    setForm({ ...form, email: e.target.value })
+                  }
+                  error={errors.email}
                 />
 
                 <FloatInput

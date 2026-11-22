@@ -240,6 +240,14 @@
 
   @media (min-width: 480px) { padding: 14px 20px; }
 }
+.pay-desc-cod {
+  color: #5a4a38;
+  background: linear-gradient(180deg, #fbf7f0 0%, #f5efe4 100%);
+  border-top-color: rgba(196, 168, 130, 0.45);
+  line-height: 1.55;
+
+  strong { color: var(--ink); font-weight: 600; }
+}
 
 /* ── ORDER SUMMARY ── */
 .summary-box {
@@ -268,6 +276,15 @@
 .price-row {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 12px; font-size: 13px; color: var(--muted);
+}
+.price-row-cod {
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fbf7f0 0%, #f5efe4 100%);
+  border: 0.5px solid rgba(196, 168, 130, 0.45);
+  color: #5a4a38;
+  font-weight: 500;
 }
 .price-row-total {
   display: flex; justify-content: space-between; align-items: center;

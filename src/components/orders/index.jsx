@@ -230,10 +230,34 @@ export default function OrderDetailsUI({
                 Payment Details
               </p>
               <div className="space-y-2 text-sm">
+                {order.sub_total != null && (
+                  <div className="flex justify-between text-gray-600">
+                    <span>Subtotal</span>
+                    <span>₹{Number(order.sub_total).toLocaleString("en-IN")}</span>
+                  </div>
+                )}
+                {Number(order.cod_charge) > 0 && (
+                  <div className="flex justify-between text-amber-800 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
+                    <span>COD Charges</span>
+                    <span className="font-medium">
+                      ₹{Number(order.cod_charge).toLocaleString("en-IN")}
+                    </span>
+                  </div>
+                )}
                 <div className="border-t pt-3 flex justify-between font-semibold">
-                  <span>Total</span>
-                  <span>₹{order.total_amount}</span>
+                  <span>Total Payable</span>
+                  <span>₹{Number(order.total_amount).toLocaleString("en-IN")}</span>
                 </div>
+                {order.payment_method && (
+                  <div className="flex justify-between text-gray-500 text-xs pt-1">
+                    <span>Payment</span>
+                    <span className="capitalize">
+                      {order.payment_method === "cod"
+                        ? "Cash on Delivery"
+                        : order.payment_method}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>

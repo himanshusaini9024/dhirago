@@ -115,15 +115,24 @@ export default function SuccessPage() {
             </span>
           </div>
 
+          {Number(order.cod_charge) > 0 && (
+            <div className="flex justify-between text-sm mb-2">
+              <span className="text-gray-500">COD Charges</span>
+              <span className="font-medium">₹{Number(order.cod_charge).toLocaleString("en-IN")}</span>
+            </div>
+          )}
+
           <div className="flex justify-between text-sm mb-2">
-            <span className="text-gray-500">Amount</span>
+            <span className="text-gray-500">Total Amount</span>
             <span className="font-medium">₹{order.total_amount}</span>
           </div>
 
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">Payment</span>
             <span className="font-medium capitalize">
-              {order.payment_method}
+              {order.payment_method === "cod"
+                ? "Cash on Delivery"
+                : order.payment_method}
             </span>
           </div>
         </div>

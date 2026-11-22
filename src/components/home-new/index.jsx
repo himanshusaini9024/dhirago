@@ -63,7 +63,7 @@ export default function HomeNew({ products = [] }) {
         panels={[
           {
             src: "https://images.dhirago.com/ecommerce/Home/homedesk1.jpeg?v=22",
-            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobbanner1.webp?v=1222",
+            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobbanner1.webp?v=1221122",
             alt: "Dhirago Black Friday sale",
             href: "/collections/shirts",
             width: 1920,
@@ -73,7 +73,7 @@ export default function HomeNew({ products = [] }) {
           },
           {
             src: "https://images.dhirago.com/ecommerce/Home/homedesk2.jpeg?v=22",
-            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobbanner2.webp?v=122",
+            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobbanner2.webp?v=1112222",
             alt: indigo?.name || "Dhirago rare moment",
             href: indigo ? `/product/${indigo.slug}` : "/collections/shirts",
             width: 1920,

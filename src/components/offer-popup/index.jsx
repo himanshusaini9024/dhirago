@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { Montserrat } from "next/font/google";
+import { FESTIVE_SALE_ENABLED } from "../../lib/festiveSale";
 
 import { Josefin_Sans } from "next/font/google";
 
@@ -150,16 +151,17 @@ export default function OfferPopup({ isOpen, onClose }) {
           {/* <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
             Only today
           </p> */}
+              {FESTIVE_SALE_ENABLED && (
 
           <h2
             id="offer-popup-title"
             className="mt-3 text-[26px] font-bold leading-tight tracking-[-0.02em] text-white sm:text-[28px]"
           >
-            Flat 15% off*
+            Flat 30% off*
           </h2>
-          <p className={`${josefin.className} mt-1.5 text-[13px] font-medium text-[#b3b3b3]`}>
-           & Get some Extra off on Your first order
-          </p>
+              )}
+
+      
 
           <div className="mt-5 flex items-center justify-center gap-2.5">
             <TimeBox value={time.hours} label="Hours" />

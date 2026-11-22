@@ -16,6 +16,7 @@ import {
   fetchFirstOrderQuote,
 } from "../../lib/firstOrderDiscount";
 import { formatINR, summarizeCart } from "../../lib/cartPricing";
+import { resolveProductPrice } from "../../lib/festiveSale";
 import { savePendingPurchase } from "../../lib/trackPurchase";
 import {
   fbEvent,
@@ -23,7 +24,10 @@ import {
   newEventId,
 } from "../../lib/facebookPixel";
 import { sendMetaEvent } from "../../lib/meta";
-import { fetchCouponQuote } from "../../lib/coupon";
+import {
+  FEATURED_COUPON_CODE,
+  fetchCouponQuote,
+} from "../../lib/coupon";
 /* ─────────────────────────────────────────────
    FloatInput — premium labeled input
    ───────────────────────────────────────────── */
@@ -110,6 +114,14 @@ const CheckoutPage = () => {
     message: null,
   });
   const [couponLoading, setCouponLoading] = useState(false);
+  const [showAllCoupons, setShowAllCoupons] = useState(false);
+  const [featuredOffer, setFeaturedOffer] = useState({
+    code: FEATURED_COUPON_CODE,
+    discount: 0,
+    alreadyUsed: false,
+    message: null,
+    loading: false,
+  });
 
   // ── payment ────────────────────────────────
   const COD_CHARGE = 200;
@@ -136,13 +148,7 @@ const CheckoutPage = () => {
               });
               if (!res.ok) return item;
               const product = await res.json();
-              const mrp = Number(product.mrp ?? product.price) || 0;
-              const selling =
-                Number(
-                  product.currentPrice ??
-                    product.special_price ??
-                    product.price,
-                ) || 0;
+              const { selling, mrp, discount } = resolveProductPrice(product);
               return {
                 ...item,
                 price: selling,
@@ -150,7 +156,7 @@ const CheckoutPage = () => {
                 originalPrice: mrp,
                 special_price: selling,
                 currentPrice: selling,
-                discount: Number(product.discount) || 0,
+                discount,
               };
             } catch {
               return item;
@@ -212,6 +218,78 @@ const CheckoutPage = () => {
     };
   }, [cartItems, customer_id, productTotal]);
 
+  // Prefetch featured coupon savings + already-used state for Apply card
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadFeatured = async () => {
+      if (!cartItems?.length) {
+        if (!cancelled) {
+          setFeaturedOffer((prev) => ({
+            ...prev,
+            discount: 0,
+            alreadyUsed: false,
+            message: null,
+            loading: false,
+          }));
+        }
+        return;
+      }
+
+      if (!customer_id) {
+        if (!cancelled) {
+          const estimateBase =
+            FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
+              ? firstOrder.total
+              : productTotal;
+          setFeaturedOffer({
+            code: FEATURED_COUPON_CODE,
+            discount: Math.round(estimateBase * 0.05 * 100) / 100,
+            alreadyUsed: false,
+            message: "Please login to apply a coupon",
+            loading: false,
+          });
+        }
+        return;
+      }
+
+      if (!cancelled) {
+        setFeaturedOffer((prev) => ({ ...prev, loading: true }));
+      }
+
+      const quote = await fetchCouponQuote(cartItems, FEATURED_COUPON_CODE);
+      if (cancelled) return;
+
+      const estimateBase =
+        FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
+          ? firstOrder.total
+          : productTotal;
+
+      setFeaturedOffer({
+        code: quote.code || FEATURED_COUPON_CODE,
+        discount: quote.valid
+          ? quote.discount
+          : quote.alreadyUsed
+            ? Math.round(estimateBase * 0.05 * 100) / 100
+            : quote.discount || Math.round(estimateBase * 0.05 * 100) / 100,
+        alreadyUsed: Boolean(quote.alreadyUsed),
+        message: quote.message,
+        loading: false,
+      });
+    };
+
+    loadFeatured();
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    cartItems,
+    customer_id,
+    productTotal,
+    firstOrder.eligible,
+    firstOrder.total,
+  ]);
+
   const firstOrderDiscount =
     FIRST_ORDER_DISCOUNT_ENABLED && firstOrder.eligible
       ? firstOrder.discount
@@ -226,8 +304,8 @@ const CheckoutPage = () => {
   const codCharge = paymentMethod === "cod" ? COD_CHARGE : 0;
   const payableTotal = merchandiseTotal + codCharge;
 
-  const applyCoupon = async () => {
-    const code = couponInput.trim();
+  const applyCoupon = async (codeOverride) => {
+    const code = String(codeOverride || couponInput || "").trim();
     if (!code) {
       setCoupon({
         valid: false,
@@ -262,6 +340,16 @@ const CheckoutPage = () => {
       if (quote.valid) {
         setCouponInput(quote.code || code.toUpperCase());
       }
+      if (
+        String(quote.code || code).toUpperCase() === FEATURED_COUPON_CODE
+      ) {
+        setFeaturedOffer((prev) => ({
+          ...prev,
+          alreadyUsed: Boolean(quote.alreadyUsed),
+          discount: quote.valid ? quote.discount : prev.discount,
+          message: quote.message,
+        }));
+      }
     } finally {
       setCouponLoading(false);
     }
@@ -277,6 +365,20 @@ const CheckoutPage = () => {
     });
     setCouponInput("");
   };
+
+  const featuredApplied =
+    coupon.valid &&
+    String(coupon.code || "").toUpperCase() === FEATURED_COUPON_CODE;
+  const applyDisabledReason = !customer_id
+    ? "Please login to apply a coupon"
+    : featuredOffer.alreadyUsed
+      ? "Already used this coupon"
+      : featuredApplied
+        ? "Coupon  applied"
+        : couponLoading || featuredOffer.loading
+          ? "Please wait"
+          : null;
+  const featuredApplyDisabled = Boolean(applyDisabledReason);
 
   // ── create order ───────────────────────────
   const orderSubmittingRef = useRef(false);
@@ -835,47 +937,143 @@ const CheckoutPage = () => {
             {/* ── RIGHT COLUMN (SUMMARY) ── */}
             <div className="summary-box">
               <div className="co-promo">
-                <p className="co-promo-label">COUPON code</p>
+                <div className="co-coupon-card">
+                  <div className="co-coupon-card-main">
+                    <span className="co-coupon-badge" aria-hidden>
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                      >
+                        <path d="M12 2l1.4 2.8L16.5 5l-2.1 2.3.5 3.2L12 9.2 9.1 10.5l.5-3.2L7.5 5l3.1-.2L12 2z" />
+                        <circle cx="12" cy="13.5" r="6.5" />
+                        <path d="M10.2 15.2l3.6-3.6M10.2 11.6h.01M13.8 15.2h.01" />
+                      </svg>
+                    </span>
 
-                <div
-                  className={`co-promo-form${coupon.valid ? " is-applied" : ""}`}
-                >
-                  <input
-                    type="text"
-                    className="co-promo-input"
-                    value={couponInput}
-                    onChange={(e) =>
-                      setCouponInput(e.target.value.toUpperCase())
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        if (!coupon.valid) applyCoupon();
-                      }
-                    }}
-                    placeholder="Enter your code"
-                    disabled={coupon.valid || couponLoading}
-                    aria-label="Promo code"
-                    autoComplete="off"
-                  />
-                  {coupon.valid ? (
-                    <button
-                      type="button"
-                      className="co-promo-action is-remove"
-                      onClick={removeCoupon}
+                    <div className="co-coupon-copy">
+                      <p className="co-coupon-title">
+                        {featuredApplied
+                          ? `Saved ${formatINR(couponDiscount)} with '${featuredOffer.code}'`
+                          : `Save ${formatINR(featuredOffer.discount || 0)} with '${featuredOffer.code}'`}
+                      </p>
+                      <button
+                        type="button"
+                        className="co-coupon-view-all"
+                        onClick={() => setShowAllCoupons((v) => !v)}
+                      >
+                        {showAllCoupons ? "Hide coupons" : "View all coupons"}{" "}
+                        <span aria-hidden>{showAllCoupons ? "▴" : "›"}</span>
+                      </button>
+                    </div>
+
+                    <div
+                      className={`co-coupon-apply-wrap${featuredApplyDisabled ? " is-disabled" : ""}`}
                     >
-                      Remove
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className="co-promo-action"
-                      onClick={applyCoupon}
-                      disabled={couponLoading || !couponInput.trim()}
-                    >
-                      {couponLoading ? "Applying" : "Apply"}
-                    </button>
-                  )}
+                      {featuredApplied ? (
+                        <button
+                          type="button"
+                          className="co-coupon-apply is-remove"
+                          onClick={removeCoupon}
+                        >
+                          Remove
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="co-coupon-apply"
+                          onClick={() => applyCoupon(FEATURED_COUPON_CODE)}
+                          disabled={featuredApplyDisabled}
+                          aria-disabled={featuredApplyDisabled}
+                          title={applyDisabledReason || undefined}
+                        >
+                          {couponLoading ? "…" : "Apply"}
+                        </button>
+                      )}
+                      {featuredApplyDisabled && applyDisabledReason ? (
+                        <span className="co-coupon-tooltip" role="tooltip">
+                          {applyDisabledReason}
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  {showAllCoupons ? (
+                    <div className="co-coupon-all">
+                      <div className="co-coupon-all-row">
+                        <div>
+                          <p className="co-coupon-all-code">
+                            {FEATURED_COUPON_CODE}
+                          </p>
+                          <p className="co-coupon-all-desc">
+                            Extra 5% off on eligible orders
+                          </p>
+                        </div>
+                        {featuredApplied ? (
+                          <span className="co-coupon-all-status">Applied</span>
+                        ) : featuredOffer.alreadyUsed ? (
+                          <span className="co-coupon-all-status is-used">
+                            Used
+                          </span>
+                        ) : (
+                          <button
+                            type="button"
+                            className="co-coupon-apply"
+                            onClick={() => applyCoupon(FEATURED_COUPON_CODE)}
+                            disabled={featuredApplyDisabled}
+                          >
+                            Apply
+                          </button>
+                        )}
+                      </div>
+
+                      <div
+                        className={`co-promo-form${coupon.valid ? " is-applied" : ""}`}
+                      >
+                        <input
+                          type="text"
+                          className="co-promo-input"
+                          value={couponInput}
+                          onChange={(e) =>
+                            setCouponInput(e.target.value.toUpperCase())
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              if (!coupon.valid) applyCoupon();
+                            }
+                          }}
+                          placeholder="Enter coupon code"
+                          disabled={coupon.valid || couponLoading}
+                          aria-label="Promo code"
+                          autoComplete="off"
+                        />
+                        {coupon.valid ? (
+                          <button
+                            type="button"
+                            className="co-promo-action is-remove"
+                            onClick={removeCoupon}
+                          >
+                            Remove
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="co-promo-action"
+                            onClick={() => applyCoupon()}
+                            disabled={
+                              couponLoading || !couponInput.trim()
+                            }
+                          >
+                            {couponLoading ? "Applying" : "Apply"}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
 
                 {coupon.valid ? (
@@ -892,17 +1090,11 @@ const CheckoutPage = () => {
                       −{formatINR(couponDiscount)}
                     </span>
                   </div>
-                ) : coupon.message ? (
-                  <p
-                    className={`co-promo-hint${coupon.message ? " is-error" : ""}`}
-                  >
-                    {coupon.message}
-                  </p>
-                ) : (
-                  <p className="co-promo-hint">
-                     Additional savings on your order.
-                  </p>
-                )}
+                ) : coupon.message &&
+                  !featuredOffer.alreadyUsed &&
+                  coupon.message !== featuredOffer.message ? (
+                  <p className="co-promo-hint is-error">{coupon.message}</p>
+                ) : null}
               </div>
 
               <div className="summary-header">

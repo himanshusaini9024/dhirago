@@ -7,7 +7,7 @@ export default function ProductGrid({ title, products = [], cta, priority = fals
   if (!products.length) return null;
 
   return (
-    <section className="px-4 py-14 md:px-9 md:py-20">
+    <section className="px-4 py-6 md:px-9 md:py-16">
       <OrnamentHeading className="mb-10 md:mb-12">{title}</OrnamentHeading>
 
       <div

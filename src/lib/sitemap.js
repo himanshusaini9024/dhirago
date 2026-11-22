@@ -25,15 +25,55 @@ export function urlEntry({
   lastmod,
   changefreq = "weekly",
   priority = "0.7",
+  videos = [],
 }) {
+  const videoXml = (videos || [])
+    .map((video) => {
+      const parts = [
+        `<video:thumbnail_loc>${xmlEscape(video.thumbnailLoc)}</video:thumbnail_loc>`,
+        `<video:title>${xmlEscape(video.title)}</video:title>`,
+        `<video:description>${xmlEscape(video.description)}</video:description>`,
+      ];
+      if (video.contentLoc) {
+        parts.push(
+          `<video:content_loc>${xmlEscape(video.contentLoc)}</video:content_loc>`,
+        );
+      }
+      if (video.publicationDate) {
+        parts.push(
+          `<video:publication_date>${xmlEscape(toIsoDate(video.publicationDate))}</video:publication_date>`,
+        );
+      }
+      if (video.familyFriendly != null) {
+        parts.push(
+          `<video:family_friendly>${video.familyFriendly ? "yes" : "no"}</video:family_friendly>`,
+        );
+      }
+      return `
+    <video:video>
+      ${parts.join("\n      ")}
+    </video:video>`;
+    })
+    .join("");
+
   return `
   <url>
     <loc>${xmlEscape(loc)}</loc>
     <lastmod>${toIsoDate(lastmod)}</lastmod>
     <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
+    <priority>${priority}</priority>${videoXml}
   </url>`;
 }
+
+/** Homepage hero video — shared by sitemap + VideoObject JSON-LD */
+export const HOME_HERO_VIDEO = {
+  contentLoc: "https://images.dhirago.com/ecommerce/Home/video-1-1.mp4",
+  thumbnailLoc: "https://images.dhirago.com/ecommerce/Home/banner1.webp",
+  title: "Dhirago — Premium Men's Shirts & Luxury Indian Menswear",
+  description:
+    "Cinematic brand film introducing Dhirago luxury menswear — handcrafted premium men's shirts from Udaipur, India.",
+  publicationDate: "2026-08-08T10:44:06.000Z",
+};
 
 export function sitemapXmlResponse(body) {
   return new Response(body, {

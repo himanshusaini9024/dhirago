@@ -42,7 +42,7 @@ export default function HomeNew({ products = [] }) {
   const active = products.filter((p) => p.status !== "inactive");
   const newArrivals = shopCollection.products;
 
-  const indigo = bySlug(active, "deep-indigo-embroidered-neckline-shirt") || active[2];
+  const indigo = bySlug(active, "soft-lilac-hand-detailed-button-shirt") || active[2];
   const grey = bySlug(active, "natural-grey-hand-embroidered-shirt");
   const rust = bySlug(active, "hand-detailed-rust-shirt");
 
@@ -59,6 +59,32 @@ export default function HomeNew({ products = [] }) {
     <div style={PAPER_BG} className="text-[#2b241c]">
       {/* <CinematicHero /> */}
 
+      <TwoUp
+        panels={[
+          {
+            src: "https://images.dhirago.com/ecommerce/Home/homedesk1.jpeg?v=22",
+            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobbanner1.webp?v=1222",
+            alt: "Dhirago Black Friday sale",
+            href: "/collections/shirts",
+            width: 1920,
+            height: 1080,
+            mobileWidth: 1080,
+            mobileHeight: 1440,
+          },
+          {
+            src: "https://images.dhirago.com/ecommerce/Home/homedesk2.jpeg?v=22",
+            srcMobile: "https://images.dhirago.com/ecommerce/Home/homemobbanner2.webp?v=122",
+            alt: indigo?.name || "Dhirago rare moment",
+            href: indigo ? `/product/${indigo.slug}` : "/collections/shirts",
+            width: 1920,
+            height: 1080,
+            mobileWidth: 1080,
+            mobileHeight: 1440,
+          },
+        ]}
+      />
+
+      {/* Image banner in place of PageIntro video hero */}
       {/* <TwoUp
         panels={[
           {

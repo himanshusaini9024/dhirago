@@ -16,7 +16,7 @@ export function OrnamentHeading({ children, className = "", light = false }) {
   return (
     <div className={`flex flex-col items-center gap-2 ${className}`}>
       <h2
-        className={`${josefin.className} text-center text-[18px] font-medium uppercase tracking-[0.18em] md:text-[18px] ${
+        className={`${josefin.className} text-center text-[15px] font-medium uppercase tracking-[0.14em] md:text-[18px] ${
           light ? "text-white" : "text-[#3d342a]"
         }`}
       >

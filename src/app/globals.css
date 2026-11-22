@@ -84,3 +84,20 @@ video {
 .animate-fadeIn {
   animation: fadeIn 0.2s ease;
 }
+
+/* Home intro — 11-11 style bordered rich text */
+.bordered-section {
+  border-top: 1px solid #e8e4dc;
+  border-bottom: 1px solid #e8e4dc;
+}
+
+.intro-link {
+  text-decoration: underline;
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+  transition: opacity 0.2s ease;
+}
+
+.intro-link:hover {
+  opacity: 0.55;
+}

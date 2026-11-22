@@ -8,6 +8,7 @@ import { CheckCircle2, XCircle, Timer } from "lucide-react";
 import { Josefin_Sans } from "next/font/google";
 import Image from "next/image";
 import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../lib/firstOrderDiscount";
+import { FESTIVE_SALE_ENABLED } from "../../lib/festiveSale";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -295,8 +296,7 @@ export default function LoginPopup({ isOpen, onClose }) {
         {/* Left banner column: stretches to match the right column's natural height */}
         <div className="relative hidden bg-[#1a1a1a] md:block">
           <Image
-          src={`https://images.dhirago.com/ecommerce/banner/aboutfooter.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
-
+            src={`https://images.dhirago.com/ecommerce/banner/aboutfooter.webp?${process.env.NEXT_PUBLIC_IMAGE_VERSION}`}
             alt="Dhirago promotional banner"
             fill
             sizes="(min-width: 768px) 42vw, 0px"
@@ -327,11 +327,13 @@ export default function LoginPopup({ isOpen, onClose }) {
                   get 10% off on your first order
                 </p>
               )}
-<p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
-                  Flat 15% off on MRP
+              {FESTIVE_SALE_ENABLED && (
+                <p className="mt-4 uppercase text-center text-sm font-bold text-[#111]">
+                  Flat 15% off This Festival season
                 </p>
+              )}
               <h3
-                className={`${FIRST_ORDER_DISCOUNT_ENABLED ? "mt-4" : "mt-6"} text-center text-lg font-bold text-[#111]`}
+                className={`${FIRST_ORDER_DISCOUNT_ENABLED || FESTIVE_SALE_ENABLED ? "mt-4" : "mt-6"} text-center text-lg font-bold text-[#111]`}
               >
                 Login / Sign up
               </h3>

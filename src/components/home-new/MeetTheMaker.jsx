@@ -152,8 +152,9 @@ function LoopSlider({ slides, href, sizes, className = "", dotSize = 8 }) {
               alt={slide.alt}
               fill
               sizes={sizes}
-              quality={80}
-              priority={i <= 2}
+              quality={75}
+              // Below-fold carousel — never eager-load all slides/clones.
+              loading="lazy"
               draggable={false}
               className={`object-cover ${slide.position || ""}`}
             />
@@ -238,13 +239,13 @@ export default function MeetTheMaker({ portrait, slides = [], href = "/handwork"
           </motion.div>
         </div>
 
+        {/* One slider only — mounting desktop+mobile duplicates every slide in the DOM. */}
         <LoopSlider
           slides={slides}
           href={href}
           sizes="(min-width: 768px) 50vw, 100vw"
-          className="hidden w-1/2 md:block"
+          className="w-full md:w-1/2"
         />
-        <LoopSlider slides={slides} href={href} sizes="100vw" dotSize={6} className="w-full md:hidden" />
       </div>
     </section>
   );

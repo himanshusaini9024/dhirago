@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const v = process.env.NEXT_PUBLIC_IMAGE_VERSION || "";
-const POSTER = `https://images.dhirago.com/ecommerce/dhirago-og.webp?${v}`;
+// Section poster — do not reuse the site OG share image here.
+const POSTER = `https://images.dhirago.com/ecommerce/Home/banner3.webp?${v}`;
 const VIDEO = `/videos/color.mp4`;
 
 export default function ProductsFeatured() {

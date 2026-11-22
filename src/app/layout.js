@@ -15,8 +15,8 @@ import { futura } from "./font";
 import Header from "../components/header";
 import CartDrawer from "../components/cart-drawer";
 import ReduxProvider from "../store/provider";
-import Script from "next/script";
 import PopupProvider from "../components/loginpopup/PopupProvider";
+import OfferPopupProvider from "../components/offer-popup/OfferPopupProvider";
 import LayoutWrapper from "../components/LayoutWrapper";
 import AuthLoader from "../components/AuthLoader";
 import ChatwootSync from "../components/ChatwootSync";
@@ -81,72 +81,84 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${futura.variable} `}>
+        {/* Separate JSON-LD scripts so validators reliably detect each type */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "@id": "https://www.dhirago.com/#organization",
-                name: "Dhirago Fashion Private Limited",
-                legalName: "Dhirago Fashion Private Limited",
-                alternateName: ["Dhirago", "Dhirago Menswear", "Dhirago Fashion"],
-                url: "https://www.dhirago.com/",
-                logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
-                image: "https://images.dhirago.com/ecommerce/dhirago-og.webp",
-                description:
-                  "Dhirago is a luxury Indian menswear brand based in Udaipur, offering handcrafted premium men's shirts with natural fabrics, hand embroidery, and timeless design.",
-                foundingLocation: {
-                  "@type": "Place",
-                  name: "Udaipur, Rajasthan, India",
-                },
-                areaServed: {
-                  "@type": "Country",
-                  name: "India",
-                },
-                sameAs: [
-                  "https://www.instagram.com/dhirago_/",
-                  "https://wa.me/917742711543",
-                ],
-                contactPoint: {
-                  "@type": "ContactPoint",
-                  telephone: "+91-8905524932",
-                  contactType: "customer service",
-                  email: "contact@dhirago.com",
-                  areaServed: "IN",
-                  availableLanguage: ["English", "Hindi"],
-                },
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": "https://www.dhirago.com/#organization",
+              name: "Dhirago Fashion Private Limited",
+              legalName: "Dhirago Fashion Private Limited",
+              alternateName: ["Dhirago", "Dhirago Menswear", "Dhirago Fashion"],
+              url: "https://www.dhirago.com/",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
               },
-              {
-                "@context": "https://schema.org",
-                "@type": "Brand",
+              image: "https://images.dhirago.com/ecommerce/dhirago-og.webp",
+              description:
+                "Dhirago is a luxury Indian menswear brand based in Udaipur, offering handcrafted premium men's shirts with natural fabrics, hand embroidery, and timeless design.",
+              foundingLocation: {
+                "@type": "Place",
+                name: "Udaipur, Rajasthan, India",
+              },
+              areaServed: {
+                "@type": "Country",
+                name: "India",
+              },
+              sameAs: [
+                "https://www.instagram.com/dhirago_/",
+                "https://wa.me/917742711543",
+              ],
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+91-8905524932",
+                contactType: "customer service",
+                email: "contact@dhirago.com",
+                areaServed: "IN",
+                availableLanguage: ["English", "Hindi"],
+              },
+              brand: {
                 "@id": "https://www.dhirago.com/#brand",
-                name: "Dhirago",
-                alternateName: ["Dhirago Menswear", "Dhirago Fashion"],
-                url: "https://www.dhirago.com/",
-                logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
-                description:
-                  "Dhirago — premium men's shirts and luxury Indian menswear rooted in craft and time.",
-                parentOrganization: {
-                  "@id": "https://www.dhirago.com/#organization",
-                },
               },
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "@id": "https://www.dhirago.com/#website",
-                url: "https://www.dhirago.com/",
-                name: "Dhirago",
-                alternateName: "Dhirago Menswear",
-                description:
-                  "Official website of Dhirago — buy premium men's shirts online in India.",
-                publisher: {
-                  "@id": "https://www.dhirago.com/#organization",
-                },
-                inLanguage: "en-IN",
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Brand",
+              "@id": "https://www.dhirago.com/#brand",
+              name: "Dhirago",
+              alternateName: ["Dhirago Menswear", "Dhirago Fashion"],
+              url: "https://www.dhirago.com/",
+              logo: "https://images.dhirago.com/ecommerce/logo/logo.jpg",
+              description:
+                "Dhirago - premium men's shirts and luxury Indian menswear rooted in craft and time.",
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://www.dhirago.com/#website",
+              url: "https://www.dhirago.com/",
+              name: "Dhirago",
+              alternateName: "Dhirago Menswear",
+              description:
+                "Official website of Dhirago - buy premium men's shirts online in India.",
+              publisher: {
+                "@id": "https://www.dhirago.com/#organization",
               },
-            ]),
+              inLanguage: "en-IN",
+            }),
           }}
         />
         <GoogleTagManager gtmId="GTM-5TDSXPBS" />
@@ -157,75 +169,28 @@ export default function RootLayout({ children }) {
           <ReduxProvider>
             <AuthLoader />
             <PopupProvider>
-            <Header />
-            <CartDrawer />
-            <AutoPushPrompt />
+              <OfferPopupProvider>
+                <Header />
+                <CartDrawer />
+                <AutoPushPrompt />
 
-            <LayoutWrapper>
-              <CartSync />
-              <ChatwootSync />
-              <Suspense fallback={null}>
-                <PageTracker />
-              </Suspense>
-              <Suspense fallback={null}>
-                <MetaPageTracker />
-              </Suspense>
-            <MicrosoftClarity />
-              {children}
+                <LayoutWrapper>
+                  <CartSync />
+                  <ChatwootSync />
+                  <Suspense fallback={null}>
+                    <PageTracker />
+                  </Suspense>
+                  <Suspense fallback={null}>
+                    <MetaPageTracker />
+                  </Suspense>
+                  <MicrosoftClarity />
+                  {children}
+                  <Analytics />
+                  <SpeedInsights />
+                </LayoutWrapper>
 
-              <Analytics />
-              <SpeedInsights />
-            </LayoutWrapper>
-            {/* <Script
-                id="tawk-chat"
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                  __html: `
-      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-      (function(){
-        var s1=document.createElement("script"),
-        s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/69e607917d06101c37be0508/1jml8r4fe';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-      })();
-    `,
-                }}
-              /> */}
-
-            {/* <Script id="chatwoot" strategy="afterInteractive">
-                {`
-            window.chatwootSettings = {
-            position: "right",
-            type: "standard",
-            locale: "en",
-            launcherTitle: "Need help with your order?"
-            };
-
-
-            (function(d,t) {
-            var BASE_URL= "${process.env.NEXT_PUBLIC_CHAT_URL || "https://chat.dhirago.com"}";
-            // var BASE_URL= "http://192.168.137.10:3001";
-
-            var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=BASE_URL+"/packs/js/sdk.js";
-            g.defer = true;
-            g.async = true;
-            s.parentNode.insertBefore(g,s);
-            g.onload=function(){
-            window.chatwootSDK.run({
-            websiteToken: '${process.env.NEXT_PUBLIC_CHAT_TOKEN}',
-            baseUrl: BASE_URL
-            })
-            }
-            })(document,"script");
-
-            `}
-              </Script> */}
-
-            <Footer />
+                <Footer />
+              </OfferPopupProvider>
             </PopupProvider>
           </ReduxProvider>
         </div>

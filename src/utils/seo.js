@@ -13,8 +13,14 @@ export function generateSEO({
   path = "",
   image = "https://images.dhirago.com/ecommerce/dhirago-og.webp",
   noIndex = false,
+  type = "website",
+  imageWidth = 1200,
+  imageHeight = 600,
 }) {
   const safeDescription = clampDescription(description);
+  // Next.js typed Open Graph only allows website/article/etc — not "product".
+  // For product pages we emit og:type via `other` so crawlers still see product.
+  const isProduct = type === "product";
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -35,11 +41,12 @@ export function generateSEO({
       images: [
         {
           url: image,
-          width: 1200,
-          height: 600,
+          width: imageWidth,
+          height: imageHeight,
         },
       ],
-      type: "website",
+      // Omit typed `type` for products so we don't also emit og:type=website.
+      ...(isProduct ? {} : { type: "website" }),
     },
 
     twitter: {
@@ -53,5 +60,13 @@ export function generateSEO({
       index: !noIndex,
       follow: !noIndex,
     },
+
+    ...(isProduct
+      ? {
+          other: {
+            "og:type": "product",
+          },
+        }
+      : {}),
   };
 }

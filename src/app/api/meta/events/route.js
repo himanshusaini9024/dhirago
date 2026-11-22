@@ -1,9 +1,9 @@
 import { createHash } from "crypto";
 import { NextResponse } from "next/server";
+import { shouldSendMetaCapi } from "../../../../lib/metaEnv";
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 const ACCESS_TOKEN = process.env.META_ACCESS_TOKEN;
-const TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE;
 
 // Purchase is sent by the Laravel backend after the order is saved, never from here,
 // so nobody can post fake purchases through this public endpoint.
@@ -70,13 +70,29 @@ export async function POST(req) {
   };
   Object.keys(userData).forEach((k) => userData[k] === undefined && delete userData[k]);
 
+  const eventSourceUrl =
+    typeof input.event_source_url === "string"
+      ? input.event_source_url.slice(0, 500)
+      : req.headers.get("referer") || undefined;
+
+  const gate = shouldSendMetaCapi(eventSourceUrl);
+  if (!gate.ok) {
+    return NextResponse.json(
+      {
+        success: false,
+        skipped: true,
+        error: gate.reason,
+      },
+      { status: 202 },
+    );
+  }
+
   const event = {
     event_name: input.event_name,
     event_time: Math.floor(Date.now() / 1000),
     event_id: typeof input.event_id === "string" ? input.event_id.slice(0, 100) : undefined,
     action_source: "website",
-    event_source_url:
-      typeof input.event_source_url === "string" ? input.event_source_url.slice(0, 500) : req.headers.get("referer") || undefined,
+    event_source_url: eventSourceUrl,
     user_data: userData,
     custom_data: customData,
   };
@@ -88,7 +104,7 @@ export async function POST(req) {
       body: JSON.stringify({
         data: [event],
         access_token: ACCESS_TOKEN,
-        ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),
+        ...(gate.testEventCode ? { test_event_code: gate.testEventCode } : {}),
       }),
     });
     const result = await response.json();
@@ -98,7 +114,11 @@ export async function POST(req) {
     }
 
     return NextResponse.json(
-      { success: response.ok, events_received: result?.events_received },
+      {
+        success: response.ok,
+        events_received: result?.events_received,
+        test_mode: Boolean(gate.testEventCode),
+      },
       { status: response.ok ? 200 : 502 },
     );
   } catch (error) {

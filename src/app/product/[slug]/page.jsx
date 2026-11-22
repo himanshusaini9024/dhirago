@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import ProductGrid from "../../../components/product-single/ProductGrid";
 import ProductsFeatured from "../../../components/products-featured";
 import RecentlyViewedTracker from "../../../components/recentlyviewtracker";
+import ScrollToTop from "../../../components/product-single/ScrollToTop";
 import { generateSEO } from "../../../utils/seo";
 import { sortProductImages } from "../../../utils/sortProductImages";
+import { resolveProductPrice } from "../../../lib/festiveSale";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.dhirago.com";
@@ -55,18 +57,25 @@ export async function generateMetadata({ params }) {
     absoluteImageUrl(product.images?.[0]?.url) ||
     "https://images.dhirago.com/ecommerce/dhirago-og.webp";
 
-  const plainDesc = String(product.description || "")
+  const plainDesc = String(
+    product.meta_description || product.description || "",
+  )
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
   return generateSEO({
-    title: `${product.name} | Dhirago Men's Shirt`,
+    title:
+      product.meta_title ||
+      `${product.name} | Dhirago Men's Shirt`,
     description:
-      plainDesc.slice(0, 150) ||
+      plainDesc.slice(0, 160) ||
       `Buy ${product.name} online at Dhirago — premium men's shirts and luxury Indian menswear.`,
     path: `/product/${slug}`,
     image: imageUrl,
+    type: "product",
+    imageWidth: 2000,
+    imageHeight: 3000,
   });
 }
 
@@ -80,10 +89,7 @@ export default async function ProductPage({ params }) {
     .map((i) => absoluteImageUrl(i.url))
     .filter(Boolean);
 
-  const selling =
-    Number(product.currentPrice ?? product.special_price ?? product.price) ||
-    0;
-  const mrp = Number(product.mrp ?? product.price) || selling;
+  const { selling, mrp } = resolveProductPrice(product);
 
   const jsonLd = [
     {
@@ -91,7 +97,12 @@ export default async function ProductPage({ params }) {
       "@type": "Product",
       name: product.name,
       image: imageUrls,
-      description: product.description || product.name,
+      description:
+        product.meta_description ||
+        String(product.description || product.name)
+          .replace(/<[^>]+>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim(),
       sku: product.sku || String(product.id),
       brand: {
         "@type": "Brand",
@@ -162,8 +173,21 @@ export default async function ProductPage({ params }) {
     },
   ];
 
+  const firstImage = imageUrls[0] || null;
+
   return (
     <>
+      <ScrollToTop />
+
+      {firstImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={firstImage}
+          fetchPriority="high"
+        />
+      )}
+
       <RecentlyViewedTracker product={product} />
 
       <script

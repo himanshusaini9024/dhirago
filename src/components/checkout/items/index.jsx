@@ -59,7 +59,7 @@ const CheckoutItems = () => {
 
             <div className="text-right flex-shrink-0">
               <p className="text-sm font-medium text-gray-900">
-                ₹{lineSelling.toLocaleString("en-IN")}
+                ₹{Math.round(lineSelling).toLocaleString("en-IN")}
               </p>
               {showMrp && (
                 <p className="text-xs text-gray-400 line-through">

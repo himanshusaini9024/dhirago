@@ -1,5 +1,12 @@
 import API from "./api";
 
+/**
+ * Checkout coupon apply UI + discounts.
+ * Enable with NEXT_PUBLIC_COUPON_APPLY_ENABLED=true
+ */
+export const COUPON_APPLY_ENABLED =
+  process.env.NEXT_PUBLIC_COUPON_APPLY_ENABLED === "true";
+
 /** Featured checkout coupon shown in the Apply card */
 export const FEATURED_COUPON_CODE = "DHIRAGO5";
 

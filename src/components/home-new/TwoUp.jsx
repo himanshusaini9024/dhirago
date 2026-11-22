@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { serif } from "./theme";
-import Reveal from "./Reveal";
 
 export default function TwoUp({ panels = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -21,8 +20,6 @@ export default function TwoUp({ panels = [] }) {
 
   if (!panels.length) return null;
 
-  const activePanel = panels[activeIndex];
-
   const goTo = (index) => {
     setActiveIndex((index + panels.length) % panels.length);
   };
@@ -30,43 +27,60 @@ export default function TwoUp({ panels = [] }) {
   return (
     <section className="relative w-full overflow-hidden">
       <div className="relative aspect-[4/5] w-full md:aspect-[16/9]">
-        {panels.map((panel, i) => (
-          <div
-            key={panel.alt || i}
-            className={`absolute inset-0  ${
-              i === activeIndex
-                ? "z-10 opacity-100"
-                : "z-0 opacity-0 pointer-events-none"
-            }`}
-            aria-hidden={i !== activeIndex}
-          >
-            <Link
-              href={panel.href || "/collections/shirts"}
-              tabIndex={i === activeIndex ? 0 : -1}
-              className="group absolute inset-0 block"
+        {panels.map((panel, i) => {
+          const desktopSrc = panel.src;
+          const mobileSrc = panel.srcMobile || panel.src;
+          const position = panel.position || "object-center";
+          const isActive = i === activeIndex;
+
+          return (
+            <div
+              key={panel.alt || i}
+              className={`absolute inset-0 ${
+                isActive
+                  ? "z-10 opacity-100"
+                  : "z-0 opacity-0 pointer-events-none"
+              }`}
+              aria-hidden={!isActive}
             >
-              <Image
-                src={panel.src}
-                alt={panel.alt || "Dhirago collection"}
-                fill
-                priority={i === 0}
-                sizes="100vw"
-                quality={85}
-               className={`object-cover `}
-              />
+              <Link
+                href={panel.href || "/collections/shirts"}
+                tabIndex={isActive ? 0 : -1}
+                className="group absolute inset-0 block"
+              >
+                {/* Mobile crop of desktop banners cuts off left text — use dedicated mobile art */}
+                <Image
+                  src={mobileSrc}
+                  alt={panel.alt || "Dhirago collection"}
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  quality={85}
+                  className={`object-cover md:hidden ${position}`}
+                />
+                <Image
+                  src={desktopSrc}
+                  alt=""
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  quality={85}
+                  className={`hidden object-cover md:block ${position}`}
+                  aria-hidden="true"
+                />
 
-              {panel.caption && (
-                <span
-                  className={`${serif.className} pointer-events-none absolute bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-xl italic text-white drop-shadow-lg md:bottom-16 md:text-3xl`}
-                >
-                  {panel.caption}
-                </span>
-              )}
-            </Link>
-          </div>
-        ))}
+                {panel.caption && (
+                  <span
+                    className={`${serif.className} pointer-events-none absolute bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-xl italic text-white drop-shadow-lg md:bottom-16 md:text-3xl`}
+                  >
+                    {panel.caption}
+                  </span>
+                )}
+              </Link>
+            </div>
+          );
+        })}
 
-        {/* Previous / Next buttons */}
         {panels.length > 1 && (
           <>
             <button
@@ -87,7 +101,6 @@ export default function TwoUp({ panels = [] }) {
               &#8594;
             </button>
 
-            {/* Slide indicators */}
             <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
               {panels.map((panel, i) => (
                 <button

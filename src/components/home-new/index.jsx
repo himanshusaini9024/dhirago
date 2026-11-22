@@ -116,7 +116,7 @@ export default function HomeNew({ products = [] }) {
     },
   ]}
 /> */}
-<PageIntro/>
+{/* <PageIntro/> */}
  {/* <TwoUp
   panels={[
    

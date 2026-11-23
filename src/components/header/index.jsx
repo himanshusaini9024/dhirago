@@ -38,7 +38,7 @@ const MOBILE_NAV_LINKS = [
 
 const ANNOUNCEMENTS = [
   ...(FESTIVE_SALE_ENABLED
-    ? [<>Flat 15% Off this Festive season</>]
+    ? [<>Black Friday Sale- Flat 30% Off </>]
     : []),
   <>Free Shipping on all products</>,
 ];

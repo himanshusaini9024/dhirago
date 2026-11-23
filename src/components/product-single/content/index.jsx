@@ -12,6 +12,7 @@ import productsSizes from "../../../utils/data/products-sizes";
 import MensSizeChart from "../MensSizeChart";
 import { fbEvent, newEventId } from "../../../lib/facebookPixel";
 import { sendMetaEvent } from "../../../lib/meta";
+import { pushGaEcommerce } from "../../../lib/gaEcommerce";
 import { FIRST_ORDER_DISCOUNT_ENABLED } from "../../../lib/firstOrderDiscount";
 import { resolveProductPrice } from "../../../lib/festiveSale";
 const F = "'Josefin Sans', sans-serif";
@@ -123,6 +124,20 @@ export default function Content({ product }) {
     };
     fbEvent("ViewContent", data, eventID);
     sendMetaEvent({ event_name: "ViewContent", event_id: eventID, custom_data: data });
+
+    pushGaEcommerce("view_item", {
+      currency: "INR",
+      value: sellingPrice,
+      items: [
+        {
+          product_id: product.id,
+          name: product.name,
+          category: product.category || "shirts",
+          price: sellingPrice,
+          quantity: 1,
+        },
+      ],
+    });
   }, []);
 
   const dispatch = useDispatch();
@@ -214,25 +229,19 @@ export default function Content({ product }) {
     fbEvent("AddToCart", metaData, eventID);
     sendMetaEvent({ event_name: "AddToCart", event_id: eventID, custom_data: metaData });
 
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ ecommerce: null });
-    window.dataLayer.push({
-      event: "add_to_cart",
-      ecommerce: {
-        currency: "INR",
-        value: sellingPrice,
-        items: [
-          {
-            item_id: String(product.id),
-            item_name: product.name,
-            item_brand: "Dhirago",
-            item_category: product.category || "shirts",
-            item_variant: itemSize,
-            price: sellingPrice,
-            quantity: 1,
-          },
-        ],
-      },
+    pushGaEcommerce("add_to_cart", {
+      currency: "INR",
+      value: sellingPrice,
+      items: [
+        {
+          product_id: product.id,
+          name: product.name,
+          category: product.category || "shirts",
+          size: itemSize,
+          price: sellingPrice,
+          quantity: 1,
+        },
+      ],
     });
     dispatch(
       addProduct({

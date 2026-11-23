@@ -24,6 +24,7 @@ import {
   newEventId,
 } from "../../lib/facebookPixel";
 import { sendMetaEvent } from "../../lib/meta";
+import { pushGaEcommerce } from "../../lib/gaEcommerce";
 import {
   COUPON_APPLY_ENABLED,
   FEATURED_COUPON_CODE,
@@ -700,25 +701,35 @@ const CheckoutPage = () => {
       custom_data: metaData,
     });
 
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ ecommerce: null });
-    window.dataLayer.push({
-      event: "begin_checkout",
-      ecommerce: {
-        currency: "INR",
-        value: payableTotal,
-        coupon: coupon.valid ? coupon.code : undefined,
-        payment_type: paymentMethod === "online" ? "online" : "cod",
-        items: items.map((i) => ({
-          item_id: String(i.id),
-          item_name: i.name,
-          item_brand: "Dhirago",
-          item_category: i.category || "shirts",
-          item_variant: i.size,
-          price: Number(i.price) || 0,
-          quantity: i.quantity || 1,
-        })),
-      },
+    pushGaEcommerce("begin_checkout", {
+      currency: "INR",
+      value: payableTotal,
+      coupon:
+        COUPON_APPLY_ENABLED && coupon.valid ? coupon.code : undefined,
+      items,
+    });
+  };
+
+  const trackCheckoutSteps = () => {
+    const items = cartItems || [];
+    const paymentType = paymentMethod === "online" ? "online" : "cod";
+
+    // Required for GA4 Monetization → Checkout journey
+    pushGaEcommerce("add_shipping_info", {
+      currency: "INR",
+      value: payableTotal,
+      shipping_tier: "standard",
+      coupon:
+        COUPON_APPLY_ENABLED && coupon.valid ? coupon.code : undefined,
+      items,
+    });
+    pushGaEcommerce("add_payment_info", {
+      currency: "INR",
+      value: payableTotal,
+      payment_type: paymentType,
+      coupon:
+        COUPON_APPLY_ENABLED && coupon.valid ? coupon.code : undefined,
+      items,
     });
   };
 
@@ -731,6 +742,7 @@ const CheckoutPage = () => {
     if (processing || orderSubmittingRef.current) return;
     setProcessing(true);
     trackInitiateCheckout();
+    trackCheckoutSteps();
 
     try {
       if (paymentMethod === "online") {
@@ -740,7 +752,8 @@ const CheckoutPage = () => {
           cartItems,
           createOrder,
           email,
-          couponCode: coupon.valid ? coupon.code : null,
+          couponCode:
+            COUPON_APPLY_ENABLED && coupon.valid ? coupon.code : null,
         });
       } else {
         await handleCOD({

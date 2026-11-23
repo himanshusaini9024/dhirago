@@ -1,4 +1,5 @@
 import { fbEvent } from "./facebookPixel";
+import { pushGaEcommerce, toGaItems } from "./gaEcommerce";
 
 const PURCHASE_KEY = "dhirago_purchase_tracked";
 const PENDING_KEY = "dhirago_pending_purchase";
@@ -6,17 +7,6 @@ const PENDING_KEY = "dhirago_pending_purchase";
 function toNumber(value) {
   const n = Number(value);
   return Number.isFinite(n) ? n : 0;
-}
-
-function normalizeItems(items = []) {
-  return (items || []).map((item, index) => ({
-    item_id: String(item.id || item.product_id || item.sku || index),
-    item_name: item.name || "Product",
-    item_brand: "Dhirago",
-    item_category: item.category || "shirts",
-    price: toNumber(item.price ?? item.currentPrice),
-    quantity: toNumber(item.quantity) || 1,
-  }));
 }
 
 function metaContents(items = []) {
@@ -88,41 +78,23 @@ export async function trackPurchase(order) {
 
   const value = toNumber(order.total_amount ?? order.value ?? order.priceTotal);
   const currency = "INR";
-  const items = normalizeItems(order.items || order.cartItems || []);
+  const rawItems = order.items || order.cartItems || [];
+  const items = toGaItems(rawItems);
   // Incomplete payload → skip. Prevents "purchase" with revenue but no transaction_id/items.
   if (!value || !items.length) return false;
 
-  const contents = metaContents(order.items || order.cartItems || []);
+  const contents = metaContents(rawItems);
   const numItems = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
   const eventID = `purchase_${orderNumber}`;
   const transactionId = String(orderNumber);
 
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ ecommerce: null });
-  // Root-level params help GTM Event Parameter variables; ecommerce is for GA4 ecommerce.
-  window.dataLayer.push({
-    event: "purchase",
+  // GA4 needs items[] for Ecommerce purchases; value alone only fills Monetization overview.
+  pushGaEcommerce("purchase", {
     transaction_id: transactionId,
     value,
     currency,
-    items,
-    ecommerce: {
-      transaction_id: transactionId,
-      value,
-      currency,
-      items,
-    },
+    items: rawItems,
   });
-
-  // Direct GA4 path when gtag is present (covers GTM tags that ignore ecommerce object).
-  if (typeof window.gtag === "function") {
-    window.gtag("event", "purchase", {
-      transaction_id: transactionId,
-      value,
-      currency,
-      items,
-    });
-  }
 
   fbEvent(
     "Purchase",

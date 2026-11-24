@@ -110,8 +110,7 @@ const columnHeaders = [
 const generalCautions = [
   "Never wash whites with coloured clothes",
   "Don't hang coloured clothes under direct sun",
-  "Use mild liquid detergents",
-  "Avoid dry-clean as much as possible",
+  "Use mild liquid detergents"
 ];
 
 // ── Bullet list ─────────────────────────────────────────────────────────────

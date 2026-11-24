@@ -16,7 +16,7 @@ export default function ProductGrid({ title, products = [], cta, priority = fals
         }`}
       >
         {products.map((p, i) => (
-          <Reveal key={p.id} delay={(i % 4) * 0.06} y={16}>
+          <Reveal key={p.id || p.slug || i} delay={(i % 4) * 0.06} y={16} once>
             <ProductCard product={p} priority={priority && i < 4} />
           </Reveal>
         ))}

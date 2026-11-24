@@ -43,8 +43,8 @@ export default function TwoUp({ panels = [] }) {
 
   const onPointerDown = (e) => {
     if (panels.length <= 1) return;
-    // Only primary button / touch
-    if (e.pointerType === "mouse" && e.button !== 0) return;
+    // Desktop: let normal clicks go to the Link. Swipe only for touch/pen.
+    if (e.pointerType === "mouse") return;
 
     drag.current = {
       active: true,

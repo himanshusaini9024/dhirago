@@ -147,12 +147,15 @@ const Header = () => {
             className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/35 to-transparent"
           />
         )}
-        <div className="relative w-full pointer-events-auto">
+        {/* Keep wrappers click-through on home overlay; only controls capture clicks */}
+        <div className={`relative w-full ${overlay ? "" : "pointer-events-auto"}`}>
           {/* Top row: menu | logo | icons */}
           <div className="relative flex items-center justify-between h-[56px] lg:h-[64px] px-4 sm:px-6 lg:px-10">
             <button
               aria-label={menuOpen ? "Close menu" : "Open menu"}
-              className="lg:invisible lg:pointer-events-none flex flex-col justify-center items-center w-9 h-9 relative z-10"
+              className={`lg:invisible lg:pointer-events-none flex flex-col justify-center items-center w-9 h-9 relative z-10 ${
+                overlay ? "pointer-events-auto" : ""
+              }`}
               onClick={() => setMenuOpen(!menuOpen)}
             >
               <span
@@ -174,12 +177,18 @@ const Header = () => {
 
             <Link
               href="/"
-              className={`${josefin.className} absolute z-[1] left-[3.75rem] sm:left-1/2 sm:-translate-x-1/2 text-[1.2rem] sm:text-[1.55rem] md:text-[1.65rem] lg:text-[1.85rem] tracking-[0.18em] sm:tracking-[0.28em] uppercase font-normal ${tone} hover:opacity-70 transition-[opacity,color] duration-500`}
+              className={`${josefin.className} absolute z-[1] left-[3.75rem] sm:left-1/2 sm:-translate-x-1/2 text-[1.2rem] sm:text-[1.55rem] md:text-[1.65rem] lg:text-[1.85rem] tracking-[0.18em] sm:tracking-[0.28em] uppercase font-normal ${tone} hover:opacity-70 transition-[opacity,color] duration-500 ${
+                overlay ? "pointer-events-auto" : ""
+              }`}
             >
               Dhirago
             </Link>
 
-            <div className="flex items-center gap-0.5 sm:gap-1 z-10">
+            <div
+              className={`flex items-center gap-0.5 sm:gap-1 z-10 ${
+                overlay ? "pointer-events-auto" : ""
+              }`}
+            >
               {!isLoggedIn ? (
                 <button
                   aria-label="Login"
@@ -225,9 +234,10 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Desktop nav — centered under logo */}
+          {/* Desktop nav — centered under logo.
+              Full-width nav must stay click-through; only each link captures clicks. */}
           <nav
-            className={`${josefin.className} hidden lg:flex items-center justify-center gap-7 xl:gap-9 p-3.5 text-[11px] xl:text-[12px] tracking-[0.22em] uppercase`}
+            className={`${josefin.className} pointer-events-none hidden lg:flex items-center justify-center gap-7 xl:gap-9 p-3.5 text-[11px] xl:text-[12px] tracking-[0.22em] uppercase`}
           >
             {NAV_LINKS.map((link) => {
               const active =
@@ -239,7 +249,7 @@ const Header = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`transition-opacity duration-200 ${
+                  className={`pointer-events-auto transition-opacity duration-200 ${
                     active ? "opacity-100" : "opacity-100 hover:opacity-100"
                   }`}
                 >
@@ -250,7 +260,9 @@ const Header = () => {
           </nav>
         </div>
 
-        <LoginDrawer open={loginOpen} setOpen={setLoginOpen} />
+        <div className="pointer-events-auto">
+          <LoginDrawer open={loginOpen} setOpen={setLoginOpen} />
+        </div>
       </header>
 
       <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>

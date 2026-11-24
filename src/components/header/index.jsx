@@ -133,14 +133,21 @@ const Header = () => {
       <header
         className={`
           fixed left-0 w-full z-50 p-2 ${tone}
-          transition-[top,background-color,border-color,box-shadow,color] duration-500 ease-out
+          transition-[top,border-color,box-shadow,color] duration-500 ease-out
           ${overlay
-            ? "top-0 bg-gradient-to-b from-black/30 to-transparent border-b border-transparent"
-            : "top-[30px] bg-white border-b border-[#ddd]"}
+            ? "top-0 bg-transparent border-b border-transparent pointer-events-none"
+            : "top-[30px] bg-white border-b border-[#ddd] pointer-events-auto"}
           ${scrolled && !overlay ? "shadow-[0_1px_0_rgba(0,0,0,0.08)]" : ""}
         `}
       >
-        <div className="relative w-full">
+        {/* Visual fade only — must not sit as a click-blocking plate over the banner */}
+        {overlay && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/35 to-transparent"
+          />
+        )}
+        <div className="relative w-full pointer-events-auto">
           {/* Top row: menu | logo | icons */}
           <div className="relative flex items-center justify-between h-[56px] lg:h-[64px] px-4 sm:px-6 lg:px-10">
             <button

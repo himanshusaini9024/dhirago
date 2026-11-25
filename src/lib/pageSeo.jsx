@@ -35,7 +35,6 @@ export const PAGE_SEO = {
       "Contact Dhirago menswear for orders, product questions, and support. Email contact@dhirago.com or WhatsApp for help with premium men's shirts.",
     path: "/contact",
     crawl: {
-      h1: "Contact Dhirago Menswear",
       h2: "Get in touch with Dhirago",
       description:
         "Reach the Dhirago Fashion team for product details, orders, shipping, and care guidance for premium men's shirts in India.",

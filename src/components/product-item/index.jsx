@@ -125,9 +125,9 @@ const ProductItem = ({
       <div className="mt-[1.1rem]">
         {href ? (
           <Link href={href} className="block">
-            <h6 className="text-center text-xs uppercase text-black md:text-sm">
+            <h3 className="text-center text-xs uppercase text-black md:text-sm">
               {name}
-            </h6>
+            </h3>
             <div className="mt-2 flex flex-wrap items-baseline justify-center gap-2">
               <p className="text-[0.911rem] text-[#1a1a1a]">
                 ₹ {Math.round(selling).toLocaleString("en-IN")}
@@ -145,9 +145,9 @@ const ProductItem = ({
             </div>
           </Link>
         ) : (
-          <h6 className="text-center text-xs uppercase text-black md:text-sm">
+          <h3 className="text-center text-xs uppercase text-black md:text-sm">
             {name}
-          </h6>
+          </h3>
         )}
       </div>
 

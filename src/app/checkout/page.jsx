@@ -391,28 +391,14 @@ const CheckoutPage = () => {
   const cartItemsRef = useRef(cartItems);
   cartItemsRef.current = cartItems;
 
-  const createOrder = async (
+  const buildOrderData = (
     payment_status,
     payment_id,
     razorpay_order_id,
-    itemsSnapshot,
+    items,
   ) => {
-    if (orderSubmittingRef.current) return;
-    if (!validateEmail()) return;
-
-    const items = Array.isArray(itemsSnapshot)
-      ? itemsSnapshot
-      : cartItemsRef.current;
     const qty = (items || []).reduce((a, c) => a + (c.quantity || 0), 0);
-
-    if (!items?.length || qty < 1) {
-      alert("Your cart is empty. Please add items before placing an order.");
-      return;
-    }
-
-    orderSubmittingRef.current = true;
-
-    const orderData = {
+    return {
       sub_total: productTotal,
       customer_id: customer_id,
       total_amount: payableTotal,
@@ -428,20 +414,73 @@ const CheckoutPage = () => {
       payment_id,
       razorpay_order_id,
       cod_charge: payment_status === "paid" ? 0 : codCharge,
-      first_name: selectedAddress.name,
-      last_name: selectedAddress.name,
-      email: selectedAddress.email || email,
-      phone: selectedAddress.phone,
-      address1: selectedAddress.address1,
-      address2: selectedAddress.address2,
-      state: selectedAddress.state,
-      city: selectedAddress.city,
-      pincode: selectedAddress.pincode,
+      first_name: selectedAddress?.name,
+      last_name: selectedAddress?.name,
+      email: (selectedAddress?.email || email || "").trim(),
+      phone: selectedAddress?.phone,
+      address1: selectedAddress?.address1,
+      address2: selectedAddress?.address2,
+      state: selectedAddress?.state,
+      city: selectedAddress?.city,
+      pincode: selectedAddress?.pincode,
       items,
     };
+  };
+
+  const createOrder = async (
+    payment_status,
+    payment_id,
+    razorpay_order_id,
+    itemsSnapshot,
+    razorpay_signature,
+  ) => {
+    if (orderSubmittingRef.current) return;
+
+    // After Razorpay success, never silently abort — customer already paid.
+    const resolvedEmail = (selectedAddress?.email || email || "").trim();
+    if (resolvedEmail && resolvedEmail !== email) {
+      setEmail(resolvedEmail);
+      localStorage.setItem("user_email", resolvedEmail);
+    }
+    if (!resolvedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(resolvedEmail)) {
+      if (payment_status === "paid") {
+        alert(
+          `Your payment was received${payment_id ? ` (payment ID ${payment_id})` : ""}. Email is missing — contact support with this payment ID. Do not pay again.`,
+        );
+      } else if (!validateEmail()) {
+        return;
+      }
+      if (payment_status === "paid") return;
+    }
+
+    const items = Array.isArray(itemsSnapshot)
+      ? itemsSnapshot
+      : cartItemsRef.current;
+    const qty = (items || []).reduce((a, c) => a + (c.quantity || 0), 0);
+
+    if (!items?.length || qty < 1) {
+      if (payment_status === "paid") {
+        alert(
+          `Your payment was received${payment_id ? ` (payment ID ${payment_id})` : ""}. Order could not be saved from an empty cart — contact support with this payment ID. Do not pay again.`,
+        );
+      } else {
+        alert("Your cart is empty. Please add items before placing an order.");
+      }
+      return;
+    }
+
+    orderSubmittingRef.current = true;
+
+    const orderData = buildOrderData(
+      payment_status,
+      payment_id,
+      razorpay_order_id,
+      items,
+    );
     try {
       const { data } = await API.post("/orders", {
         ...orderData,
+        razorpay_signature,
         meta: getMetaBrowserIds(),
       });
       const created = data?.order || data || {};
@@ -466,7 +505,10 @@ const CheckoutPage = () => {
     } catch (err) {
       orderSubmittingRef.current = false;
       const message =
-        err?.response?.data?.message || "Unable to place order. Please try again.";
+        payment_status === "paid"
+          ? `Your payment was received${payment_id ? ` (payment ID ${payment_id})` : ""}. We're confirming your order — please don't pay again. If you don't hear from us, contact support with this payment ID.`
+          : err?.response?.data?.message ||
+            "Unable to place order. Please try again.";
       alert(message);
       if (coupon.valid) {
         // Re-check coupon in case it was already used
@@ -750,8 +792,9 @@ const CheckoutPage = () => {
           priceTotal: payableTotal,
           selectedAddress,
           cartItems,
+          checkoutData: buildOrderData("paid", null, null, cartItems),
           createOrder,
-          email,
+          email: (selectedAddress?.email || email || "").trim(),
           couponCode:
             COUPON_APPLY_ENABLED && coupon.valid ? coupon.code : null,
         });

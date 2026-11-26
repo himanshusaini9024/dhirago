@@ -1,9 +1,11 @@
 // lib/payment.js
 import API from "./api";
+
 export const handleOnlinePayment = async ({
   priceTotal,
   selectedAddress,
   cartItems,
+  checkoutData,
   createOrder,
   email,
   couponCode = null,
@@ -24,6 +26,9 @@ export const handleOnlinePayment = async ({
         price: item.price,
         quantity: item.quantity,
       })),
+      // Saved on the server so Razorpay webhook can still create the order
+      // if this browser never gets the payment result back.
+      checkout: checkoutData,
     });
     const rzpkey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
 
@@ -33,24 +38,20 @@ export const handleOnlinePayment = async ({
       currency: "INR",
       order_id: data.id,
 
+      // Server verifies signature when saving the order (and via webhook).
       handler: async function (response) {
         try {
-          const verify = await API.post("/razorpay/verify", response);
-
-          if (verify.data.status) {
-            await createOrder(
-              "paid",
-              response.razorpay_payment_id,
-              response.razorpay_order_id,
-              itemsSnapshot,
-            );
-          } else {
-            alert("Payment verification failed");
-          }
+          await createOrder(
+            "paid",
+            response.razorpay_payment_id,
+            response.razorpay_order_id,
+            itemsSnapshot,
+            response.razorpay_signature,
+          );
         } catch (err) {
           const message =
             err?.response?.data?.message ||
-            "Payment succeeded but order could not be saved. Contact support.";
+            `Your payment was received (payment ID ${response.razorpay_payment_id}). We're confirming your order — please don't pay again. Contact support with this payment ID if you don't get confirmation.`;
           alert(message);
         }
       },
@@ -95,7 +96,7 @@ export const handleCOD = async ({
   cartItems,
 }) => {
   if (!cartItems?.length) {
-    return alert("Your cart is empty. Please add items before checkout.");
+    return alert("Your cart is empty. Please add items before placing an order.");
   }
 
   await createOrder("unpaid", null, null, cartItems);
